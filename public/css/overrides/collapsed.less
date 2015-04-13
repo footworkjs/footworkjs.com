@@ -1,0 +1,96 @@
+.layout {
+  &.collapsed {
+    .layout-controls{
+      .column {
+        left: 0 !important;
+        .transform(none) !important;
+      }
+      .corner {
+        left: 0 !important;
+        .transform(none) !important;
+      }
+    }
+
+    &.mobile {
+      #collapse-button {
+        background-position: -40px -50px;
+      }
+    }
+
+    #collapse-button {
+      z-index: 3;
+
+      .arrow {
+        width: 0px;
+        height: 0px;
+        border-style: solid;
+        border-width: 25px 0 25px 15px;
+        border-color: transparent transparent transparent @pane-bg-color;
+        right: auto;
+        left: 20px;
+      }
+
+      &:hover {
+        .inner-arrow {
+          left: 0px;
+          .transition(left 0.1s ease);
+        }
+      }
+
+      &:active, &:focus {
+        .inner-arrow {
+          left: 1px;
+          .transition(left 0s ease);
+        }
+      }
+
+      .inner-arrow {
+        left: -5px;
+        .transition(opacity 0.4 0.2 ease, left 0.1 0 ease);
+
+        .open {
+          visibility: hidden;
+        }
+        .collapsed {
+          visibility: visible;
+        }
+      }
+    }
+
+    .management {
+      & > .content {
+        margin-left: (@accent-padding * 2) !important;
+      }
+    }
+
+    .nav.gripper {
+      padding-left: 0 !important;
+    }
+
+    .pane.gripper {
+      display: none !important;
+    }
+
+    .main-pane {
+      margin-left: @accent-padding !important;
+      .transition(@pane-collapse);
+    }
+
+    .pane-component {
+      & > .content {
+        overflow: hidden !important;
+      }
+    }
+
+    footer {
+      & > .content {
+        margin-left: @accent-padding !important;
+        .transition(margin-left @pane-collapse-time @pane-collapse-func);
+      }
+    }
+  }
+
+  .pane-links {
+    display: none;
+  }
+}

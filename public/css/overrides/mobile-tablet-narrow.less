@@ -1,0 +1,271 @@
+.mobile-only {
+  display: none !important;
+}
+
+.layout {
+  &.tablet {
+    header nav .menu-item:hover .drop-down {
+      display: none;
+    }
+  }
+
+  &.mobile, &.tablet {
+    .desktop-only {
+      display: none !important;
+    }
+  }
+
+  &.mobile {
+    @pane-links-default-width: 37.59398%;
+
+    /* really strange mobile chrome/webkit bug hack, without this the draggable pane on pages < 100% viewport height would not work... */
+    border-bottom: 1px solid black;
+
+    &.paneMoving {
+      @pane-collapse-time: 0.3s;
+      #collapse-button {
+        -webkit-transition: -webkit-transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+        -moz-transition: -moz-transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+        -ms-transition: -ms-transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+        -o-transition: -o-transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+        transition: transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+      }
+      .pane {
+        -webkit-transition: -webkit-transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+        -moz-transition: -moz-transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+        -ms-transition: -ms-transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+        -o-transition: -o-transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+        transition: transform @pane-collapse-time @pane-collapse-func, width @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func !important;
+      }
+      .pane-bg {
+        -webkit-transition: -webkit-transform @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func;
+        -moz-transition: -moz-transform @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func;
+        -ms-transition: -ms-transform @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func;
+        -o-transition: -o-transform @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func;
+        transition: transform @pane-collapse-time @pane-collapse-func, left @pane-collapse-time @pane-collapse-func;
+      }
+    }
+
+    .no-mobile {
+      display: none !important;
+    }
+
+    svg.page-logo {
+      display: none;
+    }
+
+    .mobile-header, .mobile-only {
+      display: block !important;
+
+      svg.page-logo {
+        display: block !important
+      }
+    }
+
+    #collapse-button {
+      top: @header-min-height + @header-border-width;
+      .arrow {
+        border-left-color: @header-bg;
+      }
+      .mouse-action {
+        display: none;
+      }
+    }
+
+    .pane-bg {
+      background-image: none;
+    }
+
+    &.collapsed {
+      .pane-links > .areas .alternate {
+        z-index: 1;
+      }
+    }
+
+    @pane-tabs-height: 30px;
+    .pane-links {
+      height: @pane-tabs-height;
+
+      & > .areas {
+        .primary {
+          top: 0;
+        }
+        a, .link {
+          line-height: @pane-tabs-height;
+        }
+        .alternate {
+          right: 0;
+          width: 100%;
+          z-index: 11;
+          .link {
+            float: left;
+            width: 50%;
+
+            &:first-child {
+              border-left: 1px solid darken(@pane-bg-color, 10%);
+            }
+
+            &.NavMenu {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    .drop-top {
+      display: none !important;
+    }
+
+    .pane {
+      & > .page-logo {
+        background-color: @header-bg;
+        border-bottom: 1px solid darken(@header-bg, 30%);
+      }
+
+      & > .content {
+        .pane-component {
+          .entry-row {
+            &:first-child {
+              margin-top: 0;
+            }
+
+            & > .title:after {
+              opacity: 1;
+            }
+
+            .content {
+              color: inherit;
+            }
+          }
+
+          & > .content > .title {
+            padding-right: 10px;
+          }
+        }
+      }
+
+      .pane-links > .areas {
+        opacity: 0;
+      }
+
+      .not-initialized {
+        top: (@pane-links-height + @pane-tabs-height) !important;
+      }
+    }
+
+    &.initialized {
+      .pane-links > .areas {
+        opacity: 1;
+      }
+    }
+
+    .main-header {
+      @height: @header-min-height + @header-border-width;
+      height: @height !important;
+      top: -(@header-min-height + @header-border-width);
+
+      .header-bar {
+        height: @header-min-height;
+
+        .load-bar {
+          display: none !important;
+        }
+      }
+
+      nav {
+        margin-left: @pane-links-default-width;
+
+        .menu-item:hover .drop-down {
+          display: none;
+        }
+
+        .menu-item > .title, .drop-down > .title {
+          line-height: @header-min-height !important;
+        }
+      }
+
+      .pane-links {
+        width: @pane-links-default-width;
+      }
+    }
+
+    .main-content {
+      padding-top: 0 !important;
+      background-color: @body-bg-color;
+    }
+  }
+
+  &.mobile {
+    .pane-links {
+      display: block;
+
+      & > .areas {
+        display: block;
+        border-bottom: 0;
+      }
+    }
+
+    .pane-links {
+      display: block;
+    }
+
+    .pane .content .pane-component {
+      background-position: right -75px;
+    }
+
+    #cornerFoot {
+      top: 0;
+    }
+  }
+
+  &.narrow, &.mobile {
+    .main-header {
+      .pane-links {
+        & > .areas {
+          display: none;
+        }
+      }
+
+      .logo {
+        width: 100%;
+        float: none;
+        margin: 0;
+
+        a {
+          img, .img-logo, svg {
+            right: auto;
+            left: 50%;
+            margin-left: -(@default-logo-width / 2);
+          }
+        }
+      }
+    }
+
+    .pane > .content {
+      .pane-component {
+        &.pageSections {
+          & > .content {
+            padding-top: 0;
+          }
+        }
+
+        .not-initialized {
+          top: @pane-links-height + 30px;
+        }
+
+        & > .content {
+          margin-top: 0;
+
+          & > .title {
+            font-size: 15px;
+            line-height: 30px;
+            height: 30px;
+            border-bottom: none;
+            .box-sizing(border-box);
+          }
+        }
+      }
+    }
+  }
+}

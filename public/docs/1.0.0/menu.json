@@ -1,0 +1,31 @@
+[
+  {
+    "label": "viewModel",
+    "description": "Logic, bindings, and behavior.",
+    "page": "viewModel-page.html"
+  },
+  {
+    "label": "Components",
+    "description": "Modularize and encapsulate sections of your application.",
+    "page": "components-page.html"
+  },
+  {
+    "label": "Namespacing",
+    "description": "Communicate to, send/receive commands, and trigger events between differing areas of your code.",
+    "page": "namespacing-page.html"
+  },
+  {
+    "label": "Broadcastable / Receivable",
+    "description": "Share information and state automatically between different areas of your code.",
+    "page": "broadcastable-receivable-page.html"
+  },
+  {
+    "label": "Routing",
+    "description": "Swap out views and manage state in your application.",
+    "page": "routing-page.html"
+  },
+  {
+    "label": "Misc",
+    "page": "misc-page.html"
+  }
+]

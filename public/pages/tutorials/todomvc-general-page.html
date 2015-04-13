@@ -1,0 +1,1365 @@
+<article>
+
+  <a id="general-functionality" class="section-anchor"></a>
+  <section name="general-functionality">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">General Functionality</h1>
+    </header>
+    <div class="content">
+      <div class="note"><span class="label">NOTE:</span> It is assumed you have gone through the previous
+        <a href="/tutorials/TodoMVC/routing" data-bind="$route">Routing tutorial</a>. The code in here is based off of where that tutorial left off, so if you haven't checked it
+        out yet you should!</div>
+
+      <p>In this tutorial we will be adding some of the missing features for our todo application. They are as follows:</p>
+
+      <ul>
+        <li>Displaying the current username in the header.</li>
+        <li>Render the Logout button only when appropriate (ie: not on the login page).</li>
+        <li>Completing Todo entries.</li>
+        <li>Marking all todo entries.</li>
+        <li>Deleting Todo entries.</li>
+        <li>Rendering the number of remaining todo entries.</li>
+        <li>Clearing completed todo entries.</li>
+        <li>Filtering the todo entries (complete, not-complete, all).</li>
+        <li>Saving todo entries to <span class="inline-code">localStorage</span>.</li>
+        <li>Loading todo entries from <span class="inline-code">localStorage</span>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <a id="header" class="section-anchor"></a>
+  <section name="header">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Header</h1>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/headerViewModel" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/routeBinding...headerViewModel" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f headerViewModel</code></pre>
+        </div>
+      </div>
+
+      <p>Lets start by taking care of a couple of the more visible issues.</p>
+
+      <p>Firstly the persistent <span class="inline-code">Logout</span> button that is displayed in the header
+        whether or not the user has 'logged in'. That button should only be visible when the user has actually logged in. Currently it is present on the login page as well...that does not make
+        much sense does it?</p>
+
+      <p>And secondly we should display the current username to the user in the header, this is a general UX niceity which helps give the user context.</p>
+
+      <p>To add this functionality we will need to wrap that section (the header) with a <span class="inline-code">viewModel</span> so that we can bind against it for the logic we
+        need. Lets do that now.</p>
+
+      <h3>Add a <span class="inline-code">&lt;viewModel&gt;</span> wrapper for the header:</h3>
+<div class="file-location">/index.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;viewModel module="Header"&gt;
+    &lt;header&gt;
+      &lt;!-- ... --&gt;
+    &lt;/header&gt;
+  &lt;/viewModel&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+      <p>Now that the header is wrapped, we need to tell footwork where our <span class="inline-code">Header</span> module can be found.</p>
+
+      <h3>Register the <span class="inline-code">Header</span> location with footwork:</h3>
+<div class="file-location">/scripts/app.js</div>
+<pre><code class="javascript">// ...
+  /**
+   * Tell footwork it can find the 'LoginForm', 'TodoList', and 'Header' viewModels
+   * inside of scripts/viewModels.
+   */
+  fw.viewModels.registerLocation([
+    'LoginForm', // will load from scripts/viewModels/LoginForm.js
+    'TodoList', // will load from scripts/viewModels/TodoList.js
+    'Header' // will load from scripts/viewModels/Header.js
+  ], 'scripts/viewModels/');
+// ...</code></pre>
+
+      <p>And finally, we need to add the <span class="inline-code">Header</span> module that footwork will load for us when it encounters the corresponding markup in the
+        DOM.</p>
+
+      <h3>A bare <span class="inline-code">Header</span> viewModel module:</h3>
+<div class="file-location">/scripts/viewModels/Header.js</div>
+<pre><code class="javascript">define(['footwork'],
+  function(fw) {
+    return fw.viewModel({
+      namespace: 'Header',
+      initialize: function() {
+        // ...
+      }
+    });
+  }
+);</code></pre>
+
+      <p>At this point, reloading the page will not visibly indicate much new is happening. From dev tools you might notice that the <span class="inline-code">Header</span>
+        viewModel is now being downloaded and instantiated for our application...but no new behavior. Remember that our goal is to hide or display the
+        <span class="inline-code">Logout</span> button based on whether or not the user has logged in.</p>
+    </div>
+  </section>
+
+  <a id="username-display" class="section-anchor"></a>
+  <section name="username-display">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Username Display</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/usernameDisplay" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/headerViewModel...usernameDisplay" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f usernameDisplay</code></pre>
+        </div>
+      </div>
+
+      <p>If our logic for displaying the <span class="inline-code">Logout</span> button needs to be housed in the <span class="inline-code">Header</span> viewModel (ie: what our
+        markup for the header is binding against), then we need to somehow communicate or share the username/login information with it. An informed reader may be thinking: "just
+        send a message or event/etc to the Header". And well, you aren't wrong...but there is a much cleaner way to share information and state between modules...using a
+        <span class="inline-code">broadcastable</span> and <span class="inline-code">receivable</span>!</p>
+
+      <p>A <span class="inline-code">broadcastable</span> and <span class="inline-code">receivable</span> are simply special <span class="inline-code">observables</span> which
+        share information amongst each other. <span class="inline-code">broadcastables</span> broadcast, or send out their information to any number of listening
+        <span class="inline-code">receivables</span>. These variables are knockout observables at their core, and can be used just like any other observable. This means you can
+        share state and properties between modules, still being able to bind/subscribe/etc to them (you can even still create computed values based on them which are automatically
+        resolved for you like normal <a href="http://knockoutjs.com/documentation/computedObservables.html" target="_blank">knockout computed observables</a>).</p>
+
+      <div class="note"><span class="label">NOTE:</span> Whats good to remember concerning <span class="inline-code">broadcastable</span> and
+        <span class="inline-code">receivable</span> properties is that it is important to identify which module is the 'owner' of the property. The owner is the one which will be
+        broadcasting the value, and also where write-associated logic will primarily be contained. This essentially a facet of
+        <a href="http://en.wikipedia.org/wiki/Separation_of_concerns" target="_blank">separation of concerns</a> where each module has its specified domain (concerns).</div>
+
+      <p>Before we create our <span class="inline-code">broadcastable</span> and <span class="inline-code">receivable</span> we need to make the
+        <span class="inline-code">LoginForm</span> add the username to the event it emits when a user is logging in.</p>
+
+      <h3>Add the username to the triggered event emitted when a user is logging in:</h3>
+<div class="file-location">/scripts/viewModels/LoginForm.js</div>
+<pre><code class="javascript">// ...
+  this.loginUser = function() {
+    // Tell the MainRouter that a user has logged in (and provide the current username)
+    this.mainRouterNamespace.trigger('userLogin', this.username());
+  };
+// ...</code></pre>
+
+      <p>Now lets create a <span class="inline-code">broadcastable</span> inside the <span class="inline-code">MainRouter</span>, using it we will share (broadcast) the user state.
+        Any <span class="inline-code">receivable</span> listening for that variable on the <span class="inline-code">MainRouter</span> namespace will be kept in sync
+        automatically. To do this, we will use the <span class="inline-code">.broadcastAs()</span> method on the newly created <span class="inline-code">loggedInUser</span>
+        property.</p>
+
+      <p>In addition to that we also need to alter the <span class="inline-code">'/todo'</span> route and append the username to it.</p>
+
+      <h3>Create a <span class="inline-code">broadcastable</span> in the initialize method of the <span class="inline-code">MainRouter</span> which will share the current
+        <span class="inline-code">loggedInUser</span>:</h3>
+      <h3>Also add the username to the <span class="inline-code">'/todo'</span> router <span class="inline-code">.setState()</span> call:</h3>
+<div class="file-location">/scripts/MainRouter.js</div>
+<pre><code class="javascript">// ...
+  initialize: function() {
+    // Create reference to the router we will use in the callback
+    var router = this;
+
+    /**
+     * broadcast the username of the current user as 'loggedInUser'
+     * (the default value is null indicating 'logged out')
+     */
+    this.loggedInUser = fw.observable(null).broadcastAs('loggedInUser');
+
+    // Create the event handler which receives the 'userLogin' event (and corresponding username)
+    this.$namespace.event.handler('userLogin', function(username) {
+      // Tell the router to route to '/todo/username' if we have a username
+      if(username) {
+        router.setState('/todo/' + username);
+      }
+    });
+  },
+// ...</code></pre>
+
+      <p>Now that the <span class="inline-code">setState()</span> call has the username being appended to the route string we need to modify the
+        <span class="inline-code">'/todo'</span> route to also accept that parameter (the username) and set the <span class="inline-code">loggedInUser</span> property to the new
+        value (which is then broadcasted). The <span class="inline-code">'/'</span> route also needs to reset the <span class="inline-code">loggedInUser</span> property back to
+        <span class="inline-code">null</span> (user logged out state).</p>
+
+      <p>The following shows those necessary changes.</p>
+
+      <h3>Alter the routes to alter the <span class="inline-code">loggedInUser</span> property appropriately:</h3>
+<div class="file-location">/scripts/MainRouter.js</div>
+<pre><code class="javascript">// ...
+  routes: [
+    {
+      route: '/',
+      title: 'Todo Application Tutorial',
+      controller: function() {
+        // the user is logged out if at the default route, lets nullify the username
+        this.loggedInUser(null);
+
+        // show our login page here
+        this.$outlet('mainView', 'login-page');
+      }
+    },
+    {
+      route: '/todo/:username', // defines a required parameter 'username'
+      title: 'Todo List',
+      controller: function(params) {
+        // set the loggedInUser value to the username
+        this.loggedInUser(params.username);
+
+        // show our todo list page here
+        this.$outlet('mainView', 'todo-page');
+      }
+    }
+  ]
+// ...</code></pre>
+
+      <p>Now the <span class="inline-code">Header</span> viewModel needs to listen for changes being broadcast for the <span class="inline-code">loggedInUser</span>. To do that
+        we use the corresponding <span class="inline-code">.receiveFrom()</span> method on an observable (providing it the namespace and variable name to 'receiveFrom').</p>
+
+      <h3>Create the <span class="inline-code">receivable</span> inside of the <span class="inline-code">Header</span>:</h3>
+<div class="file-location">/scripts/viewModels/Header.js</div>
+<pre><code class="javascript">define(['footwork'],
+  function(fw) {
+    return fw.viewModel({
+      namespace: 'Header',
+      initialize: function() {
+        // loggedInUser will receive its value from the MainRouter
+        this.loggedInUser = fw.observable().receiveFrom('MainRouter', 'loggedInUser');
+      }
+    });
+  }
+);</code></pre>
+
+      <p>The previous block creates a new <span class="inline-code">.loggedInUser</span> receivable which will mirror the value of the <span class="inline-code">loggedInUser</span>
+        value emitted from the <span class="inline-code">MainRouter</span>. This means any changes made in the <span class="inline-code">MainRouter</span> to the
+        <span class="inline-code">LoggedInUser</span> will automatically propagate to this module and its value kept in sync.</p>
+
+      <p>The last thing we need to do for the username display is to add the markup (along with its binding) in the header to display it.</p>
+
+      <h3>Add the markup to the header for the username display:</h3>
+<div class="file-location">/index.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;header&gt;
+    &lt;div class="title"&gt;Things To Do...&lt;/div&gt;
+
+    &lt;!-- display the user name --&gt;
+    &lt;span class="username" data-bind="text: loggedInUser"&gt;&lt;/span&gt;
+  &lt;/header&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+      <p>And thats it, you should be able to refresh the page, login and see the username in the header.</p>
+    </div>
+  </section>
+
+  <a id="logout-rendering" class="section-anchor"></a>
+  <section name="logout-rendering">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Logout Rendering</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/logoutRendering" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/usernameDisplay...logoutRendering" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f logoutRendering</code></pre>
+        </div>
+      </div>
+
+      <p>Now that the <span class="inline-code">loggedInUser</span> value is being received from the <span class="inline-code">MainRouter</span> we can create some logic and
+        bindings based on it to get the behavior we need. Lets add a binding in our markup for it which will control when the <span class="inline-code">Login</span> button is
+        displayed. In this example we are using an <a href="http://knockoutjs.com/documentation/if-binding.html" target="_blank">if: binding</a>, although there are
+        <a href="http://knockoutjs.com/documentation/introduction.html" target="_blank">many other control-flow bindings available</a>.</p>
+
+      <p>While we are at it, we will use that same <span class="inline-code">loggedInUser</span> property to display the current logged in username on the page by binding its
+        value using a <span class="inline-code">text:</span> binding.</p>
+
+      <h3>Display the receivable username:</h3>
+<div class="file-location">/index.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;viewModel module="Header"&gt;
+    &lt;header&gt;
+      &lt;div class="title">Things To Do...&lt;/div&gt;
+
+      &lt;div data-bind="if: loggedInUser"&gt;
+        &lt;!-- display the user name --&gt;
+        &lt;span class="username" data-bind="text: loggedInUser"&gt;&lt;/span&gt;
+
+        &lt;!-- new $route bound link --&gt;
+        &lt;a href="/" data-bind="$route" class="logout button"&gt;Logout&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+  &lt;/viewModel&gt;
+&lt;!-- ... --&gt;</code></pre>
+    </div>
+  </section>
+
+  <a id="todo-list" class="section-anchor"></a>
+  <section name="todo-list">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Todo List</h1>
+    </header>
+    <div class="content">
+      <p>In this final series of steps we will be adding some functionality around the todo items. Specifically we will cover:</p>
+
+      <ul>
+        <li>Completing <span class="inline-code">TodoItem</span> entries.</li>
+        <li>Marking all <span class="inline-code">TodoItem</span> entries as complete.</li>
+        <li>Deleting <span class="inline-code">TodoItem</span> entries from the list.</li>
+      </ul>
+    </div>
+  </section>
+
+  <a id="completing-todo" class="section-anchor"></a>
+  <section name="completing-todo">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Completing a Todo</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/completingTodo" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/logoutRendering...completingTodo" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f completingTodo</code></pre>
+        </div>
+      </div>
+
+      <p>To 'complete' a todo we simply need to wire up a couple bindings to the <span class="inline-code">TodoItem</span> <span class="inline-code">viewModel</span>. One for the
+        click event on the check mark (to toggle its status). And one more which will add a class to the todo container indicating its completion state (which is used to style
+        the <span class="inline-code">TodoItem</span>).</p>
+
+      <p>Lets add the logic to our <span class="inline-code">TodoItem</span> <span class="inline-code">viewModel</span> so that we can then add the binding in the markup.</p>
+
+      <h3>Add the logic necessary for the bindings we need in the DOM:</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  initialize: function(thingToDo) {
+    // store the string text entered by user as thingToDo
+    this.thingToDo = fw.observable(thingToDo);
+
+    // store the state of the TodoItem (true = done, false = not done)
+    this.isDone = fw.observable(false);
+
+    // toggle the state of this TodoItem
+    this.toggleDone = function() {
+      this.isDone(!this.isDone());
+    };
+  }
+// ...</code></pre>
+
+      <p>The previous code block shows the addition of a <span class="inline-code">.isDone</span> property which will store the current state of the
+        <span class="inline-code">TodoItem</span> as well as a new <span class="inline-code">.toggleDone()</span> method which will toggle the current state.</p>
+
+      <p>Now that the logic is in the <span class="inline-code">viewModel</span> lets add the declarative binding in the markup.</p>
+
+      <h3>Add the <span class="inline-code">css:</span> and <span class="inline-code">click:</span> bindings necessary to wire up the
+        <span class="inline-code">viewModel</span>:</h3>
+<div class="file-location">/scripts/views/todo-page.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;!-- css: binding adds isDone class when TodoItem is 'completed' (true) --&gt;
+  &lt;div class="todo" data-bind="css: { isDone: isDone }"&gt;
+    &lt;!-- click: binding toggles status of the TodoItem --&gt;
+    &lt;div class="status icon-check" data-bind="click: toggleDone"&gt;&lt;/div&gt;
+    &lt;div class="text" data-bind="text: thingToDo"&gt;&lt;/div&gt;
+    &lt;div class="clear icon-x"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+      <p>And thats it...refresh the page, login and you should be able to create a <span class="inline-code">TodoItem</span> which you can then click to complete. It should look
+        something like the following:</p>
+
+      <div class="figure">
+        <div class="title">A <span class="inline-code">TodoItem</span> has been completed!</div>
+        <div class="content">
+          <div class="image"><img src="images/todo-tutorial/general0.png"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <a id="marking-all-todos" class="section-anchor"></a>
+  <section name="marking-all-todos">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Marking All Todos as Complete / Not-Complete</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/markAllTodo" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/completingTodo...markAllTodo" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f markAllTodo</code></pre>
+        </div>
+      </div>
+
+      <p>Now that we can mark a single <span class="inline-code">TodoItem</span> as being completed, lets add the 'mark all as completed/non-completed' functionality. To do this we
+        will use a <span class="inline-code">click:</span> binding which sends a command to the <span class="inline-code">TodoList</span> which will then set each
+        <span class="inline-code">TodoItem</span> entry state to a certain value.</p>
+
+      <p>The click event will occur on the <span class="inline-code">.icon-chevron-down</span> element, which exists in the template for the
+        <span class="inline-code">TodoForm</span> <span class="inline-code">component</span>. Lets add the markup for that binding now.</p>
+
+      <h3>Add the binding to the markup for the 'set-all' functionality:</h3>
+<div class="file-location">/scripts/templates/TodoForm.html</div>
+<pre><code class="html">&lt;form class="todo" data-bind="submit: submitForm"&gt;
+  &lt;!-- click: and css: bindings on .icon-chevron-down are for the 'mark all' functionality --&gt;
+  &lt;div class="icon-chevron-down" data-bind="click: markAll, css: { allAreMarked: allMarked }"&gt;&lt;/div&gt;
+  &lt;input type="text" name="thingToDo" data-bind="value: thingToDo" placeholder="What needs to be done?" autofocus&gt;
+  &lt;input type="submit" value="Add Item" class="button"&gt;
+&lt;/form&gt;</code></pre>
+
+      <p>The <span class="inline-code">click:</span> binding is the one we will use to fire off the command to the <span class="inline-code">TodoList</span>. The
+        <span class="inline-code">css:</span> binding simply is used to control how the chevron (button) looks depending on whether or not we have 'marked all' or 'mark none' of
+        the <span class="inline-code">TodoItem</span> entries.</p>
+
+      <p>With the bindings now in our markup we can add the necessary logic to our <span class="inline-code">TodoForm</span>.</p>
+
+      <h3>Add the logic necessary for the new <span class="inline-code">click:</span> and <span class="inline-code">css:</span> bindings:</h3>
+<div class="file-location">/scripts/viewModels/TodoForm.js</div>
+<pre><code class="javascript">// ...
+  // holds flag which indicates whether we have 'marked all' or 'mark none' of the items
+  this.allMarked = fw.observable(false);
+
+  // event triggered when user clicks the down-chevron icon
+  this.markAll = function() {
+    this.allMarked( !this.allMarked() );
+  };
+
+  // Listen for changes on the allMarked value
+  this.allMarked.subscribe(function(doneState) {
+    // When a change is made command the TodoList to setAllAs the doneState
+    this.todoListNamespace.command('setAllAs', doneState);
+  }, this);
+// ...</code></pre>
+
+      <p>The one thing of special note here is the command being issued on the <span class="inline-code">todoListNamespace</span>, this is simply another type of message (a
+        command) being utilized which is sent to any listening command handlers on the <span class="inline-code">TodoList</span>.</p>
+
+      <p>Now that we are sending out the <span class="inline-code">setAllAs</span> command from the <span class="inline-code">TodoForm</span> we need to setup the handler on the
+        other side which will listen for and act on it. The list of <span class="inline-code">TodoItem</span> entries exists on the <span class="inline-code">TodoList</span> so we
+        should setup our handler there.</p>
+
+      <p>When we receive the command we will need to mark all of the entries as the received value, lets add the code for that now.</p>
+
+      <h3>Add the command handler which acts on any received <span class="inline-code">setAllAs</span> command:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  var self = this; // create a reference to this viewModel we can use inside of the callback
+
+  // stores the list of TodoItem entries
+  this.todos = fw.observableArray();
+
+  // listen for any 'newItem' messages broadcast on our namespace.
+  this.$namespace.subscribe('newItem', function(thingToDo) {
+    // new thingToDo was received, lets create a new TodoItem based on it
+    self.todos.push( new TodoItem(thingToDo) );
+  });
+
+  // listen for any 'setAllAs' commands broadcast on our namespace.
+  this.$namespace.command.handler('setAllAs', function(doneState) {
+    // when a new doneState is received loop through and set each todo
+    self.todos().forEach(function(todo) {
+      todo.isDone(doneState);
+    });
+  });
+// ...</code></pre>
+
+      <p>The previous block of code creates a new command handler which listens for any <span class="inline-code">setAllAs</span> commands. When such a command is received the
+        handler will loop over the current list of <span class="inline-code">todos</span> setting each <span class="inline-code">.isDone</span> property to the specified
+        <span class="inline-code">doneState</span> value.</p>
+    </div>
+  </section>
+
+  <a id="deleting-todo" class="section-anchor"></a>
+  <section name="deleting-todo">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Deleting a Todo</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/deletingTodo" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/markAllTodo...deletingTodo" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f deletingTodo</code></pre>
+        </div>
+      </div>
+
+      <p>Another obviously missing feature is the ability to erase/delete a todo. The logic for this feature will be contained within each individual
+        <span class="inline-code">TodoItem</span>. Whenever a user clicks the 'X' we need to send a command to the <span class="inline-code">TodoList</span> telling it to delete
+        this <span class="inline-code">TodoItem</span> (very similar in nature to the 'mark all' feature we just completed in the previous step).</p>
+
+      <p>Lets go ahead and add the <span class="inline-code">click:</span> binding we need for the 'X' in our markup.</p>
+
+      <h3>Add the <span class="inline-code">click:</span> binding to the todo item:</h3>
+<div class="file-location">/scripts/views/todo-page.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;div class="todos" data-bind="foreach: todos"&gt;
+    &lt;!-- css: binding adds isDone class when TodoItem is 'completed' (true) --&gt;
+    &lt;div class="todo" data-bind="css: { isDone: isDone }"&gt;
+      &lt;!-- click: binding toggles status of the TodoItem --&gt;
+      &lt;div class="status icon-check" data-bind="click: toggleDone"&gt;&lt;/div&gt;
+      &lt;div class="text" data-bind="text: thingToDo"&gt;&lt;/div&gt;
+      &lt;!-- click: binding which triggers the command to delete this TodoItem --&gt;
+      &lt;div class="clear icon-x" data-bind="click: deleteItem"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+
+      <p>Now that the binding is in place, we need to create the logic in the <span class="inline-code">viewModel</span> it is bound against. In this case, that is the
+        <span class="inline-code">TodoItem</span>, lets add the necessary <span class="inline-code">deleteItem</span> method/logic to it now. Much like in the previous step when
+        we were sending a command to mark/not mark all todo entries, in this method we will be sending a similar command. This one however will pass a reference to
+        <span class="inline-code">this</span> <span class="inline-code">TodoItem</span> which will be used by the <span class="inline-code">TodoList</span> to remove this
+        todo entry.</p>
+
+      <h3>Create the <span class="inline-code">deleteItem</span> method, using it to pass a reference to <span class="inline-code">this</span> todo:</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  initialize: function(thingToDo) {
+    // create the namespace 'channel' we will use to talk to the TodoList
+    this.todoListNamespace = fw.namespace('TodoList');
+
+    // store the string text entered by user as thingToDo
+    this.thingToDo = fw.observable(thingToDo);
+
+    // store the state of the TodoItem (true = done, false = not done)
+    this.isDone = fw.observable(false);
+
+    // toggle the state of this TodoItem
+    this.toggleDone = function() {
+      this.isDone(!this.isDone());
+    };
+
+    // method used to send the deleteItem command when a user clicks the 'X'
+    this.deleteItem = function() {
+      // tell the TodoList to delete this item
+      this.todoListNamespace.command('deleteItem', this);
+    };
+  }
+// ...</code></pre>
+
+      <p>You will notice that just like in the previous step we used a <span class="inline-code">todoListNamespace</span> channel to (in this case) issue the
+        <span class="inline-code">'deleteItem'</span> command (from the <span class="inline-code">deleteItem()</span> method/event) passing it a reference to
+        <span class="inline-code">this</span>.</p>
+
+      <p>Now we write the handler of the <span class="inline-code">'deleteItem'</span> command inside of the <span class="inline-code">TodoList</span>.</p>
+
+      <h3>Create the handler for the <span class="inline-code">'deleteItem'</span> command:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  // listen for any 'deleteItem' commands broadcast on our namespace.
+  this.$namespace.command.handler('deleteItem', function(item) {
+    // when a new deleteItem command is received delete it from the list of todos
+    self.todos.remove(item);
+  });
+// ...</code></pre>
+
+      <p>Once the handler on the other side receives the command it will then delete that entry from the <span class="inline-code">todos</span> observable array...which then is
+        automatically removed from the DOM.</p>
+
+      <p>And thats it...you should now be able to create and delete todo item entries to your hearts content!</p>
+    </div>
+  </section>
+
+  <a id="footer" class="section-anchor"></a>
+  <section name="footer">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Footer</h1>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/footerViewModel" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/deletingTodo...footerViewModel" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f footerViewModel</code></pre>
+        </div>
+      </div>
+
+      <p>In this section we will add a few features which will be contained within the 'footer' of our application. These features are the following:</p>
+
+      <ul>
+        <li>Render the number of todos remaining to be completed.</li>
+        <li>Clearing all completed todos.</li>
+        <li>Filtering the todo list (all/active/completed).</li>
+      </ul>
+
+      <p>Lets begin by adding the actual footer element with the markup for the <span class="inline-code">viewModel</span> wrapper.</p>
+
+      <h3>Add the footer element and the <span class="inline-code">&lt;viewModel&gt;</span> wrapper:</h3>
+<div class="file-location">/scripts/views/todo-page.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+&lt;viewModel module="Footer"&gt;
+  &lt;footer&gt;&lt;/footer&gt;
+&lt;/viewModel&gt;</code></pre>
+
+      <p>Now we need to add the <span class="inline-code">Footer</span> module and tell footwork where it can find it.</p>
+
+      <h3>Create a basic <span class="inline-code">Footer</span> module:</h3>
+<div class="file-location">/scripts/viewModels/Footer.js</div>
+<pre><code class="javascript">define(['footwork'],
+  function(fw) {
+    return fw.viewModel({
+      namespace: 'Footer',
+      initialize: function() {
+        // ...
+      }
+    });
+  }
+);</code></pre>
+
+      <h3>Tell footwork where it can find the <span class="inline-code">Footer</span> module:</h3>
+<div class="file-location">/scripts/app.js</div>
+<pre><code class="javascript">// ...
+  /**
+   * Tell footwork it can find the 'LoginForm', 'TodoList', 'Header' and
+   * 'Footer' viewModels inside of scripts/viewModels/
+   */
+  fw.viewModels.registerLocation([
+    'LoginForm', // will load from scripts/viewModels/LoginForm.js
+    'TodoList', // will load from scripts/viewModels/TodoList.js
+    'Header', // will load from scripts/viewModels/Header.js
+    'Footer' // will load from scripts/viewModels/Footer.js
+  ], 'scripts/viewModels/');
+// ...</code></pre>
+
+      <p>Thats all we needed for the base structure of the footer. Reloading the page won't net any visible change at the moment. You may notice the
+        <span class="inline-code">Footer</span> module being downloaded in dev tools...but no behavior and nothing visible just yet.</p>
+    </div>
+  </section>
+
+  <a id="number-of-todos" class="section-anchor"></a>
+  <section name="number-of-todos">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Render Number of Todos Left</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/renderNumTodos" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/footerViewModel...renderNumTodos" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f renderNumTodos</code></pre>
+        </div>
+      </div>
+
+      <p>Now that we have the basic structure for the footer we can begin adding behavior and display elements.</p>
+
+      <p>First on the list is adding a count of the todo items that have not yet been completed. To do this we need to do a few things:</p>
+
+      <ul>
+        <li>Add the HTML markup (with binding) to display the number in the footer.</li>
+        <li>Create a <span class="inline-code">receivable</span> on the <span class="inline-code">Footer</span> which will receive the number of remaining todo items from the
+          <span class="inline-code">TodoList</span>.</li>
+        <li>Create a <span class="inline-code">broadcastable</span> in the <span class="inline-code">TodoList</span> which will broadcast the number of remaining todo items to the
+          <span class="inline-code">Footer</span>.</li>
+        <li>Create a method on the <span class="inline-code">TodoList</span> which will compute the number of remaining todo items (which is then broadcast to the
+          <span class="inline-code">Footer</span>).</li>
+        <li>In the <span class="inline-code">TodoList</span>, add subscriptions and handlers onto messages and commands which trigger an update/refresh of the number of remaining
+          todo items when appropriate.</li>
+        <li>Publish a message to the <span class="inline-code">TodoList</span> whenever an individual todo entry state changes (so that it can recalculate the number of remaining
+          todo entries correctly).</li>
+      </ul>
+
+      <p>Lets begin by adding the markup in the footer that we need to display the number of remaining todo entries.</p>
+
+      <h3>Add the markup to display the number:</h3>
+<div class="file-location">/scripts/views/todo-page.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+&lt;viewModel module="Footer"&gt;
+  &lt;footer&gt;
+    &lt;!-- text: binding which displays the number of remaining todo items --&gt;
+    &lt;span data-bind="text: numRemainingTodos"&gt;&lt;/span&gt; items left
+  &lt;/footer&gt;
+&lt;/viewModel&gt;</code></pre>
+
+      <p>Now we create the <span class="inline-code">receivable</span> in the <span class="inline-code">Footer</span> that will receive the number of remaining todo items from the
+        <span class="inline-code">TodoList</span>. It is also what we are binding against in the UI to display the number.</p>
+
+      <h3>Create the <span class="inline-code">numRemainingTodos</span> receivable:</h3>
+<div class="file-location">/scripts/viewModels/Footer.js</div>
+<pre><code class="javascript">// ...
+  initialize: function() {
+    // numRemainingTodo will receive its value from the TodoList
+    this.numRemainingTodos = fw.observable().receiveFrom('TodoList', 'numRemainingTodos');
+  }
+// ...</code></pre>
+
+      <p>Next we need to create the other side of the equation, the <span class="inline-code">broadcastable</span> which will live inside of the
+        <span class="inline-code">TodoList</span> that tells (broadcasts to) the <span class="inline-code">Footer</span> how many remaining todo entries are left.</p>
+
+      <h3>Create the <span class="inline-code">numRemainingTodos</span> broadcastable:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  // broadcasts the number of remaining todos
+  this.numRemainingTodos = fw.observable(0).broadcastAs('numRemainingTodos');
+// ...</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> The default value supplied for the <span class="inline-code">numRemainingTodos</span> is
+        <span class="inline-code">0</span>.</div>
+
+      <p>Next we need to create a function which will compute the number of remaining todo items and write the result to <span class="inline-code">numRemainingTodo</span> (which
+        will then be broadcast to the <span class="inline-code">Footer</span>).</p>
+
+      <h3>Create the method which computes the number of remaining todo items and write the result to <span class="inline-code">numRemainingTodos</span>:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  // This method computes the number of remaining todos
+  function computeRemainingTodos() {
+    // Loop over each todo and count the number that are !isDone().
+    var numRemaining = 0;
+    self.todos().forEach(function(todo) {
+      if(!todo.isDone()) {
+        numRemaining++;
+      }
+    });
+
+    // write the number of remaining todos to the numRemainingTodos broadcastable
+    self.numRemainingTodos(numRemaining);
+  }
+// ...</code></pre>
+
+      <p>Now that we have the method we need to compute the number of todo items left we need to trigger it when anything about the <span class="inline-code">todos</span> list
+        changes. To do that we will simply add a few more subscriptions and handlers which will take care of this for us.</p>
+
+      <h3>Add the necessary subscriptions and handlers which will update the <span class="inline-code">numRemainingTodos</span>:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  // listen for any messages/commands which require us to compute the remaining todos.
+  this.$namespace.subscribe('itemChanged', computeRemainingTodos);
+  this.$namespace.subscribe('newItem', computeRemainingTodos);
+  this.$namespace.command.handler('setAllAs', computeRemainingTodos);
+  this.$namespace.command.handler('deleteItem', computeRemainingTodos);
+// ...</code></pre>
+
+      <p>As you can see we added additional handlers and subscriptions which call our new <span class="inline-code">computeRemainingTodos</span> method when needed (ie: when
+        something changes that requires updating/refreshing the value).</p>
+
+      <p>One thing you might be curious about is the <span class="inline-code">'itemChanged'</span> subscription. It is new, we haven't yet created anything which triggers that
+        message. One of the missing features we haven't covered, is recomputing the number of remaining todo entries whenever a single one has its state changed (ie: when a user
+        clicks the check mark on one of them). To do this we will use/trigger the 'itemChanged' message from each <span class="inline-code">TodoItem</span> when it has its
+        <span class="inline-code">isDone</span> state changed (so that the <span class="inline-code">computeRemainingTodos</span> handler can then recompute the number of remaining
+        todo entries). Lets do that now.</p>
+
+      <h3>Add a subscription to the <span class="inline-code">isDone</span> property which fires off an <span class="inline-code">'itemChanged'</span> event to the
+        <span class="inline-code">TodoList</span>:</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  // Listen for any changes on the TodoItem isDone state
+  this.isDone.subscribe(function() {
+    // when it is changed publish an 'itemChanged' event to the TodoList
+    this.todoListNamespace.publish('itemChanged');
+  }, this);
+// ...</code></pre>
+
+      <p>Now when a state change is made to any <span class="inline-code">TodoItem</span> it will publish a message to the <span class="inline-code">TodoList</span>. This will
+        trigger the subscription handler on the other side, which then (re)calculates the current number of outstanding <span class="inline-code">TodoItem</span> entries remaining.
+        It updates the <span class="inline-code">numRemainingTodos</span> on the <span class="inline-code">TodoList</span> which is then broadcast to the
+        <span class="inline-code">Footer</span> whose bound markup then automatically updates the UI.</p>
+
+      <p>And that should take care of what we need. Reload the page, login, add a todo and check it off...you should see the 'items left' value in the footer update as
+        appropriate!</p>
+    </div>
+  </section>
+
+  <a id="clearing-completed-todos" class="section-anchor"></a>
+  <section name="clearing-completed-todos">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Clearing Completed Todos</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/clearingCompletedTodos" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/renderNumTodos...clearingCompletedTodos" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f clearingCompletedTodos</code></pre>
+        </div>
+      </div>
+
+      <p>Next on the list is adding a button into the footer which will let a user clear all of the currently 'completed' todo entries. Doing this is relatively simple, we just
+        need to create the button in the footer and send a message to the <span class="inline-code">TodoList</span> telling it to remove all of the completed
+        <span class="inline-code">TodoItem</span> entries that are completed.</p>
+
+      <p>Lets begin by creating the markup for the button in the footer.</p>
+
+      <h3>Add the HTML for the button in the footer (including the click binding):</h3>
+<div class="file-location">/scripts/views/todo-page.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;footer&gt;
+    &lt;div class="num-todo"&gt;
+      &lt;!-- text: binding which displays the number of remaining todo items --&gt;
+      &lt;span data-bind="text: numRemainingTodos"&gt;&lt;/span&gt; items left
+    &lt;/div&gt;
+
+    &lt;!-- click: binding which will clear/delete the completed todo entries --&gt;
+    &lt;button class="button" data-bind="click: clearCompleted"&gt;Clear Completed&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+      <p>With the binding in the markup we now need to create the method our new button will bind against. This method will use a namespace channel to issue another command, this
+        time telling the <span class="inline-code">TodoList</span> to clear/erase the currently completed todo entries.</p>
+
+      <h3>Create the needed namespace channel and add the <span class="inline-code">clearCompleted()</span> method which issues the command:</h3>
+<div class="file-location">/scripts/viewModels/Footer.js</div>
+<pre><code class="javascript">// ...
+  initialize: function() {
+    // create the namespace 'channel' we will use to talk to the TodoList
+    this.todoListNamespace = fw.namespace('TodoList');
+
+    // numRemainingTodos will receive its value from the TodoList
+    this.numRemainingTodos = fw.observable().receiveFrom('TodoList', 'numRemainingTodos');
+
+    // method which sends the command to clear all completed todos
+    this.clearCompleted = function() {
+      // tell the TodoList to clear the completed todo entries
+      this.todoListNamespace.command('clearCompleted');
+    };
+  }
+// ...</code></pre>
+
+      <p>Now we need to create the handler for the <span class="inline-code">'clearCompleted'</span> command. This handler will loop through the list of
+        <span class="inline-code">TodoItem</span> entries, removing each one which is completed.</p>
+
+      <h3>Add the handler which removes the complete todo entries:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  // listen for any 'clearCompleted' commands broadcast on our namespace.
+  this.$namespace.command.handler('clearCompleted', function() {
+    // Create a list of the completed todos
+    var completedTodos = [];
+    self.todos().forEach(function(todo) {
+      if(todo.isDone()) {
+        completedTodos.push(todo);
+      }
+    });
+
+    // remove the completed todo entries
+    completedTodos.forEach(function(todo) {
+      todo.deleteItem();
+    });
+  });
+// ...</code></pre>
+
+      <p>And thats it...reload the page and you should now be able to remove all completed todo entries with the button on the right side of the footer!</p>
+    </div>
+  </section>
+
+  <a id="filtering-todo-list" class="section-anchor"></a>
+  <section name="filtering-todo-list">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Filtering the List</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/filteringTheList" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/clearingCompletedTodos...filteringTheList" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f filteringTheList</code></pre>
+        </div>
+      </div>
+
+      <p>Next, lets add some filtering options to the todo list. It would be nice to be able to filter the list according to their completion state (all/active/completed).</p>
+
+      <p>To do this we will add a second (but optional) parameter to our <span class="inline-code">'/todo/:username'</span> route and use it in tandem with another
+        <span class="inline-code">broadcastable</span> to tell the <span class="inline-code">TodoList</span> how to filter its list. Lets start by adding the
+        <span class="inline-code">broadcastable</span> to the <span class="inline-code">MainRouter</span>.</p>
+
+      <h3>Add the <span class="inline-code">ListFilter</span> property on the <span class="inline-code">MainRouter</span>:</h3>
+<div class="file-location">/scripts/MainRouter.js</div>
+<pre><code class="javascript">// ...
+  // broadcast the state we wish to filter the list for
+  this.listFilter = fw.observable(null).broadcastAs('listFilter');
+// ...</code></pre>
+
+      <p>With that added to the <span class="inline-code">initialize:</span> method we now need to alter our route to accept the optional <span class="inline-code">state</span>
+        parameter. In the controller we will use this optional parameter to set the value of the <span class="inline-code">listFilter</span> (which in a moment we will receive
+        inside the <span class="inline-code">TodoList</span> and use it to apply the specified filter).</p>
+
+      <h3>Add the optional <span class="inline-code">:state</span> parameter and apply it to the <span class="inline-code">listFilter</span>:</h3>
+<div class="file-location">/scripts/MainRouter.js</div>
+<pre><code class="javascript">// ...
+  {
+    route: '/todo/:username(/:state)', // required parameter 'username', optional parameter 'state'
+    title: 'Todo List',
+    controller: function(params) {
+      // set the loggedInUser value to the username
+      this.loggedInUser(params.username);
+
+      // set the listFilter value to the supplied state (will be broadcast to the TodoList)
+      this.listFilter(params.state || 'all');
+
+      // show our todo list page here
+      this.$outlet('mainView', 'todo-page');
+    }
+  }
+// ...</code></pre>
+
+      <p>As you can see above we add the optional parameter using the <span class="inline-code">(:/state)</span> syntax. Further down inside of the
+        <span class="inline-code">controller:</span> the <span class="inline-code">listFilter</span> is being assigned its value (with 'all' as the default).</p>
+
+      <p>One final thing we need to do to the <span class="inline-code">MainRouter</span>, make it choose a 'default' filter option upon user login.</p>
+
+      <h3>Add the default filter option to the <span class="inline-code">'userLogin'</span> handler:</h3>
+<div class="file-location">/scripts/MainRouter.js</div>
+<pre><code class="javascript">// ...
+  if(username) {
+    router.setState('/todo/' + username + '/all');
+  }
+// ...</code></pre>
+
+      <p>Now when a user logs in they will be directed to <span class="inline-code">'/todo/username/all'</span>. In order to allow the user to choose a different filter option we
+        will need to add the appropriate <span class="inline-code">$route</span> bindings to a few links in the footer, lets create those now.</p>
+
+      <h3>Add the <span class="inline-code">$route</span> bound links to the footer to trigger the new filter state when clicked:</h3>
+<div class="file-location">/scripts/views/todo-page.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;footer&gt;
+    &lt;div class="num-todo"&gt;
+      &lt;!-- text: binding which displays the number of remaining todo items --&gt;
+      &lt;span data-bind="text: numRemainingTodos"&gt;&lt;/span&gt; items left
+    &lt;/div&gt;
+
+    &lt;!-- Links which trigger the new states we need --&gt;
+    &lt;a data-bind="$route: { url: allRoute }"&gt;all&lt;/a&gt;
+    &lt;a data-bind="$route: { url: activeRoute }"&gt;active&lt;/a&gt;
+    &lt;a data-bind="$route: { url: completedRoute }"&gt;completed&lt;/a&gt;
+
+    &lt;!-- click: binding which will clear/delete the completed todo entries --&gt;
+    &lt;button class="button" data-bind="click: clearCompleted"&gt;Clear Completed&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+      <p>The three <span class="inline-code">$route</span> bindings will trigger their designated route on the <span class="inline-code">MainRouter</span> (their parent router)
+        when clicked. One new thing you may have noticed here is the <span class="inline-code">{ url: allRoute }</span> syntax defined on the binding. This option essentially tells
+        footwork to resolve the <span class="inline-code">url:</span> for the link using the <span class="inline-code">allRoute</span> method on the
+        <span class="inline-code">viewModel</span> it is bound against. Given where those callback methods (<span class="inline-code">allRoute</span>,
+        <span class="inline-code">activeRoute</span>, and <span class="inline-code">completedRoute</span>) are declared we need to define their corresponding methods inside of the
+        <span class="inline-code">Footer</span>.</p>
+
+      <p>The reason we are defining the <span class="inline-code">url:</span> as callbacks is because we need to create a url/route with a profile like
+        <span class="inline-code">'/todo/[username]/[filter option]'</span>. There is no way to do that with a simple string value (thus it needs to be created in a callback).</p>
+
+      <div class="note"><span class="label">NOTE:</span> For the full list of available <span class="inline-code">$route</span> binding options, see the
+        <a href="/api/routing#route-binding" data-bind="$route">$route binding documentation</a>.</div>
+
+      <p>Lets create the three different callback methods we need to allow the <span class="inline-code">$route</span> bindings we have defined to correctly construct their route
+        definitions.</p>
+
+      <h3>Create the callbacks needed for the <span class="inline-code">$route</span> bindings on the <span class="inline-code">Footer</span>:</h3>
+<div class="file-location">/scripts/viewModels/Footer.js</div>
+<pre><code class="javascript">// ...
+  initialize: function() {
+    // ...
+
+    // loggedInUser will receive its value from the MainRouter
+    this.loggedInUser = fw.observable().receiveFrom('MainRouter', 'loggedInUser');
+
+    // the callbacks which return the needed filter routes
+    this.allRoute = function() {
+      return '/todo/' + this.loggedInUser() + '/all';
+    }.bind(this);
+    this.activeRoute = function() {
+      return '/todo/' + this.loggedInUser() + '/active';
+    }.bind(this);
+    this.completedRoute = function() {
+      return '/todo/' + this.loggedInUser() + '/completed';
+    }.bind(this);
+
+    // ...
+  }
+// ...</code></pre>
+
+      <p>Something you may also notice here is the <span class="inline-code">receivable</span> defined at the top. Just as with the other
+        <span class="inline-code">receivable</span> properties we've created it will receive any updates for its value from the designated
+        <span class="inline-code">viewModel</span>. In this case the <span class="inline-code">loggedInUser</span> will receive its value from the
+        <span class="inline-code">MainRouter</span>. Using that value we construct the routes we need for the <span class="inline-code">allRoute</span>,
+        <span class="inline-code">activeRoute</span>, and <span class="inline-code">completedRoute</span></p>
+
+      <p>Now that we have our links/handlers/etc in place lets create the filtered list. Knockout (and thus, footwork as well) has what are called
+        <span class="inline-code">computed</span> values. These are special values which depend on other <span class="inline-code">observables</span> for their result. Anytime a
+        dependency of a <span class="inline-code">computed</span> changes the value is re-evaluated automatically.</p>
+
+      <p>Lets create a computed value based on the <span class="inline-code">listFilter</span> value we are broadcasting from the <span class="inline-code">MainRouter</span>.</p>
+
+      <h3>Add the <span class="inline-code">listFilter</span> <span class="inline-code">receivable</span> and <span class="inline-code">filteredTodos</span>
+        <span class="inline-code">computed</span>:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  // receives the list filter value from the MainRouter
+  this.listFilter = fw.observable().receiveFrom('MainRouter', 'listFilter');
+
+  // filter the list of todo entries based on this.listFilter received from MainRouter
+  this.filteredTodos = fw.computed(function() {
+    var listFilter = this.listFilter();
+    var todoList = [];
+
+    // go through each todo entry and add it to the filtered todoList if appropriate
+    this.todos().forEach(function(todo) {
+      switch(listFilter) {
+        case 'active': // show only 'active' todo entries
+          if(!todo.isDone()) {
+            todoList.push(todo);
+          }
+          break;
+
+        case 'completed': // show only 'completed' todo entries
+          if(todo.isDone()) {
+            todoList.push(todo);
+          }
+          break;
+
+        default: // show all todo entries (no filter)
+          todoList.push(todo);
+          break;
+      }
+    });
+
+    // return the filtered todoList entries
+    return todoList;
+  }, this);
+// ...</code></pre>
+
+      <p>So what is happening here? Well the <span class="inline-code">listFilter</span> is receiving its value from the <span class="inline-code">MainRouter</span>. That value is
+        then referenced inside of a <span class="inline-code">computed</span> <span class="inline-code">observable</span> which uses it to determine how to filter the current
+        list of <span class="inline-code">todos</span>. The <span class="inline-code">todos</span> are iterated over and the filtered list is created and returned.</p>
+
+      <p>This gets us our filtered list...but the UI won't display it just yet. We have one small step remaining...in our markup we just swap out the current binding for the
+        <span class="inline-code">todos</span> list with our new <span class="inline-code">filteredTodos</span> list.</p>
+
+      <h3>Swap the <span class="inline-code">todos</span> reference in the <span class="inline-code">foreach:</span> binding with our new
+        <span class="inline-code">filteredTodos</span> <span class="inline-code">computed</span> value.</h3>
+<div class="file-location">/scripts/views/todo-page.html</div>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;div class="todo-list"&gt;
+    &lt;!-- foreach: binding now using the filteredTodos list --&gt;
+    &lt;div class="todos" data-bind="foreach: filteredTodos"&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+      <p>And that should be all we need for this feature. Reload the page, login, and play around with the list...it should update and be filtered as you would expect.</p>
+
+      <div class="figure">
+        <div class="title">Showing 'all' todo items:</div>
+        <div class="content">
+          <div class="image"><img src="images/todo-tutorial/filteringTheList0.png"></div>
+        </div>
+      </div>
+
+      <div class="figure">
+        <div class="title">Showing 'active' (non-completed) todo items:</div>
+        <div class="content">
+          <div class="image"><img src="images/todo-tutorial/filteringTheList1.png"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <a id="preserving" class="section-anchor"></a>
+  <section name="preserving">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Preserving / Saving the List</h1>
+    </header>
+    <div class="content">
+      <p>The final features we will be covering in this tutorial is the saving and loading of the todo list. This will enable each user to preserve their todo list locally on the
+        machine so that when they refresh or come back at a later time the list they made is still there.</p>
+
+      <div class="note"><span class="label">NOTE:</span> To accomplish this we will be using HTML5 <span class="inline-code">localStorage</span>. The API for
+        <span class="inline-code">localStorage</span> is relatively simple and the portions of it we will be using here should be mostly self-explanatory. However if you find
+        yourself needing a deeper explanation of the underpinnings it is recommended to take a look at the
+        <a href="http://diveintohtml5.info/storage.html" target="_blank">excellent article on diveintohtml5.info</a>.</div>
+    </div>
+  </section>
+
+  <a id="saving" class="section-anchor"></a>
+  <section name="saving">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Saving</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/savingTodos" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/filteringTheList...savingTodos" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f savingTodos</code></pre>
+        </div>
+      </div>
+
+      <p>Each <span class="inline-code">TodoItem</span> is an individual object responsible for its own data. We should extend that concept to include the saving, updating, and
+        removal of itself as well.</p>
+
+      <p>Since each <span class="inline-code">TodoItem</span> is an individual record of something we should add a unique identifier so that we can also retrieve and identify it
+        from <span class="inline-code">localStorage</span> at a later time as well. We will need to generate that unique identifier because the
+        <span class="inline-code">TodoItem</span> currently has no such property.</p>
+
+      <p>To do this we will create a composite key consisting of our <span class="inline-code">loggedInUser</span> (the username) + the <span class="inline-code">guid</span>. This
+        will give our keys a format of <span class="inline-code">&lt;username&gt;-########-####-####-####-############</span>. The username being present at the start of the key
+        is significant (and necessary) as you will see further on.</p>
+
+      <p>So to begin with, lets create the composite <span class="inline-code">guid</span>.</p>
+
+      <h3>Create the <span class="inline-code">loggedInUser</span> <span class="inline-code">receiveable</span> and use it to create a composite
+        <span class="inline-code">guid</span>:</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  initialize: function(thingToDo) {
+    // get the username from the MainRouter so we can use it in the GUID
+    var loggedInUser = fw.observable().receiveFrom('MainRouter', 'loggedInUser');
+
+    // use existing GUID or generate a random one
+    var guid = thingToDo.guid || (loggedInUser() + '-' + fw.guid());
+// ...</code></pre>
+
+      <p>Next we need to create the method which will actually do the saving of our <span class="inline-code">TodoItem</span> to <span class="inline-code">localStorage</span>. Lets
+        do that now.</p>
+
+      <h3>Create the <span class="inline-code">saveItem()</span> method which saves the todo to <span class="inline-code">localStorage</span>:</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  this.saveItem = function() {
+    // save the todo item using the username-based GUID as its key
+    localStorage.setItem(guid, JSON.stringify({
+      guid: guid,
+      thingToDo: this.thingToDo(),
+      isDone: this.isDone()
+    }));
+  };
+// ...</code></pre>
+
+      <p>Each time this method is called the <span class="inline-code">TodoItem</span> will be saved to <span class="inline-code">localStorage</span> using the composite
+        <span class="inline-code">guid</span> we created before (this will help us when we go to find it later). The data itself is encoded into a string using
+        <span class="inline-code">JSON.stringify</span>. This lets us store the todo and its details in a readily usable form when we read it later (although we will have to decode
+        it back into an object first).</p>
+
+      <p>Now that we have our <span class="inline-code">saveItem()</span> method defined lets put it to use. We know that every time a todo is changed we need to update
+        <span class="inline-code">localStorage</span>. Turns out we already have a subscription to changes on that value, lets add our new callback to it.</p>
+
+      <h3>Add the <span class="inline-code">saveItem()</span> call to the <span class="inline-code">isDone</span> subscription:</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  // Listen for any changes on the TodoItem isDone state
+  this.isDone.subscribe(function() {
+    // when it is changed publish an 'itemChanged' event to the TodoList
+    this.todoListNamespace.publish('itemChanged');
+
+    // the value changed so we save the todo again
+    this.saveItem();
+  }, this);
+// ...</code></pre>
+
+      <p>Now every time the state of the <span class="inline-code">TodoItem</span> changes it will be saved to <span class="inline-code">localStorage</span>.</p>
+
+      <p>We also need the <span class="inline-code">TodoItem</span> to delete itself whenever it is removed so lets add the code to do that in the
+        <span class="inline-code">deleteItem()</span> method. Since we use the <span class="inline-code">guid</span> as its key when writing, we can also use that same value to
+        delete it.</p>
+
+        <h3>Delete the <span class="inline-code">TodoItem</span> using its own <span class="inline-code">guid</span> inside the <span class="inline-code">deleteItem()</span>
+          method:</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  // method used to send the deleteItem command when a user clicks the 'X'
+  this.deleteItem = function() {
+    // tell the TodoList to delete this item
+    this.todoListNamespace.command('deleteItem', this);
+
+    // delete this item from localStorage also
+    localStorage.removeItem(guid);
+  };
+// ...</code></pre>
+
+      <p>Another thing we need to change in the <span class="inline-code">TodoItem</span> <span class="inline-code">viewModel</span> is how it loads its data. As noted above we are
+        storing the data for this todo in a JSON format (which is really just a serialized javascript object). When we load the data back in (ie: when the user loads the page) we
+        will be getting back a javascript object...the constructor of our <span class="inline-code">TodoItem</span> needs to be modified to handle this.</p>
+
+      <h3>Modify the <span class="inline-code">TodoItem</span> to read its initial values from an object being passed in (rather than a string as before):</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  // store the string text entered by user as thingToDo
+  this.thingToDo = fw.observable(thingToDo.thingToDo);
+
+  // store the state of the TodoItem (true = done, false = not done)
+  this.isDone = fw.observable(thingToDo.isDone);
+// ...</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> If the values are not provided they will simply have <span class="inline-code">undefined</span> as their defaults.</div>
+
+      <p>One more thing we need to do to the <span class="inline-code">TodoItem</span> is have it save the todo when it is first create by the user. To do that we will look at the
+        data passed into the constructor. If the object has a provided <span class="inline-code">guid</span> then it is being loaded from a previous entry. If it does not it is a
+        new entry and we will save it.</p>
+
+      <h3>Add the call to save the todo entry when it is initially created:</h3>
+<div class="file-location">/scripts/viewModels/TodoItem.js</div>
+<pre><code class="javascript">// ...
+  if(!thingToDo.guid) {
+    // the data object as no guid, it is new so lets save it to localStorage
+    this.saveItem();
+  }
+// ...</code></pre>
+
+      <p>And lastly, we need to modify how new entries that are typed in are provided to the constructor of the <span class="inline-code">TodoItem</span>. Since those are created
+        in the <span class="inline-code">TodoList</span> that is where we need to make the alteration.</p>
+
+      <h3>Alter the <span class="inline-code">TodoList</span> to create new <span class="inline-code">TodoItem</span> instances using the new object format:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  // listen for any 'newItem' messages broadcast on our namespace.
+  this.$namespace.subscribe('newItem', function(thingToDo) {
+    // new thingToDo was received, lets create a new TodoItem based on it
+    self.todos.push( new TodoItem({ thingToDo: thingToDo }) );
+  });
+// ...</code></pre>
+
+      <p>And thats it, every <span class="inline-code">TodoItem</span> created will now be saved to <span class="inline-code">localStorage</span>.</p>
+    </div>
+  </section>
+
+  <a id="loading" class="section-anchor"></a>
+  <section name="loading">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Loading</h2>
+    </header>
+    <div class="content">
+      <div class="workspace-setup">
+        <div class="title">
+          View the code for this step:
+          <a class="live-demo" href="http://todo-tutorial.footworkjs.com/loadingTodos" target="_blank">Live Demo</a>
+          <a href="https://github.com/reflectiveSingleton/todo-tutorial/compare/savingTodos...loadingTodos" class="diff" target="_blank"><span class="icon-git-compare"></span> diff</a>
+        </div>
+        <div class="content">
+          <pre><code class="bash">git checkout -f loadingTodos</code></pre>
+        </div>
+      </div>
+
+      <p>And finally, the last feature we will be adding in this tutorial is the ability for the application to essentially 'hydrate' itself, loading in the list of previously
+        entered todo entries based on what user has logged in.</p>
+
+      <p>We mostly have everything setup we needed from the previous step. To read the existing todo entries from <span class="inline-code">localStorage</span> we will need to loop
+        over all entries found, look at each key to determine if it is part of our users todo list, and if so - create a new <span class="inline-code">TodoItem</span> based off of
+        it.</p>
+
+      <p>If you recall from above, the keys we wrote to <span class="inline-code">localStorage</span> are a composite made up of the <span class="inline-code">loggedInUser</span>
+        and a random portion that footwork creates for us. We can utilize the first portion, compare it to the currently logged in user and grep out only those entries that are
+        relevant to this user.</p>
+
+      <h3>Add the code to import pre-existing todo entries found in <span class="inline-code">localStorage</span>:</h3>
+<div class="file-location">/scripts/viewModels/TodoList.js</div>
+<pre><code class="javascript">// ...
+  // loggedInUser will receive its value from the MainRouter, we use it to filter localStorage
+  var loggedInUser = fw.observable().receiveFrom('MainRouter', 'loggedInUser');
+
+  // loop over all localStorage entries and import only our users todo entries
+  for(var keyNum = 0; keyNum &lt; localStorage.length; keyNum++) {
+    var key = localStorage.key(keyNum);
+    // we only want to add todos that belong to this user so we check here
+    if(loggedInUser() === key.substr(0, loggedInUser().length)) {
+      /**
+       * The key starts with our loggedInUser so we add a new TodoItem using its value
+       * which we read and parse from localStorage
+       */
+      this.todos.push( new TodoItem( JSON.parse(localStorage.getItem(key)) ) );
+    }
+  }
+
+  // since we may have new entries we need to (re)compute the number of remaining todos
+  computeRemainingTodos();
+// ...</code></pre>
+
+      <p>And thats it...now all todo entries will be preserved on a per-user basis and reloaded each time they log in or load the page!</p>
+
+      <p>We have now covered most of the major sections of footwork in the persuit of creating a todo application. Note that this tutorial series did not cover saving to a server,
+        footwork as of yet does not have native/included support for RESTful endpoints and AJAX. This is coming soon! Until then, libraries such as
+        <a href="https://jquery.com/" target="_blank">jQuery</a> or (for something lightweight) <a href="https://github.com/ded/reqwest" target="_blank">reqwest</a> work great in
+        with footwork.</p>
+
+      <p>There are of course improvements and additional features not mentioned here which can also be created...so go off into the great unknown, experiment and try it out!</p>
+    </div>
+  </section>
+
+</article>
+
+<div id="metaData">
+{
+  "title": "TodoMVC Application",
+  "description": "",
+  "sections": [
+    { "anchor": "general-functionality",
+      "title": "General Functionality" },
+    { "anchor": "header",
+      "title": "Header",
+      "subSections": [
+        { "anchor": "username-display",
+          "title": "Username Display" },
+        { "anchor": "logout-rendering",
+          "title": "Logout Rendering" }
+      ] },
+    { "anchor": "todo-list",
+      "title": "Todo List",
+      "subSections": [
+        { "anchor": "completing-todo",
+          "title": "Completing a Todo" },
+        { "anchor": "marking-all-todos",
+          "title": "Marking All Todos" },
+        { "anchor": "deleting-todo",
+          "title": "Deleting a Todo" }
+      ] },
+    { "anchor": "footer",
+      "title": "Footer",
+      "subSections": [
+        { "anchor": "number-of-todos",
+          "title": "Render Number of Todos Left" },
+        { "anchor": "clearing-completed-todos",
+          "title": "Clearing Completed Todos" },
+        { "anchor": "filtering-todo-list",
+          "title": "Filtering the List" }
+      ] },
+    { "anchor": "preserving",
+      "title": "Preserving / Saving the List",
+      "subSections": [
+        { "anchor": "saving",
+          "title": "Saving" },
+        { "anchor": "loading",
+          "title": "Loading" }
+      ] }
+  ]
+}
+</div>

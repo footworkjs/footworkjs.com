@@ -1,0 +1,47 @@
+<div class="download-box">
+  <div class="title">
+    Download footwork.js</span>
+    <a href="https://github.com/reflectiveSingleton/footwork" class="button"><span class="label">Github</span> <span class="icon-github"></span></a>
+  </div>
+  <div class="content">
+    <div class="section">
+      <div class="selector-tool">
+        <div class="build-label">Version:</div>
+        <div class="build-selector">
+          <select data-bind="options: buildVersions, value: buildVersion"></select>
+        </div>
+      </div>
+      <div class="selector-tool">
+        <div class="build-label">Build:</div>
+        <div class="build-selector">
+          <select data-bind="options: buildProfiles, value: buildProfile, optionsText: 'label', optionsValue: 'value'"></select>
+        </div>
+      </div>
+      <div class="selector-tool">
+        <div class="build-label">Environment:</div>
+        <div class="build-selector">
+          <select data-bind="options: environments, value: environment, optionsText: 'label', optionsValue: 'value'"></select>
+        </div>
+      </div>
+      <div class="build-link">
+        <a class="footwork-download-link button" data-bind="attr: { href: buildURL }">
+          <span class="icon-download"></span>
+          <span class="label" data-bind="text: buildLabel">
+          </span>
+        </a>
+        <div class="prod-details"><em data-bind="text: buildSize"></em> <span data-bind="text: buildType"></span></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="build-description">
+        <div class="text" data-bind="text: buildDescription"></div>
+        <!-- ko if: hasDependencies -->
+          <span class="deps" data-bind="foreach: dependenciesNeeded">
+            <a data-bind="attr: { href: url, title: note }, text: label"></a>
+          </span>
+          <div class="footnote">You will need to supply these dependencies via globals, RequireJS, or CommonJS</div>
+        <!-- /ko -->
+      </div>
+    </div>
+  </div>
+</div>

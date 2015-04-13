@@ -1,0 +1,176 @@
+@lineNumberColor: #444;
+@lineHeight: 20px;
+@spacing: 10px;
+@codeHeaderBorderColor: mix(@body-bg-color, @body-text, 65%);
+
+article, .docco {
+  .file-location {
+    @size: 25px;
+    float: right;
+    position: relative;
+    margin-bottom: -@size;
+    padding-right: 5px;
+    line-height: @size;
+    color: white;
+    font-weight: bold;
+    z-index: 1;
+  }
+  pre {
+    margin: 0;
+    line-height: @lineHeight;
+    font-size: 13px;
+    overflow: hidden;
+    position: relative;
+    clear: both;
+    .border-radius(3px);
+  }
+
+  pre + pre, .worspace-setup + p {
+    margin-top: @spacing;
+  }
+
+  p + pre {
+    margin-top: @spacing;
+  }
+
+  pre + p {
+    margin-top: (2 * @spacing);
+
+    &.top {
+      margin-top: 0;
+    }
+  }
+
+  .note + h3, pre + h3 {
+    margin-top: 25px;
+  }
+
+  pre + ul {
+    margin-top: 20px;
+  }
+
+  .hljs {
+    padding: 10px;
+  }
+
+  .func-def {
+    color: @pane-bg-color;
+    span {
+      color: black;
+    }
+    .param {
+      color: darken(@pane-bg-color, 15%);
+    }
+  }
+
+  h3 {
+    margin-top: 15px;
+
+    &.top {
+      margin-top: 0;
+    }
+  }
+
+  h3 + h3 {
+    margin-top: 0;
+  }
+
+  header {
+    h1, h2 {
+      border-bottom: 2px solid @codeHeaderBorderColor;
+      padding-bottom: 10px;
+    }
+    h2 {
+      border-bottom-width: 1px;
+    }
+  }
+
+  .inline-code {
+    padding: 3px;
+    background: darken(@body-bg-color, 15%);
+    color: contrast(@body-bg-color);
+    font: bold 13px monospace;
+    .border-radius(3px);
+    white-space: nowrap;
+  }
+
+  .note .inline-code {
+    background: transparent;
+    color: contrast(@noteBackground);
+    padding: 0;
+  }
+
+  p + .workspace-setup {
+    margin-top: @spacing;
+  }
+
+  .workspace-setup {
+    position: relative;
+    background: #deffdc;
+    .border-radius(3px);
+    .box-shadow(0px 1px 7px -2px black inset);
+
+    & > .title {
+      padding: 10px;
+      .clearblock;
+
+      & + .content {
+        padding: 0 10px 10px 10px;
+      }
+    }
+
+    & > .content {
+      padding: 10px;
+      .clearblock;
+    }
+
+    .live-demo, .diff {
+      display: block;
+      float: right;
+
+      &.bottom {
+        padding-top: 10px;
+      }
+    }
+
+    .live-demo + .diff {
+      margin-right: 10px;
+    }
+
+    .diff {
+      color: #444;
+    }
+
+    & + p {
+      margin-top: @spacing;
+    }
+  }
+
+  .figure {
+    background: white;
+    border: 1px solid #ddd;
+    max-width: 100%;
+    margin: 10px 0;
+    .border-radius(3px);
+
+    &.no-title > .content {
+      padding: 5px;
+    }
+
+    & > .title {
+      padding: 3px 5px;
+      font-weight: bold;
+    }
+
+    & > .content {
+      padding: 0 5px 5px 5px;
+      .image {
+        overflow: hidden;
+        img {
+          display: block;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}

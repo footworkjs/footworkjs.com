@@ -1,0 +1,117 @@
+.documentation-nav {
+  width: 200px;
+
+  @versionSelectorBackground: lighten(@pane-bg-color, 12%);
+
+  .version-selector {
+    display: block;
+    position: relative;
+    .clearblock;
+    font-size: 13px;
+    padding: 5px 0;
+
+    @selectorHeight: 30px;
+
+    &.active {
+      .options {
+        display: block;
+      }
+      .selector {
+        border-color: darken(@versionSelectorBackground, 15%);
+      }
+    }
+
+    & > .label, & > .selector {
+      line-height: @selectorHeight;
+    }
+
+    @labelWidth: 63px;
+    & > .label {
+      text-align: right;
+      padding-right: 5px;
+      .box-sizing(border-box);
+      width: @labelWidth;
+      position: absolute;
+      left: 0;
+    }
+
+    .selector {
+      position: relative;
+      cursor: pointer;
+      background: @versionSelectorBackground;
+      padding: 0 5px;
+      .box-sizing(border-box);
+      .no-select;
+      .border-radius(3px);
+      border: 1px solid darken(@versionSelectorBackground, 10%);
+      margin: 0 5px 0 @labelWidth;
+
+      &:hover {
+        border-color: darken(@versionSelectorBackground, 15%);
+      }
+
+      & > .label .text {
+        color: white;
+      }
+
+      .icon {
+        font-size: 20px;
+        line-height: @selectorHeight;
+        float: right;
+        padding-left: 5px;
+      }
+    }
+
+    .options {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 5px;
+      width: 100%;
+      background: @versionSelectorBackground;
+      padding: 5px;
+      .box-sizing(border-box);
+      .border-radius(3px);
+      .box-shadow(0 1px 3px #555);
+      display: none;
+
+      .version {
+        cursor: pointer;
+        padding: 0 5px;
+        line-height: 25px;
+        .border-radius(3px);
+
+        &:hover, &.active {
+          background: darken(@versionSelectorBackground, 10%);
+        }
+      }
+
+      .version + .version {
+        margin-top: 5px;
+      }
+    }
+  }
+
+  a {
+    padding: 5px;
+    display: block;
+    clear: both;
+
+    .label {
+      padding: 0 5px;
+      font-size: 15px;
+      display: block;
+    }
+    .description {
+      &.visible {
+        display: block;
+      }
+      display: none;
+      font-size: 12px;
+      background: lighten(@pane-bg-color, 5%);
+      margin: 5px;
+      padding: 3px;
+      .border-radius(3px);
+    }
+  }
+}

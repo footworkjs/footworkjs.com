@@ -1,0 +1,18 @@
+<div class="pageSections pane-component initialized" data-bind="css: { visible: visible }">
+  <div class="title no-mobile">
+    <span class="label">
+      <span class="text" data-bind="text: title"></span>
+    </span>
+  </div>
+  <div class="content" data-bind="css: { hasContent: hasSections }, style: { height: paneContentMaxHeight }">
+    <div class="title mobile-only">
+      <span class="label">
+        <span class="text" data-bind="text: title"></span>
+      </span>
+    </div>
+    <div class="description" data-bind="text: description, css: { visible: hasDescription }"></div>
+    <div data-bind="foreach: sections">
+      <pagesection params="sectionData: $data"></pagesection>
+    </div>
+  </div>
+</div>

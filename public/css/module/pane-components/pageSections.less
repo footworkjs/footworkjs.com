@@ -1,0 +1,191 @@
+.pane .content .pane-component {
+  &.pageSections {
+    @pageSectionTitleHeight: 25px;
+    .entry-row {
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+
+      & > .content {
+        height: 0;
+
+
+        &.hasTitle {
+          height: @pageSectionTitleHeight;
+        }
+
+        .title {
+          font-size: 17px;
+          font-weight: bold;
+          line-height: @pageSectionTitleHeight;
+          padding-bottom: 0;
+        }
+      }
+    }
+
+    @sectionColor: mix(@pane-bg-color, @pane-fg-color, 50%);
+    @iconWidth: 25px;
+    @iconHeight: 20px;
+    .section-label {
+      position: relative;
+      cursor: pointer;
+      text-decoration: none;
+      padding-bottom: 5px;
+      margin: -10px 0 0;
+
+      &.isCollapsable {
+        a > .label {
+          margin-right: @iconWidth + 5px;
+        }
+
+        &.isCollapsed {
+          & > .sub-sections {
+            height: 0;
+            opacity: 0;
+            .transition(opacity 0s linear);
+          }
+        }
+
+        &.hasSubSections > .content {
+          padding-right: 10px;
+        }
+      }
+
+      &.hasTitle {
+        margin-top: 10px;
+        margin-bottom: -10px;
+
+        & > .content {
+          display: block;
+        }
+      }
+
+      &.hasSubSections {
+        margin-bottom: 10px;
+
+        &.isCollapsed {
+          margin-bottom: -10px;
+        }
+      }
+
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        color: @sectionColor;
+        text-decoration: none;
+        .clearblock;
+
+        & > .label {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          padding-left: 10px;
+          .transition(color 0.3s 0.2s ease);
+
+          &:hover {
+            color: lighten(@sectionColor, 10%);
+            .transition(color 0s linear);
+            text-decoration: none;
+          }
+
+          &:active {
+            color: @pane-fg-color;
+          }
+        }
+
+        .icon {
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: @iconWidth;
+          height: 100%;
+          font-size: @iconHeight;
+          line-height: @pageSectionTitleHeight;
+          text-align: center;
+          border: 1px solid transparent;
+          .border-radius(3px);
+          .box-sizing(border-box);
+
+          &:hover {
+            border-color: @sectionColor;
+          }
+        }
+      }
+
+      & > .content {
+        position: relative;
+        padding-right: @accent-padding;
+        width: 100%;
+        height: @pageSectionTitleHeight;
+        .box-sizing(border-box);
+        .clearblock;
+        display: none;
+      }
+
+       & > .sub-sections {
+        position: relative;
+        padding-right: @accent-padding / 2;
+        height: auto;
+        opacity: 1;
+        .transition(opacity 0.35s linear);
+        .clearblock;
+      }
+
+      & > .content, .sub-section > .content {
+        &.active {
+          .title .label {
+            color: @pane-fg-color;
+            .transition(text-shadow 0.2s linear);
+          }
+          .arrow {
+            right: -5px;
+            opacity: 1;
+            .transition(right 0.5s ease, opacity 0s linear);
+          }
+        }
+      }
+
+      .sub-sections {
+        margin: 5px 0 0 @accent-padding;
+
+        pagesubsection > .content {
+          position: relative;
+          padding: 3px 10px;
+          background: @pane-bg-color;
+          font-size: 13px;
+
+          a {
+            display: block;
+            font-size: 13px;
+            .label {
+              margin-right: 0;
+            }
+          }
+
+          .content.active .arrow {
+            right: -20px !important;
+          }
+        }
+      }
+
+      .arrow {
+        @height: 20px;
+        @width: 15px;
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        right: -50px;
+        border-style: solid;
+        border-width: @height @width @height 0;
+        border-color: transparent @body-bg-color transparent transparent;
+        top: 50%;
+        margin-top: -@height;
+        opacity: 0;
+        .transition(right 0.5s ease, opacity 0s 0.5s linear);
+      }
+    }
+  }
+}

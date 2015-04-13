@@ -1,0 +1,278 @@
+<article id="page-home">
+  <a id="introduction" class="section-anchor"></a>
+  <section name="introduction">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">An introduction to footwork.js...</h1>
+    </header>
+    <div class="content">
+      <download-box></download-box>
+
+      <p>
+        footwork.js is a front-end javascript framework based on several open source libraries, most notably including
+        <a href="http://knockoutjs.com/" target="_blank">knockout.js</a>,
+        <a href="https://github.com/postaljs/postal.js" target="_blank">postal.js</a>,
+        <a href="http://lodash.com/" target="_blank">lodash</a>,
+        and <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
+      </p>
+
+      <p>The primary goal of footwork is to provide a well organized, clean and powerful basis upon which web applications can be built, tested, and maintained.</p>
+
+      <p>
+        Feature-wise it can be thought of as competing in the same realm as
+        <a href="https://angularjs.org/" target="_blank">AngularJS</a>,
+        <a href="http://emberjs.com/" target="_blank">EmberJS</a>,
+        <a href="http://marionettejs.com/" target="_blank">Marionnette</a>,
+        <a href="http://durandaljs.com/" target="_blank">Durandal</a>,
+        and others. It is meant to provide a basis (the footing, if you will) of a web application, based
+        on a combination of several well known open source libraries and design patterns.
+      </p>
+
+      <p>Footwork focuses on using pre-existing concepts, libraries, and APIs - while extending and adding in features where appropriate. This helps ease the learning curve as the
+        terminology, concepts, and features are not completely foreign.</p>
+
+      <p>With a few (very useful) novel features up its sleeve, a solid design, and consistent API you might just want to check footwork out!</p>
+
+      <div class="note"><span class="label">NOTE:</span> Video introduction and coverage over the tutorial coming soon!</div>
+    </div>
+  </section>
+
+  <a id="features" class="section-anchor"></a>
+  <section name="features">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Features</h1>
+    </header>
+    <div class="content">
+      <p>A broad overview of a few of the key features included with footwork:</p>
+
+      <ul>
+        <li><a data-bind="$route" href="#components">Custom Tags and Components</a></li>
+        <li><a data-bind="$route" href="#declarative-wrapping">Declarative Wrapping and 2-Way Bindings</a></li>
+        <li><a data-bind="$route" href="#module-communication">Inter-Module Communication and Dependency Tracking</a></li>
+        <li><a data-bind="$route" href="#dependency-resolution">Automatic Dependency Resolution</a></li>
+        <li><a data-bind="$route" href="#routing">Declarative Routing (with unlimited outlet and nested router support)</a></li>
+        <li>Integrates well with jQuery and others (but doesn't need them).</li>
+        <li>Drop-in replacement for knockout-based applications, add in new functionality organically.</li>
+        <li><em>... and a ton more.</em></li>
+      </ul>
+    </div>
+  </section>
+
+  <a id="components" class="section-anchor"></a>
+  <section name="components">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Custom Tags and Components</h2>
+    </header>
+    <div class="content">
+      <p>Wrap up your widgets and even entire applications with a component, re-use and re-mix all you want, and nest them to your hearts content:</p>
+<pre><code class="html">&lt;body&gt;
+  &lt;viewModel module="Header"&gt;
+    &lt;header&gt;
+      &lt;span class="title" data-bind="text: pageTitle"&gt;&lt;/span&gt;
+      &lt;calendar&gt;&lt;/calendar&gt;
+      &lt;user-info&gt;&lt;/user-info&gt;
+    &lt;/header&gt;
+  &lt;/viewModel&gt;
+
+  &lt;main&gt;
+    &lt;order-form&gt;&lt;/order-form&gt;
+  &lt;/main&gt;
+&lt;/body&gt;
+</code></pre>
+    </div>
+  </section>
+
+  <a id="declarative-wrapping" class="section-anchor"></a>
+  <section name="declarative-wrapping">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Declarative Wrapping and 2-Way Bindings</h2>
+    </header>
+    <div class="content">
+      <p>Easily wrap (and automatically instantiate) your markup with logic and behavior:</p>
+<pre><code class="html">&lt;viewModel module="Inventory"&gt;
+  &lt;span&gt;Inventory List&lt;/span&gt;
+  &lt;ul data-bind="foreach: items"&gt;
+    &lt;li&gt;
+      &lt;span class="sku" data-bind="text: sku"&gt;&lt;/span&gt;
+      &lt;span class="name" data-bind="text: name"&gt;&lt;/span&gt;
+      &lt;button data-bind="click: remove"&gt;Remove Item&lt;/button&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/viewModel&gt;
+</code></pre>
+    </div>
+  </section>
+
+  <a id="module-communication" class="section-anchor"></a>
+  <section name="module-communication">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Inter-Module Communication and Dependency Tracking</h2>
+    </header>
+    <div class="content">
+      <ul>
+        <li>Broadcastables and receivables (keep your state in sync for you, share data between modules/namespaces).</li>
+        <li>Pub/Sub</li>
+        <li>Commands</li>
+        <li>Events</li>
+        <li>Requests</li>
+      </ul>
+<pre><code class="javascript">fw.viewModel({
+  namespace: 'Footer',
+  initialize: function() {
+    // numRemainingTodos will receive its value (and be kept in sync) from the TodoList
+    this.numRemainingTodos = fw.observable().receiveFrom('TodoList', 'numRemainingTodos');
+
+    // computed property based off of numRemainingTodos receivable
+    this.hasSomethingTodo = fw.computed(function() {
+      return this.numRemainingTodos() > 0;
+    }, this);
+
+    // Open a namespace channel to the TodoList
+    var todoList = fw.namespace('TodoList');
+
+    // send event to TodoList telling it something was 'completed'
+    this.finishedSomething = function() {
+      todoList.trigger('todoCompleted');
+    };
+  }
+});
+</code></pre>
+
+<pre><code class="javascript">fw.viewModel({
+  namespace: 'TodoList',
+  initialize: function() {
+    // numRemainingTodos will be broadcast to (and keep in sync) any receivables listening
+    this.numRemainingTodos = fw.observable(10).broadcastAs('numRemainingTodos');
+
+    this.$namespace.event.handler('todoCompleted', function() {
+      // Task is done, decrement counter which will then autosyncronize to any receivables listening.
+      this.numRemainingTodos( this.numRemainingTodos() - 1 );
+    }.bind(this));
+  }
+});
+</code></pre>
+    </div>
+  </section>
+
+  <a id="dependency-resolution" class="section-anchor"></a>
+  <section name="dependency-resolution">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Automatic Dependency Resolution</h2>
+    </header>
+    <div class="content">
+      <p>Integrated support for RequireJS means footwork can automatically download your dependencies for you when they are needed. Or you can compile it all together for an
+        optimized delivery and user experience.</p>
+
+<pre><code class="javascript">// Locations registered so footwork knows where to find them
+fw.viewModels.registerLocation([
+  'SearchForm',
+  'ProductInfo'
+], '/js/viewModels/');
+
+fw.components.registerLocation('inventory', {
+  viewModel: '/components/inventory/Inventory.js',
+  template: '/components/inventory/Inventory.html'
+});
+
+fw.outlets.registerViewLocation('home-page', '/views/homePage.html');
+</code></pre>
+
+<pre><code class="html">&lt;body&gt;
+  &lt;!-- SearchForm viewModel automatically downloaded and bound --&gt;
+  &lt;viewModel module="SearchForm"&gt;
+    &lt;form data-bind="submit: searchNow"&gt;&lt;/form&gt;
+  &lt;/viewModel&gt;
+
+  &lt;!-- inventory component automatically resolved, composed, and inserted in the DOM --&gt;
+  &lt;inventory&gt;&lt;/inventory&gt;
+&lt;/body&gt;
+</code></pre>
+    </div>
+  </section>
+
+  <a id="routing" class="section-anchor"></a>
+  <section name="routing">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Declarative Routing (with unlimited outlet and nested router support)</h2>
+    </header>
+    <div class="content">
+      <p>Declarative routers with child support and unlimited number of named outlets they can control.</p>
+
+<pre><code class="html">&lt;body&gt;
+  &lt;router module="MainRouter"&gt;
+    &lt;header&gt;
+      &lt;outlet name="pageHeader"&gt;&lt;/outlet&gt;
+    &lt;/header&gt;
+    &lt;main&gt;
+      &lt;div class="main-col"&gt;
+        &lt;outlet name="bodyContent"&gt;&lt;/outlet&gt;
+      &lt;/div&gt;
+    &lt;/main&gt;
+  &lt;/router&gt;
+&lt;/body&gt;
+</code></pre>
+
+<pre><code class="javascript">fw.router({
+  // ...
+  routes: [
+    {
+      route: '/',
+      title: 'Home Page',
+      controller: function(routeParams) {
+        this.$outlet('pageHeader', 'homeHeader');
+        this.$outlet('bodyContent', 'indexPage');
+      }
+    }, {
+      route: '/:warehouse/inventory',
+      title: 'Inventory List',
+      controller: function(routeParams) {
+        if(routeParams.warehouse === 'main') {
+          this.$outlet('pageHeader', 'mainHeader');
+        } else {
+          this.$outlet('pageHeader', 'warehouseHeader');
+        }
+        this.$outlet('bodyContent', 'inventoryPage');
+      }
+    }
+  ],
+  // ...
+});
+</code></pre>
+
+      <p>...and a <em>ton</em> more. Check out <a href="http://latest-docs.footworkjs.com">the documentation</a>, or
+        <a href="http://latest-docs.footworkjs.com/tutorials">the tutorial</a> for a step-by-step walk through.</p>
+    </div>
+  </section>
+
+</article>
+
+<div id="metaData">
+{
+  "title": "Welcome to footworkjs",
+  "description": "A solid footing for web applications.",
+  "sections": [
+    { "anchor": "introduction",
+      "title": "Introduction" },
+    { "anchor": "features",
+      "title": "Features",
+      "subSections": [
+        { "anchor": "components",
+          "title": "Custom Tags and Components" },
+        { "anchor": "declarative-wrapping",
+          "title": "Declarative Wrapping and 2-Way Bindings" },
+        { "anchor": "module-communication",
+          "title": "Inter-Module Communication" },
+        { "anchor": "dependency-resolution",
+          "title": "Automatic Dependency Resolution" },
+        { "anchor": "routing",
+          "title": "Declarative Routing" }
+      ] }
+  ]
+}
+</div>

@@ -1,0 +1,219 @@
+.download-box {
+  @downloadBoxBorderColor: #aaa;
+  @innerSpacing: 15px;
+  @iconWidth: 15%;
+
+  float: right;
+  width: 52%;
+  margin: 0 0 10px 10px;
+  padding: @innerSpacing;
+  .box-shadow(0 1px 3px 0px rgba(0,0,0,0.6));
+  .transition(all 0.3s ease);
+  .box-sizing(border-box);
+  background: white;
+  .border-radius(3px);
+  border: 1px solid @pane-bg-color;
+
+  .section {
+    .clearblock;
+  }
+
+  @downloadBoxTitleColor: contrast(@downloadBoxBorderColor);
+  @downloadBoxTitleHeight: 25px;
+  .title {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: @downloadBoxTitleHeight;
+    color: @downloadBoxTitleColor;
+    padding-bottom: @innerSpacing;
+    position: relative;
+    padding-right: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .button {
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      text-align: center;
+      height: @downloadBoxTitleHeight;
+      line-height: @downloadBoxTitleHeight - 2px;
+      text-decoration: none;
+      cursor: pointer;
+      color: white;
+
+      .label {
+        margin-right: 5px;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .content {
+    line-height: 30px;
+    .clearblock;
+  }
+
+  .build-label, .build-selector {
+    .box-sizing(border-box);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  select {
+    padding: 5px;
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    .box-sizing(border-box);
+  }
+
+  .selector-tool {
+    .clearblock;
+  }
+  .selector-tool + .selector-tool {
+    margin-top: 10px;
+  }
+
+  @buildLabelWidth: 35%;
+  .build-label {
+    width: @buildLabelWidth;
+    text-align: right;
+    padding-right: 5px;
+    float: left;
+  }
+  .build-selector {
+    float: left;
+    width: 100% - @buildLabelWidth;
+    select {
+      width: 100%;
+      display: block;
+      background: #eee;
+
+      &:hover {
+        background: #ddd;
+      }
+      &:focus {
+        border-color: #666;
+      }
+    }
+  }
+  .build-link {
+    clear: both;
+    padding: @innerSpacing 0 0 0;
+    .clearblock;
+    text-align: right;
+
+    a {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 35px;
+      float: right;
+      clear: right;
+      text-align: center;
+      width: 100% - @buildLabelWidth;
+
+      .label {
+        display: block;
+        height: 100%;
+        margin-left: @iconWidth;
+      }
+
+      &.button {
+        padding: 0;
+        .button-color(darken(@pane-bg-color, 10%));
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    a + a {
+      margin-top: 10px;
+    }
+
+    &:active {
+      .icon-download {
+        border-color: rgba(0,0,0,0.25);
+      }
+    }
+
+    .icon-download {
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-right: 1px solid rgba(0,0,0,0.2);
+      font-size: 17px;
+      width: @iconWidth;
+      text-align: center;
+      height: 100%;
+      line-height: 35px;
+      background: rgba(255,255,255,0.1);
+    }
+  }
+
+  .prod-details {
+    clear: both;
+    font-size: 12px;
+    line-height: 12px;
+    margin-top: 3px;
+    float: right;
+  }
+
+  .build-description {
+    font-style: italic;
+    text-align: right;
+    margin-top: 10px;
+    color: #999;
+
+    .footnote {
+      font-size: 13px;
+    }
+
+    .footnote, .text {
+      color: #333;
+      line-height: 20px;
+    }
+
+    .deps {
+      display: block;
+      margin-bottom: 10px;
+
+      a {
+        padding: 5px;
+        background: @pane-bg-color;
+        color: contrast(@pane-bg-color, black, white, 60%);
+        opacity: 0.7;
+        .border-radius(3px);
+
+        &:hover, &:active {
+          opacity: 1;
+          text-decoration: none;
+        }
+        &:active {
+          .box-shadow(0 1px 3px 0px rgba(0, 0, 0, 0.8) inset);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .download-box {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  .download-box {
+    width: 100%;
+  }
+}

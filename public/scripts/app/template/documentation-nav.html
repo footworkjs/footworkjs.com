@@ -1,0 +1,22 @@
+<div class="documentation-nav" data-bind="click: clearMenu">
+  <div class="content">
+    <div class="version-selector" data-bind="css: { active: menuVisible }">
+      <span class="label">Version:</span>
+      <div class="selector" data-bind="click: toggleMenu">
+        <div class="label">
+          <span class="text" data-bind="text: selectedDocsVersion"></span>
+          <span class="icon" data-bind="class: selectorIcon"></span>
+        </div>
+        <div class="options" data-bind="foreach: versionsAvailable">
+          <div class="version" data-bind="text: version, click: select, css: { active: isSelected }"></div>
+        </div>
+      </div>
+    </div>
+    <!-- ko foreach: docLinks -->
+      <a data-bind="$route: { url: linkAddr, handler: clickHandler }" class="link">
+        <span class="label" data-bind="text: label"></span>
+        <span class="description" data-bind="text: description"></span>
+      </a>
+    <!-- /ko -->
+  </div>
+</div>
