@@ -1,7 +1,7 @@
 .documentation-nav {
   width: 200px;
 
-  @versionSelectorBackground: lighten(@pane-bg-color, 12%);
+  @versionSelectorBackground: lighten(@pane-bg-color, 6%);
 
   .version-selector {
     display: block;
@@ -17,6 +17,7 @@
         display: block;
       }
       .selector {
+        background: lighten(@versionSelectorBackground, 5%);
         border-color: darken(@versionSelectorBackground, 15%);
       }
     }
@@ -47,6 +48,7 @@
       margin: 0 5px 0 @labelWidth;
 
       &:hover {
+        background: lighten(@versionSelectorBackground, 5%);
         border-color: darken(@versionSelectorBackground, 15%);
       }
 
@@ -68,7 +70,7 @@
       top: 100%;
       margin-top: 5px;
       width: 100%;
-      background: @versionSelectorBackground;
+      background: lighten(@versionSelectorBackground, 5%);
       padding: 5px;
       .box-sizing(border-box);
       .border-radius(3px);
