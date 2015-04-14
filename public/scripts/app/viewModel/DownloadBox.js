@@ -50,7 +50,7 @@ define(['footwork', 'jquery', 'lodash'],
           return [];
         }, this);
         this.buildProfiles.subscribe(function(profiles) {
-          if(!this.buildProfile()) {
+          if(!this.buildProfile() && profiles && profiles.length) {
             this.buildProfile(_.first(profiles).value);
           }
         }, this);
