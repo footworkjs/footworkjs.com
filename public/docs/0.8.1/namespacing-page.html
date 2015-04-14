@@ -1,0 +1,477 @@
+<article>
+  <a id="introduction" class="section-anchor"></a>
+  <section name="introduction">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Introduction</h1>
+    </header>
+    <div class="content">
+      <p>Namespaces in footwork can be thought of as communication 'channels'. They are the information highways your application uses to shuffle data and state from one area to
+        another.</p>
+
+      <p>Organizing your modules and keeping them decoupled is extremely important in more complex javascript applications. Without a standardized way of coordinating information,
+        an application will quickly turn into to a horrible tangled mess of code. This tangled mess becomes a buggy unmanageable piece of poo...no one likes to touch poo.</p>
+
+      <p>Footwork marshals all of that by organizing your modules firstly by namespaces. Namespaces boil down to a simple <span class="inline-code">'string'</span> value which is
+        used to segment off the communication meant for one module from another. Footwork uses this namespacing to provide a lot of enhanced functionality via
+        <a href="http://martinfowler.com/bliki/CQRS.html" target="_blank" title="Command Query Responsibility Segregation">CQRS</a> and other common communications design
+        patterns.</p>
+
+      <h3>All of this essentially means is that the communication between your modules/viewModels/components/<em>whatever</em> will be both expressive and easily managed.</h3>
+
+      <div class="note"><span class="label">NOTE:</span> At its core namespaces in footwork are enhanced
+        <a href="https://github.com/postaljs/postal.js" target="_blank">postal.js</a> pub/sub channels. If you need to enhance or alter how communication is handled then you likely
+        want to take a look at the postal documentation.</div>
+    </div>
+  </section>
+
+  <a id="usage" class="section-anchor"></a>
+  <section name="usage">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Usage</h1>
+    </header>
+    <div class="content">
+      <p>There are essentially 2 different ways a namespace can be used:</p>
+
+      <ul>
+        <li>Coupled with a viewModel/component, automatically initialized and disposed of for you.</li>
+        <li>Independently/Manually instantiated by you and <em>sometimes</em> disposed of for you.</li>
+      </ul>
+
+      <div class="note"><span class="label">NOTE:</span> If you just need to share a property across viewModels/components then take a look
+        <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable / receivable</a>, they make basic sharing of data between modules a no-brainer.</div>
+
+      <ul>
+        <li><a data-bind="$route" href="#independent-usage">Independent Usage</a></li>
+        <li><a data-bind="$route" href="#coupled-usage">Coupled Usage</a></li>
+        <li><a data-bind="$route" href="#lifecycle">Lifecycle</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <a id="independent-usage" class="section-anchor"></a>
+  <section name="independent-usage">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Independent Usage</h2>
+    </header>
+    <div class="content">
+      <p>You will need to instantiate a namespace channel anytime you need to send a command/request, trigger an event, or publish some piece of information to another namespace.</p>
+      <p>To do this, call the <span class="inline-code">fw.namespace()</span> factory and pass it a string (namespace name).</p>
+      <h3><em class="func-def">fw.namespace<span>( <span class="param">'namespaceName'</span> )</span></em></h3>
+<pre><code class="javascript">var myNamespace = fw.namespace('myNamespace');
+myNamespace.subscribe('sayHello', function(toWhom) {
+  console.info('Greetings ' + toWhom);
+});
+
+myNamespace.publish('sayHello', 'Jonathan'); // console prints: 'Greetings Jonathan'
+</code></pre>
+      <p>It is important to note that namespaces are based on their <span class="inline-code">'string'</span> key, not the instantiated object...they are just the channels
+        <em>to</em> that namespace.</p>
+
+      <h3>This means that each newly instantiated namespace with the same <span class="inline-code">'string'</span> key will all hear the same events/commands/etc:</h3>
+<pre><code class="javascript">var myNamespace = fw.namespace('myNamespace');
+myNamespace.subscribe('sayHello', function(toWhom) {
+  console.log('Greetings ' + toWhom);
+});
+
+var alsoMyNamespace = fw.namespace('myNamespace');
+alsoMyNamespace.publish('hello', 'Jonathan'); // console prints: 'Greetings Jonathan'
+</code></pre>
+    </div>
+  </section>
+
+  <a id="coupled-usage" class="section-anchor"></a>
+  <section name="coupled-usage">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Coupled Usage (with viewModel/component)</h2>
+    </header>
+    <div class="content">
+      <p>Anytime you place a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> or
+        <span class="inline-code">&lt;component&gt;&lt;/component&gt;</span> in your markup footwork is essentially wrapping that section of HTML with a viewModel. That viewModel
+        has a namespace attached to/associated with it (based on the <span class="inline-code">namespace:</span> viewModel configuration attribute, see
+        <a data-bind="$route: docLink('viewModel#configuration')">viewModel configuration</a>).</p>
+
+      <p>When footwork sets up the new instance of your viewModel it automatically creates a namespace channel and assigns it to <span class="inline-code">this.$namespace</span>.
+        This namespace will have its lifecycle handled automatically, and any subscriptions made on it will be cleaned up when the viewModel is destroyed.</p>
+
+      <p>The following shows an example of using a declarative <span class="inline-code">&lt;viewModel&gt; ... &lt;/viewModel&gt;</span>, however it works exactly the same with a
+        component (and its viewModel).</p>
+
+<pre><code>&lt;!-- File: index.html --&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;!--
+      namespace and all attached handlers for Sprocket viewModel
+      handled automatically whenever it is added or removed from the DOM
+    --&gt;
+    &lt;viewModel module="Sprocket"&gt;
+      &lt;!-- ko if: isExpensive --&gt;Warning: Expensive sprocket.&lt;!-- /ko --&gt;
+    &lt;/viewModel&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<pre><code class="javascript">// File: /viewModel/Sprocket.js
+define(["footwork"],
+  function(fw) {
+    return fw.viewModel({
+      namespace: 'Sprocket',
+      initialize: function() {
+        // this.$namespace.getName() === 'Sprocket'
+        this.isExpensive = fw.observable(false);
+        this.$namespace.subscribe('ThrowAway', function(reason) {
+          // this handler will be automatically unsubscribed and cleaned up
+        });
+      }
+    });
+  }
+);
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Lifecycle events (<span class="inline-code">afterBinding()</span> and <span class="inline-code">onDispose()</span>) are
+        also dispatched whenever a viewModel or component-viewModel are added/removed from the DOM. See <a data-bind="$route: docLink('viewModel')">viewModel</a>.</div>
+
+    </div>
+  </section>
+
+  <a id="lifecycle" class="section-anchor"></a>
+  <section name="lifecycle">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Lifecycle</h2>
+    </header>
+    <div class="content">
+      <p>Namespace subscriptions and handlers are automatically cleaned up for you when it is attached to a viewModel (See:
+        <a data-bind="$route: docLink('viewModel#lifecycle')">viewModel lifecycle</a>). In other scenarios you must tell the namespace when to clean up its references, this is done
+        via <span class="inline-code">dispose()</span>.</p>
+
+      <h3 class="top"><em class="func-def">namespace.dispose<span>( )</span></em></h3>
+      <h3>Dispose of all registered subscriptions and handlers:</h3>
+<pre><code class="javascript">var myNamespace = fw.namespace('Waldo');
+myNamespace.request.handler('ping', function() {
+  return 'pong';
+});
+// myNamespace.request('ping') === 'pong'
+
+myNamespace.dispose();
+// myNamespace.request('ping') === undefined</code></pre>
+    </div>
+  </section>
+
+  <a id="namespace-getName" class="section-anchor top"></a>
+  <section name="namespace-getName" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.getName<span>( )</span></em></h3>
+      <h3>Get the name (channel) of the namespace:</h3>
+<pre><code class="javascript">var myNamespace = fw.namespace('Waldo');
+// myNamespace.getName() === 'Waldo'</code></pre>
+    </div>
+  </section>
+
+  <a id="pub-sub" class="section-anchor"></a>
+  <section name="pub-sub">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Publish / Subscribe</h2>
+    </header>
+    <div class="content">
+      <p>Publish and subscribe to messages on a namespace channel.</p>
+    </div>
+  </section>
+
+  <a id="publish" class="section-anchor top"></a>
+  <section name="publish" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.publish<span>( <span class="param">'topic'</span>,  <span class="param">data</span> )</span></em></h3>
+      <h3>Publish a message on a namespace topic:</h3>
+<pre><code class="javascript">// sends data to any listeners subscribed to the topic 'sayHello' on the myNamespace channel
+myNamespace.publish('sayHello', 'Jonathan');</code></pre>
+    </div>
+  </section>
+
+  <a id="subscribe" class="section-anchor top"></a>
+  <section name="subscribe" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.subscribe<span>( <span class="param">'topic'</span>,  <span class="param">function(message) { ... }</span> )</span></em></h3>
+      <h3>Subscribe to a topic on a namespace:</h3>
+<pre><code class="javascript">myNamespace.subscribe('sayHello', function(toWhom) {
+  console.log('Greetings ' + toWhom);
+});</code></pre>
+    </div>
+  </section>
+
+  <a id="unsubscribe" class="section-anchor top"></a>
+  <section name="unsubscribe" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.unsubscribe<span>( <span class="param">subscription</span> )</span></em></h3>
+      <h3>Unsubscribe to a topic on a namespace:</h3>
+<pre><code class="javascript">var greetingSubscription = myNamespace.subscribe('sayHello', function(toWhom) {
+  console.log('Greetings ' + toWhom);
+});
+
+myNamespace.unsubscribe(greetingSubscription);
+greetingSubscription.unsubscribe(); // also works</code></pre>
+    </div>
+  </section>
+
+  <a id="event" class="section-anchor"></a>
+  <section name="event">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Event</h2>
+    </header>
+    <div class="content">
+      <p>Trigger and handle events on a namespace.</p>
+    </div>
+  </section>
+
+  <a id="trigger-event" class="section-anchor top"></a>
+  <section name="trigger-event" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.trigger<span>( <span class="param">'eventName'</span>,  <span class="param">data</span> )</span></em></h3>
+      <h3>Trigger an event on a namespace:</h3>
+<pre><code class="javascript">// sends data to any listeners bound to the topic 'sayHello' on the myNamespace channel
+myNamespace.trigger('buyGroceries', { milk: 1, eggs: 12 });
+
+// You can also trigger bare events
+myNamespace.trigger('findWaldo');</code></pre>
+    </div>
+  </section>
+
+  <a id="event-handler" class="section-anchor top"></a>
+  <section name="event-handler" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.event.handler<span>( <span class="param">'eventName'</span>,  <span class="param">function(data) { ... }</span> )</span></em></h3>
+      <h3>Create a handler for an event on a namespace:</h3>
+<pre><code class="javascript">myNamespace.event.handler('foundWaldo', function(location) {
+  console.log('Found Waldo at', location);
+});
+
+myNamespace.event.handler('findWaldo', function() {
+  // go find Waldo
+});</code></pre>
+    </div>
+  </section>
+
+  <a id="event-unregister" class="section-anchor top"></a>
+  <section name="event-unregister" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.event.unregister<span>( <span class="param">handler</span> )</span></em></h3>
+      <h3>Unregister an event handler:</h3>
+<pre><code class="javascript">var foundWaldo = myNamespace.event.handler('foundWaldo', function() {
+  // yay, we found Waldo
+});
+
+myNamespace.event.unregister(foundWaldo);
+foundWaldo.unsubscribe(); // also works</code></pre>
+    </div>
+  </section>
+
+  <a id="request" class="section-anchor"></a>
+  <section name="request">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Request</h2>
+    </header>
+    <div class="content">
+      <p>Request and respond to data requests on a namespace.</p>
+    </div>
+  </section>
+
+  <a id="issue-request" class="section-anchor top"></a>
+  <section name="issue-request" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.request<span>( <span class="param">'requestKey'</span>,  <span class="param">data</span>, <span class="param">allowMultiple = false</span> )</span></em></h3>
+      <h3>Request data from a namespace:</h3>
+<pre><code class="javascript">myNamespace.request.handler('waldoLocation', function() {
+  return 'I have no idea.';
+});
+// myNamespace.request('waldoLocation') === 'I have no idea.'
+
+/**
+ * By passing 'true' as the third argument to .request(), footwork will
+ * return an array of responses received. By default only the first is returned
+ * otherwise.
+ */
+myNamespace.request.handler('something', function() {
+  return 'response 1';
+});
+myNamespace.request.handler('something', function() {
+  return 'response 2';
+});
+// myNamespace.request('waldoLocation', null, true) === [ 'response 1', 'response 2' ]</code></pre>
+    </div>
+  </section>
+
+  <a id="request-handler" class="section-anchor top"></a>
+  <section name="request-handler" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.request.handler<span>( <span class="param">'requestKey'</span>,  <span class="param">function(data) { ... }</span> )</span></em></h3>
+      <h3>Create a handler for an request on a namespace, return value is passed back to the requester:</h3>
+<pre><code class="javascript">myNamespace.request.handler('waldoLocation', function() {
+  return 'I have no idea.';
+});
+
+// Take a parameter, do something with it and return a response
+myNamespace.request.handler('taxCost', function(amount) {
+  return amount * 0.0825;
+});</code></pre>
+    </div>
+  </section>
+
+  <a id="request-unregister" class="section-anchor top"></a>
+  <section name="request-unregister" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.request.unregister<span>( <span class="param">handler</span> )</span></em></h3>
+      <h3>Unregister an request handler:</h3>
+<pre><code class="javascript">var waldoLocationResponder = myNamespace.request.handler('waldoLocation', function() {
+  return 'I have no idea.';
+});
+// myNamespace.request('waldoLocation') === 'I have no idea'
+
+myNamespace.request.unregister(waldoLocationResponder);
+waldoLocationResponder.unsubscribe(); // also works
+
+// myNamespace.request('waldoLocation') === undefined
+</code></pre>
+    </div>
+  </section>
+
+  <a id="command" class="section-anchor"></a>
+  <section name="command">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Command</h2>
+    </header>
+    <div class="content">
+      <p>Issue and perform operations based on commands sent to a namespace.</p>
+    </div>
+  </section>
+
+  <a id="issue-command" class="section-anchor top"></a>
+  <section name="issue-command" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.command<span>( <span class="param">'commandName'</span>,  <span class="param">data</span> )</span></em></h3>
+      <h3>Issue a command to a namespace:</h3>
+<pre><code class="javascript">myNamespace.command('findWaldo');</code></pre>
+    </div>
+  </section>
+
+  <a id="command-handler" class="section-anchor top"></a>
+  <section name="command-handler" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.command.handler<span>( <span class="param">'commandName'</span>,  <span class="param">function(data) { ... }</span> )</span></em></h3>
+      <h3>Create a handler for a command on a namespace:</h3>
+<pre><code class="javascript">myNamespace.command.handler('buyGroceries', function(items) {
+  // buy groceries
+});
+
+myNamespace.command.handler('findWaldo', function() {
+  // go find Waldo
+});</code></pre>
+    </div>
+  </section>
+
+  <a id="command-unregister" class="section-anchor top"></a>
+  <section name="command-unregister" class="top">
+    <div class="highlight"></div>
+    <div class="content">
+      <h3 class="top"><em class="func-def">namespace.command.unregister<span>( <span class="param">handler</span> )</span></em></h3>
+      <h3>Unregister a command handler:</h3>
+<pre><code class="javascript">var findWaldo = myNamespace.command.handler('findWaldo', function() {
+  // go find Waldo
+});
+
+myNamespace.command.unregister(findWaldo);
+findWaldo.unsubscribe(); // also works</code></pre>
+    </div>
+  </section>
+
+</article>
+
+<div id="metaData">
+{
+  "title": "Namespacing",
+  "description": "Namespacing, the communication channels of your application.",
+  "sections": [
+    { "anchor": "introduction",
+      "title": "Introduction" },
+    { "anchor": "usage",
+      "title": "Usage",
+      "subSections": [
+        { "anchor": "independent-usage",
+          "title": "Independent Usage" },
+        { "anchor": "coupled-usage",
+          "title": "Coupled Usage" },
+        { "anchor": "lifecycle",
+          "title": "Lifecycle" }
+      ] },
+    { "subSections": [
+        { "anchor": "namespace-getName",
+          "title": "namespace.getName()" }
+      ] },
+    { "anchor": "pub-sub",
+      "title": "Pub / Sub",
+      "collapsable": true,
+      "isCollapsed": true,
+      "subSections": [
+        { "anchor": "publish",
+          "title": "namespace.publish()" },
+        { "anchor": "subscribe",
+          "title": "namespace.subscribe()" },
+        { "anchor": "unsubscribe",
+          "title": "namespace.unsubscribe()" }
+      ] },
+    { "anchor": "event",
+      "title": "Event",
+      "collapsable": true,
+      "isCollapsed": true,
+      "subSections": [
+        { "anchor": "trigger-event",
+          "title": "namespace.trigger()" },
+        { "anchor": "event-handler",
+          "title": "namespace.event.handler()" },
+        { "anchor": "event-unregister",
+          "title": "namespace.event.unregister()" }
+      ] },
+    { "anchor": "request",
+      "title": "Request",
+      "collapsable": true,
+      "isCollapsed": true,
+      "subSections": [
+        { "anchor": "issue-request",
+          "title": "namespace.request()" },
+        { "anchor": "request-handler",
+          "title": "namespace.request.handler()" },
+        { "anchor": "request-unregister",
+          "title": "namespace.request.unregister()" }
+      ] },
+    { "anchor": "command",
+      "title": "Command",
+      "collapsable": true,
+      "isCollapsed": true,
+      "subSections": [
+        { "anchor": "issue-command",
+          "title": "namespace.command()" },
+        { "anchor": "command-handler",
+          "title": "namespace.command.handler()" },
+        { "anchor": "command-unregister",
+          "title": "namespace.command.unregister()" }
+      ] }
+  ]
+}
+</div>

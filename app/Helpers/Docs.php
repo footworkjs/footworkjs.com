@@ -13,17 +13,12 @@ class Docs {
 
   private function getBuildInfo($buildFile) {
     $gzipFile = "{$buildFile}.gz";
-    if(!is_file($gzipFile)) {
-      // cannot find gzip file, attempt to create it
-      $fp = gzopen($gzipFile, 'w9');
-      gzwrite($fp, file_get_contents($buildFile));
-      gzclose($fp);
-    }
+    $gzSize = strlen(gzdeflate(file_get_contents($buildFile), 9));
 
     return [
       'build' => basename($buildFile),
       'filesize' => $this->formatBytes(filesize($buildFile), 0),
-      'gzFilesize' => $this->formatBytes(filesize($gzipFile), 0)
+      'gzFilesize' => $this->formatBytes($gzSize, 0)
     ];
   }
 
@@ -180,7 +175,7 @@ class Docs {
 
     if(empty($navData)) {
       $releaseList = array_filter( scandir( $docsFolder ), function($releaseFolder) use ($docsFolder) {
-        return is_dir("{$docsFolder}/{$releaseFolder}") && $releaseFolder !== '..' && $releaseFolder !== '.';
+        return $releaseFolder !== '..' && $releaseFolder !== '.';
       });
       arsort($releaseList);
 
