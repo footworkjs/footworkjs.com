@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
+
 use Helper\Docs;
+use Helper\Builds;
 
 
 class MainController extends Controller {
@@ -11,6 +13,7 @@ class MainController extends Controller {
   public function __construct() {
     $this->middleware('guest');
     $this->docs = new Docs();
+    $this->builds = new Builds();
     view()->share('title', 'footwork.js');
     view()->share('siteName', 'footwork.js');
     view()->share('og', [
@@ -24,7 +27,7 @@ class MainController extends Controller {
   public function index() {
     return view('welcome')->with([
       'docNavData' => json_encode($this->docs->navData()),
-      'releaseList' => json_encode($this->docs->getReleases(getenv('FOOTWORK_RELEASES_FOLDER')))
+      'releaseList' => json_encode($this->builds->getReleases(getenv('FOOTWORK_RELEASES_FOLDER')))
     ]);
   }
 }

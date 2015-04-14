@@ -1,17 +1,17 @@
 <?php namespace App\Http\Controllers;
 
-use Helper\Docs;
+use Helper\Builds;
 
 class BuildController extends Controller {
   private $packageInfo;
 
   public function __construct() {
     $this->middleware('guest');
-    $this->docs = new Docs();
+    $this->builds = new Builds();
   }
 
   public function listReleases() {
-    return response()->json($this->docs->getReleases(getenv('FOOTWORK_RELEASES_FOLDER')));
+    return response()->json($this->builds->getReleases(getenv('FOOTWORK_RELEASES_FOLDER')));
   }
 
   public function downloadReleaseFile($version, $buildFileName) {
