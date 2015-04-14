@@ -6,6 +6,13 @@ define(['footwork', 'jquery', 'lodash'],
     var paneCollapsed = fw.observable().receiveFrom('Configuration', 'paneCollapsed');
     var paneElementsNamespace = fw.namespace('PaneElements');
     var documentationNavNamespace = fw.namespace('DocumentationNav');
+    var versionMatch = /\/([0-9]+\.[0-9]+\.[0-9\-a-zA-Z]+)\//;
+
+    selectedDocsVersion.subscribe(function(version) {
+      if(window.location.pathname.match(versionMatch)) {
+        History.pushState(null, "", window.location.pathname.replace(versionMatch, '/' + version + '/'));
+      }
+    });
 
     $.getJSON('/docs/navigation-data')
       .done(function(docsNavData) {
@@ -59,6 +66,7 @@ define(['footwork', 'jquery', 'lodash'],
         this.isSelected = fw.computed(function() {
           return this.selectedDocsVersion() === this.version;
         }, this);
+
         this.select = function() {
           this.selectedDocsVersion(this.version);
         };

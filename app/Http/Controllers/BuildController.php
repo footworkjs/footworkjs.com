@@ -167,7 +167,7 @@ class BuildController extends Controller {
   public function downloadReleaseFile($version, $buildFileName) {
     $releaseFolder = getenv('FOOTWORK_RELEASES_FOLDER');
     $filePath = "{$releaseFolder}/{$version}/dist/{$buildFileName}";
-    if(preg_match('/^footwork[-\w\.]+\.js$/', $buildFileName) && preg_match('/^[0-9]+\.[0-9]+\.[0-9]+$/', $version) && is_file($filePath)) {
+    if(preg_match('/^footwork[-\w\.]+\.js$/', $buildFileName) && preg_match('/^[0-9]+\.[0-9]+\.[0-9\-a-zA-Z]+$/', $version) && is_file($filePath)) {
       return response()->download($filePath , $buildFileName, [
         "Content-Type" => "application/javascript"
       ]);
