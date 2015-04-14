@@ -3,7 +3,9 @@
 
 *```A solid footing for web applications.```*
 
-For more details, see:
+This repository contains the source code for the main footwork.js website, as well as the different documentation releases. If you want to contribute to the main documentation, or the website in general then this is the repository you are looking for.
+
+Related links:
 
 * [Main Website](http://footworkjs.com/ "http://footworkjs.com")
 
