@@ -432,6 +432,12 @@
     </router>
 
     @yield('javascript')
+
+    <script>
+      window.docNavData = {!! $docNavData !!};
+      window.releaseList = {!! $releaseList !!};
+    </script>
+
     @if (App::isLocal() && !Input::has('compiled'))
       <script src="/scripts/require-config.js"></script>
     	<script src="/bower_components/requirejs/require.js" data-main="/scripts/app/main"></script>

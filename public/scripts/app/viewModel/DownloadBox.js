@@ -20,10 +20,12 @@ define(['footwork', 'jquery', 'lodash'],
         ];
 
         this.releases = fw.observable(window.releaseList);
-        $.getJSON('/release/list')
-          .done(function(releaseList) {
-            this.releases(releaseList);
-          }.bind(this));
+        if(!this.releases()) {
+          $.getJSON('/release/list')
+            .done(function(releaseList) {
+              this.releases(releaseList);
+            }.bind(this));
+        }
 
         this.buildVersion = fw.observable();
         this.buildVersions = fw.computed(function() {

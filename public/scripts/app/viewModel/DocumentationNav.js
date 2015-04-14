@@ -14,13 +14,19 @@ define(['footwork', 'jquery', 'lodash'],
       }
     });
 
-    $.getJSON('/docs/navigation-data')
-      .done(function(docsNavData) {
-        navData(docsNavData);
-        if(!selectedDocsVersion()) {
-          selectedDocsVersion( _.first(_.keys(docsNavData)) );
-        }
-      });
+    if(!navData()) {
+      $.getJSON('/docs/navigation-data')
+        .done(function(docsNavData) {
+          navData(docsNavData);
+          if(!selectedDocsVersion()) {
+            selectedDocsVersion( _.first(_.keys(docsNavData)) );
+          }
+        });
+    } else {
+      if(!selectedDocsVersion()) {
+        selectedDocsVersion( _.first(_.keys(navData())) );
+      }
+    }
 
     var DocLink = fw.viewModel({
       namespace: 'DocLink',
