@@ -1,12 +1,16 @@
 define([ "footwork", "lodash" ],
   function( fw, _ ) {
-    var selectedDocsVersion = fw.observable().receiveFrom('navData', 'selectedDocsVersion');
-
     return fw.viewModel({
       namespace: 'DocPage',
       initialize: function() {
+        this.selectedDocsVersion = fw.observable().receiveFrom('navData', 'selectedDocsVersion');
+
+        this.versionDisplay = fw.computed(function() {
+          return 'v' + this.selectedDocsVersion();
+        }, this);
+
         this.docLink = function(page) {
-          return '/docs/' + selectedDocsVersion() + '/' + page;
+          return '/docs/' + this.selectedDocsVersion() + '/' + page;
         };
       }
     });

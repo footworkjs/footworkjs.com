@@ -10,6 +10,7 @@ var REQUIRECONFIG = {
     }
   },
   paths: {
+    "requireLib":         "../bower_components/requirejs/require",
     "text":               "../bower_components/requirejs-text/text",
     "jquery":             "../bower_components/jquery/dist/jquery",
     "postal":             "../bower_components/postal.js/lib/postal",
@@ -19,7 +20,7 @@ var REQUIRECONFIG = {
     "lodash":             "../bower_components/lodash/lodash",
     "history":            "../bower_components/history.js/scripts/bundled/html5/native.history",
     "highlight":          "lib/highlight/highlight.pack",
-    "jwerty":             "lib/jwerty", // jwerty does not provide an AMD build, this is a custom wrapped version
+    "jwerty":             "lib/jwerty",
     "jquery.pulse":       "lib/jquery-plugins/jquery.pulse",
     "jquery.easing":      "lib/jquery-plugins/jquery.easing",
     "jquery.collapsible": "lib/jquery-plugins/jquery.collapsible",
@@ -41,7 +42,10 @@ var REQUIRECONFIG = {
     "Layout":             "app/viewModel/Layout",
     "Page":               "app/viewModel/Page",
     "PageSection":        "app/viewModel/pane/PageSection",
-    "PageSubSection":     "app/viewModel/pane/PageSubSection"
+    "PageSubSection":     "app/viewModel/pane/PageSubSection",
+    "navmenu":            "app/viewModel/NavMenu",
+    "PaneLinks":          "app/viewModel/pane/PaneLinks",
+    "downloadbox":        "app/viewModel/DownloadBox"
   },
   waitSeconds: 1500
 };

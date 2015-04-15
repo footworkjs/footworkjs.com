@@ -16,6 +16,7 @@ class MainController extends Controller {
     $this->builds = new Builds();
     view()->share('title', 'footwork.js');
     view()->share('siteName', 'footwork.js');
+    view()->share('buildVersion', '34689');
     view()->share('og', [
       'title' => 'footwork.js',
       'description' => 'A solid footing for web applications.',

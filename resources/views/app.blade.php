@@ -442,8 +442,7 @@
       <script src="/scripts/require-config.js"></script>
     	<script src="/bower_components/requirejs/require.js" data-main="/scripts/app/main"></script>
     @else
-      <script>var require = { config: function() {} };</script>
-      <script src="/scripts/build/main.{{ $APPCACHEBUSTERVERSION }}.js"></script>
+      <script src="/scripts/main-build.{{$buildVersion}}.js"></script>
     @endif
     <![endif]-->
   </body>
