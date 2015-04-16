@@ -45,6 +45,7 @@ class MainController extends Controller {
         $package = json_decode(file_get_contents(base_path().'/package.json'), true);
         $buildVersion = $package['buildVersion'];
         $redis->set('buildVersion', $buildVersion);
+        $redis->expire('buildVersion', 3600);
       }
     } else {
       $package = json_decode(file_get_contents(base_path().'/package.json'), true);
