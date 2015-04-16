@@ -24,19 +24,11 @@ class MainController extends Controller {
     $isMobile = false;
     $isTablet = false;
     $isIOS = false;
-    $IOSVersion = null;
     if($detect->isMobile() && !$detect->isTablet()) {
       $isMobile = true;
     }
     if($detect->isTablet()) {
       $isTablet = true;
-    }
-    if($detect->isiOS()) {
-      $isIOS = true;
-      $IOSVersion = $detect->version('iPhone');
-      if(empty($version)) {
-        $IOSVersion = $detect->version('iPad');
-      }
     }
 
     $buildVersion = null;
@@ -59,8 +51,6 @@ class MainController extends Controller {
     return view('welcome')->with([
       'isMobile' => $isMobile,
       'isTablet' => $isTablet,
-      'isIOS' => $isIOS,
-      'IOSVersion' => $IOSVersion,
       'og' => [
         'title' => 'footwork.js',
         'description' => 'A solid footing for web applications.',
