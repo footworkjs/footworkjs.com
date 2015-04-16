@@ -19,7 +19,7 @@ define([ "footwork" ],
 
       fw.viewModels.defaultLocation(locations.viewModels.root);
 
-      fw.outlets.registerViewLocation([ 'index-page', 'tutorials-page', 'about-page', 'not-found-page' ], '/pages/');
+      fw.outlets.registerViewLocation([ 'index-page', 'tutorials-page', 'about-page', 'not-found-page', 'docs' ], '/pages/');
       fw.outlets.registerViewLocation(['todomvc-creating-page', 'todomvc-routing-page', 'todomvc-general-page'], '/pages/tutorials/');
 
       fw.components.registerLocation('configmanagement', {

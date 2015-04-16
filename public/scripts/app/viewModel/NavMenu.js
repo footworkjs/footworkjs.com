@@ -90,7 +90,7 @@ define([ "jquery", "lodash", "footwork" ],
         }, this);
         this.visible = fw.observable(false);
         this.entries = fw.observableArray([
-          new Entry({ label: 'Documentation', url: '/docs' }),
+          new Entry({ label: 'Documentation', url: '/docs/list' }),
           new Entry({ label: 'Tutorials', url: '/tutorials' }),
           new Entry({ label: 'About', url: '/about', aside: true })
         ]);

@@ -82,6 +82,7 @@
         padding: 0 5px;
         line-height: 25px;
         .border-radius(3px);
+        color: #d1e7fc;
 
         &:hover, &.active {
           background: darken(@versionSelectorBackground, 10%);
@@ -94,20 +95,21 @@
     }
   }
 
-  a {
-    padding: 5px;
+  .doc-link {
     display: block;
     clear: both;
 
-    .label {
-      padding: 0 5px;
+    a {
+      padding: 5px 10px;
       font-size: 15px;
       display: block;
     }
+
     .description {
       &.visible {
         display: block;
       }
+
       display: none;
       font-size: 12px;
       background: lighten(@pane-bg-color, 5%);

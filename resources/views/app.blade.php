@@ -442,7 +442,7 @@
       <script src="/scripts/require-config.js"></script>
     	<script src="/bower_components/requirejs/require.js" data-main="/scripts/app/main"></script>
     @else
-      <script src="/scripts/main-build.{{$buildVersion}}.js"></script>
+      <script src="/scripts/main-build.js?v={{$buildVersion}}"></script>
     @endif
     <![endif]-->
   </body>

@@ -113,6 +113,12 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
             this.$outlet('mainContent', 'about-page', _.bind(resolvePage, this, getPageLoadPromise()));
           }
         }, {
+          route: '/docs/list',
+          title: 'Documentation - footwork.js',
+          controller: function(params) {
+            this.$outlet('mainContent', 'docs', _.bind(resolvePage, this, getPageLoadPromise()));
+          }
+        }, {
           route: '/docs/:docVersion/:page',
           title: 'Documentation - footwork.js',
           controller: function(params) {
@@ -123,13 +129,12 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
             if(!fw.components.locationIsRegistered(viewName)) {
               fw.components.registerLocation(viewName, {
                 viewModel: '/scripts/app/viewModel/DocPage.js',
-                template: '/docs/' + params.docVersion + '/' + params.page + '-page'
+                template: '/docs/' + params.docVersion + '/' + params.page
               });
-              // fw.outlets.registerViewLocation(viewName, '/docs/' + params.docVersion + '/' + params.page + '-page');
             }
             this.$outlet('mainContent', viewName, _.bind(resolvePage, this, getPageLoadPromise()));
           }
-        },
+        }
       ],
       unknownRoute: {
         title: '404 not found',
