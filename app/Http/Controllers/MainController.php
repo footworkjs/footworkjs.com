@@ -15,6 +15,8 @@ class MainController extends Controller {
   }
 
   public function index() {
+    $isLocalEnv = getenv('APP_ENV') === 'local' ? true : false;
+
     $docs = new Docs();
     $builds = new Builds();
     $detect = new Mobile_Detect();
@@ -37,18 +39,20 @@ class MainController extends Controller {
       }
     }
 
-    $buildVersion = 0;
-    if(getenv('APP_ENV') !== 'local') {
+    $buildVersion = null;
+    if(!$isLocalEnv) {
       $redis = \Illuminate\Support\Facades\Redis::connection();
       $buildVersion = $redis->get('buildVersion');
-      if(empty($buildVersion)) {
-        $package = json_decode(file_get_contents(base_path().'/package.json'), true);
-        $buildVersion = $package['buildVersion'];
+    }
+
+    if(empty($buildVersion)) {
+      $package = json_decode(file_get_contents(base_path().'/package.json'), true);
+
+      if(!$isLocalEnv) {
         $redis->set('buildVersion', $buildVersion);
         $redis->expire('buildVersion', 3600);
       }
-    } else {
-      $package = json_decode(file_get_contents(base_path().'/package.json'), true);
+
       $buildVersion = $package['buildVersion'];
     }
 
