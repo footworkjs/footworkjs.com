@@ -23,7 +23,6 @@ class MainController extends Controller {
 
     $isMobile = false;
     $isTablet = false;
-    $isIOS = false;
     if($detect->isMobile() && !$detect->isTablet()) {
       $isMobile = true;
     }
