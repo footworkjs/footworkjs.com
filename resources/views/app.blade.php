@@ -42,9 +42,7 @@
     @if (isset($isTablet) && $isTablet === true)
       <script>window.isTablet = true;</script>
     @endif
-    @if (isset($isIOS) && $isIOS === true)
-      <script>window.IOS_VERSION = 7;</script>
-    @endif
+    <script>buildVersion = '{{$buildVersion}}';</script>
 
     <!--[if IE 8]>
       <link rel="stylesheet" href="/css/style-ie.css" type="text/css">

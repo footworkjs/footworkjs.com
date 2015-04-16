@@ -1,10 +1,6 @@
 <?php namespace Helper;
 
 class Builds {
-  public function __construct() {
-    $this->redis = \Illuminate\Support\Facades\Redis::connection();
-  }
-
   private function formatBytes($size, $precision = 2) {
     $base = log(floatval($size)) / log(1024);
     $suffixes = array('', 'kb', 'MB', 'GB', 'TB');

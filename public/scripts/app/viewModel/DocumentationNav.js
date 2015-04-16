@@ -35,13 +35,9 @@ define(['footwork', 'jquery', 'lodash'],
         this.linkAddr = '/docs/' + selectedDocsVersion() + '/' + linkDesc.page;
 
         this.clickHandler = function(event, url) {
-          var routeToURL = false;
+          var routeToURL = true;
           var $target = $(event.target);
           var stopHere = false;
-
-          if(!viewPortIsMobile() || !paneCollapsed()) {
-            routeToURL = true;
-          }
 
           if( !fw.utils.isFullURL(url) && event.which !== 2 ) {
             stopHere = true;

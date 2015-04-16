@@ -1,7 +1,10 @@
 {
+  "buildVersion": 48,
   "private": true,
   "devDependencies": {
     "gulp": "^3.8.8",
+    "gulp-json-editor": "*",
+    "yargs": "*",
     "laravel-elixir": "*",
     "requirejs": "^2.1.16",
     "lodash": "*"

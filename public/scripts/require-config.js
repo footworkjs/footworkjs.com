@@ -1,4 +1,4 @@
-
+var buildVersion = (typeof buildVersion === 'undefined' ? 0 : buildVersion);
 var REQUIRECONFIG = {
   baseUrl: "/scripts",
   map: {
@@ -9,6 +9,7 @@ var REQUIRECONFIG = {
       "jquery": "jquery"
     }
   },
+  urlArgs: "v=" +  buildVersion,
   paths: {
     "requireLib":         "../bower_components/requirejs/require",
     "text":               "../bower_components/requirejs-text/text",
