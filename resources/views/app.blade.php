@@ -31,9 +31,9 @@
     @endif
 
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-    <link href="{{ asset('/css/app.css') }}?v={{$buildVersion}}" rel="stylesheet">
-    <link rel="apple-touch-icon-precomposed" href="/images/icon-builds/apple-touch-icon-precomposed.png">
-    <link rel="icon" href="/images/favicon.png?v={{$buildVersion}}">
+    <link href="{{ asset('/css/app.css') }}?v={{ $buildVersion }}" rel="stylesheet">
+    <link rel="apple-touch-icon-precomposed" href="/images/icon-builds/apple-touch-icon-precomposed.png?v={{ $buildVersion }}">
+    <link rel="icon" href="/images/favicon.png?v={{ $buildVersion }}">
     <!--[if IE]><link rel="shortcut icon" href="/images/icon-builds/favicon.ico"><![endif]-->
 
     @if (isset($isMobile) && $isMobile === true)
@@ -42,7 +42,7 @@
     @if (isset($isTablet) && $isTablet === true)
       <script>window.isTablet = true;</script>
     @endif
-    <script>buildVersion = '{{$buildVersion}}';</script>
+    <script>buildVersion = '{{ $buildVersion }}';</script>
 
     <!--[if IE 8]>
       <link rel="stylesheet" href="/css/style-ie.css" type="text/css">
@@ -440,7 +440,7 @@
       <script src="/scripts/require-config.js"></script>
     	<script src="/bower_components/requirejs/require.js" data-main="/scripts/app/main"></script>
     @else
-      <script src="/scripts/main-build.js?v={{$buildVersion}}"></script>
+      <script src="/scripts/main-build.js?v={{ $buildVersion }}"></script>
     @endif
     <![endif]-->
   </body>

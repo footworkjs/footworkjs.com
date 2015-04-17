@@ -121,15 +121,15 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
         }, {
           route: '/docs/:docVersion/:page',
           title: 'Documentation - footwork.js',
-          controller: function(params) {
-            var viewName = getViewName(params.docVersion, params.page);
+          controller: function(docVersion, page) {
+            var viewName = getViewName(docVersion, page);
             if(!selectedDocsVersion()) {
-              selectedDocsVersion(params.docVersion);
+              selectedDocsVersion(docVersion);
             }
             if(!fw.components.locationIsRegistered(viewName)) {
               fw.components.registerLocation(viewName, {
                 viewModel: '/scripts/app/viewModel/DocPage.js',
-                template: '/docs/' + params.docVersion + '/' + params.page
+                template: '/docs/' + docVersion + '/' + page
               });
             }
             this.$outlet('mainContent', viewName, _.bind(resolvePage, this, getPageLoadPromise()));

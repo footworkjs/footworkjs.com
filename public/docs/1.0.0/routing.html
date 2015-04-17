@@ -148,7 +148,7 @@ unknownRoute: { /* ... */ }
         <li><span class="inline-code">route:</span> - A specially structured string which is used to match against a given URL (and optionally provide for named parameters).</li>
 
         <li><span class="inline-code">controller:</span> - Callback function used when a route is chosen, this is where <span class="inline-code">outlets</span> get changed and the
-          state of your application is altered. Any parameters defined by the <span class="inline-code">route:</span> will be passed in.</li>
+          state of your application is altered. Any parameters defined by the <span class="inline-code">route:</span> will be passed in as individual arguments.</li>
 
         <li><span class="inline-code">title:</span> - (<em>optional</em>) A string or callback function used to set the title of the page when the route is chosen. Any parameters
           defined by the <span class="inline-code">route:</span> will be passed in.</li>
@@ -167,15 +167,15 @@ routes: [
   },
   { // route with required parameter isbn
     route: '/book/:isbn',
-    controller: function(params) {
-      console.log('Book ISBN', params.isbn);
+    controller: function(isbn) {
+      console.log('Book ISBN', isbn);
     }
   },
   { // route with optional parameter storeNum
     route: '/info(/:storeNum)',
-    controller: function(params) {
-      // params.storeNum is undefined if no storeNum is provided in the route
-      console.log('Store Number', params.storeNum);
+    controller: function(storeNum) {
+      // storeNum is undefined if no storeNum is provided in the route
+      console.log('Store Number', storeNum);
     }
   }
 ],
@@ -193,8 +193,8 @@ routes: [
     controller: function() { /* ... */ }
   },
   { // callback-based title
-    title: function(params) {
-      return 'Book ' + params.isbn;
+    title: function(isbn) {
+      return 'Book ' + isbn;
     },
     route: '/book/:isbn',
     controller: function(params) { /* ... */ }
@@ -213,11 +213,11 @@ routes: [
   { // only routed to when isbn === '12345'
     route: '/book/:isbn',
     title: 'Special Book Page',
-    controller: function(params) {
-      console.log('Special Book ISBN', params.isbn);
+    controller: function(isbn) {
+      console.log('Special Book ISBN', isbn);
     },
-    filter: function(params) {
-      if(params.isbn === '12345') {
+    filter: function(isbn) {
+      if(isbn === '12345') {
         return true; // this route used only if isbn === '12345'
       }
       return false;
@@ -226,8 +226,8 @@ routes: [
   { // normal book/:isbn route that is used when isbn !== '12345'
     route: '/book/:isbn',
     title: 'Home Page',
-    controller: function(params) {
-      console.log('Book ISBN', params.isbn);
+    controller: function(isbn) {
+      console.log('Book ISBN', isbn);
     }
   }
 ],

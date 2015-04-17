@@ -20,7 +20,7 @@ class Docs {
       foreach($releaseList as $release) {
         if(file_exists("{$docsFolder}/{$release}/menu.json")) {
           $releaseJSON = array_map(function($pageData) {
-            if(preg_match('/([a-zA-Z-]+)-page\.html$/', $pageData['page'], $matches)) {
+            if(preg_match('/([a-zA-Z-]+)\.html$/', $pageData['page'], $matches)) {
               $pageData['page'] = $matches[1];
             }
             return $pageData;
