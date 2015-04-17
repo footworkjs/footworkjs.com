@@ -38,13 +38,12 @@ class MainController extends Controller {
 
     if(empty($buildVersion)) {
       $package = json_decode(file_get_contents(base_path().'/package.json'), true);
+      $buildVersion = $package['buildVersion'];
 
       if(!$isLocalEnv) {
         $redis->set('buildVersion', $buildVersion);
         $redis->expire('buildVersion', 3600);
       }
-
-      $buildVersion = $package['buildVersion'];
     }
 
     return view('welcome')->with([
