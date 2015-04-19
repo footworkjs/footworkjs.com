@@ -208,9 +208,9 @@
     {
       route: '/todo/:username', // defines a required parameter 'username'
       title: 'Todo List',
-      controller: function(params) {
+      controller: function(username) {
         // set the loggedInUser value to the username
-        this.loggedInUser(params.username);
+        this.loggedInUser(username);
 
         // show our todo list page here
         this.$outlet('mainView', 'todo-page');
@@ -917,12 +917,12 @@
   {
     route: '/todo/:username(/:state)', // required parameter 'username', optional parameter 'state'
     title: 'Todo List',
-    controller: function(params) {
+    controller: function(username, state) {
       // set the loggedInUser value to the username
-      this.loggedInUser(params.username);
+      this.loggedInUser(username);
 
       // set the listFilter value to the supplied state (will be broadcast to the TodoList)
-      this.listFilter(params.state || 'all');
+      this.listFilter(state || 'all');
 
       // show our todo list page here
       this.$outlet('mainView', 'todo-page');
@@ -1146,7 +1146,7 @@
     var loggedInUser = fw.observable().receiveFrom('MainRouter', 'loggedInUser');
 
     // use existing GUID or generate a random one
-    var guid = thingToDo.guid || (loggedInUser() + '-' + fw.guid());
+    var guid = thingToDo.guid || (loggedInUser() + '-' + fw.utils.guid());
 // ...</code></pre>
 
       <p>Next we need to create the method which will actually do the saving of our <span class="inline-code">TodoItem</span> to <span class="inline-code">localStorage</span>. Lets
