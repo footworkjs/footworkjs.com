@@ -1,5 +1,47 @@
 define([ "jquery", "lodash", "knockout", "postal" ],
   function( $, _, fw, postal ) {
+    fw.extenders.debounce = function(target, opt) {
+      if( _.isNumber(opt) ) {
+        opt = {
+          timeout: opt,
+          when: function() { return true; } // default always throttle
+        };
+      }
+
+      target.throttleEvaluation = opt.timeout;
+
+      var writeTimeoutInstance = null;
+      var throttledTarget = fw.computed({
+        'read': target,
+        'write': function(value) {
+          if( opt.when(value) ) {
+            clearTimeout(writeTimeoutInstance);
+            writeTimeoutInstance = setTimeout(function() {
+              target(value);
+            }, opt.timeout);
+          } else {
+            clearTimeout(writeTimeoutInstance);
+            target(value);
+          }
+        }
+      });
+
+      throttledTarget.force = function( value ) {
+        clearTimeout(writeTimeoutInstance);
+        target(value);
+      };
+
+      var throttleDispose = throttledTarget.dispose;
+      if( _.isFunction(target.dispose) ) {
+        // has to pass-through the dispose method from the target so it can be released properly as well
+        throttledTarget.dispose = function() {
+          target.dispose();
+          throttleDispose.call(throttledTarget);
+        };
+      }
+
+      return throttledTarget;
+    };
 
     // custom throttle() based on fw v3.0.0 throttle(), allows value to be force()'d to a value at any time
     fw.extenders.throttle = function(target, opt) {
