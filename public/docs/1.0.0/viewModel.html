@@ -71,7 +71,7 @@
 
   /**
    * If true, the namespace will have an auto-incremented 0-based index number appended for
-   * each new viewModel.
+   * each new viewModel (ie: new instances will not share the same namespace).
    */
   autoIncrement: false, // default === false
 
@@ -468,8 +468,8 @@ navNamespace.trigger('userLoggedIn', 'Jonathan'); // console prints: Welcome Jon
       <h1 class="sub title">Mixins</h1>
     </header>
     <div class="content">
-      <p>Mixins are about reusing behavior, functionality, and code whenever possible. It allows you to write various mixins and then later on combine
-      and compose the desired behavior you want for a viewModel at runtime.</p>
+      <p>Mixins are about reusing behavior, functionality, and code whenever possible. They allow you to write various behaviors/logic and then later on combine
+      and compose them as you want at runtime.</p>
       <p>The mixin functionality in footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
       All <span class="inline-code">fw.viewModel()</span> based constructor functions are riveter constructor functions. Above and beyond the
       functionality outlined here, each object has various methods extended from riveter which can enable you to extend viewModels in

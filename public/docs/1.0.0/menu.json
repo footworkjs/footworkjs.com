@@ -5,6 +5,11 @@
     "page": "viewModel.html"
   },
   {
+    "label": "dataModel",
+    "description": "Logic, bindings, and behavior with additional RESTful persistence features.",
+    "page": "dataModel.html"
+  },
+  {
     "label": "Components",
     "description": "Modularize and encapsulate sections of your application.",
     "page": "components.html"
