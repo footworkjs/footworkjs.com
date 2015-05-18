@@ -932,7 +932,12 @@ var MainViewModel = fw.viewModel({
   initialize: function() {
     this.clickHandler = function(event, url) {
       console.log('Route Destination:', url);
-      return true; // tell footwork to route to the url (false === do not route)
+
+      // must prevent the default action on an &lt;a&gt; tag (otherwise it will reload the page)
+      event.preventDefault();
+
+      // tell footwork to route to the url (false === do not route)
+      return true;
     }
   }
   // ...
