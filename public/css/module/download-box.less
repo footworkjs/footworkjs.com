@@ -56,6 +56,7 @@
   &.builds {
     .builds.tab {
       font-weight: bold;
+      color: black;
       background: @backgroundColor;
       border-color: darken(@tabsBackground, 10%);
     }
@@ -64,12 +65,14 @@
       opacity: 1;
       padding: @innerSpacing;
       overflow-y: auto;
+      min-height: 235px;
     }
   }
 
   &.bower {
     .bower.tab {
       font-weight: bold;
+      color: black;
       background: @backgroundColor;
       border-color: darken(@tabsBackground, 10%);
     }
@@ -78,12 +81,14 @@
       opacity: 1;
       padding: @innerSpacing;
       overflow-y: auto;
+      min-height: 235px;
     }
   }
 
   &.bootstrap {
     .bootstrap.tab {
       font-weight: bold;
+      color: black;
       background: @backgroundColor;
       border-color: darken(@tabsBackground, 10%);
     }
@@ -92,6 +97,7 @@
       opacity: 1;
       padding: @innerSpacing;
       overflow-y: auto;
+      min-height: 235px;
     }
   }
 
@@ -111,13 +117,15 @@
       position: relative;
       top: -1px;
       float: right;
-      width: 25%;
+      padding: 0 20px;
       text-align: center;
       cursor: pointer;
       border: 1px solid transparent;
       border-top-width: 0;
       border-bottom-width: 0;
       margin-left: 5px;
+      font-weight: bold;
+      color: #909090;
       .no-select;
 
       &:hover, &:active {
@@ -126,7 +134,6 @@
 
       &:active {
         color: #909090;
-        font-weight: bold;
       }
 
       &:hover, &:active, &.active {
