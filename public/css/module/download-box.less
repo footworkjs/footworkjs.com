@@ -1,42 +1,41 @@
 .download-box {
-  @downloadBoxBorderColor: #aaa;
+  @downloadBoxBorderColor: @pane-bg-color;
   @innerSpacing: 15px;
   @iconWidth: 15%;
+  @backgroundColor: white;
+
+  @tabsInnerShadow: 0 4px 6px -5px black inset;
+  @tabsBackground: #ddd;
+  @tabsBorder: darken(@tabsBackground, 10%);
+  @tabsHeight: 30px;
 
   float: right;
   width: 52%;
   margin: 0 0 10px 10px;
-  padding: @innerSpacing;
-  .box-shadow(0 1px 3px 0px rgba(0,0,0,0.6));
   .transition(all 0.3s ease);
   .box-sizing(border-box);
-  background: white;
+  background: @backgroundColor;
   .border-radius(3px);
-  border: 1px solid @pane-bg-color;
+  border: 1px solid @downloadBoxBorderColor;
 
   .section {
     .clearblock;
   }
 
-  @downloadBoxTitleColor: contrast(@downloadBoxBorderColor);
   @downloadBoxTitleHeight: 25px;
   .title {
     font-weight: bold;
     font-size: 20px;
     line-height: @downloadBoxTitleHeight;
-    color: @downloadBoxTitleColor;
-    padding-bottom: @innerSpacing;
+    padding: @innerSpacing;
     position: relative;
-    padding-right: 90px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     .button {
       display: block;
-      position: absolute;
-      right: 0;
-      top: 0;
+      float: right;
       text-align: center;
       height: @downloadBoxTitleHeight;
       line-height: @downloadBoxTitleHeight - 2px;
@@ -54,9 +53,98 @@
     }
   }
 
-  .content {
-    line-height: 30px;
+  &.builds {
+    .builds.tab {
+      font-weight: bold;
+      background: @backgroundColor;
+      border-color: darken(@tabsBackground, 10%);
+    }
+    .builds.content {
+      height: auto;
+      opacity: 1;
+      padding: @innerSpacing;
+      overflow-y: auto;
+    }
+  }
+
+  &.bower {
+    .bower.tab {
+      font-weight: bold;
+      background: @backgroundColor;
+      border-color: darken(@tabsBackground, 10%);
+    }
+    .bower.content {
+      height: auto;
+      opacity: 1;
+      padding: @innerSpacing;
+      overflow-y: auto;
+    }
+  }
+
+  &.bootstrap {
+    .bootstrap.tab {
+      font-weight: bold;
+      background: @backgroundColor;
+      border-color: darken(@tabsBackground, 10%);
+    }
+    .bootstrap.content {
+      height: auto;
+      opacity: 1;
+      padding: @innerSpacing;
+      overflow-y: auto;
+    }
+  }
+
+  .tabs {
+    line-height: @tabsHeight;
     .clearblock;
+    background: @tabsBackground;
+    font-size: 13px;
+    padding-right: @innerSpacing;
+    border: 1px solid @tabsBorder;
+    border-left-width: 0;
+    border-right-width: 0;
+    .box-sizing(border-box);
+    height: @tabsHeight;
+
+    .tab {
+      position: relative;
+      top: -1px;
+      float: right;
+      width: 25%;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-top-width: 0;
+      border-bottom-width: 0;
+      margin-left: 5px;
+      .no-select;
+
+      &:hover, &:active {
+        background: @backgroundColor;
+      }
+
+      &:active {
+        color: #909090;
+        font-weight: bold;
+      }
+
+      &:hover, &:active, &.active {
+        border-color: darken(@tabsBackground, 10%);
+      }
+    }
+  }
+
+  & > .content {
+    height: 0;
+    width: 100%;
+    .box-sizing(border-box);
+    overflow: hidden;
+    opacity: 0;
+    .transition(opacity 0.3s ease);
+    .clearblock;
+    max-height: 240px;
+    font-size: 13px;
   }
 
   .build-label, .build-selector {
@@ -75,6 +163,7 @@
 
   .selector-tool {
     .clearblock;
+    line-height: 30px;
   }
   .selector-tool + .selector-tool {
     margin-top: 10px;

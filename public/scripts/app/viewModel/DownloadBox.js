@@ -12,7 +12,17 @@ define(['footwork', 'jquery', 'lodash'],
 
     return fw.viewModel({
       namespace: 'DownloadBox',
+      afterBinding: function(container) {
+        $(container).find('pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+      },
       initialize: function() {
+        this.activeTab = fw.observable('builds');
+        this.chooseTab = function(model, event) {
+          this.activeTab(event.target.className.replace(' tab',''));
+        };
+
         this.environment = fw.observable('production');
         this.environments = [
           { label: 'Production', value: 'production' },

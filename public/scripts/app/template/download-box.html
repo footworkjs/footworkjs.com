@@ -1,9 +1,16 @@
-<div class="download-box">
+<div class="download-box" data-bind="class: activeTab">
   <div class="title">
     Download footwork.js</span>
     <a href="https://github.com/reflectiveSingleton/footwork" class="button"><span class="label">Github</span> <span class="icon-github"></span></a>
   </div>
-  <div class="content">
+
+  <div class="tabs">
+    <div class="builds tab" data-bind="click: chooseTab">Builds</div>
+    <div class="bower tab" data-bind="click: chooseTab">Bower</div>
+    <div class="bootstrap tab" data-bind="click: chooseTab">Bootstrap</div>
+  </div>
+
+  <div class="builds content">
     <div class="section">
       <div class="selector-tool">
         <div class="build-label">Version:</div>
@@ -43,5 +50,28 @@
         <!-- /ko -->
       </div>
     </div>
+  </div>
+
+  <div class="bower content">
+    <p><em>Install via bower.json:</em></p>
+
+    <p>Generally you will be installing footwork via bower in the context of a larger application and use the bower.json file:</p>
+    <pre><code class="javascript">// add footwork under "dependencies"
+{
+  "dependencies": {
+    "footwork": "*"
+  }
+}</code></pre>
+
+    <pre><code class="bash"># Then in the same directory as your bower.json file
+bower install</code></pre>
+
+    <p>You can also optionally install just footwork with the following command-line statement:</p>
+
+    <pre><code class="bash">bower install footwork</code></pre>
+  </div>
+
+  <div class="bootstrap content">
+    <p><em>Coming soon... pre-configured bootstrapped base-applications!</em></p>
   </div>
 </div>

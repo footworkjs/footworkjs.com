@@ -42,7 +42,10 @@
     @if (isset($isTablet) && $isTablet === true)
       <script>window.isTablet = true;</script>
     @endif
-    <script>buildVersion = '{{ $buildVersion }}';</script>
+    <script>
+      window.buildVersion = '{{ $buildVersion }}';
+      window.csrfToken = '{{ csrf_token() }}';
+    </script>
 
     <!--[if IE 8]>
       <link rel="stylesheet" href="/css/style-ie.css" type="text/css">
