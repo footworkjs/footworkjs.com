@@ -23,42 +23,44 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
       $pageSubSectionNamespace.trigger('resetURL');
     });
 
+    function pageLoad(metaData, article) {
+      var maxScrollResetPos = maxScrollResetPosition();
+      var $article = $(article);
+
+      if( metaData.length ) {
+        metaData = JSON.parse(metaData);
+        initPage(metaData);
+      }
+
+      if( viewPortLayoutMode() !== 'mobile' ) {
+        $paneElementsNamespace.publish('hideAll');
+      }
+      if( scrollPosition() > maxScrollResetPos && !firstLoad ) {
+        window.scrollTo( 0, maxScrollResetPos );
+      } else {
+        firstLoad = false;
+      }
+
+      var $collapsible = $article.find('.collapsible');
+      if( $collapsible.length ) {
+        $collapsible.collapsible();
+      }
+
+      $article.find('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+
+      if(window.location.hash.length) {
+        $pageSectionsNamespace.command('goToSection', window.location.hash.substring(1));
+      }
+      pageLoading(false);
+      initialLoad(false);
+    }
+
     function getPageLoadPromise() {
       var pagePromise = $.Deferred();
       pageLoading(true);
-      pagePromise.done(function(metaData, article) {
-        var maxScrollResetPos = maxScrollResetPosition();
-        var $article = $(article);
-
-        if( metaData.length ) {
-          metaData = JSON.parse(metaData);
-          initPage(metaData);
-        }
-
-        if( viewPortLayoutMode() !== 'mobile' ) {
-          $paneElementsNamespace.publish('hideAll');
-        }
-        if( scrollPosition() > maxScrollResetPos && !firstLoad ) {
-          window.scrollTo( 0, maxScrollResetPos );
-        } else {
-          firstLoad = false;
-        }
-
-        var $collapsible = $article.find('.collapsible');
-        if( $collapsible.length ) {
-          $collapsible.collapsible();
-        }
-
-        $article.find('pre code').each(function(i, block) {
-          hljs.highlightBlock(block);
-        });
-
-        if(window.location.hash.length) {
-          $pageSectionsNamespace.command('goToSection', window.location.hash.substring(1));
-        }
-        pageLoading(false);
-        initialLoad(false);
-      });
+      pagePromise.done(pageLoad);
 
       $pageNamespace.publish('loadingPage', pagePromise);
       return pagePromise;
@@ -66,6 +68,11 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
 
     function resolvePage(pageLoadPromise, element) {
       pageLoadPromise.resolve( $('#metaData').text(), element.children[0] );
+    }
+
+    function showNotFoundPage() {
+      var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+      this.$outlet('mainContent', 'not-found-page', showLoadedPage);
     }
 
     function getViewName(docVersion, page) {
@@ -80,43 +87,50 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
           route: '/',
           title: 'footwork.js',
           controller: function($routeParams) {
-            this.$outlet('mainContent', 'index-page', _.bind(resolvePage, this, getPageLoadPromise()));
+            var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+            this.$outlet('mainContent', 'index-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials',
           title: 'Tutorials - footwork.js',
           controller: function($routeParams) {
-            this.$outlet('mainContent', 'tutorials-page', _.bind(resolvePage, this, getPageLoadPromise()));
+            var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+            this.$outlet('mainContent', 'tutorials-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/creatingApplication',
           title: 'footworkjs - Tutorials - TodoMVC - Creating the Application',
           controller: function($routeParams) {
-            this.$outlet('mainContent', 'todomvc-creating-page', _.bind(resolvePage, this, getPageLoadPromise()));
+            var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+            this.$outlet('mainContent', 'todomvc-creating-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/routing',
           title: 'footworkjs - Tutorials - TodoMVC - Routing',
           controller: function($routeParams) {
-            this.$outlet('mainContent', 'todomvc-routing-page', _.bind(resolvePage, this, getPageLoadPromise()));
+            var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+            this.$outlet('mainContent', 'todomvc-routing-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/generalFunctionality',
           title: 'footworkjs - Tutorials - TodoMVC - General Functionality',
           controller: function($routeParams) {
-            this.$outlet('mainContent', 'todomvc-general-page', _.bind(resolvePage, this, getPageLoadPromise()));
+            var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+            this.$outlet('mainContent', 'todomvc-general-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/about',
           title: 'about - footwork.js',
           controller: function($routeParams) {
-            this.$outlet('mainContent', 'about-page', _.bind(resolvePage, this, getPageLoadPromise()));
+            var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+            this.$outlet('mainContent', 'about-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/docs/list',
           title: 'Documentation - footwork.js',
           controller: function(params) {
-            this.$outlet('mainContent', 'docs', _.bind(resolvePage, this, getPageLoadPromise()));
+            var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+            this.$outlet('mainContent', 'docs', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/docs/:docVersion/:page',
@@ -132,15 +146,14 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
                 template: '/docs/' + docVersion + '/' + page
               });
             }
-            this.$outlet('mainContent', viewName, _.bind(resolvePage, this, getPageLoadPromise()));
+            var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
+            this.$outlet('mainContent', viewName, { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }
       ],
       unknownRoute: {
         title: '404 not found',
-        controller: function($routeParams) {
-          this.$outlet('mainContent', 'not-found-page', _.bind(resolvePage, this, getPageLoadPromise()));
-        }
+        controller: showNotFoundPage
       }
     });
   }

@@ -798,8 +798,8 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
         <span class="inline-code">&lt;outlet name=""&gt;&lt;/outlet&gt;</span> declarations you want in the HTML and then change/set them via the
         <span class="inline-code">router.$outlet()</span> method.</p>
 
-      <h3><em class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">options</span> )</span></em></h3>
       <h3><em class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(containingElement)</span> )</span></em></h3>
+      <h3><em class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">{ onComplete: function(containingElement), onFailure: function(error) }</span> )</span></em></h3>
       <h3>Trigger an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel.</h3>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
