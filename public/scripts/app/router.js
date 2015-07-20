@@ -82,6 +82,16 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
     return fw.router({
       namespace: 'MainRouter',
       relativeToParent: false,
+      initialize: function() {
+        var showNotFoundTimeout;
+        pageLoading.subscribe(function(isLoading) {
+          if(isLoading) {
+            showNotFoundTimeout = setTimeout(showNotFoundPage.bind(this), 10000);
+          } else {
+            clearTimeout(showNotFoundTimeout);
+          }
+        }.bind(this));
+      },
       routes: [
         {
           route: '/',
