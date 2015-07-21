@@ -31,6 +31,7 @@ define(['footwork', 'jquery', 'lodash'],
     var DocLink = fw.viewModel({
       namespace: 'DocLink',
       initialize: function(linkDesc) {
+        this.display = '';
         _.extend(this, linkDesc);
         this.linkAddr = '/docs/' + selectedDocsVersion() + '/' + linkDesc.page;
 

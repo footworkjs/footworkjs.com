@@ -15,6 +15,11 @@
     "page": "components.html"
   },
   {
+    "label": "Routing",
+    "description": "Swap out views and manage state in your application.",
+    "page": "routing.html"
+  },
+  {
     "label": "Namespacing",
     "description": "Communicate to, send/receive commands, and trigger events between differing areas of your code.",
     "page": "namespacing.html"
@@ -23,11 +28,6 @@
     "label": "Broadcastable / Receivable",
     "description": "Share information and state automatically between different areas of your code.",
     "page": "broadcastable-receivable.html"
-  },
-  {
-    "label": "Routing",
-    "description": "Swap out views and manage state in your application.",
-    "page": "routing.html"
   },
   {
     "label": "Misc",

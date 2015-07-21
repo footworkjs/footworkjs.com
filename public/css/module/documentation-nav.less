@@ -1,5 +1,5 @@
 .documentation-nav {
-  width: 200px;
+  width: 350px;
 
   @versionSelectorBackground: lighten(@pane-bg-color, 6%);
 
@@ -72,6 +72,7 @@
       width: 100%;
       background: lighten(@versionSelectorBackground, 5%);
       padding: 5px;
+      z-index: 1;
       .box-sizing(border-box);
       .border-radius(3px);
       .box-shadow(0 1px 3px #555);
@@ -98,24 +99,68 @@
   .doc-link {
     display: block;
     clear: both;
+    padding: 5px;
+    .box-sizing(border-box);
+    font-size: 15px;
+    position: relative;
+    line-height: @linkHeight;
 
-    a {
-      padding: 5px 10px;
-      font-size: 15px;
-      display: block;
+    @dotSize: 10px;
+    @dotContainerWidth: 25px;
+    @linkHeight: 25px;
+    .dot-container {
+      width: @dotContainerWidth;
+      text-align: center;
+      float: left;
+    }
+    .dot {
+      display: inline-block;
+      background: darken(@pane-bg-color, 10%);
+      width: @dotSize;
+      height: @dotSize;
+      .border-radius(@dotSize);
+      position: relative;
+      .box-sizing(border-box);
+    }
+
+    &.active {
+      background: transparent;
+      .dot {
+        background: white;
+      }
     }
 
     .description {
-      &.visible {
-        display: block;
-      }
-
-      display: none;
+      display: block;
+      line-height: 18px;
+      clear: both;
       font-size: 12px;
-      background: lighten(@pane-bg-color, 5%);
-      margin: 5px;
-      padding: 3px;
+      padding: 0 5px 0 @dotContainerWidth;
       .border-radius(3px);
+    }
+  }
+}
+
+header {
+  .doc-link {
+    background: rgba(0,0,0,0);
+
+    &:last-child {
+      .border-radius(0 0 5px 5px);
+    }
+
+    &:hover, &.active {
+      background: rgba(0,0,0,0.1) !important;
+
+      .dot {
+        border: 1px solid darken(@pane-bg-color, 20%);
+      }
+      color: contrast(@pane-bg-color, white, black, 60%) !important;
+    }
+
+    .description {
+      color: mix(@pane-bg-color, white, 45%);
+      .transition(all 0.3s 0.2s ease);
     }
   }
 }

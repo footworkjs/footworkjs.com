@@ -12,11 +12,14 @@
         </div>
       </div>
     </div>
-    <!-- ko foreach: docLinks -->
-      <div class="doc-link">
-        <a data-bind="text: label, $route: { url: linkAddr, handler: clickHandler }" class="link"></a>
+    <div data-bind="foreach: docLinks">
+      <a data-bind="$route: { url: linkAddr, handler: clickHandler }" class="doc-link">
+        <div class="dot-container">
+          <span class="dot"></span>
+        </div>
+        <span data-bind="text: label"></span>
         <span class="description" data-bind="text: description"></span>
-      </div>
-    <!-- /ko -->
+      </a>
+    </div>
   </div>
 </div>
