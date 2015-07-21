@@ -8,23 +8,36 @@
     </header>
     <div class="content">
       <p>Footwork provides collections as an easy to use abstraction by which you can leverage the RESTful persistence and modeling features of a
-        <span class="inline-code">dataModel</span> to create an easily managed list of them.</p>
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> to create an easily managed list of them.</p>
 
-      <p>Typically you will have a discrete <span class="inline-code">dataModel</span> which will represent an individual item in a
-        <span class="inline-code">collection</span> which you might want to manage in your application. An example of this might be a list of contact
-        numbers, or notes attached to a record.</p>
+      <p>Typically you will have a discrete <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> which will
+        represent an individual item in a <span class="inline-code">collection</span> which you might want to manage in your application. An example
+        of this might be a list of contact numbers, or notes attached to a record.</p>
 
-      <p>Knockout.js provides an <span class="inline-code">observableArray</span> type which is used to manage arbitrary lists of data while
-        still enabling all of the awesome observable design pattern awesomeness that allows complex dependency chains and automatic resolution of
-        computed values (and much more).</p>
+      <p>Knockout.js provides an
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> type
+        which is used to manage arbitrary lists of data while still enabling all of the awesome observable design pattern features that allows
+        complex dependency chains, automatic resolution of computed values, automatic UI binding, and much more.</p>
 
-      <p>Footwork builds upon the <span class="inline-code">observableArray</span> type to integrate the footwork-native
-        <span class="inline-code">dataModel</span> and provide many handy features for managing lists of them.</p>
+      <p>Footwork builds upon the
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> type
+        to integrate the footwork-native <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> and provide many
+        handy features for managing lists of them.</p>
 
-      <p>What does this mean exactly? It means that you can (in addition to the features notated below) treat a footwork
-        <span class="inline-code">collection</span> just as if it was an <span class="inline-code">observableArray</span> (because it is). You can
-        subscribe to updates to it, <span class="inline-code">push()</span>, <span class="inline-code">pop()</span>, <span class="inline-code">reverse()</span>,
-          <span class="inline-code">sort()</span>, <a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">and much more</a>.</p>
+      <p><em>What does this mean exactly?</em></p>
+
+      <p>It means that you can (in addition to the features notated below) treat a footwork
+        <span class="inline-code">collection</span> just as if it was an
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
+        (because it is). You can bind your UI to it, subscribe to updates, <span class="inline-code">push()</span>,
+        <span class="inline-code">pop()</span>, <span class="inline-code">reverse()</span>, <span class="inline-code">sort()</span>,
+        <a href="http://knockoutjs.com/documentation/observableArrays.html#indexof" target="_blank">and much more</a>.</p>
+
+      <p>In addition to all of the standard
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
+        features, footwork integrates additional functionality to help manage a list of
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances, create new ones, retrieve all data from
+        them, etc.</p>
 
       <ul>
         <li><a data-bind="$route" href="#configuration">Configuration</a></li>

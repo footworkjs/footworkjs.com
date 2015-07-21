@@ -31,7 +31,7 @@
   },
   {
     "label": "Broadcastable / Receivable",
-    "description": "Share/propogate information and state automatically between different areas of your code.",
+    "description": "Share/propogate information and state automatically between different areas of your application.",
     "page": "broadcastable-receivable.html"
   },
   {

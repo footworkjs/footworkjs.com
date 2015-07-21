@@ -1,6 +1,6 @@
 [
   {
-    "label": "viewModel",
+    "label": "ViewModel",
     "description": "Bindable logic and statefulness for your markup.",
     "page": "viewModel.html"
   },
@@ -21,7 +21,7 @@
   },
   {
     "label": "Broadcastable / Receivable",
-    "description": "Share/propogate information and state automatically between different areas of your code.",
+    "description": "Share/propogate information and state automatically between different areas of your application.",
     "page": "broadcastable-receivable.html"
   },
   {
