@@ -1,5 +1,5 @@
 .documentation-nav {
-  width: 350px;
+  width: 300px;
 
   @versionSelectorBackground: lighten(@pane-bg-color, 6%);
 
@@ -99,14 +99,14 @@
   .doc-link {
     display: block;
     clear: both;
-    padding: 5px;
+    padding: 5px 5px 5px 0px;
     .box-sizing(border-box);
     font-size: 15px;
     position: relative;
     line-height: @linkHeight;
 
     @dotSize: 10px;
-    @dotContainerWidth: 25px;
+    @dotContainerWidth: 35px;
     @linkHeight: 25px;
     .dot-container {
       width: @dotContainerWidth;
@@ -130,6 +130,10 @@
       }
     }
 
+    .label {
+      display: block;
+    }
+
     .description {
       display: block;
       line-height: 18px;
@@ -137,11 +141,25 @@
       font-size: 12px;
       padding: 0 5px 0 @dotContainerWidth;
       .border-radius(3px);
+      color: contrast(@body-bg-color);
+    }
+
+    &:hover {
+      text-decoration: none;
+      .label {
+        text-decoration: underline;
+      }
+    }
+
+    &:active {
+      .label {
+        text-decoration: none;
+      }
     }
   }
 }
 
-header {
+header .documentation-nav {
   .doc-link {
     background: rgba(0,0,0,0);
 
@@ -151,6 +169,10 @@ header {
 
     &:hover, &.active {
       background: rgba(0,0,0,0.1) !important;
+
+      .label {
+        text-decoration: none;
+      }
 
       .dot {
         border: 1px solid darken(@pane-bg-color, 20%);
