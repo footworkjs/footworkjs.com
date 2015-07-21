@@ -1,28 +1,28 @@
 [
   {
     "label": "viewModel",
-    "description": "Logic, bindings, and behavior.",
+    "description": "Bindable logic and statefulness for your markup.",
     "page": "viewModel.html"
   },
   {
     "label": "Components",
-    "description": "Modularize and encapsulate sections of your application.",
+    "description": "Modularize and encapsulate sections of your application. Create different views it can use.",
     "page": "components.html"
   },
   {
+    "label": "Routing",
+    "description": "Swap out views and manage user state in your application.",
+    "page": "routing.html"
+  },
+  {
     "label": "Namespacing",
-    "description": "Communicate to, send/receive commands, and trigger events between differing areas of your code.",
+    "description": "Communicate to/from, send/receive commands, and trigger events between differing areas of your application.",
     "page": "namespacing.html"
   },
   {
     "label": "Broadcastable / Receivable",
-    "description": "Share information and state automatically between different areas of your code.",
+    "description": "Share/propogate information and state automatically between different areas of your code.",
     "page": "broadcastable-receivable.html"
-  },
-  {
-    "label": "Routing",
-    "description": "Swap out views and manage state in your application.",
-    "page": "routing.html"
   },
   {
     "label": "Misc",

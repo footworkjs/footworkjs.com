@@ -64,7 +64,7 @@
   <body>
     <!--[if IE 8]>
     <div class="unsupported-browser notice">
-      <p>Please note that <em>Internet Explorer 8 is unsupported</em> and while still readable, most features of this site will either not be available or work with minimal functionality.</p>
+      <p>Please note that under footwork.js <em>Internet Explorer 8 is unsupported</em> at the moment.</p>
     </div>
     <![endif]-->
 

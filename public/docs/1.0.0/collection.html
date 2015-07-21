@@ -1,0 +1,50 @@
+<article>
+  <div class="version-display" data-bind="text: versionDisplay"></div>
+  <a id="introduction" class="section-anchor"></a>
+  <section name="introduction">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Introduction</h1>
+    </header>
+    <div class="content">
+      <p>Footwork provides collections as an easy to use abstraction by which you can leverage the RESTful persistence and modeling features of a
+        <span class="inline-code">dataModel</span> to create an easily managed list of them.</p>
+
+      <p>Typically you will have a discrete <span class="inline-code">dataModel</span> which will represent an individual item in a
+        <span class="inline-code">collection</span> which you might want to manage in your application. An example of this might be a list of contact
+        numbers, or notes attached to a record.</p>
+
+      <p>Knockout.js provides an <span class="inline-code">observableArray</span> type which is used to manage arbitrary lists of data while
+        still enabling all of the awesome observable design pattern awesomeness that allows complex dependency chains and automatic resolution of
+        computed values (and much more).</p>
+
+      <p>Footwork builds upon the <span class="inline-code">observableArray</span> type to integrate the footwork-native
+        <span class="inline-code">dataModel</span> and provide many handy features for managing lists of them.</p>
+
+      <p>What does this mean exactly? It means that you can (in addition to the features notated below) treat a footwork
+        <span class="inline-code">collection</span> just as if it was an <span class="inline-code">observableArray</span> (because it is). You can
+        subscribe to updates to it, <span class="inline-code">push()</span>, <span class="inline-code">pop()</span>, <span class="inline-code">reverse()</span>,
+          <span class="inline-code">sort()</span>, <a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">and much more</a>.</p>
+
+      <ul>
+        <li><a data-bind="$route" href="#configuration">Configuration</a></li>
+        <li><a data-bind="$route" href="#initialization">Initialization</a></li>
+      </ul>
+    </div>
+  </section>
+</article>
+
+<div id="metaData">
+{
+  "title": "Collection",
+  "description": "RESTful handling of dataModels with handy utilities when managing a collection of them.",
+  "sections": [
+    { "anchor": "introduction",
+      "title": "Introduction",
+      "subSections": [
+        { "anchor": "configuration",
+          "title": "Configuration" }
+      ] }
+  ]
+}
+</div>
