@@ -1,4 +1,4 @@
-![footwork.js](https://raw.github.com/reflectiveSingleton/footwork/master/dist/gh-footwork-logo.png)
+![footwork.js](https://raw.github.com/jonbnewman/footwork/master/dist/gh-footwork-logo.png)
 ========
 
 *```A solid footing for web applications.```*
@@ -13,7 +13,7 @@ Related links:
 
 * [Tutorials](http://footworkjs.com/tutorials "Tutorials and guides")
 
-[![Join the chat at https://gitter.im/reflectiveSingleton/footwork](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/reflectiveSingleton/footwork?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/jonbnewman/footwork](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jonbnewman/footwork?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Running this code
 
@@ -22,7 +22,7 @@ The main footwork website is a Laravel 5 PHP application, so you will need a sys
 1) **Clone the repo from GitHub:**
 
 ```bash
-git clone https://github.com/reflectiveSingleton/footwork-site.git
+git clone https://github.com/jonbnewman/footworkjs.com.git
 cd footwork-site
 ```
 
@@ -56,8 +56,8 @@ Edit the ```.env``` file and change the FOOTWORK_RELEASES_FOLDER path to a new e
 For example, for versions ```0.8.1``` and ```1.0.0```:
 ```bash
 cd footwork-releases-folder
-git clone -b 0.8.1 --single-branch --depth 1 git@github.com:reflectiveSingleton/footwork.git 0.8.1
-git clone -b 1.0.0 --single-branch --depth 1 git@github.com:reflectiveSingleton/footwork.git 1.0.0
+git clone -b 0.8.1 --single-branch --depth 1 git@github.com:jonbnewman/footwork.git 0.8.1
+git clone -b 1.0.0 --single-branch --depth 1 git@github.com:jonbnewman/footwork.git 1.0.0
 ```
 
 And thats it...the application will use that folder to lookup and provide the available releases inside of that widget.
