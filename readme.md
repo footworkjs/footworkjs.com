@@ -51,16 +51,17 @@ Laravel uses a local ```.env``` file to determine what environment the applicati
 
 The download widget on the front page won't work unless the releases folder is setup (which houses the different releases referenced on/from that widget). Follow these instructions if you wish to set that up.
 
-Edit the ```.env``` file and change the FOOTWORK_RELEASES_FOLDER path to a new empty folder on your system. Once you have done that you will need to create a different folder for each release, and pull down that version of footwork into it.
-
-For example, for versions ```0.8.1``` and ```1.0.0```:
+For versions ```0.8.1``` and ```1.0.0```:
 ```bash
-cd footwork-releases-folder
+# Change to the 'releases' folder under the base path
+cd releases
+
+# Clone whatever versions you would like to have available
 git clone -b 0.8.1 --single-branch --depth 1 git@github.com:jonbnewman/footwork.git 0.8.1
 git clone -b 1.0.0 --single-branch --depth 1 git@github.com:jonbnewman/footwork.git 1.0.0
 ```
 
-And thats it...the application will use that folder to lookup and provide the available releases inside of that widget.
+And thats it...the application will use this folder to lookup and provide the available releases inside of that widget.
 
 5) **Set permissions on the storage directory**
 

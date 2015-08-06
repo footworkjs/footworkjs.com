@@ -1,6 +1,10 @@
 <?php namespace Helper;
 
 class Builds {
+  public function __construct() {
+    $this->basePath = base_path();
+  }
+
   private function formatBytes($size, $precision = 2) {
     $base = log(floatval($size)) / log(1024);
     $suffixes = array('', 'kb', 'MB', 'GB', 'TB');
@@ -117,9 +121,10 @@ class Builds {
 
   private function getReleaseInfo($release) {
     $releasesFolder = getenv('FOOTWORK_RELEASES_FOLDER');
-    $releaseFolder = "{$releasesFolder}/{$release}";
-    $distributionFolder = "{$releaseFolder}/dist";
-    $packageJSON = file_get_contents("{$releaseFolder}/package.json");
+    $releasePath = "{$this->basePath}/{$releasesFolder}/{$release}";
+
+    $distributionFolder = "{$releasePath}/dist";
+    $packageJSON = file_get_contents("{$releasePath}/package.json");
     $this->packageInfo = json_decode($packageJSON, true);
 
     $releaseBuilds = $this->getReleaseBuilds($distributionFolder);

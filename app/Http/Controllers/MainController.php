@@ -12,6 +12,7 @@ class MainController extends Controller {
    */
   public function __construct() {
     $this->middleware('guest');
+    $this->basePath = base_path();
   }
 
   public function index() {
@@ -46,6 +47,9 @@ class MainController extends Controller {
       }
     }
 
+    $releaseFolder = getenv('FOOTWORK_RELEASES_FOLDER');
+    $releasePath = "{$this->basePath}/{$releaseFolder}";
+
     return view('welcome')->with([
       'isMobile' => $isMobile,
       'isTablet' => $isTablet,
@@ -59,7 +63,7 @@ class MainController extends Controller {
       'siteName' => 'footwork.js',
       'buildVersion' => $buildVersion,
       'docNavData' => json_encode($docs->navData()),
-      'releaseList' => json_encode($builds->getReleases(getenv('FOOTWORK_RELEASES_FOLDER')))
+      'releaseList' => json_encode($builds->getReleases($releasePath))
     ]);
   }
 }

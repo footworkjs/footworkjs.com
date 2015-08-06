@@ -1,5 +1,7 @@
 /vendor
 /node_modules
-.env
+/releases
 /public/bower_components
 /public/scripts/main-build.js
+composer.phar
+.env
