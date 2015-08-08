@@ -11,7 +11,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
       namespace: 'PageSubSection',
       initialize: function(params) {
         var subSectionData = params.sectionData;
-        var parent = params.parent;
+        var parent = this.parent = params.parent;
         var $anchorContainer = $('[name=' + subSectionData.anchor + ']');
         var $anchor = $('#' + (_.isObject(subSectionData) ? subSectionData.anchor : ''));
 
@@ -22,6 +22,11 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
           }
           this.anchorAddress(pageBaseURL + '#' + (subSectionData.anchor || ''));
         }.bind(this);
+
+        while(!_.isFunction(parent.isCollapsed) && !_.isUndefined(parent.parent)) {
+          parent = parent.parent;
+        }
+
         this.$namespace.event.handler('resetURL', resetURL);
         this.anchorAddress = fw.observable();
         resetURL();
@@ -35,6 +40,9 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
           }
           return isActive;
         }, this);
+
+        this.hasSubSections = _.isArray(subSectionData.subSections) && subSectionData.subSections.length;
+        this.subSections = subSectionData.subSections;
 
         this.chooseSection = function() {
           if(viewPortLayoutMode() === 'mobile' || paneIsOverlapping()) {

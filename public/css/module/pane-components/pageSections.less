@@ -148,20 +148,33 @@
         }
       }
 
+      .sub-section .sub-section {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.10);
+        border-right-width: 0;
+
+        .title {
+          margin-right: 5px;
+          .box-sizing(border-box);
+          padding-right: 5px;
+          .border-radius(3px);
+        }
+      }
+
       .sub-sections {
         margin: 5px 0 0 @accent-padding;
 
         pagesubsection > .content {
           position: relative;
-          padding: 3px 10px;
           background: @pane-bg-color;
           font-size: 13px;
 
           a {
             display: block;
             font-size: 13px;
+
             .label {
-              margin-right: 0;
+              margin-right: 10px;
             }
           }
 

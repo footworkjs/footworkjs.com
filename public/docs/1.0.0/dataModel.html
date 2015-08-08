@@ -7,23 +7,16 @@
       <h1 class="sub title">Introduction</h1>
     </header>
     <div class="content">
-      <p>A dataModel can be thought of as a container object that houses all of the logic and data with which your template/HTML/DOM binds to. They are used to 'wrap' your
-        HTML/markup, applying the bindings (behavior) you declare in the HTML while also initializing and binding any nested components and dataModels.</p>
+      <p>The primary purpose behind a <span class="inline-code">dataModel</span> is the management of RESTful data and related logic.</p>
 
-      <p>In knockout.js you typically need to manually wrap and bind (<span class="inline-code">ko.applyBindings()</span>) your DOM with instances of your dataModels,
-        this has many disadvantages/issues (primarily, it requires a lot of legwork by you). Footwork.js can handle the initialization, wrapping, and binding for you
-        automatically based on the HTML/DOM (<em>it can also autoload them via AMD/RequireJS as needed</em>).</p>
+      <p>Just like a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, a
+        <span class="inline-code">dataModel</span> can be bound against your UI/markup. An example usage of this might be binding against an HTML
+        <span class="inline-code">&lt;form&gt;</span> to enable CRUD-type operations on a database.</p>
 
-      <p>Footwork-flavored dataModels provide a clean way of wrapping your knockout and other HTML markup while also enhancing with functionality for lifecycle events,
-        routing, component integration,
-
-      <a href="http://martinfowler.com/bliki/CQRS.html" target="_blank" title="Command Query Responsibility Segregation">CQRS</a>, and more.</p>
-
-      <p>In addition, they can contain any number of nested dataModels, components, and any other markup...making them extremely powerful (especially when integrated into a
-        <a data-bind="$route: docLink('components')">component</a>).</p>
-
-      <p>There are a number of ways to create dataModels, but a simple plain old javascript object (just as in normal knockout.js) at its most basic level is all that is
-        needed to bind to the DOM.</p>
+      <p>A <span class="inline-code">dataModel</span> is really just an enhanced
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, meaning you can use it in exactly the same way you
+        would a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, but with the added ability of being able
+        to have its data loaded from/saved to a RESTful endpoint as well as a host of other related features.</p>
 
       <ul>
         <li><a data-bind="$route" href="#configuration">Configuration</a></li>
@@ -178,6 +171,18 @@ fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'))
 
       <p class="note"><span class="label">NOTE:</span> See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
         for information on how to tell footwork where to find your component assets.</p>
+    </div>
+  </section>
+
+  <a id="mapping-data" class="section-anchor"></a>
+  <section name="mapping-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Mapping Data</h2>
+    </header>
+    <div class="content">
+      <p>In order for a <span class="inline-code">dataModel</span> to manage its data it needs to know where to find it and what that data maps to on the
+        server. To do that the <span class="inline-code">observable.mapTo()</span> method is used.</p>
     </div>
   </section>
 
@@ -774,7 +779,10 @@ fw.dataModels.fileExtensions(function(moduleName) {
         { "anchor": "configuration",
           "title": "Configuration" },
         { "anchor": "initialization",
-          "title": "Initialization / Usage" },
+          "title": "Initialization / Usage",
+          "subSections": [
+            { "anchor": "mapping-data", "title": "Mapping Data" }
+          ] },
         { "anchor": "loading-registering",
           "title": "AMD / Lazy Loading / Registering" },
         { "anchor": "module-formats",

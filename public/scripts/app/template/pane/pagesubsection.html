@@ -3,8 +3,13 @@
     <div class="content" data-bind="css: { active: active }">
       <a class="title" data-bind="click: chooseSection, attr: { href: anchorAddress }">
         <span class="label" data-bind="text: title"></span>
+        <div class="arrow"></div>
       </a>
-      <div class="arrow"></div>
     </div>
+    <!-- ko if: hasSubSections -->
+      <div class="sub-sections" data-bind="foreach: subSections">
+        <pagesubsection params="sectionData: $data, parent: $parent"></pagesubsection>
+      </div>
+    <!-- /ko -->
   </div>
 </div>

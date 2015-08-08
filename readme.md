@@ -47,7 +47,7 @@ npm install && bower install
 
 Laravel uses a local ```.env``` file to determine what environment the application is running in. The repository has an example one saved as ```.env.example```. You will need to rename this file to ```.env```.
 
-4a) (optional) **Edit .env file and setup the releases folder**
+4a) (optional) **Setup the releases folder**
 
 The download widget on the front page won't work unless the releases folder is setup (which houses the different releases referenced on/from that widget). Follow these instructions if you wish to set that up.
 
