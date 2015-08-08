@@ -46,19 +46,43 @@
 
       <h3><em class="func-def">fw.dataModel<span>( <span class="param">configurationObject</span> )</span></em></h3>
       <h3>dataModel configuration object synopsis:</h3>
-<pre><code class="javascript">var dataModelConstructor = fw.dataModel({
+<pre><code class="javascript">var DataModelConstructor = fw.dataModel({
   /**
    * The namespace (communications channel) the dataModel uses. This is essentially used as
    * the 'key' for CQRS separation between modules. If no namespace is provided a unique one
    * will be automatically assigned.
    */
-  namespace: 'Sprocket', // example namespace name, any alpha-numeric is valid
+  namespace: 'Person', // example namespace name, any alpha-numeric is valid
+
+  /**
+   * URL to use for RESTful operations.
+   * You should provide either a string value or an evaluator function which will be used to
+   * determine the URL endpoint each time a request is made.
+   */
+  url: '/path/to/endpoint',
+  url: function() { return '/path/to/endpoint'; },
+
+  /**
+   * Flag telling footwork whether or not to include the primary key in the URL when
+   * performing REST operations.
+   * IE: Use of '/path/to/endpoint/1' vs '/path/to/endpoint'
+   */
+  pkInURL: true, // default === true
+
+  /**
+   * Parse function called whenever a models data is returned by the server from either a
+   * $save() or $fetch().
+   * This method is passed the response object and should return the attributes hash to be
+   * $set() on the dataModel. By default this method simply returns the responseObject back
+   * to be used in the $set() call.
+   */
+  parse: function(responseObject) { return { /* ... */ }; },
 
   /**
    * If true, footwork will register the dataModel under its namespace name. This means
    * that when this fw.dataModel() call is made it will automatically call
-   * fw.dataModels.register('Sprocket', ThisdataModelConstructor)
-   * This is one (handy) way of telling footwork how to find your dataModel when it needs it.
+   * fw.dataModels.register('Person', ThisdataModelConstructor)
+   * This is a (handy) way of telling footwork how to find your dataModel when it needs it.
    */
   autoRegister: false, // default === false
 
@@ -66,7 +90,7 @@
    * If true, the namespace will have an auto-incremented 0-based index number appended for
    * each new dataModel (ie: new instances will not share the same namespace).
    */
-  autoIncrement: false, // default === false
+  autoIncrement: true, // default === true
 
   /**
    * Initialization function called at creation of a new dataModel.

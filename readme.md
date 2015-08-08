@@ -15,7 +15,7 @@ Related links:
 
 [![Join the chat at https://gitter.im/jonbnewman/footwork](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jonbnewman/footwork?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-### Running this code
+### Running this website
 
 The main footwork website is a Laravel 5 PHP application, so you will need a system that has php 5.4 or later installed.
 
