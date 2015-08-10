@@ -2,8 +2,10 @@
   &.pageSections {
     @pageSectionTitleHeight: 25px;
     .entry-row {
-      border-top: 1px solid transparent;
-      border-bottom: 1px solid transparent;
+      .sub-sections {
+        background: rgba(0,0,0,0.2);
+        .border-radius(3px 0 0 3px);
+      }
 
       & > .content {
         height: 0;
@@ -29,7 +31,6 @@
       position: relative;
       cursor: pointer;
       text-decoration: none;
-      padding-bottom: 5px;
       margin: -10px 0 0;
 
       &.isCollapsable {
@@ -61,10 +62,6 @@
 
       &.hasSubSections {
         margin-bottom: 10px;
-
-        &.isCollapsed {
-          margin-bottom: -10px;
-        }
       }
 
       a {
@@ -125,13 +122,20 @@
         display: none;
       }
 
-       & > .sub-sections {
+      & > .sub-sections {
         position: relative;
-        padding-right: @accent-padding / 2;
         height: auto;
         opacity: 1;
         .transition(opacity 0.35s linear);
         .clearblock;
+      }
+
+      .sub-section .sub-section {
+        .title {
+          margin-right: 5px;
+          .box-sizing(border-box);
+          .border-radius(3px);
+        }
       }
 
       & > .content, .sub-section > .content {
@@ -148,25 +152,20 @@
         }
       }
 
-      .sub-section .sub-section {
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.10);
-        border-right-width: 0;
-
-        .title {
-          margin-right: 5px;
-          .box-sizing(border-box);
-          padding-right: 5px;
-          .border-radius(3px);
-        }
+      span.title {
+        padding: 0px 10px;
+        color: white;
+        display: block;
+        cursor: auto;
+        font-size: 15px;
       }
 
       .sub-sections {
-        margin: 5px 0 0 @accent-padding;
+        margin: 0px 0 0 @accent-padding;
+        padding: 5px 10px;
 
         pagesubsection > .content {
           position: relative;
-          background: @pane-bg-color;
           font-size: 13px;
 
           a {
@@ -180,6 +179,36 @@
 
           .content.active .arrow {
             right: -20px !important;
+          }
+        }
+      }
+
+      .sub-sections .sub-sections {
+        margin: 5px 0;
+        @subSectionBorder: 1px solid rgba(255,255,255,0.1);
+        @darkSubSectionBorder: 1px solid rgba(0,0,0,0.1);
+        border-top: @subSectionBorder;
+        border-bottom: @darkSubSectionBorder;
+        border-left: @subSectionBorder;
+        border-right: @darkSubSectionBorder;
+        background: rgba(0,0,0,0.05);
+        .border-radius(5px);
+
+        & > .title {
+          padding-right: 0;
+          margin-right: 0;
+        }
+
+        pagesubsection > .content {
+          background: transparent;
+
+          .label {
+            padding-right: 0;
+            margin-right: 0;
+          }
+
+          .content.active .arrow {
+            right: -30px !important;
           }
         }
       }

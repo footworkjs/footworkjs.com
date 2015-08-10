@@ -147,66 +147,130 @@
  */
 
 // example:
-var Sprocket = fw.dataModel({
-  // ... configuration object ...
-  namespace: 'Sprocket',
+var Person = fw.dataModel({
+  namespace: 'Person',
   initialize: function(params) {
-    // params === object passed in when calling new Sprocket( ... )
-    this.type = fw.observable(params.type);
-    this.color = params.color || 'orange';
-    this.price = fw.observable(params.price);
-    this.isExpensive = fw.computed(function() {
-      return this.price() > 10;
-    }, this);
+    // params === object passed in when calling new Person( ... )
+    this.firstName = fw.observable(person.firstName).mapTo('firstName');
+    this.lastName = fw.observable(person.lastName).mapTo('lastName');
+    this.isBestFriend = fw.observable(params.isBestFriend).mapTo('isBestFriend');
   }
 });
 
-var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
-// awesomeSprocket.type() === 'awesome'
-// awesomeSprocket.color === 'orange'
-// awesomeSprocket.isExpensive() === false
+var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestFriend: true });
+// bestFriend.firstName() === 'Patrick'
+// bestFriend.lastName() === 'Bateman'
+// bestFriend.isBestFriend() === true
 
-// You can then bind it to the DOM just like any other knockout dataModel/javascript object:
-fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'));
+// You can then bind it to the DOM just like any other knockout viewModel/javascript object:
+fw.applyBindings(bestFriend, document.getElementById('best-friend'));
 </code></pre>
 
       <h3>Automatic initialization via <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM:</h3>
-<pre><code class="html">&lt;html&gt;
-  &lt;body&gt;
-    &lt;dataModel module="Sprocket"&gt;
-      Type: &lt;span data-bind="text: type"&gt;&lt;/span&gt;
-      &lt;!-- ko if: isExpensive --&gt;
-        &lt;span class="warning"&gt;This is expensive!&lt;/span&gt;
-      &lt;!-- /ko --&gt;
-    &lt;/dataModel&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+<pre><code class="html">&lt;dataModel module="Person"&gt;
+  &lt;form&gt;
+    &lt;label&gt;First Name: &lt;input type="text" data-bind="value: firstName"&gt;&lt;/label&gt;
+    &lt;label&gt;Last Name: &lt;input type="text" data-bind="value: lastName"&gt;&lt;/label&gt;
+    &lt;input type="submit" value="Save"&gt;
+  &lt;/form&gt;
+&lt;/dataModel&gt;</code></pre>
+
       <p class="note"><span class="label">NOTE:</span> See <a data-bind="$route" href="#loading-registering">AMD / Lazy Loading / Registering</a> for information
         on how to make sure footwork knows how to find your dataModels/modules.</p>
 
       <h3>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h3>
 <pre><code class="html">&lt;html&gt;
   &lt;body&gt;
-    &lt;sprocket&gt;&lt;/sprocket&gt;
+    &lt;person&gt;&lt;/person&gt;
     &lt;!-- NOTE: Both the dataModel and template are either autoloaded via requireJS/AMD, or
                loaded from cache/configuration you supply to the framework --&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-      <p class="note"><span class="label">NOTE:</span> See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
+      <div class="note">
+        <p><span class="label">NOTE:</span> You can supply/substitute a <span class="inline-code">dataModel</span> in place of a
+        <span class="inline-code">viewModel</span> inside of a component registration (or location registration).</p>
+        <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
         for information on how to tell footwork where to find your component assets.</p>
+      </div>
     </div>
   </section>
 
-  <a id="mapping-data" class="section-anchor"></a>
-  <section name="mapping-data">
+  <a id="observable-mapTo" class="section-anchor"></a>
+  <section name="observable-mapTo">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Mapping Data</h2>
+      <h2 class="sub title">Mapping Data / observable.mapTo()</h2>
     </header>
     <div class="content">
-      <p>In order for a <span class="inline-code">dataModel</span> to manage its data it needs to know where to find it and what that data maps to on the
-        server. To do that the <span class="inline-code">observable.mapTo()</span> method is used.</p>
+      <p>When sending to or retreiving from from the server footwork needs to know how to transpose that data to and from your
+        <span class="inline-code">dataModel</span>. Using <span class="inline-code">observable.mapTo()</span> we can define how our data maps to the
+        representation the server expects.</p>
+
+      <p><span class="inline-code">observable.mapTo()</span> is generally expected to be called from within a <span class="inline-code">dataModel</span>
+        <span class="inline-code">initialize</span> function. If you do call it from within the <span class="inline-code">initialize</span> function
+        then all you need do is supply it the <span class="inline-code">path</span> to map the value to. This path is used to convert the
+        <span class="inline-code">dataModel</span> to the expected form on the server and to map that same data back into the
+        <span class="inline-code">dataModel</span> when retrieving it.</p>
+
+      <p>If you call <span class="inline-code">.mapTo()</span> sometime after or outside of the main <span class="inline-code">initialize</span> method
+        then you will need to provide <span class="inline-code">.mapTo()</span> a direct reference to the <span class="inline-code">dataModel</span>.</p>
+
+      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></em></h3>
+      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></em></h3>
+      <h3>Map a value in a <span class="inline-code">dataModel</span>:</h3>
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable().mapTo('firstName');
+    this.lastName = fw.observable().mapTo('lastName');
+    this.age = fw.observable().mapTo('attributes.age');
+    this.isBestFriend = fw.observable().mapTo('attributes.isBestFriend');
+
+    this.finishMapping = function() {
+      // This gets called sometime after the main initialize(), when doing so we must provide
+      // the dataModel reference directly
+      this.favoriteMovies = fw.observable().mapTo({
+        path: 'attributes.favoriteMovies',
+        dataModel: this
+      });
+    };
+  }
+});
+
+var person = new Person();
+
+/**
+ * This dataModel now has the following internal mappings:
+ * {
+ *   firstName: dataModel.firstName,
+ *   lastName: dataModel.lastName,
+ *   attributes: {
+ *     age: dataModel.age,
+ *     isBestFriend: dataModel.isBestFriend
+ *   }
+ * }
+ */
+
+// now map the favoriteMovies observable
+person.finishMapping();
+
+/**
+ * This dataModel now has the following internal mappings:
+ * {
+ *   firstName: dataModel.firstName,
+ *   lastName: dataModel.lastName,
+ *   attributes: {
+ *     age: dataModel.age,
+ *     isBestFriend: dataModel.isBestFriend
+ *     favoriteMovies: dataModel.favoriteMovies
+ *   }
+ * }
+ */
+</code></pre>
+
+      <p><span class="inline-code">observable.mapTo()</span> will map that <span class="inline-code">observable</span> value to the dot-notated path
+        you supply.</p>
     </div>
   </section>
 
@@ -800,12 +864,15 @@ fw.dataModels.fileExtensions(function(moduleName) {
     { "anchor": "introduction",
       "title": "Introduction",
       "subSections": [
+        { "title": "Configuration and Usage" },
         { "anchor": "configuration",
           "title": "Configuration" },
         { "anchor": "initialization",
-          "title": "Initialization / Usage",
+          "title": "Usage" },
+        { "title": "Mapping Data",
           "subSections": [
-            { "anchor": "mapping-data", "title": "Mapping Data" }
+            { "anchor": "observable-mapTo", "title": "observable.mapTo()" },
+            { "anchor": "dataModel-toJS", "title": "dataModel.$toJS()" }
           ] },
         { "anchor": "loading-registering",
           "title": "AMD / Lazy Loading / Registering" },

@@ -17,10 +17,12 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
 
         var pageBaseURL = '';
         var resetURL = function() {
-          if( !this.$globalNamespace.request('isRunningLocally') ) {
-            pageBaseURL = window.location.pathname;
+          if(_.isString(subSectionData.anchor)) {
+            if( !this.$globalNamespace.request('isRunningLocally') ) {
+              pageBaseURL = window.location.pathname;
+            }
+            this.anchorAddress(pageBaseURL + '#' + (subSectionData.anchor || ''));
           }
-          this.anchorAddress(pageBaseURL + '#' + (subSectionData.anchor || ''));
         }.bind(this);
 
         while(!_.isFunction(parent.isCollapsed) && !_.isUndefined(parent.parent)) {

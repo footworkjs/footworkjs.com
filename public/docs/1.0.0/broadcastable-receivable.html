@@ -9,16 +9,16 @@
     <div class="content">
       <p>The broadcastable and receivable functionality provides for an easy to way to share data, state, and more between two different areas of your code.</p>
 
-      <p>They enable a variables in one viewModel/module to be reflected in the variable of another, being kept in sync automatically and transparently to you. By taking advantage
-        of this functionality your application and modules are able to expressively share state and data while being kept as loosely coupled (<em>and testable!</em>) as
+      <p>They enable a variable in one viewModel/module to be reflected in the variable of another, being kept in sync automatically and transparently to you. By taking advantage
+        of this functionality your application and modules are able to expressively share state and data while being kept as loosely coupled (and testable) as
         possible.</p>
 
-      <p>Broadcastables and receivables are extended/special knockout observables which hook into the namespacing provided by footwork to either send data (broadcastable) or
-        receive data (receivable) to or from other namespaces/modules. They can be used just like any other knockout observable as they extend from the base
+      <p>Broadcastables and receivables are extended/special knockout observables which hook into the namespacing provided by footwork to either send data to (broadcastable) or
+        receive data from (receivable) other namespaces/modules. They can be used just like any other knockout observable as they extend from the base
         <span class="inline-code">ko.subscribable</span> type.</p>
 
-      <div class="note"><span class="label">NOTE:</span> Broadcastables and receivables are integrated with (and make most sense when used with)
-        <a data-bind="$route: docLink('viewModel')">footwork viewModels</a> but they can also be used independently.</div>
+      <div class="note"><span class="label">NOTE:</span> Broadcastables and receivables are integrated with (and make most sense when used with) footwork
+        <a data-bind="$route: docLink('viewModel')">viewModels</a> or <a data-bind="$route: docLink('dataModel')">dataModels</a> but they can also be used independently.</div>
     </div>
   </section>
 
@@ -44,11 +44,12 @@
       <p>The module a broadcastable is attached to should be thought of as the 'owner' of that property, and any related logic should (ideally) also be contained within that
         module/lexical scope.</p>
 
-      <p>Since receivables and broadcastables are just extended observables, any computed properties and subscriptions based off of them will propagate just like normal knockout
+      <p>Since receivables and broadcastables are just extended observables, any computed properties and subscriptions based off of them will propagate just like normal
         observables.</p>
 
       <div class="note"><span class="label">NOTE:</span> Because of their reliance on the message bus, broadcastables and receivables must be cleaned up when disposing of them. Any
-        broadcastable or receivable which is assigned to a viewModel will automatically be cleaned up along with that viewModel. If you are using them independently, you will need
+        broadcastable or receivable which is assigned to a <a data-bind="$route: docLink('viewModel')">viewModel</a> or
+        <a data-bind="$route: docLink('dataModel')">dataModel</a> will automatically be cleaned up along with it. If you are using them independently, you will need
         to call <span class="inline-code">.dispose()</span> on it when you intend to get rid of it.</div>
     </div>
   </section>
@@ -57,8 +58,8 @@
   <section name="observable-receiveFrom">
     <div class="highlight"></div>
     <div class="content">
-      <h3 class="top"><em class="func-def">observable.receiveFrom<span>( <span class="param">'namespaceName'</span>, <span class="param">'variableName'</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">observable.receiveFrom<span>( <span class="param">namespace</span>, <span class="param">'variableName'</span> )</span></em></h3>
+      <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).receiveFrom<span>( <span class="param">'namespaceName'</span>, <span class="param">'variableName'</span> )</span></em></h3>
+      <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).receiveFrom<span>( <span class="param">namespace</span>, <span class="param">'variableName'</span> )</span></em></h3>
       <h3>Factory method which will create and return a receivable from an existing observable (observable, computed, or observableArray):</h3>
 <pre><code class="javascript">var Navigation = fw.viewModel({
   namespace: 'Navigation',
@@ -124,11 +125,11 @@ user.login('Sam', '12345');
   <section name="observable-broadcastAs">
     <div class="highlight"></div>
     <div class="content">
-      <h3 class="top"><em class="func-def">observable.broadcastAs<span>( <span class="param">'variableName'</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">observable.broadcastAs<span>( <span class="param">'variableName'</span>, <span class="param">isWritable</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">observable.broadcastAs<span>( <span class="param">{ name: 'variableName', writable: isWritable }</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">observable.broadcastAs<span>( <span class="param">{ name: 'variableName', namespace: Namespace, writable: isWritable }</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">observable.broadcastAs<span>( <span class="param">{ name: 'variableName', namespace: 'NamespaceName', writable: isWritable }</span> )</span></em></h3>
+      <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).broadcastAs<span>( <span class="param">'variableName'</span> )</span></em></h3>
+      <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).broadcastAs<span>( <span class="param">'variableName'</span>, <span class="param">isWritable</span> )</span></em></h3>
+      <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).broadcastAs<span>( <span class="param">{ name: 'variableName', writable: isWritable }</span> )</span></em></h3>
+      <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).broadcastAs<span>( <span class="param">{ name: 'variableName', namespace: Namespace, writable: isWritable }</span> )</span></em></h3>
+      <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).broadcastAs<span>( <span class="param">{ name: 'variableName', namespace: 'NamespaceName', writable: isWritable }</span> )</span></em></h3>
       <h3 class="top">Factory method which will create and return a broadcastable from an existing observable (observable, computed, or observableArray)</h3>
       <p>Broadcastable values can be either read-only or writable. A writable broadcastable will allow a receivable to
           write back its value upstream. This means you can have a value broadcast from one namespace/module and allow a receivable to both listen for and update its value (with
@@ -331,12 +332,15 @@ broadcastable('Hello');
     { "anchor": "usage",
       "title": "Usage",
       "subSections": [
-        { "anchor": "observable-receiveFrom",
-          "title": "observable.receiveFrom()" },
+        {
+          "title": "receiveFrom()",
+          "subSections": [
+            { "anchor": "receivable-when",
+              "title": "receivable.when()" }
+          ]
+        },
         { "anchor": "observable-broadcastAs",
-          "title": "observable.broadcastAs()" },
-        { "anchor": "receivable-when",
-          "title": "receivable.when()" }
+          "title": "broadcastAs()" }
       ] },
     { "anchor": "lifecycle",
       "title": "Lifecycle",
