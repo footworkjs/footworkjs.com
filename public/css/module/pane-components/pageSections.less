@@ -52,6 +52,7 @@
         }
       }
     }
+
     .section-label {
       position: relative;
       cursor: pointer;
@@ -156,6 +157,24 @@
         }
       }
 
+      pagesubsection {
+        .active .arrow {
+          right: -20px !important;
+        }
+
+        .sub-sections {
+          .active .arrow {
+            right: -30px !important;
+          }
+
+          .sub-sections {
+            .active .arrow {
+              right: -40px !important;
+            }
+          }
+        }
+      }
+
       & > .sub-sections {
         position: relative;
         height: auto;
@@ -209,10 +228,6 @@
             }
           }
 
-          .active .arrow {
-            right: -20px !important;
-          }
-
           .sub-sections {
             & > .content {
               & > .sub.title {
@@ -221,10 +236,6 @@
               & > span.sub.title {
                 .span-sub-title-style;
               }
-            }
-
-            .active .arrow {
-              right: -30px !important;
             }
           }
         }
@@ -258,10 +269,6 @@
           .label {
             padding-right: 0;
             margin-right: 0;
-          }
-
-          .active .arrow {
-            right: -30px !important;
           }
         }
 
