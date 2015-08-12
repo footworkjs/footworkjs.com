@@ -53,8 +53,8 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
             }
           }
 
-          chosenSection( '' );
-          chosenSection( subSectionData.anchor );
+          chosenSection('');
+          chosenSection(subSectionData.anchor);
           $anchorContainer.pulse({ className: 'active', duration: 1000 });
           return true;
         }.bind(this);

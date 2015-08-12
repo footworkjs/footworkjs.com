@@ -1,10 +1,10 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
-  <a id="introduction" class="section-anchor"></a>
-  <section name="introduction">
+  <a id="description" class="section-anchor"></a>
+  <section name="description">
     <div class="highlight"></div>
     <header>
-      <h1 class="sub title">Introduction</h1>
+      <h1 class="sub title">Description</h1>
     </header>
     <div class="content">
       <p>The primary purpose behind a <span class="inline-code">dataModel</span> is the management of RESTful data and related logic.</p>
@@ -38,11 +38,12 @@
     <div class="content">
       <p>Each different type of dataModel you wish to have must have a new constructor function made for it.</p>
 
-      <p>dataModel constructor functions are created by calling the factory method <span class="inline-code">fw.dataModel()</span> and passing it a configuration object.</p>
+      <p><span class="inline-code">dataModel</span> constructor functions are created by calling the factory method
+        <span class="inline-code">fw.dataModel()</span> and passing it a configuration object.</p>
 
-      <p>The resulting constructor function can then be used to instantiate new instances of that dataModel.
-        These constructor functions are essentially specialized wrappers which enable footwork to hook into both knockout and your dataModel/module to provide for all of
-        the additional features the framework provides.</p>
+      <p>The resulting constructor function can then be used to instantiate new instances of that dataModel. These constructor functions are
+        essentially specialized wrappers which enable footwork to hook into both knockout and your dataModel/module to provide for all of the
+        additional features the framework provides.</p>
 
       <h3><em class="func-def">fw.dataModel<span>( <span class="param">configurationObject</span> )</span></em></h3>
       <h3>dataModel configuration object synopsis:</h3>
@@ -858,30 +859,39 @@ fw.dataModels.fileExtensions(function(moduleName) {
 
 <div id="metaData">
 {
-  "title": "dataModel",
+  "title": "DataModel",
   "description": "Bindable logic and data for your markup with additional RESTful persistence features.",
   "sections": [
-    { "anchor": "introduction",
-      "title": "Introduction",
+    { "anchor": "description",
+      "title": "DataModel",
       "subSections": [
         { "title": "Configuration and Usage" },
         { "anchor": "configuration",
           "title": "Configuration" },
         { "anchor": "initialization",
-          "title": "Usage" },
-        { "title": "Mapping Data",
+          "title": "Usage",
+          "subSections": [
+            { "anchor": "dataModel-element",
+              "title": "&lt;dataModel&gt;" },
+            { "anchor": "inside-component",
+              "title": "&lt;component&gt;" },
+            { "anchor": "properties",
+              "title": "Instance Properties" }
+          ] },
+        { "title": "Lifecycle &amp; Registration",
+          "subSections": [
+            { "anchor": "loading-registering",
+              "title": "AMD / Lazy Loading / Registering" },
+            { "anchor": "module-formats",
+              "title": "Module Formats" },
+            { "anchor": "lifecycle",
+              "title": "Lifecycle" }
+          ] },
+        { "title": "Data Management",
           "subSections": [
             { "anchor": "observable-mapTo", "title": "observable.mapTo()" },
             { "anchor": "dataModel-toJS", "title": "dataModel.$toJS()" }
-          ] },
-        { "anchor": "loading-registering",
-          "title": "AMD / Lazy Loading / Registering" },
-        { "anchor": "module-formats",
-          "title": "Module Formats" },
-        { "anchor": "lifecycle",
-          "title": "Lifecycle" },
-        { "anchor": "properties",
-          "title": "Properties" }
+          ] }
       ] },
     { "anchor": "mixins",
       "title": "Mixins",

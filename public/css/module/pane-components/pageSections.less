@@ -1,3 +1,32 @@
+@sectionColor: mix(@pane-bg-color, @pane-fg-color, 50%);
+@iconWidth: 25px;
+@iconHeight: 20px;
+
+.sub-title-style {
+  color: lighten(@sectionColor, 10%);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 5px 0;
+  cursor: auto;
+  font-size: 15px;
+
+  &:hover {
+    color: white;
+    .label {
+      color: white;
+    }
+  }
+}
+
+.span-sub-title-style {
+  font-weight: normal;
+
+  &:hover {
+    .label {
+      color: lighten(@sectionColor, 10%);
+    }
+  }
+}
+
 .pane .content .pane-component {
   &.pageSections {
     @pageSectionTitleHeight: 25px;
@@ -23,10 +52,6 @@
         }
       }
     }
-
-    @sectionColor: mix(@pane-bg-color, @pane-fg-color, 50%);
-    @iconWidth: 25px;
-    @iconHeight: 20px;
     .section-label {
       position: relative;
       cursor: pointer;
@@ -48,6 +73,10 @@
 
         &.hasSubSections > .content {
           padding-right: 10px;
+
+          & > .title > .label {
+            margin-right: @iconWidth + 5px;
+          }
         }
       }
 
@@ -64,7 +93,7 @@
         margin-bottom: 10px;
       }
 
-      a {
+      .title {
         display: block;
         width: 100%;
         height: 100%;
@@ -80,6 +109,7 @@
           white-space: nowrap;
           padding-left: 10px;
           .transition(color 0.3s 0.2s ease);
+          margin-right: 10px;
 
           &:hover {
             color: lighten(@sectionColor, 10%);
@@ -120,6 +150,10 @@
         .box-sizing(border-box);
         .clearblock;
         display: none;
+
+        & > .title > .label {
+          margin-right: 0;
+        }
       }
 
       & > .sub-sections {
@@ -138,7 +172,7 @@
         }
       }
 
-      & > .content, .sub-section > .content {
+      & > .content, .sub-section > .content, .sub-sections > .content {
         &.active {
           .title .label {
             color: @pane-fg-color;
@@ -153,16 +187,14 @@
       }
 
       span.title {
-        padding: 0px 10px;
-        color: white;
         display: block;
-        cursor: auto;
-        font-size: 15px;
+        .sub-title-style;
+        .span-sub-title-style;
       }
 
       .sub-sections {
-        margin: 0px 0 0 @accent-padding;
-        padding: 5px 10px;
+        margin: 5px 0 0 @accent-padding;
+        padding: 0px 10px;
 
         pagesubsection > .content {
           position: relative;
@@ -177,8 +209,23 @@
             }
           }
 
-          .content.active .arrow {
+          .active .arrow {
             right: -20px !important;
+          }
+
+          .sub-sections {
+            & > .content {
+              & > .sub.title {
+                .sub-title-style;
+              }
+              & > span.sub.title {
+                .span-sub-title-style;
+              }
+            }
+
+            .active .arrow {
+              right: -30px !important;
+            }
           }
         }
       }
@@ -191,12 +238,18 @@
         border-bottom: @darkSubSectionBorder;
         border-left: @subSectionBorder;
         border-right: @darkSubSectionBorder;
-        background: rgba(0,0,0,0.05);
+        background: rgba(0,0,0,0.12);
         .border-radius(5px);
 
         & > .title {
           padding-right: 0;
           margin-right: 0;
+
+          .label {
+            padding-right: 0;
+            margin-right: 0;
+            font-weight: normal;
+          }
         }
 
         pagesubsection > .content {
@@ -207,8 +260,15 @@
             margin-right: 0;
           }
 
-          .content.active .arrow {
+          .active .arrow {
             right: -30px !important;
+          }
+        }
+
+        .sub.title {
+          .label {
+            padding-right: 0;
+            margin-right: 0;
           }
         }
       }
