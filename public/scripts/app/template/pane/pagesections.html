@@ -10,7 +10,12 @@
         <span class="text" data-bind="text: title"></span>
       </span>
     </div>
-    <div class="description" data-bind="text: description, css: { visible: hasDescription }"></div>
+    <div class="description" data-bind="css: { visible: hasDescription }">
+      <p data-bind="text: description"></p>
+      <!-- ko if: apiReferences -->
+        <api-nav params="apiReferences: apiReferences"></api-nav>
+      <!-- /ko -->
+    </div>
     <div data-bind="foreach: sections">
       <pagesection params="sectionData: $data"></pagesection>
     </div>

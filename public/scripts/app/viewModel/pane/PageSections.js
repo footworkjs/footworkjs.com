@@ -61,6 +61,7 @@ define([ "jquery", "lodash", "footwork" ],
         this.paneContentMaxHeight = fw.observable().receiveFrom('Pane', 'contentMaxHeight').extend({ units: 'px' });
 
         this.sections = fw.observable();
+        this.apiReferences = fw.observable();
         this.chosenSection = fw.observable(null).extend({
           write: function( target, sectionName ) {
             target( sectionName );
@@ -78,7 +79,7 @@ define([ "jquery", "lodash", "footwork" ],
           var chosenSection = this.chosenSection();
           var chosenRead = this._chosenRead;
           this._chosenRead = true;
-          
+
           return ( chosenRead !== true && chosenSection ) ||  _.reduce( anchorPositions(), function(currentSection, section) {
             var theAnchor = currentSection;
             if( scrollPosition >= (section.position - anchorOffset - 3) ) {
@@ -106,6 +107,7 @@ define([ "jquery", "lodash", "footwork" ],
             pageData.title && this.title(pageData.title);
             this.description(pageData.description);
             this.loadSections(pageData.sections);
+            this.apiReferences(pageData.apiReferences);
           }
         }.bind(this);
         loadMetaData( pageNamespace.request('metaData') );

@@ -237,6 +237,10 @@
             position: relative;
             top: 2px;
           }
+
+          & > .text {
+            float: right;
+          }
         }
 
         a {
@@ -267,7 +271,7 @@
         .unavailable {
           display: none;
           clear: both;
-          
+
           .message {
             padding: 10px;
             text-align: center;
@@ -352,6 +356,7 @@
           line-height: 20px;
           font-style: italic;
           .box-sizing(border-box);
+          .clearblock;
 
           &.visible {
             display: block;

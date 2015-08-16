@@ -1,0 +1,33 @@
+.api-nav {
+  @apiNavHeight: @pane-links-height - @header-border-width;
+  @apiFontSize: 13px;
+
+  height: @apiNavHeight;
+  font-size: 12px;
+  line-height: @apiNavHeight;
+  float: right;
+  overflow: hidden;
+
+  .title {
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid transparent;
+    .border-radius(3px);
+    cursor: pointer;
+    .no-select;
+
+    &:hover {
+      border-color: rgba(255,255,255,0.3);
+    }
+    &:active {
+      border-color: white;
+    }
+
+    .icon {
+      font-size: 12px !important;
+      font-weight: normal;
+      top: 0 !important;
+      margin-right: 5px;
+    }
+  }
+}

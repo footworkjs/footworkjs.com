@@ -34,6 +34,10 @@ define([ "footwork" ],
         viewModel: locations.viewModels.config + 'LayoutControl.js',
         template: locations.templates.config + 'layoutcontrol.html'
       });
+      fw.components.registerLocation('api-nav', {
+        viewModel: locations.viewModels.root + 'api-nav.js',
+        template: locations.templates.root + 'api-nav.html'
+      });
       fw.components.registerLocation('pane', {
         viewModel: locations.viewModels.root + 'Pane.js',
         template: locations.templates.root + 'pane.html'

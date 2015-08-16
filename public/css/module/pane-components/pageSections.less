@@ -11,8 +11,10 @@
 
   &:hover {
     color: white;
+    .transition(none);
     .label {
       color: white;
+      .transition(none);
     }
   }
 }
@@ -214,6 +216,7 @@
       .sub-sections {
         margin: 5px 0 0 @accent-padding;
         padding: 0px 10px;
+        cursor: auto;
 
         pagesubsection > .content {
           position: relative;
