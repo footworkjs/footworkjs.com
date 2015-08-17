@@ -25,15 +25,19 @@ define([ "footwork", "lodash" ],
     return fw.viewModel({
       namespace: 'apiNav',
       initialize: function(params) {
+        this.viewPortScrollPos = fw.observable().receiveFrom('ViewPort', 'scrollPosition');
         this.anchorPositions = fw.observable({});
         this.$namespace.subscribe('anchorPos', function(anchorDef) {
           var anchorPositions = this.anchorPositions();
-          anchorPositions[anchorDef.anchor] = anchorDef.position;
+          anchorPositions[anchorDef.anchor] = anchorDef;
           this.anchorPositions.valueHasMutated();
         }.bind(this));
-        this.anchorPositions.subscribe(function(pos) {
-          console.info('anchorPositions',pos);
-        });
+
+        this.currentAPISection = fw.observable();
+        this.inAPISection = fw.computed(function() {
+          var currentAPISection = this.currentAPISection();
+          return _.isString(currentAPISection) && currentAPISection.length > 0;
+        }, this);
 
         this.navData = fw.observable(fw.unwrap(params.apiReferences));
 
@@ -52,14 +56,27 @@ define([ "footwork", "lodash" ],
           return 'icon-chevron-down';
         }, this);
 
+        this.viewPortScrollPos.subscribe(function(scrollPosition) {
+          this.currentAPISection(undefined);
+          _.each(this.anchorPositions(), function(anchorDef) {
+            if(scrollPosition >= anchorDef.position) {
+              this.currentAPISection(anchorDef.title);
+            }
+          }.bind(this));
+        }.bind(this));
+
         this.toggleVisibility = function(viewModel, event) {
           this.active(!this.active());
           event.stopPropagation();
         };
 
-        this.$globalNamespace.subscribe('clear', function() {
+        this.close = function() {
           this.active(false);
-        }).context(this);
+        }.bind(this);
+
+        this.$globalNamespace.subscribe('clear', this.close);
+
+        this.$namespace.command.handler('close', this.close);
       }
     });
   }
