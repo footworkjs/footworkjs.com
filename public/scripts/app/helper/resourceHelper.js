@@ -42,6 +42,10 @@ define([ "footwork" ],
         viewModel: locations.viewModels.root + 'api-category.js',
         template: locations.templates.root + 'api-category.html'
       });
+      fw.components.registerLocation('api-reference', {
+        viewModel: locations.viewModels.root + 'api-reference.js',
+        template: locations.templates.root + 'api-reference.html'
+      });
       fw.components.registerLocation('pane', {
         viewModel: locations.viewModels.root + 'Pane.js',
         template: locations.templates.root + 'pane.html'

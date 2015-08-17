@@ -17,7 +17,7 @@
   <!-- ko if: hasReferences -->
     <div class="references" data-bind="foreach: references">
       <div class="reference">
-        <a class="ref-label" data-bind="text: title"></a>
+        <api-reference params="reference: $data"></api-reference>
       </div>
     </div>
   <!-- /ko -->
