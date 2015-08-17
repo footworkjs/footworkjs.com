@@ -1,23 +1,120 @@
 .api-nav {
-  @apiNavHeight: @pane-links-height - @header-border-width;
+  @apiNavHeight: 25px;
   @apiFontSize: 13px;
+  @backgroundColor: #3f91df;
 
-  height: @apiNavHeight;
-  font-size: 12px;
-  line-height: @apiNavHeight;
-  float: right;
-  overflow: hidden;
+  @contentBorderColor: lighten(@backgroundColor, 20%);
+  @contentSpacing: 10px;
+  @subCatBackground: darken(@backgroundColor, 5%);
+  @subCatBorderColor: darken(@subCatBackground, 5%);
 
-  .title {
-    padding: 5px 10px;
-    background: rgba(255,255,255,0.2);
+  .commonStyles {
+    background: @backgroundColor;
     border: 1px solid transparent;
     .border-radius(3px);
+  }
+
+  float: right;
+  overflow: hidden;
+  position: relative;
+  margin: 10px 0 5px;
+
+  &.active {
+    overflow: visible;
+
+    .button-label {
+      border-color: white;
+      &:hover {
+        border-color: white;
+      }
+    }
+  }
+
+  & > .content {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+    z-index: 10;
+    margin-top: 5px;
+    .commonStyles;
+    .box-shadow(0 1px 3px -1px black);
+    .box-sizing(border-box);
+    border-color: @contentBorderColor;
+    font-size: 13px;
+
+    .reference {
+      padding-right: @contentSpacing;
+    }
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+      color: mix(@backgroundColor, white, 30%);
+
+      &:hover {
+        color: white;
+      }
+    }
+
+    .api-category {
+      &.isSubCategory {
+        & > .cat-label {
+        }
+      }
+    }
+
+    .category + .category {
+      border-top: 1px solid lighten(@backgroundColor, 10%);
+    }
+
+    .sub-categories {
+      margin: @contentSpacing;
+      background: @subCatBackground;
+      .border-radius(3px);
+      border: 1px solid @subCatBorderColor;
+
+      .cat-label {
+        font-size: 12px;
+
+        .parent {
+          color: lighten(@subCatBackground, 25%);
+        }
+      }
+
+      api-category + api-category {
+        & > .api-category {
+          border-top: none;
+        }
+      }
+    }
+
+    .cat-label {
+      padding: 0 @contentSpacing;
+      line-height: 25px;
+    }
+
+    api-category + api-category {
+      & > .api-category.isSubCategory {
+        border-top: 1px solid @subCatBorderColor;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .button-label {
+    height: @apiNavHeight;
+    line-height: @apiNavHeight;
+    font-size: 12px;
+    padding: 0px 10px;
     cursor: pointer;
+    display: block;
+    float: right;
     .no-select;
+    .commonStyles;
 
     &:hover {
-      border-color: rgba(255,255,255,0.3);
+      border-color: lighten(@backgroundColor, 20%);
     }
     &:active {
       border-color: white;

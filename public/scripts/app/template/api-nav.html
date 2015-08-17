@@ -1,5 +1,8 @@
-<div class="api-nav">
-  <div class="content">
-    <span class="title"><span class="icon icon-chevron-down"></span> API Reference</span>
+<div class="api-nav" data-bind="css: { active: active }, style: { width: apiNavWidth }">
+  <div class="button-label" data-bind="click: toggleVisibility">
+    <span class="icon" data-bind="class: labelIcon"></span> API Navigation
+  </div>
+  <div class="content" data-bind="foreach: navData">
+    <api-category params="categoryData: $data"></api-category>
   </div>
 </div>

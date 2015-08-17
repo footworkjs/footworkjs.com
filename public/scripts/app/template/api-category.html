@@ -1,0 +1,24 @@
+<div class="api-category" data-bind="css: { isSubCategory: isSubCategory }">
+  <!-- ko ifnot: hasSubCategories -->
+    <!-- ko if: isSubCategory -->
+      <div class="cat-label"><span class="parent" data-bind="text: parent.label"></span> <span data-bind="text: label"></span></div>
+    <!-- /ko -->
+    <!-- ko ifnot: isSubCategory -->
+      <div class="cat-label" data-bind="text: label"></div>
+    <!-- /ko -->
+  <!-- /ko -->
+
+  <!-- ko if: hasSubCategories -->
+    <div class="sub-categories" data-bind="foreach: subCategories">
+      <api-category params="categoryData: $data, parent: $parent"></api-category>
+    </div>
+  <!-- /ko -->
+
+  <!-- ko if: hasReferences -->
+    <div class="references" data-bind="foreach: references">
+      <div class="reference">
+        <a class="ref-label" data-bind="text: title"></a>
+      </div>
+    </div>
+  <!-- /ko -->
+</div>
