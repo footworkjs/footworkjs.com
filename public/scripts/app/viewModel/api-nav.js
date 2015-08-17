@@ -20,9 +20,14 @@ define([ "footwork", "lodash" ],
           return 'icon-chevron-down';
         }, this);
 
-        this.toggleVisibility = function() {
+        this.toggleVisibility = function(viewModel, event) {
           this.active(!this.active());
+          event.stopPropagation();
         };
+
+        this.$globalNamespace.subscribe('clear', function() {
+          this.active(false);
+        }).context(this);
       }
     });
   }

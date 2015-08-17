@@ -54,6 +54,14 @@ define(["jquery", "lodash", "knockout", "postal" ],
       }
     };
 
+    fw.bindingHandlers['stopProp'] = {
+      update: function( element ) {
+        $(element).on('click', function(event) {
+          event.stopPropagation();
+        });
+      }
+    };
+
     /**
      * Source: https://github.com/SteveSanderson/knockout/wiki/Bindings---class
      */

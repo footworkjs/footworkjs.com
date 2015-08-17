@@ -18,15 +18,13 @@
   overflow: hidden;
   position: relative;
   margin: 10px 0 5px;
+  font-style: normal;
 
   &.active {
     overflow: visible;
 
     .button-label {
-      border-color: white;
-      &:hover {
-        border-color: white;
-      }
+      border-color: lighten(@backgroundColor, 20%);
     }
   }
 
@@ -40,12 +38,7 @@
     .commonStyles;
     .box-shadow(0 1px 3px -1px black);
     .box-sizing(border-box);
-    border-color: @contentBorderColor;
     font-size: 13px;
-
-    .reference {
-      padding-right: @contentSpacing;
-    }
 
     a {
       cursor: pointer;
@@ -54,13 +47,6 @@
 
       &:hover {
         color: white;
-      }
-    }
-
-    .api-category {
-      &.isSubCategory {
-        & > .cat-label {
-        }
       }
     }
 
@@ -89,8 +75,11 @@
       }
     }
 
-    .cat-label {
+    .reference, .cat-label {
       padding: 0 @contentSpacing;
+    }
+
+    .cat-label {
       line-height: 25px;
     }
 
@@ -115,9 +104,6 @@
 
     &:hover {
       border-color: lighten(@backgroundColor, 20%);
-    }
-    &:active {
-      border-color: white;
     }
 
     .icon {
