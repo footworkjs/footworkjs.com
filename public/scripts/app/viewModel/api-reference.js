@@ -3,14 +3,17 @@ define([ "footwork", "lodash", "jquery" ],
     return fw.viewModel({
       namespace: 'apiReference',
       initialize: function(params) {
-        _.extend(this, fw.unwrap(params.reference));
+        _.extend(this, {
+          description: null
+        }, fw.unwrap(params.reference));
         this.apiNavNamespace = fw.namespace('apiNav');
         this.currentAPISection = fw.observable().receiveFrom('apiNav', 'currentAPISection');
         this.$anchor = $('#' + this.anchor);
 
-        this.element = fw.observable();
-        var oldPosition;
+        this.mouseOver = fw.observable().receiveFrom('apiNav', 'mouseOver');
         this.position = fw.observable();
+
+        var oldPosition;
         this.position.subscribe(function(position) {
           this.apiNavNamespace.publish('anchorPos', {
             title: this.title,

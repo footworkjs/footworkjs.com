@@ -1,19 +1,16 @@
 define(["jquery", "lodash", "knockout", "postal" ],
   function( $, _, fw, postal ) {
-    /**
-     * Trigger remote events
-     */
-    fw.bindingHandlers['command'] = {
+    fw.bindingHandlers['hoverTrack'] = {
       init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
-        var eventsToHandle = valueAccessor() || {};
-
-        _.each( eventsToHandle, function( eventOptions, eventName ) {
-          fw.utils.registerEventHandler( element, eventName, function ( event ) {
-            if( eventOptions.ns ) {
-              postal.channel( eventOptions.ns ).publish( eventOptions.order, eventOptions.value );
-            }
+        var $element = $(element);
+        var trackVar = valueAccessor();
+        $element
+          .on('mouseenter', function() {
+            trackVar(true);
+          })
+          .on('mouseleave', function() {
+            trackVar(false);
           });
-        });
       }
     };
 

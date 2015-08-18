@@ -33,6 +33,7 @@ define([ "footwork", "lodash" ],
           this.anchorPositions.valueHasMutated();
         }.bind(this));
 
+        this.mouseOver = fw.observable().broadcastAs('mouseOver', true);
         this.currentAPISection = fw.observable().broadcastAs('currentAPISection');
         this.inAPISection = fw.computed(function() {
           var currentAPISection = this.currentAPISection();
@@ -55,6 +56,33 @@ define([ "footwork", "lodash" ],
           }
           return 'icon-chevron-down';
         }, this);
+
+        var showTimeout = 1000;
+        var hideTimeout = 500;
+        var hideDescriptionTimer;
+        var showDescriptionTimer;
+        this.showDescription = fw.observable(false);
+        this.mouseOver.subscribe(function(mouseIsOver) {
+          if(mouseIsOver) {
+            clearTimeout(hideDescriptionTimer);
+            hideDescriptionTimer = undefined;
+
+            if(_.isUndefined(showDescriptionTimer)) {
+              showDescriptionTimer = setTimeout(function() {
+                this.showDescription(true);
+              }.bind(this), showTimeout);
+            }
+          } else {
+            clearTimeout(showDescriptionTimer);
+            showDescriptionTimer = undefined;
+
+            if(_.isUndefined(hideDescriptionTimer)) {
+              hideDescriptionTimer = setTimeout(function() {
+                this.showDescription(false);
+              }.bind(this), hideTimeout);
+            }
+          }
+        }.bind(this));
 
         this.viewPortScrollPos.subscribe(function(scrollPosition) {
           this.currentAPISection(undefined);
