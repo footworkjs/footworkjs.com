@@ -10,9 +10,11 @@ define(["jquery", "lodash", "knockout", "postal" ],
         var disableTrackVar = function() {
           trackVar(false);
         };
+
         $element
           .on('mouseenter', enableTrackVar)
           .on('mouseleave', disableTrackVar);
+
         fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
           $element
             .off('mouseenter', enableTrackVar)
@@ -60,11 +62,13 @@ define(["jquery", "lodash", "knockout", "postal" ],
 
     fw.bindingHandlers['stopProp'] = {
       update: function( element ) {
+        var $element = $(element);
         var stopProp = function(event) {
           event.stopPropagation();
         };
-        var $element = $(element);
+
         $element.on('click', stopProp);
+
         fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
           $element.off('click', stopProp);
         });

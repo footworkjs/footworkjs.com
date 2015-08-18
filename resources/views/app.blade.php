@@ -30,6 +30,7 @@
       <meta name="twitter:image" content="{{ $og['image'] }}">
     @endif
 
+    <link rel="stylesheet" href="{{ asset('/css/setup/icon-fonts/footwork.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
     <link href="{{ asset('/css/app.css') }}?v={{ $buildVersion }}" rel="stylesheet">
     <link rel="apple-touch-icon-precomposed" href="/images/icon-builds/apple-touch-icon-precomposed.png?v={{ $buildVersion }}">
@@ -88,7 +89,6 @@
                                                                 style: { height: visibleHeight, top: topOffset, borderBottomWidth: borderWidth }">
                 <div class="source-link has-trans" data-bind="css: { visible: sourceLinkVisible, forceHidden: sourceLinkHidden }">
                   <a class="button" target="_blank" href="https://github.com/reflectiveSingleton/footwork">
-                    <span class="icon icon-github"></span>
                     <span>View on Github</span>
                   </a>
                 </div>

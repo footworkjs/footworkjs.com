@@ -2,7 +2,13 @@
   <div class="button-label" data-bind="click: toggleVisibility">
     <span class="icon" data-bind="class: labelIcon"></span> API <!-- ko if: inAPISection --><span class="api-section"><span class="content" data-bind="text: currentAPISection"></span></span><!-- /ko -->
   </div>
-  <div class="content" data-bind="foreach: navData, stopProp">
-    <api-category params="categoryData: $data"></api-category>
+  <div class="content" data-bind="stopProp">
+    <div class="description-toggle" data-bind="click: toggleDescriptionVisibility, css: { active: !hideDescriptions() }">
+      <span class="icon-info"></span>
+      <div class="description">Click to <span class="next-action" data-bind="text: nextClickAction"></span> popup descriptions.</div>
+    </div>
+    <!-- ko foreach: navData -->
+      <api-category params="categoryData: $data"></api-category>
+    <!-- /ko -->
   </div>
 </div>

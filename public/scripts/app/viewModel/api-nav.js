@@ -57,10 +57,14 @@ define([ "footwork", "lodash" ],
           return 'icon-chevron-down';
         }, this);
 
-        var showTimeout = 1000;
+        var showTimeout = 600;
         var hideTimeout = 500;
         var hideDescriptionTimer;
         var showDescriptionTimer;
+        this.toggleDescriptionVisibility = function() {
+          this.hideDescriptions(!this.hideDescriptions());
+        };
+        this.hideDescriptions = fw.observable(false);
         this.showDescription = fw.observable(false);
         this.mouseOver.subscribe(function(mouseIsOver) {
           if(mouseIsOver) {
@@ -69,7 +73,9 @@ define([ "footwork", "lodash" ],
 
             if(_.isUndefined(showDescriptionTimer)) {
               showDescriptionTimer = setTimeout(function() {
-                this.showDescription(true);
+                if(!this.hideDescriptions()) {
+                  this.showDescription(true);
+                }
               }.bind(this), showTimeout);
             }
           } else {
@@ -83,6 +89,13 @@ define([ "footwork", "lodash" ],
             }
           }
         }.bind(this));
+
+        this.nextClickAction = fw.computed(function() {
+          if(this.hideDescriptions()) {
+            return 'allow';
+          }
+          return 'disallow';
+        }, this);
 
         this.viewPortScrollPos.subscribe(function(scrollPosition) {
           this.currentAPISection(undefined);
