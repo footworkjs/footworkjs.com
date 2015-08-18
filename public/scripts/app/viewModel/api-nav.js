@@ -92,9 +92,9 @@ define([ "footwork", "lodash" ],
 
         this.nextClickAction = fw.computed(function() {
           if(this.hideDescriptions()) {
-            return 'allow';
+            return 'enable';
           }
-          return 'disallow';
+          return 'disable';
         }, this);
 
         this.viewPortScrollPos.subscribe(function(scrollPosition) {

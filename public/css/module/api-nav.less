@@ -1,15 +1,16 @@
 .api-nav {
   @apiNavHeight: 25px;
   @apiFontSize: 13px;
-  @backgroundColor: darken(@pane-bg-color, 20%);
-  @buttonHoverBorder: mix(@pane-bg-color, @backgroundColor, 50%);
-  @accentColor: darken(@backgroundColor, 20%);
+  @backgroundColor: #292929;//darken(@pane-bg-color, 30%);
+  @buttonHoverBorder: @accentColor;//mix(@pane-bg-color, @backgroundColor, 50%);
+  @accentColor: lighten(@pane-bg-color, 10%);
   @textColor: contrast(@backgroundColor);
   @descriptionColor: #f0f0f0;
+  @refColor: #3588D6;
 
   @contentBorderColor: lighten(@backgroundColor, 20%);
   @contentSpacing: 10px;
-  @subCatBackground: darken(@backgroundColor, 5%);
+  @subCatBackground: darken(@backgroundColor, 20%);
   @subCatBorderColor: darken(@subCatBackground, 5%);
 
   .commonStyles {
@@ -49,6 +50,7 @@
       height: auto;
       opacity: 1;
       .transition(margin 0.2s ease, opacity 0.2s ease);
+      overflow: visible;
     }
 
     .description {
@@ -69,10 +71,26 @@
       font-size: 12px;
       line-height: 15px;
       .transition(margin 0.2s 0.2s ease);
+      pointer-events: none;
       overflow: hidden;
 
       .next-action {
         font-weight: bold;
+      }
+
+      &:after {
+        bottom: 100%;
+        left: 9px;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: transparent;
+        border-bottom-color: @descriptionColor;
+        border-width: 5px;
+        margin-left: -5px;
       }
     }
 
@@ -116,7 +134,7 @@
     }
 
     .sub-categories {
-      margin: @contentSpacing;
+      margin: 5px @contentSpacing;
       background: @subCatBackground;
       .border-radius(3px);
       border: 1px solid @subCatBorderColor;
@@ -125,7 +143,7 @@
         font-size: 12px;
 
         .parent {
-          color: mix(@backgroundColor, @textColor, 65%);
+          color: mix(@backgroundColor, @textColor, 50%);
         }
       }
 
@@ -144,9 +162,15 @@
     .ref-label {
       position: relative;
       display: block;
+      color: @refColor;
+
+      &:hover {
+        color: lighten(@refColor, 20%);
+      }
 
       &.active {
-        color: @textColor;
+        color: @accentColor;
+        font-weight: bold;
 
         .arrow {
           margin-left: -3px;
@@ -182,13 +206,30 @@
         color: contrast(@descriptionColor);
         font-weight: bold;
         .border-radius(3px);
-        margin-top: -5px;
+        margin-top: 0;
         opacity: 0;
         .box-shadow(0 1px 3px -1px black);
         height: 0;
-        overflow: hidden;
         padding: 0;
         .transition(none);
+        pointer-events: none;
+        width: 170px;
+        text-align: left;
+
+        &:after {
+          bottom: 100%;
+          right: 15px;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none;
+          border-color: transparent;
+          border-bottom-color: @descriptionColor;
+          border-width: 5px;
+          margin-left: -5px;
+        }
       }
     }
 
@@ -220,12 +261,12 @@
       line-height: 25px;
     }
 
-    api-category + api-category {
-      & > .api-category.isSubCategory {
-        border-top: 1px solid @subCatBorderColor;
-        margin-top: 5px;
-      }
-    }
+    // api-category + api-category {
+    //   & > .api-category.isSubCategory {
+    //     border-top: 1px solid @subCatBorderColor;
+    //     margin-top: 5px;
+    //   }
+    // }
   }
 
   &.showDescription > .content .ref-label:hover .description {
@@ -234,7 +275,6 @@
     opacity: 1;
     margin-top: 5px;
     .transition(margin 0.2s ease, opacity 0.2s ease);
-    pointer-events: none;
   }
 
   .button-label {
@@ -242,7 +282,7 @@
     height: @apiNavHeight;
     line-height: @apiNavHeight;
     font-size: 12px;
-    padding: 0px 10px;
+    padding: 0px 8px;
     cursor: pointer;
     display: block;
     float: right;
@@ -260,7 +300,7 @@
     .api-section {
       .content {
         padding-left: 5px;
-        color: mix(@textColor, @backgroundColor, 30%);
+        color: mix(@textColor, @backgroundColor, 60%);
         font-style: italic;
       }
     }
@@ -269,7 +309,7 @@
       font-size: 12px !important;
       font-weight: normal;
       top: 0 !important;
-      margin-right: 5px;
+      margin-right: 4px;
     }
   }
 }
