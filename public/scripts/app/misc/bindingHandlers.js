@@ -4,13 +4,20 @@ define(["jquery", "lodash", "knockout", "postal" ],
       init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
         var $element = $(element);
         var trackVar = valueAccessor();
+        var enableTrackVar = function() {
+          trackVar(true);
+        };
+        var disableTrackVar = function() {
+          trackVar(false);
+        };
         $element
-          .on('mouseenter', function() {
-            trackVar(true);
-          })
-          .on('mouseleave', function() {
-            trackVar(false);
-          });
+          .on('mouseenter', enableTrackVar)
+          .on('mouseleave', disableTrackVar);
+        fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
+          $element
+            .off('mouseenter', enableTrackVar)
+            .off('mouseleave', disableTrackVar);
+        });
       }
     };
 
@@ -53,8 +60,13 @@ define(["jquery", "lodash", "knockout", "postal" ],
 
     fw.bindingHandlers['stopProp'] = {
       update: function( element ) {
-        $(element).on('click', function(event) {
+        var stopProp = function(event) {
           event.stopPropagation();
+        };
+        var $element = $(element);
+        $element.on('click', stopProp);
+        fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
+          $element.off('click', stopProp);
         });
       }
     };
