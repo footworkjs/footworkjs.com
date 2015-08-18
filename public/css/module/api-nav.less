@@ -39,6 +39,10 @@
     .box-shadow(0 1px 3px -1px black);
     .box-sizing(border-box);
     font-size: 13px;
+    border-width: 0;
+    border-right: 8px solid white;
+    max-height: 700px;
+    overflow-y: auto;
 
     a {
       cursor: pointer;
@@ -77,6 +81,60 @@
 
     .reference, .cat-label {
       padding: 0 @contentSpacing;
+    }
+
+    .ref-label {
+      position: relative;
+
+      &.active {
+        color: white;
+
+        .arrow {
+          margin-left: -3px;
+          .transition(all 0.2s ease);
+        }
+      }
+
+      .arrow {
+        left: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(255, 255, 255, 0);
+        border-right-color: #ffffff;
+        border-width: 7px;
+        margin-top: -7px;
+        margin-left: 4px;
+        .transition(all 0.3s 0.2s ease);
+      }
+    }
+
+    .sub-categories {
+      .ref-label {
+        &.active .arrow {
+          margin-left: 8px;
+        }
+
+        .arrow {
+          margin-left: 15px;
+        }
+      }
+
+      .sub-categories {
+        .ref-label {
+          &.active .arrow {
+            margin-left: 19px;
+          }
+
+          .arrow {
+            margin-left: 26px;
+          }
+        }
+      }
     }
 
     .cat-label {

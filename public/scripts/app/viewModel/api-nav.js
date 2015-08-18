@@ -33,7 +33,7 @@ define([ "footwork", "lodash" ],
           this.anchorPositions.valueHasMutated();
         }.bind(this));
 
-        this.currentAPISection = fw.observable();
+        this.currentAPISection = fw.observable().broadcastAs('currentAPISection');
         this.inAPISection = fw.computed(function() {
           var currentAPISection = this.currentAPISection();
           return _.isString(currentAPISection) && currentAPISection.length > 0;

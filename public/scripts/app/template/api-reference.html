@@ -1,3 +1,6 @@
 <div class="api-reference">
-  <a class="ref-label" data-bind="attr: { href: anchorAddress }, text: title, click: choose"></a>
+  <a class="ref-label" data-bind="attr: { href: anchorAddress }, css: { active: active }, click: choose">
+    <span data-bind="text: title"></span>
+    <div class="arrow"></div>
+  </a>
 </div>

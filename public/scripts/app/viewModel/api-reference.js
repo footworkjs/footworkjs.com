@@ -5,6 +5,7 @@ define([ "footwork", "lodash", "jquery" ],
       initialize: function(params) {
         _.extend(this, fw.unwrap(params.reference));
         this.apiNavNamespace = fw.namespace('apiNav');
+        this.currentAPISection = fw.observable().receiveFrom('apiNav', 'currentAPISection');
         this.$anchor = $('#' + this.anchor);
 
         this.element = fw.observable();
@@ -29,6 +30,10 @@ define([ "footwork", "lodash", "jquery" ],
           this.apiNavNamespace.command('close');
           return true;
         };
+
+        this.active = fw.computed(function() {
+          return this.currentAPISection() === this.title;
+        }, this);
 
         (this.getPlacement = function() {
           if(this.$anchor.length) {
