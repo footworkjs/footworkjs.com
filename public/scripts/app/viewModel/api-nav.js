@@ -64,7 +64,7 @@ define([ "footwork", "lodash" ],
         this.toggleDescriptionVisibility = function() {
           this.hideDescriptions(!this.hideDescriptions());
         };
-        this.hideDescriptions = fw.observable(false);
+        this.hideDescriptions = fw.observable().receiveFrom('Page', 'hideDescriptions');
         this.showDescription = fw.observable(false);
         this.mouseOver.subscribe(function(mouseIsOver) {
           if(mouseIsOver) {

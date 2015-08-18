@@ -13,6 +13,7 @@ define([ "jquery", "lodash", "footwork" ],
         this.shortTitle = fw.observable().broadcastAs('shortTitle', true);
         this.baseURL = fw.observable().broadcastAs('baseURL');
         this.hashURL = fw.observable().broadcastAs('hashURL', true);
+        this.hideDescriptions = fw.observable(false).broadcastAs('hideDescriptions', true);
 
         this.loadPageMeta = function( metaData ) {
           if( !_.isUndefined(metaData) ) {

@@ -29,6 +29,7 @@
     overflow: visible;
 
     .button-label {
+      color: @textColor;
       border-color: @buttonHoverBorder;
       .box-shadow(0 1px 3px -1px black inset);
     }
@@ -269,16 +270,8 @@
     // }
   }
 
-  &.showDescription > .content .ref-label:hover .description {
-    padding: 5px;
-    height: auto;
-    opacity: 1;
-    margin-top: 5px;
-    .transition(margin 0.2s ease, opacity 0.2s ease);
-  }
-
   .button-label {
-    color: @textColor;
+    color: mix(@textColor, @backgroundColor, 75%);
     height: @apiNavHeight;
     line-height: @apiNavHeight;
     font-size: 12px;
@@ -288,8 +281,10 @@
     float: right;
     .no-select;
     .commonStyles;
+    border-color: darken(@buttonHoverBorder, 10%);
 
     &:hover {
+      color: @textColor;
       border-color: @buttonHoverBorder;
     }
 
@@ -310,6 +305,16 @@
       font-weight: normal;
       top: 0 !important;
       margin-right: 4px;
+    }
+  }
+
+  &.showDescription {
+    & > .content .ref-label:hover .description {
+      padding: 5px;
+      height: auto;
+      opacity: 1;
+      margin-top: 5px;
+      .transition(margin 0.2s ease, opacity 0.2s ease);
     }
   }
 }
