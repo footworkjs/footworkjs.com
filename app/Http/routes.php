@@ -12,6 +12,7 @@
 */
 
 Route::get('/docs/navigation-data', 'DocsController@navData');
+Route::get('/docs/search-data/{version}', 'DocsController@searchData');
 Route::get('release/list', 'BuildController@listReleases');
 Route::get('release/{version}/download/{buildFile}', 'BuildController@downloadReleaseFile');
 

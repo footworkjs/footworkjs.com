@@ -11,4 +11,8 @@ class DocsController extends Controller {
   public function navData() {
     return response()->json($this->docs->navData());
   }
+
+  public function searchData($version) {
+    return response()->json($this->docs->searchData($version));
+  }
 }

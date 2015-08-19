@@ -28,6 +28,13 @@ define([ "footwork", "lodash", "jquery" ],
           oldPosition = position;
         }.bind(this));
 
+        this.isFocused = fw.observable(false);
+        this.isFocused.subscribe(function(isFocused) {
+          if(isFocused) {
+            this.apiNavNamespace.command('open');
+          }
+        }.bind(this));
+
         this.anchorAddress = window.location.pathname + '#' + this.anchor;
         this.choose = function() {
           this.apiNavNamespace.command('close');

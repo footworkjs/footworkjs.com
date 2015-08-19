@@ -1,0 +1,14 @@
+<div class="api-search" data-bind="css: { searchResultsVisible: searchResultsVisible }, stopProp">
+  <div class="container">
+    <label>
+      <span class="label">API<span class="icon-search"></span></span>
+      <input name="search" type="text" data-bind="value: query, hasFocus: hasFocus, valueUpdate: 'keyup'" autofocus>
+    </label>
+    <div class="results">
+      <div class="close icon-close" data-bind="click: close"></div>
+      <div class="content">
+        search results
+      </div>
+    </div>
+  </div>
+</div>

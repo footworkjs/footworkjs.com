@@ -13,12 +13,14 @@ define([ "jquery", "lodash", "footwork" ],
         this.options = entryData || {};
         this.subMenuItems = entryData.subMenu;
         this.hasSubMenu = (_.isArray(entryData.subMenu) && !!entryData.subMenu.length);
-        this.hasDocsMenu = entryData.label === 'Documentation';
+        this.hasDocsMenu = entryData.label === 'Docs';
         this.target = entryData.target;
         this.menuActive = fw.observable(false);
         this.$globalNamespace.subscribe('clear', _.bind(function() {
           this.menuActive(false);
         }, this));
+        this.componentName = entryData.component;
+        this.type = _.isString(entryData.component) ? 'component' : 'menuItem';
 
         this.stopPropagation = function(viewModel, event) {
           if(event.which !== 2) {
@@ -90,9 +92,10 @@ define([ "jquery", "lodash", "footwork" ],
         }, this);
         this.visible = fw.observable(false);
         this.entries = fw.observableArray([
-          new Entry({ label: 'Documentation', url: '/docs/list' }),
+          new Entry({ label: 'Docs', url: '/docs/list' }),
           new Entry({ label: 'Tutorials', url: '/tutorials' }),
-          new Entry({ label: 'About', url: '/about', aside: true })
+          new Entry({ label: 'About', url: '/about', aside: true }),
+          new Entry({ component: 'api-search', aside: true })
         ]);
 
         this.checkSelection = function(newSelection) {

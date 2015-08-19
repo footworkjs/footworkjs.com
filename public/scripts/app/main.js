@@ -26,6 +26,7 @@ require([
     var navigationNamespace = fw.namespace('Navigation');
     var configurationNamespace = fw.namespace('Configuration');
     var layoutNamespace = fw.namespace('Layout');
+    var apiSearchFocused = fw.observable().receiveFrom('apiSearch', 'hasFocus');
     var pageHashURL = fw.observable().receiveFrom('Page', 'hashURL');
     var bodyHeight = fw.observable().receiveFrom('Layout', 'height');
     var scrollPosition = fw.observable().receiveFrom('ViewPort', 'scrollPosition');
@@ -73,8 +74,16 @@ require([
 
     _.each({
       'alt+r': function() { viewPortLayoutMode() !== 'mobile' && configurationNamespace.publish('reset'); },
-      'ctrl+x': function() { navigationNamespace.publish('toggleHeader'); },
-      'ctrl+z': function() { layoutNamespace.publish('togglePane'); },
+      'ctrl+x': function() {
+        if(!apiSearchFocused()) {
+          navigationNamespace.publish('toggleHeader');
+        }
+      },
+      'ctrl+z': function() {
+        if(!apiSearchFocused()) {
+          layoutNamespace.publish('togglePane');
+        }
+      },
       'esc': function() { globalNamespace.publish('clear'); configVisible( false ); }
     }, function(handler, keyCombo) {
       jwerty.key( keyCombo, handler );

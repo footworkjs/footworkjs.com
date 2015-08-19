@@ -115,9 +115,14 @@ define([ "footwork", "lodash" ],
           this.active(false);
         }.bind(this);
 
+        this.open = function() {
+          this.active(true);
+        }.bind(this);
+
         this.$globalNamespace.subscribe('clear', this.close);
 
         this.$namespace.command.handler('close', this.close);
+        this.$namespace.command.handler('open', this.open);
       }
     });
   }
