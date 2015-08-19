@@ -21,7 +21,7 @@ define([ "footwork", "lodash", "jquery" ],
       initialize: function(params) {
         this.hasFocus = fw.observable(false).broadcastAs('hasFocus');
         this.query = fw.observable();
-        this.computeSearchResults = fw.observable(false);
+        this.queryString = fw.observable();
         this.searchData = fw.observable().receiveFrom('apiSearchModule', 'searchData');
 
         this.touch = function() {
@@ -36,12 +36,16 @@ define([ "footwork", "lodash", "jquery" ],
 
           if(_.isString(query) && query.length > minQueryLength) {
             computeSearchResultsTimeout = setTimeout(function() {
-              this.computeSearchResults(true);
+              this.queryString(query);
             }.bind(this), 400);
           } else {
-            this.computeSearchResults(false);
+            this.queryString(undefined);
           }
         }.bind(this));
+        this.hasQueryString = fw.computed(function() {
+          var queryString = this.queryString();
+          return _.isString(queryString) && queryString.length > 0;
+        }, this);
 
         this.searchResultsVisible = fw.observable(false);
         this.searchResultsVisibleEval = fw.computed(function() {

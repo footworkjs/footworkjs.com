@@ -106,8 +106,15 @@
       background: @searchBorder;
       color: mix(@resultsText, @searchBackground);
       font-size: 12px;
+      font-weight: bold;
       line-height: @titleHeight;
       padding-left: 5px;
+
+      .query-text {
+        font-weight: normal;
+        color: white;
+        padding-left: 5px;
+      }
     }
 
     & > .close {

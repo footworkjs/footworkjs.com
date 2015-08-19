@@ -4,11 +4,24 @@
       <span class="label">API<span class="icon-search"></span></span>
       <input name="search" type="text" data-bind="value: query, hasFocus: hasFocus, valueUpdate: 'keyup'" autofocus>
     </label>
-    <div class="results">
+    <div class="results has-trans">
       <div class="close icon-close" data-bind="click: close"></div>
-      <div class="results-title">Query Results</div>
+      <div class="results-title">
+        Query:
+        <!-- ko ifnot: hasQueryString -->
+          <span class="icon-spin1"></span>
+        <!-- /ko -->
+        <!-- ko if: hasQueryString -->
+          <span class="query-text" data-bind="text: queryString"></span>
+        <!-- /ko -->
+      </div>
       <div class="content">
-        search results
+        <!-- ko ifnot: hasQueryString -->
+          <span class="icon-spin1"></span>
+        <!-- /ko -->
+        <!-- ko if: hasQueryString -->
+          has query string
+        <!-- /ko -->
       </div>
     </div>
   </div>
