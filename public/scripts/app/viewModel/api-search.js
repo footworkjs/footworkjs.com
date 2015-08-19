@@ -6,6 +6,16 @@ define([ "footwork", "lodash", "jquery" ],
     var apiSearchData = fw.observable(undefined).broadcastAs({ name: 'searchData', namespace: 'apiSearchModule' });
     var isLoadingSearchData = false;
 
+    function searchStringInArray(str, strArray) {
+      var found = false;
+      _.each(strArray, function(haystack) {
+        if(haystack.toLowerCase().indexOf(str) !== -1) {
+          found = true;
+        }
+      });
+      return found;
+    }
+
     searchTouched.subscribe(function(wasTouched) {
       if(wasTouched && _.isUndefined(apiSearchData()) && !isLoadingSearchData) {
         isLoadingSearchData = true;
@@ -23,6 +33,7 @@ define([ "footwork", "lodash", "jquery" ],
         this.query = fw.observable();
         this.queryString = fw.observable();
         this.searchData = fw.observable().receiveFrom('apiSearchModule', 'searchData');
+        this.userTyping = fw.observable(true);
 
         this.touch = function() {
           searchTouched(true);
@@ -33,19 +44,18 @@ define([ "footwork", "lodash", "jquery" ],
         var computeSearchResultsTimeout;
         this.query.subscribe(function(query) {
           clearTimeout(computeSearchResultsTimeout);
+          this.userTyping(true);
 
           if(_.isString(query) && query.length > minQueryLength) {
             computeSearchResultsTimeout = setTimeout(function() {
               this.queryString(query);
+              this.userTyping(false);
             }.bind(this), 400);
           } else {
             this.queryString(undefined);
+            this.userTyping(false);
           }
         }.bind(this));
-        this.hasQueryString = fw.computed(function() {
-          var queryString = this.queryString();
-          return _.isString(queryString) && queryString.length > 0;
-        }, this);
 
         this.searchResultsVisible = fw.observable(false);
         this.searchResultsVisibleEval = fw.computed(function() {
@@ -64,6 +74,61 @@ define([ "footwork", "lodash", "jquery" ],
         this.close = function() {
           this.searchResultsVisible(false);
         }.bind(this);
+
+        this.results = fw.computed(function computeSearchResults() {
+          var queryString = this.queryString();
+          var searchData = this.searchData();
+          var searchResults = [];
+          if(_.isString(queryString) && queryString.length > 0 && !_.isUndefined(searchData)) {
+            function lookForQueryInAPi(data, query, baseUrl, path) {
+              _.each(data, function(entry) {
+                var entryPath = _.clone(path || []);
+                entryPath.push(entry.label);
+
+                if(!_.isUndefined(entry.references)) {
+                  _.each(entry.references, function(reference) {
+                    var found = false;
+
+                    if(reference.title.toLowerCase().indexOf(query) !== -1) {
+                      found = true;
+                    }
+                    if(!found && reference.description.toLowerCase().indexOf(query) !== -1) {
+                      found = true;
+                    }
+                    if(!found && _.isArray(reference.keywords) && reference.keywords.length > 0 && searchStringInArray(query, reference.keywords)) {
+                      found = true;
+                    }
+
+                    if(found) {
+                      searchResults.push({
+                        type: 'api',
+                        title: reference.title,
+                        url: baseUrl + '#' + reference.anchor,
+                        path: entryPath
+                      });
+                    }
+                  });
+                }
+
+                if(!_.isUndefined(entry.subCategories)) {
+                  lookForQueryInAPi(entry.subCategories, query, baseUrl, entryPath);
+                }
+              });
+            }
+
+            _.each(searchData, function(docPageData, filename) {
+              var baseUrl = '/docs/' + selectedDocsVersion() + '/' + filename.slice(0, -5);
+              lookForQueryInAPi(docPageData.apiReferences, queryString.toLowerCase(), baseUrl, [ filename.slice(0, -5) ]);
+            });
+          }
+
+          return searchResults;
+        }, this);
+
+        this.hasResults = fw.computed(function() {
+          var results = this.results();
+          return _.isArray(results) && results.length > 0;
+        }, this);
 
         this.$globalNamespace.subscribe('clear', this.close);
         this.$namespace.command.handler('close', this.close);
