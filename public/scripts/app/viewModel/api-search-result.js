@@ -1,7 +1,15 @@
-define([ "footwork", "lodash", "jquery" ],
-  function( fw, _, $ ) {
+define([ "footwork", "lodash", "jquery", "jwerty" ],
+  function( fw, _, $, jwerty ) {
     var $router = fw.namespace('MainRouter');
     var selectedDocsVersion = fw.observable().receiveFrom('navData', 'selectedDocsVersion');
+
+    jwerty.key('↓/↑', function(event, key) {
+      if(key === '↓') {
+        $apiSearch.command('next-result');
+      } else {
+        $apiSearch.command('prev-result');
+      }
+    });
 
     return fw.viewModel({
       namespace: 'SearchResult',

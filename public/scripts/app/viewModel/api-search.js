@@ -8,7 +8,6 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
     var $apiSearch = fw.namespace('apiSearch');
 
     jwerty.key('↓/↑', function(event, key) {
-      console.info(arguments);
       if(key === '↓') {
         $apiSearch.command('next-result');
       } else {
@@ -17,12 +16,12 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
     });
 
     function searchArrayInArray(queryArray, haystacks) {
-      var found = false;
+      var found = [];
       _.each(queryArray, function(query) {
         query = query.toLowerCase();
         _.each(haystacks, function(haystack) {
           if(haystack.toLowerCase().indexOf(query) !== -1) {
-            found = true;
+            found.push(query);
           }
         });
       });
@@ -30,12 +29,12 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
     }
 
     function searchArrayInString(queryArray, string) {
-      var found = false;
+      var found = [];
       string = string.toLowerCase();
       _.each(queryArray, function(query) {
         query = query.toLowerCase();
         if(string.indexOf(query) !== -1) {
-          found = true;
+          found.push(query);
         }
       });
       return found;
@@ -128,9 +127,13 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
                 if(!_.isUndefined(entry.references)) {
                   _.each(entry.references, function(reference) {
-                    if(searchArrayInString(query, reference.title) ||
-                       searchArrayInString(query, reference.description) ||
-                       searchArrayInArray(query, reference.keywords)) {
+                    var foundTerms = _.unique([].concat(
+                      searchArrayInString(query, reference.title),
+                      searchArrayInString(query, reference.description),
+                      searchArrayInArray(query, reference.keywords)
+                    ));
+
+                    if(foundTerms.length === query.length) {
                       searchResults.push({
                         type: 'api',
                         title: reference.title,
