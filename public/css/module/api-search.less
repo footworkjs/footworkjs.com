@@ -102,6 +102,7 @@
       padding: 5px;
       background: @searchBackground;
       .border-radius(3px);
+      position: relative;
     }
 
     & > .results-title {
@@ -139,6 +140,71 @@
 
       &:active {
         color: mix(@resultsText, @searchBackground, 70%);
+      }
+    }
+  }
+
+  api-search-result + api-search-result {
+    .api-search-result {
+      margin-top: 5px;
+    }
+  }
+
+  .api-search-result {
+    @searchResultBackground: lighten(@searchBackground, 10%);
+    display: block;
+    text-align: left;
+    background: @searchResultBackground;
+    color: mix(white, @searchBackground, 65%);
+    .border-radius(3px);
+    border: 1px solid transparent;
+
+    &:hover, &.active {
+      background: lighten(@searchBackground, 15%);
+      border-color: lighten(@searchBackground, 40%);
+
+      .title, .description {
+        color: white;
+      }
+    }
+
+    .description {
+      margin-top: 5px;
+    }
+
+    .description, .title, > .path {
+      padding: 0 5px 0 5px;
+    }
+
+    .title {
+      color: mix(white, @searchBackground, 75%);
+    }
+
+    .description {
+      font-size: 12px;
+    }
+
+    .content {
+      padding: 5px 0;
+    }
+
+    .path {
+      .clearblock;
+      font-size: 11px;
+      background: rgba(255,255,255,0.1);
+      .border-radius(3px 3px 0 0);
+
+      .icon, .step {
+        line-height: 18px;
+      }
+
+      .icon {
+        float: left;
+      }
+
+      .step {
+        float: left;
+        .border-radius(3px);
       }
     }
   }

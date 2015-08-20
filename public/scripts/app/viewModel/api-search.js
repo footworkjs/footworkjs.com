@@ -108,6 +108,7 @@ define([ "footwork", "lodash", "jquery" ],
                       searchResults.push({
                         type: 'api',
                         title: reference.title,
+                        description: reference.description,
                         url: baseUrl + '#' + reference.anchor,
                         path: entryPath
                       });

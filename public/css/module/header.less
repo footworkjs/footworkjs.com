@@ -381,16 +381,13 @@
         margin-left: 0;
       }
 
-      & > .title {
+      & > .title, & > .drop-down > .title {
         line-height: @default-header-height;
         height: 100%;
         border-top: 1px solid transparent;
         position: relative;
         top: -1px;
         white-space: nowrap;
-      }
-
-      .title {
         color: @header-fg-default;
 
         &.icon {
@@ -400,21 +397,20 @@
         &:hover, &.active {
           color: @header-fg-hover;
 
-          a {
+          & > a {
             color: @header-fg-hover;
           }
         }
 
-        .icon {
+        & > .icon {
           padding-right: 5px;
         }
 
-        a {
+        & > a {
           color: @header-fg-default;
           padding: 0 10px;
           height: 100%;
           display: block;
-          text-align: center;
 
           &.active {
             color: contrast(@header-bg);

@@ -38,6 +38,10 @@ define([ "footwork" ],
         viewModel: locations.viewModels.root + 'api-search.js',
         template: locations.templates.root + 'api-search.html'
       });
+      fw.components.registerLocation('api-search-result', {
+        viewModel: locations.viewModels.root + 'api-search-result.js',
+        template: locations.templates.root + 'api-search-result.html'
+      });
       fw.components.registerLocation('api-nav', {
         viewModel: locations.viewModels.root + 'api-nav.js',
         template: locations.templates.root + 'api-nav.html'
