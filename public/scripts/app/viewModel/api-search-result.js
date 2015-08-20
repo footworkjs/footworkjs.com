@@ -1,20 +1,19 @@
 define([ "footwork", "lodash", "jquery", "jwerty" ],
   function( fw, _, $, jwerty ) {
     var $router = fw.namespace('MainRouter');
+    var $searchResult = fw.namespace('SearchResult');
     var selectedDocsVersion = fw.observable().receiveFrom('navData', 'selectedDocsVersion');
 
-    jwerty.key('↓/↑', function(event, key) {
-      if(key === '↓') {
-        $apiSearch.command('next-result');
-      } else {
-        $apiSearch.command('prev-result');
-      }
+    jwerty.key('enter', function(event, key) {
+      $searchResult.command('goToResult');
     });
 
     return fw.viewModel({
       namespace: 'SearchResult',
       afterBinding: function(element) {
-        this.topOffset($(element).children('.api-search-result').position().top - 5);
+        var $element = $(element).children('.api-search-result');
+        this.topOffset($element.position().top - 5);
+        this.$link = $element;
       },
       initialize: function(params) {
         _.extend(this, params.data);
@@ -58,6 +57,12 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
         this.$namespace.command.handler('makeInactive', function() {
           this.active(false);
+        }.bind(this));
+
+        this.$namespace.command.handler('goToResult', function() {
+          if(this.isActive()) {
+            this.$link[0].click();
+          }
         }.bind(this));
       }
     });

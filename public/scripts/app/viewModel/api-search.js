@@ -120,7 +120,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           var searchData = this.searchData();
           var searchResults = [];
           if(_.isString(queryString) && queryString.length > 0 && !_.isUndefined(searchData)) {
-            function lookForQueryInAPi(data, query, baseUrl, path) {
+            function lookForQueryInAPI(data, query, baseUrl, path) {
               _.each(data, function(entry) {
                 var entryPath = _.clone(path || []);
                 entryPath.push(entry.label);
@@ -139,27 +139,35 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
                         title: reference.title,
                         description: reference.description,
                         url: baseUrl + '#' + reference.anchor,
-                        path: entryPath
+                        path: entryPath,
+                        pathLength: entryPath.length
                       });
                     }
                   });
                 }
 
                 if(!_.isUndefined(entry.subCategories)) {
-                  lookForQueryInAPi(entry.subCategories, query, baseUrl, entryPath);
+                  lookForQueryInAPI(entry.subCategories, query, baseUrl, entryPath);
                 }
               });
             }
 
             _.each(searchData, function(docPageData, filename) {
               var baseUrl = '/docs/' + selectedDocsVersion() + '/' + filename.slice(0, -5);
-              lookForQueryInAPi(docPageData.apiReferences, queryString.split(' '), baseUrl, [ filename.slice(0, -5) ]);
+              lookForQueryInAPI(docPageData.apiReferences, queryString.split(' '), baseUrl, [ filename.slice(0, -5) ]);
             });
           }
 
           if(searchResults.length) {
-            // sort
-            // TODO
+            // sort using the shortest pathLength first
+            searchResults.sort(function(a, b) {
+              if(a.pathLength < b.pathLength) {
+                return -1;
+              } else if(a.pathLength === b.pathLength) {
+                return 0;
+              }
+              return 1;
+            });
 
             // mark indexes
             searchResults = _.map(searchResults, function(searchResult, indexNum) {
