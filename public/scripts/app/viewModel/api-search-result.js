@@ -11,6 +11,7 @@ define([ "footwork", "lodash", "jquery" ],
       initialize: function(params) {
         _.extend(this, params.data);
 
+        this.$apiSearch = fw.namespace('apiSearch');
         this.active = fw.observable(this.isFirst);
         this.topOffset = fw.observable(undefined);
 
@@ -32,8 +33,9 @@ define([ "footwork", "lodash", "jquery" ],
         this.goToResult = function(event, url) {
           var currentPage = _.last($router.request('urlParts').path.split('/'));
           var myPage = new RegExp('\/docs\/' + selectedDocsVersion().replace(/\./g,'\\.') + '\/' + currentPage + '#');
+          this.$apiSearch.command('close');
 
-          if(!url.match(myPage)) {
+          if(!url.match(myPage) && event.which !== 2) {
             event.preventDefault();
             return true;
           }
