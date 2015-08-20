@@ -31,14 +31,23 @@ define([ "footwork", "lodash", "jquery" ],
       return found;
     }
 
-    searchTouched.subscribe(function(wasTouched) {
-      if(wasTouched && _.isUndefined(apiSearchData()) && !isLoadingSearchData) {
-        isLoadingSearchData = true;
-        $.get('/docs/search-data/' + selectedDocsVersion())
-          .done(function(response) {
-            apiSearchData(response);
-          });
+    fw.computed(function() {
+      var searchData = this.apiSearchData();
+      var docsVersion = this.selectedDocsVersion();
+
+      if(this.searchTouched()) {
+        if(_.isUndefined(searchData) && !_.isUndefined(docsVersion) && !isLoadingSearchData) {
+          isLoadingSearchData = true;
+          $.get('/docs/search-data/' + selectedDocsVersion())
+            .done(function(response) {
+              apiSearchData(response);
+            });
+        }
       }
+    }, {
+      searchTouched: searchTouched,
+      apiSearchData: apiSearchData,
+      selectedDocsVersion: selectedDocsVersion
     });
 
     return fw.viewModel({
