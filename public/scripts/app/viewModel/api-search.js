@@ -128,6 +128,12 @@ define([ "footwork", "lodash", "jquery" ],
             });
           }
 
+          // sort
+          // pre-select first result
+          if(searchResults.length) {
+            searchResults[0].isFirst = true;
+          }
+
           return searchResults;
         }, this);
 
@@ -135,6 +141,12 @@ define([ "footwork", "lodash", "jquery" ],
           var results = this.results();
           return _.isArray(results) && results.length > 0;
         }, this);
+
+        this.$searchResult = fw.namespace('SearchResult');
+        this.inactivateSelection = function() {
+          this.$searchResult.command('makeInactive');
+          return true;
+        };
 
         this.$globalNamespace.subscribe('clear', this.close);
         this.$namespace.command.handler('close', this.close);

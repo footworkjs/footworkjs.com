@@ -1,5 +1,8 @@
 define([ "footwork", "lodash", "jquery" ],
   function( fw, _, $ ) {
+    var $router = fw.namespace('MainRouter');
+    var selectedDocsVersion = fw.observable().receiveFrom('navData', 'selectedDocsVersion');
+
     return fw.viewModel({
       namespace: 'SearchResult',
       afterBinding: function(element) {
@@ -7,6 +10,8 @@ define([ "footwork", "lodash", "jquery" ],
       },
       initialize: function(params) {
         _.extend(this, params.data);
+
+        this.active = fw.observable(this.isFirst);
         this.topOffset = fw.observable(undefined);
 
         var lastStep = _.last(this.path);
@@ -17,6 +22,28 @@ define([ "footwork", "lodash", "jquery" ],
           });
           return path;
         }, []);
+
+        this.makeActive = function() {
+          this.$namespace.command('makeInactive');
+          this.active(true);
+          return true;
+        };
+
+        this.goToResult = function(event, url) {
+          var currentPage = _.last($router.request('urlParts').path.split('/'));
+          var myPage = new RegExp('\/docs\/' + selectedDocsVersion().replace(/\./g,'\\.') + '\/' + currentPage + '#');
+
+          if(!url.match(myPage)) {
+            event.preventDefault();
+            return true;
+          }
+
+          return false;
+        };
+
+        this.$namespace.command.handler('makeInactive', function() {
+          this.active(false);
+        }.bind(this));
       }
     });
   }

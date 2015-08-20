@@ -1,4 +1,4 @@
-<a class="api-search-result" data-bind="attr: { href: url }">
+<a class="api-search-result" data-bind="$route: { url: url, handler: goToResult }, css: { active: active }, event: { mouseover: makeActive }">
   <!-- ko if: type === 'api' -->
     <div class="path" data-bind="foreach: path">
       <div class="step" data-bind="text: label"></div>
