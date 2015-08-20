@@ -172,21 +172,22 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
         this.currentAPIResultSelection = fw.observable(0).broadcastAs('currentAPIResultSelection', true);
 
         this.$namespace.command.handler('next-result', function() {
-          if(this.searchResultsVisible()) {
+          var currentAPIResultSelection = this.currentAPIResultSelection();
+          if(_.isUndefined(currentAPIResultSelection)) { currentAPIResultSelection = -1; }
+
+          if(this.searchResultsVisible() && currentAPIResultSelection < this.results().length - 1) {
             this.$searchResult.command('makeInactive');
-            var currentAPIResultSelection = this.currentAPIResultSelection();
-            if(_.isUndefined(currentAPIResultSelection)) { currentAPIResultSelection = 0; }
             currentAPIResultSelection = currentAPIResultSelection + 1;
             this.currentAPIResultSelection(currentAPIResultSelection);
-            console.info(currentAPIResultSelection);
           }
         }.bind(this));
 
         this.$namespace.command.handler('prev-result', function() {
-          if(this.searchResultsVisible()) {
+          var currentAPIResultSelection = this.currentAPIResultSelection();
+          if(_.isUndefined(currentAPIResultSelection)) { currentAPIResultSelection = 1; }
+
+          if(this.searchResultsVisible() && currentAPIResultSelection > 0) {
             this.$searchResult.command('makeInactive');
-            var currentAPIResultSelection = this.currentAPIResultSelection();
-            if(_.isUndefined(currentAPIResultSelection)) { currentAPIResultSelection = 1; }
             currentAPIResultSelection = currentAPIResultSelection - 1;
             this.currentAPIResultSelection(currentAPIResultSelection);
           }
