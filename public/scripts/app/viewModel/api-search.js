@@ -6,10 +6,25 @@ define([ "footwork", "lodash", "jquery" ],
     var apiSearchData = fw.observable(undefined).broadcastAs({ name: 'searchData', namespace: 'apiSearchModule' });
     var isLoadingSearchData = false;
 
-    function searchStringInArray(str, strArray) {
+    function searchArrayInArray(queryArray, haystacks) {
       var found = false;
-      _.each(strArray, function(haystack) {
-        if(haystack.toLowerCase().indexOf(str) !== -1) {
+      _.each(queryArray, function(query) {
+        query = query.toLowerCase();
+        _.each(haystacks, function(haystack) {
+          if(haystack.toLowerCase().indexOf(query) !== -1) {
+            found = true;
+          }
+        });
+      });
+      return found;
+    }
+
+    function searchArrayInString(queryArray, string) {
+      var found = false;
+      string = string.toLowerCase();
+      _.each(queryArray, function(query) {
+        query = query.toLowerCase();
+        if(string.indexOf(query) !== -1) {
           found = true;
         }
       });
@@ -87,19 +102,9 @@ define([ "footwork", "lodash", "jquery" ],
 
                 if(!_.isUndefined(entry.references)) {
                   _.each(entry.references, function(reference) {
-                    var found = false;
-
-                    if(reference.title.toLowerCase().indexOf(query) !== -1) {
-                      found = true;
-                    }
-                    if(!found && reference.description.toLowerCase().indexOf(query) !== -1) {
-                      found = true;
-                    }
-                    if(!found && _.isArray(reference.keywords) && reference.keywords.length > 0 && searchStringInArray(query, reference.keywords)) {
-                      found = true;
-                    }
-
-                    if(found) {
+                    if(searchArrayInString(query, reference.title) ||
+                       searchArrayInString(query, reference.description) ||
+                       searchArrayInArray(query, reference.keywords)) {
                       searchResults.push({
                         type: 'api',
                         title: reference.title,
@@ -118,7 +123,7 @@ define([ "footwork", "lodash", "jquery" ],
 
             _.each(searchData, function(docPageData, filename) {
               var baseUrl = '/docs/' + selectedDocsVersion() + '/' + filename.slice(0, -5);
-              lookForQueryInAPi(docPageData.apiReferences, queryString.toLowerCase(), baseUrl, [ filename.slice(0, -5) ]);
+              lookForQueryInAPi(docPageData.apiReferences, queryString.split(' '), baseUrl, [ filename.slice(0, -5) ]);
             });
           }
 
