@@ -1,10 +1,20 @@
-define([ "footwork", "lodash", "jquery" ],
-  function( fw, _, $ ) {
+define([ "footwork", "lodash", "jquery", "jwerty" ],
+  function( fw, _, $, jwerty ) {
     var minQueryLength = 2;
     var selectedDocsVersion = fw.observable().receiveFrom('navData', 'selectedDocsVersion');
     var searchTouched = fw.observable();
     var apiSearchData = fw.observable(undefined).broadcastAs({ name: 'searchData', namespace: 'apiSearchModule' });
     var isLoadingSearchData = false;
+    var $apiSearch = fw.namespace('apiSearch');
+
+    jwerty.key('↓/↑', function(event, key) {
+      console.info(arguments);
+      if(key === '↓') {
+        $apiSearch.command('next-result');
+      } else {
+        $apiSearch.command('prev-result');
+      }
+    });
 
     function searchArrayInArray(queryArray, haystacks) {
       var found = false;
@@ -52,7 +62,13 @@ define([ "footwork", "lodash", "jquery" ],
 
     return fw.viewModel({
       namespace: 'apiSearch',
+      afterBinding: function(element) {
+        $(element).find('.results').on('mouseleave', function() {
+          this.inactivateSelection();
+        }.bind(this));
+      },
       initialize: function(params) {
+        this.$searchResult = fw.namespace('SearchResult');
         this.hasFocus = fw.observable(false).broadcastAs('hasFocus');
         this.query = fw.observable();
         this.queryString = fw.observable();
@@ -97,6 +113,7 @@ define([ "footwork", "lodash", "jquery" ],
 
         this.close = function() {
           this.searchResultsVisible(false);
+          this.currentAPIResultSelection(undefined);
         }.bind(this);
 
         this.results = fw.computed(function computeSearchResults() {
@@ -137,21 +154,49 @@ define([ "footwork", "lodash", "jquery" ],
             });
           }
 
-          // sort
-          // pre-select first result
           if(searchResults.length) {
-            searchResults[0].isFirst = true;
+            // sort
+            // TODO
+
+            // mark indexes
+            searchResults = _.map(searchResults, function(searchResult, indexNum) {
+              return _.extend(searchResult, {
+                index: indexNum
+              })
+            }.bind(this));
           }
 
           return searchResults;
         }, this);
+
+        this.currentAPIResultSelection = fw.observable(0).broadcastAs('currentAPIResultSelection', true);
+
+        this.$namespace.command.handler('next-result', function() {
+          if(this.searchResultsVisible()) {
+            this.$searchResult.command('makeInactive');
+            var currentAPIResultSelection = this.currentAPIResultSelection();
+            if(_.isUndefined(currentAPIResultSelection)) { currentAPIResultSelection = 0; }
+            currentAPIResultSelection = currentAPIResultSelection + 1;
+            this.currentAPIResultSelection(currentAPIResultSelection);
+            console.info(currentAPIResultSelection);
+          }
+        }.bind(this));
+
+        this.$namespace.command.handler('prev-result', function() {
+          if(this.searchResultsVisible()) {
+            this.$searchResult.command('makeInactive');
+            var currentAPIResultSelection = this.currentAPIResultSelection();
+            if(_.isUndefined(currentAPIResultSelection)) { currentAPIResultSelection = 1; }
+            currentAPIResultSelection = currentAPIResultSelection - 1;
+            this.currentAPIResultSelection(currentAPIResultSelection);
+          }
+        }.bind(this));
 
         this.hasResults = fw.computed(function() {
           var results = this.results();
           return _.isArray(results) && results.length > 0;
         }, this);
 
-        this.$searchResult = fw.namespace('SearchResult');
         this.inactivateSelection = function() {
           this.$searchResult.command('makeInactive');
           return true;

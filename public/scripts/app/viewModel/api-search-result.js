@@ -10,10 +10,14 @@ define([ "footwork", "lodash", "jquery" ],
       },
       initialize: function(params) {
         _.extend(this, params.data);
+        this.currentAPIResultSelection = fw.observable().receiveFrom('apiSearch', 'currentAPIResultSelection');
 
         this.$apiSearch = fw.namespace('apiSearch');
-        this.active = fw.observable(this.isFirst);
+        this.active = fw.observable(this.index === this.currentAPIResultSelection());
         this.topOffset = fw.observable(undefined);
+        this.isActive = fw.computed(function() {
+          return this.active() || this.currentAPIResultSelection() === this.index;
+        }, this);
 
         var lastStep = _.last(this.path);
         this.path = _.reduce(this.path, function(path, stepLabel, index) {
@@ -26,6 +30,7 @@ define([ "footwork", "lodash", "jquery" ],
 
         this.makeActive = function() {
           this.$namespace.command('makeInactive');
+          this.currentAPIResultSelection(undefined);
           this.active(true);
           return true;
         };
