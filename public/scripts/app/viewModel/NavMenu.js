@@ -94,8 +94,8 @@ define([ "jquery", "lodash", "footwork" ],
         this.entries = fw.observableArray([
           new Entry({ label: 'Docs', url: '/docs/list' }),
           new Entry({ label: 'Tutorials', url: '/tutorials' }),
-          new Entry({ label: 'About', url: '/about', aside: true }),
-          new Entry({ component: 'api-search', aside: true })
+          new Entry({ component: 'api-search' }),
+          new Entry({ label: 'About', url: '/about', aside: true })
         ]);
 
         this.checkSelection = function(newSelection) {
