@@ -107,7 +107,11 @@ define([ "footwork", "lodash" ],
         }.bind(this));
 
         this.toggleVisibility = function(viewModel, event) {
-          this.active(!this.active());
+          var isVisible = !this.active();
+          if(isVisible) {
+            this.$globalNamespace.publish('clear');
+          }
+          this.active(isVisible);
           event.stopPropagation();
         };
 
@@ -116,6 +120,7 @@ define([ "footwork", "lodash" ],
         }.bind(this);
 
         this.open = function() {
+          this.$globalNamespace.publish('clear');
           this.active(true);
         }.bind(this);
 

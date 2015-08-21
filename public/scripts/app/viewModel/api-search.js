@@ -72,7 +72,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
       afterBinding: function(element) {
         var $element = this.$element = $(element);
         this.$scrollContainer = $element.find('.scrollArea');
-        $element.find('.results').on('mouseleave', function() {
+        $element.find('.results > .content').on('mouseleave', function() {
           this.inactivateSelection();
         }.bind(this));
       },
@@ -121,9 +121,21 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
         this.searchResultsVisible = fw.observable(false);
         this.searchResultsVisibleEval = fw.computed(evalVisibleState, this);
 
+        var dontClose = false;
+        this.searchResultsVisible.subscribe(function(isVisible) {
+          dontClose = true;
+          if(isVisible) {
+            this.$globalNamespace.publish('clear');
+          }
+        }.bind(this));
+
         this.close = function() {
-          this.searchResultsVisible(false);
-          this.currentAPIResultSelection(undefined);
+          if(!dontClose) {
+            this.searchResultsVisible(false);
+            this.currentAPIResultSelection(undefined);
+          } else {
+            dontClose = false;
+          }
         }.bind(this);
 
         this.results = fw.computed(function computeSearchResults() {

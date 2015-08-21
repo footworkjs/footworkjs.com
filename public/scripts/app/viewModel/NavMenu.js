@@ -16,8 +16,18 @@ define([ "jquery", "lodash", "footwork" ],
         this.hasDocsMenu = entryData.label === 'Docs';
         this.target = entryData.target;
         this.menuActive = fw.observable(false);
+        this.dontClose = false;
+        this.menuActive.subscribe(function(isActive) {
+          if(isActive) {
+            this.dontClose = true;
+            this.$globalNamespace.publish('clear');
+          }
+        }.bind(this));
         this.$globalNamespace.subscribe('clear', _.bind(function() {
-          this.menuActive(false);
+          if(!this.dontClose) {
+            this.menuActive(false);
+          }
+          this.dontClose = false;
         }, this));
         this.componentName = entryData.component;
         this.type = _.isString(entryData.component) ? 'component' : 'menuItem';
