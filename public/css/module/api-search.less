@@ -4,6 +4,7 @@
   @searchBackground: lighten(@header-bg, 10%);
   @searchText: contrast(@searchBackground);
   @searchBorder: black;
+  @refColor: #3588D6;
 
   height: 100%;
 
@@ -186,7 +187,7 @@
   }
 
   .api-search-result {
-    @searchResultBackground: lighten(@searchBackground, 10%);
+    @searchResultBackground: #222;
     display: block;
     text-align: left;
     background: @searchResultBackground;
@@ -195,11 +196,15 @@
     border: 1px solid transparent;
 
     &:hover, &.active {
-      background: lighten(@searchBackground, 15%);
       border-color: lighten(@searchBackground, 40%);
+      background: lighten(@searchResultBackground, 10%);
 
-      .title, .description {
-        color: white;
+      .title {
+        color: lighten(@refColor, 10%);
+      }
+
+      .description {
+        color: contrast(@searchBackground);
       }
     }
 
@@ -217,6 +222,27 @@
 
     .title {
       color: mix(white, @searchBackground, 75%);
+      font-family: monospace;
+      margin: 2px 0 5px;
+      color: @refColor;
+      .clearblock;
+
+      .text {
+        background: darken(@searchBackground, 20%);
+        padding: 5px;
+        .border-radius(3px);
+        border: 1px solid black;
+        display: block;
+        float: left;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        &:active {
+          text-decoration: none;
+        }
+      }
     }
 
     .description {
