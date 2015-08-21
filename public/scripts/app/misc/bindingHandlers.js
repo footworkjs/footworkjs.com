@@ -1,5 +1,27 @@
 define(["jquery", "lodash", "knockout", "postal" ],
   function( $, _, fw, postal ) {
+    fw.bindingHandlers['limitScroll'] = {
+      init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
+        var $element = $(element);
+        var trackScrollEvent = function(event) {
+          if(this.scrollHeight === this.offsetHeight) {
+            return true;
+          }
+          var delta = event.originalEvent.wheelDelta || -event.originalEvent.detail;
+          var direction = delta > 0 ? 'up' : 'down';
+          if((direction == 'up' && this.scrollTop === 0) || (direction === 'down' && this.scrollTop === (this.scrollHeight - this.offsetHeight))) {
+            event.preventDefault();
+          }
+        };
+
+        $element.on('mousewheel DOMMouseScroll', trackScrollEvent);
+
+        fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
+          $element.off('mousewheel DOMMouseScroll', trackScrollEvent);
+        });
+      }
+    };
+
     fw.bindingHandlers['hoverTrack'] = {
       init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
         var $element = $(element);

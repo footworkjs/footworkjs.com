@@ -15,7 +15,7 @@
           <span class="query-text" data-bind="text: queryString"></span>
         <!-- /ko -->
       </div>
-      <div class="content">
+      <div class="content scrollArea" data-bind="limitScroll">
         <!-- ko ifnot: hasResults -->
           <div class="no-results">No results found.</div>
         <!-- /ko -->

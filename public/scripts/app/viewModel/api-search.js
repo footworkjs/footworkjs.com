@@ -15,6 +15,10 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
       }
     });
 
+    jwerty.key('ctrl+s', function(event, key) {
+      $apiSearch.command('focusSearch', event);
+    });
+
     function searchArrayInArray(queryArray, haystacks) {
       var found = [];
       _.each(queryArray, function(query) {
@@ -62,7 +66,9 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
     return fw.viewModel({
       namespace: 'apiSearch',
       afterBinding: function(element) {
-        $(element).find('.results').on('mouseleave', function() {
+        var $element = $(element);
+        this.$scrollContainer = $element.find('.scrollArea');
+        $element.find('.results').on('mouseleave', function() {
           this.inactivateSelection();
         }.bind(this));
       },
@@ -184,7 +190,9 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
         this.$namespace.command.handler('next-result', function() {
           var currentAPIResultSelection = this.currentAPIResultSelection();
-          if(_.isUndefined(currentAPIResultSelection)) { currentAPIResultSelection = -1; }
+          if(_.isUndefined(currentAPIResultSelection)) {
+            currentAPIResultSelection = -1;
+          }
 
           if(this.searchResultsVisible() && currentAPIResultSelection < this.results().length - 1) {
             this.$searchResult.command('makeInactive');
@@ -195,7 +203,10 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
         this.$namespace.command.handler('prev-result', function() {
           var currentAPIResultSelection = this.currentAPIResultSelection();
-          if(_.isUndefined(currentAPIResultSelection)) { currentAPIResultSelection = 1; }
+          var currentAPIResultSelection = this.currentAPIResultSelection();
+          if(_.isUndefined(currentAPIResultSelection)) {
+            currentAPIResultSelection = 1;
+          }
 
           if(this.searchResultsVisible() && currentAPIResultSelection > 0) {
             this.$searchResult.command('makeInactive');
@@ -216,6 +227,34 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
         this.$globalNamespace.subscribe('clear', this.close);
         this.$namespace.command.handler('close', this.close);
+        this.$namespace.command.handler('focusSearch', function(event) {
+          this.hasFocus(true);
+          event.preventDefault();
+        }.bind(this));
+        this.$namespace.command.handler('scrollWithin', function(element) {
+          if(this.searchResultsVisible()) {
+            var scrollContainerHeight = this.$scrollContainer.height();
+            var topLimit = this.$scrollContainer.scrollTop();
+            var bottomLimit = topLimit + scrollContainerHeight;
+            var scrollTo = undefined;
+
+            if(element.top <= topLimit) {
+              // scroll element to top of page
+              scrollTo = element.top;
+            }
+
+            if(element.bottom >= bottomLimit) {
+              scrollTo = (element.top - scrollContainerHeight) + element.height;
+            }
+
+            if(!_.isUndefined(scrollTo)) {
+              this.$scrollContainer.stop();
+              this.$scrollContainer.animate({
+                scrollTop: scrollTo
+              }, 100, 'swing');
+            }
+          }
+        }.bind(this));
       }
     });
   }

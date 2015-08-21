@@ -11,9 +11,12 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
     return fw.viewModel({
       namespace: 'SearchResult',
       afterBinding: function(element) {
-        var $element = $(element).children('.api-search-result');
-        this.topOffset($element.position().top - 5);
-        this.$link = $element;
+        this.$link = $(element).children('.api-search-result');
+        setTimeout(function() {
+          this.height(this.$link.outerHeight());
+          this.topOffset(this.$link.position().top);
+          this.bottomOffset(this.topOffset() + this.height());
+        }.bind(this), 20);
       },
       initialize: function(params) {
         _.extend(this, params.data);
@@ -22,8 +25,25 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
         this.$apiSearch = fw.namespace('apiSearch');
         this.active = fw.observable(this.index === this.currentAPIResultSelection());
         this.topOffset = fw.observable(undefined);
+        this.bottomOffset = fw.observable(undefined);
+        this.height = fw.observable(undefined);
+
+        this.hasKeyboardFocus = fw.computed(function() {
+          return this.currentAPIResultSelection() === this.index;
+        }, this);
+
         this.isActive = fw.computed(function() {
-          return this.active() || this.currentAPIResultSelection() === this.index;
+          return this.active() || this.hasKeyboardFocus();
+        }, this);
+
+        this.hasKeyboardFocus.subscribe(function(hasKeyboardFocus) {
+          if(hasKeyboardFocus) {
+            this.$apiSearch.command('scrollWithin', {
+              top: this.topOffset(),
+              bottom: this.bottomOffset(),
+              height: this.height()
+            });
+          }
         }, this);
 
         var lastStep = _.last(this.path);
