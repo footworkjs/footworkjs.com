@@ -9,14 +9,18 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
     jwerty.key('↓/↑', function(event, key) {
       if(key === '↓') {
-        $apiSearch.command('next-result');
+        $apiSearch.command('next-result', event);
       } else {
-        $apiSearch.command('prev-result');
+        $apiSearch.command('prev-result', event);
       }
     });
 
     jwerty.key('ctrl+s', function(event, key) {
       $apiSearch.command('focusSearch', event);
+    });
+
+    jwerty.key('enter', function(event, key) {
+      $apiSearch.command('openIfPossible', event);
     });
 
     function searchArrayInArray(queryArray, haystacks) {
@@ -66,7 +70,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
     return fw.viewModel({
       namespace: 'apiSearch',
       afterBinding: function(element) {
-        var $element = $(element);
+        var $element = this.$element = $(element);
         this.$scrollContainer = $element.find('.scrollArea');
         $element.find('.results').on('mouseleave', function() {
           this.inactivateSelection();
@@ -102,8 +106,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           }
         }.bind(this));
 
-        this.searchResultsVisible = fw.observable(false);
-        this.searchResultsVisibleEval = fw.computed(function() {
+        var evalVisibleState = this.evalVisibleState = function() {
           var query = this.query();
           var searchData = this.searchData();
           var hasFocus = this.hasFocus();
@@ -114,7 +117,9 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
               this.searchResultsVisible(false);
             }
           }
-        }, this);
+        };
+        this.searchResultsVisible = fw.observable(false);
+        this.searchResultsVisibleEval = fw.computed(evalVisibleState, this);
 
         this.close = function() {
           this.searchResultsVisible(false);
@@ -199,20 +204,22 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
         this.currentAPIResultSelection = fw.observable(0).broadcastAs('currentAPIResultSelection', true);
 
-        this.$namespace.command.handler('next-result', function() {
+        this.$namespace.command.handler('next-result', function(event) {
           var currentAPIResultSelection = this.currentAPIResultSelection();
           if(_.isUndefined(currentAPIResultSelection)) {
             currentAPIResultSelection = -1;
           }
 
           if(this.searchResultsVisible() && currentAPIResultSelection < this.results().length - 1) {
+            event.preventDefault();
+            event.stopPropagation();
             this.$searchResult.command('makeInactive');
             currentAPIResultSelection = currentAPIResultSelection + 1;
             this.currentAPIResultSelection(currentAPIResultSelection);
           }
         }.bind(this));
 
-        this.$namespace.command.handler('prev-result', function() {
+        this.$namespace.command.handler('prev-result', function(event) {
           var currentAPIResultSelection = this.currentAPIResultSelection();
           var currentAPIResultSelection = this.currentAPIResultSelection();
           if(_.isUndefined(currentAPIResultSelection)) {
@@ -220,6 +227,8 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           }
 
           if(this.searchResultsVisible() && currentAPIResultSelection > 0) {
+            event.preventDefault();
+            event.stopPropagation();
             this.$searchResult.command('makeInactive');
             currentAPIResultSelection = currentAPIResultSelection - 1;
             this.currentAPIResultSelection(currentAPIResultSelection);
@@ -238,10 +247,19 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
         this.$globalNamespace.subscribe('clear', this.close);
         this.$namespace.command.handler('close', this.close);
+
+        this.$namespace.command.handler('openIfPossible', function(event) {
+          if(this.hasFocus()) {
+            this.evalVisibleState();
+          }
+        }.bind(this));
+
         this.$namespace.command.handler('focusSearch', function(event) {
           this.hasFocus(true);
+          this.evalVisibleState();
           event.preventDefault();
         }.bind(this));
+
         this.$namespace.command.handler('scrollWithin', function(element) {
           if(this.searchResultsVisible()) {
             var scrollContainerHeight = this.$scrollContainer.height();
