@@ -1,8 +1,9 @@
 <div class="api-search" data-bind="css: { searchResultsVisible: searchResultsVisible }, stopProp">
   <div class="container">
-    <label>
+    <label data-bind="css: { hasFocus: hasFocus }">
       <span class="label">API<span class="icon-search"></span></span>
       <input name="search" type="text" data-bind="value: query, hasFocus: hasFocus, valueUpdate: 'keyup'" autofocus>
+      <span class="search-shortcut">ctrl+s</span>
     </label>
     <div class="results has-trans">
       <div class="close icon-close" data-bind="click: close"></div>

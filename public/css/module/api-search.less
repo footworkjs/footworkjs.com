@@ -2,6 +2,7 @@
   @searchHeight: 25px;
   @labelWidth: 41px;
   @searchBackground: lighten(@header-bg, 10%);
+  @searchText: contrast(@searchBackground);
   @searchBorder: black;
 
   height: 100%;
@@ -15,29 +16,50 @@
     right: 0;
     margin-top: -(@searchHeight / 2) - 2px;
 
-    & > label .label {
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #aaa;
-      font-size: 12px;
-      width: @labelWidth;
-      text-align: right;
-      line-height: @searchHeight;
-      cursor: pointer;
+    & > label {
+      .label {
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #aaa;
+        font-size: 12px;
+        width: @labelWidth;
+        text-align: right;
+        line-height: @searchHeight;
+        cursor: pointer;
+      }
+
+      @shortcutHeight: 15px;
+      .search-shortcut {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        line-height: @shortcutHeight;
+        margin-top: -(@shortcutHeight / 2) - 1;
+        color: mix(@searchBackground, @searchText, 50%);
+        font-size: 11px;
+        margin-right: 5px;
+        padding: 2px 3px;
+        .border-radius(3px);
+        background: rgba(0,0,0,0.1);
+        cursor: pointer;
+      }
+      &.hasFocus .search-shortcut {
+        display: none;
+      }
     }
   }
 
   input[name="search"] {
     display: inline-block;
-    width: 150px;
+    width: 160px;
     height: @searchHeight;
     border: 1px solid @searchBorder;
     .border-radius(3px);
     padding: 3px 5px 3px @labelWidth;
     .box-sizing(border-box);
     background: @searchBackground;
-    color: contrast(@searchBackground);
+    color: @searchText;
 
     &:hover {
       background: lighten(@searchBackground, 5%);
@@ -252,6 +274,10 @@
 }
 
 @media screen and (max-width: 670px) {
+  .search-shortcut {
+    display: none;
+  }
+
   .api-search {
     input[name="search"] {
       width: 100px;
