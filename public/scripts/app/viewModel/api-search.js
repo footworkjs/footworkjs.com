@@ -95,7 +95,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
             computeSearchResultsTimeout = setTimeout(function() {
               this.queryString(query);
               this.userTyping(false);
-            }.bind(this), 400);
+            }.bind(this), 300);
           } else {
             this.queryString(undefined);
             this.userTyping(false);
@@ -184,6 +184,17 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           }
 
           return searchResults;
+        }, this);
+
+        this.numResults = fw.computed(function() {
+          return this.results().length;
+        }, this);
+        this.resultUnits = fw.computed(function() {
+          var numResults = this.numResults();
+          if(numResults === 1) {
+            return 'result';
+          }
+          return 'results';
         }, this);
 
         this.currentAPIResultSelection = fw.observable(0).broadcastAs('currentAPIResultSelection', true);

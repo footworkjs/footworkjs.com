@@ -107,8 +107,9 @@
       overflow-y: auto;
     }
 
+    @resultsTitleColor: mix(@resultsText, @searchBackground);
     & > .results-title {
-      color: mix(@resultsText, @searchBackground);
+      color: @resultsTitleColor;
       font-size: 12px;
       font-weight: bold;
       line-height: @titleHeight;
@@ -125,16 +126,26 @@
       }
     }
 
+    @closeWidth: 30px;
+    .num-results {
+      position: absolute;
+      right: @closeWidth;
+      top: 0;
+      color: darken(@resultsTitleColor, 15%);
+    }
+
     & > .close {
       position: absolute;
       top: 0;
       right: 0;
       z-index: 1;
       color: mix(@resultsText, @searchBackground);
-      padding: 0 4px 0 5px;
+      width: @closeWidth;
       height: @titleHeight;
       line-height: @titleHeight;
       cursor: pointer;
+      .box-sizing(border-box);
+      text-align: center;
 
       &:hover {
         color: @resultsText;

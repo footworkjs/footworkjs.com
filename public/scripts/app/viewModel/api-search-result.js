@@ -39,7 +39,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
         this.hasKeyboardFocus.subscribe(function(hasKeyboardFocus) {
           if(hasKeyboardFocus) {
             this.$apiSearch.command('scrollWithin', {
-              top: this.topOffset(),
+              top: (this.index === 0 ? 0 : this.topOffset()),
               bottom: this.bottomOffset(),
               height: this.height()
             });
