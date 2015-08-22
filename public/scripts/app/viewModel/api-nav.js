@@ -8,7 +8,6 @@ define([ "footwork", "lodash" ],
     var apiReferenceNamespace = fw.namespace('apiReference');
     var sectionAnchors = fw.observable().receiveFrom('sectionAnchors', 'sectionAnchors');
 
-    // var anchorPositions = fw.observable([]);
     var computeAnchorDelay;
     function computeAnchorPos() {
       clearTimeout(computeAnchorDelay);
@@ -101,19 +100,26 @@ define([ "footwork", "lodash" ],
 
         this.viewPortScrollPos.subscribe(function(scrollPosition) {
           this.currentAPISection(undefined);
-          var insideDef = false;
-          _.each(this.anchorPositions(), function(anchorDef) {
-            if(scrollPosition >= anchorDef.position) {
-              var anchors = sectionAnchors();
-              var isInside = true;
-              _.each(anchors, function(anchorPosition) {
-                if(anchorPosition - 10 > anchorDef.position && scrollPosition > anchorPosition) {
-                  isInside = false;
-                }
-              });
-              isInside && this.currentAPISection(anchorDef.title);
+          var anchors = _.sortBy(sectionAnchors(), 'position');
+          var insideDef = undefined;
+          _.each(anchors, function(anchor, index) {
+            var nextAnchor = anchors[index + 1];
+            if(!insideDef) {
+              if(scrollPosition >= anchor.position && (_.isUndefined(nextAnchor) || scrollPosition < nextAnchor.position)) {
+                insideDef = anchor.anchor;
+              }
             }
-          }.bind(this));
+          });
+
+          if(insideDef) {
+            _.each(this.anchorPositions(), function(anchorDef) {
+              if(anchorDef.anchor === insideDef) {
+                this.currentAPISection(anchorDef.title);
+              }
+            }.bind(this));
+          } else {
+            this.currentAPISection(undefined);
+          }
         }.bind(this));
 
         this.toggleVisibility = function(viewModel, event) {

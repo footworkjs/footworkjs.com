@@ -305,6 +305,73 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
     </div>
   </section>
 
+  <a id="afterBinding" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="afterBinding">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">afterBinding()</h2>
+    </header>
+    <div class="content">
+      <p>If provided, the <span class="inline-code">dataModel</span> configuration <span class="inline-code">afterBinding()</span> method will be called
+        just after a <span class="inline-code">dataModel</span> is bound to the DOM. This provides a handy integration point for external libraries or
+        plugins (such as jQuery).</p>
+
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  afterBinding: function(domElement) {
+    var person = this;
+    domElement.addEventListener('click', function() {
+      console.info('You clicked', person.firstName());
+    });
+  },
+  initialize: function(params) {
+    this.firstName = fw.observable().mapTo('firstName');
+  }
+});
+</code></pre>
+
+  <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="onDispose">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">onDispose()</h2>
+    </header>
+    <div class="content">
+      <p>If provided, the <span class="inline-code">dataModel</span> configuration <span class="inline-code">onDispose()</span> method will be called
+        just after the element a <span class="inline-code">dataModel</span> is bound to is removed from the DOM. This provides a handy integration
+        point for external libraries or plugins (such as jQuery).</p>
+
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  afterBinding: function(domElement) {
+    domElement.addEventListener('click', this.clickPerson);
+  },
+  onDispose: function(domElement) {
+    domElement.removeEventListener('click', this.clickPerson);
+  },
+  initialize: function(params) {
+    var person = this;
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.clickPerson = function() {
+      console.info('You clicked', person.firstName());
+    };
+  }
+});
+</code></pre>
+
+      <a id="dataModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">dataModel.dispose<span>()</span></em></h3>
+      <p>If you do not bind a dataModel to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
+        by calling <span class="inline-code">dataModel.dispose()</span> directly.</p>
+      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel:</h3>
+<pre><code class="javascript">var MydataModel = fw.dataModel({ /* ... */ });
+var dataModel = new MydataModel();
+// ...
+dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
+</code></pre>
+    </div>
+  </section>
+
   <a id="registration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="registration">
     <div class="highlight"></div>
@@ -1003,6 +1070,25 @@ fw.dataModels.fileExtensions(function(moduleName) {
           { "anchor": "fw-dataModel",
             "title": "fw.dataModel()",
             "description": "Creates a new dataModel constructor function." }
+      ]
+    },
+    {
+      "label": "Configuration",
+      "subCategories": [
+        {
+          "label": "Options",
+          "references": [
+            { "anchor": "afterBinding",
+              "title": "afterBinding()",
+              "description": "Method called after a dataModel has been bound to the DOM." },
+            { "anchor": "onDispose",
+              "title": "onDispose()",
+              "description": "Method called after the element a dataModel is bound to is removed from the DOM.",
+              "subDescriptions": [
+                "This is also called when you call dataModel.dispose() directly."
+              ] }
+          ]
+        }
       ]
     },
     {

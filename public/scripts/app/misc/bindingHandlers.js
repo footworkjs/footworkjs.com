@@ -1,13 +1,49 @@
 define(["jquery", "lodash", "footwork", "postal" ],
   function( $, _, fw, postal ) {
+    var viewPortLayoutMode = fw.observable().receiveFrom('ViewPort', 'layoutMode');
+    var headerHeight = fw.observable().receiveFrom('Header', 'height');
+    var viewPortDimensions = fw.observable().receiveFrom('ViewPort', 'dimensions');
+    var paneWidth = fw.observable().receiveFrom('Pane', 'width');
+    var paneCollapsed = fw.observable().receiveFrom('Configuration', 'paneCollapsed');
+    var sectionAnchors = fw.observable().receiveFrom('sectionAnchors', 'sectionAnchors');
+    var $sectionAnchors = fw.namespace('sectionAnchors');
+
+    var computeAnchorDelay;
+    function computeAnchorPos() {
+      clearTimeout(computeAnchorDelay);
+      computeAnchorDelay = setTimeout(function() {
+        $sectionAnchors.command('computePosition');
+      }, 500);
+    };
+
+    this.layoutModeSub = viewPortLayoutMode.subscribe( computeAnchorPos );
+    this.dimensionSub = viewPortDimensions.subscribe( computeAnchorPos );
+    this.heightSub = headerHeight.subscribe( computeAnchorPos );
+    this.widthSub = paneWidth.subscribe( computeAnchorPos );
+    this.collapsedSub = paneCollapsed.subscribe( computeAnchorPos );
+
     var sectionAnchors = fw.observableArray().broadcastAs({ name: 'sectionAnchors', namespace: 'sectionAnchors' });
     fw.bindingHandlers['sectionAnchor'] = {
       init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
-        sectionAnchors.push($(element).offset().top);
+        var $element = $(element);
+        var elementPosition;
+        var sectionAnchorsNamespace = fw.namespace('sectionAnchors');
+        var computePosition = function() {
+          if(!_.isUndefined(elementPosition)) {
+            sectionAnchors.remove(elementPosition);
+          }
+          elementPosition = { anchor: $element[0].getAttribute('id'), position: $element.offset().top };
+          sectionAnchors.push(elementPosition);
+        };
+
+        sectionAnchorsNamespace.command.handler('computePosition', computePosition);
 
         fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
-          sectionAnchors.remove($(element).offset().top);
+          sectionAnchors.remove(elementPosition);
+          sectionAnchorsNamespace.dispose();
         });
+
+        computePosition();
       }
     };
 

@@ -1,6 +1,6 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
-  <a id="introduction" class="section-anchor"></a>
+  <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="introduction">
     <div class="highlight"></div>
     <header>
@@ -36,7 +36,7 @@
     </div>
   </section>
 
-  <a id="configuration" class="section-anchor"></a>
+  <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="configuration">
     <div class="highlight"></div>
     <header>
@@ -103,7 +103,7 @@
     </div>
   </section>
 
-  <a id="initialization" class="section-anchor"></a>
+  <a id="initialization" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="initialization">
     <div class="highlight"></div>
     <header>
@@ -181,7 +181,7 @@ fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'))
     </div>
   </section>
 
-  <a id="loading-registering" class="section-anchor"></a>
+  <a id="loading-registering" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="loading-registering">
     <div class="highlight"></div>
     <header>
@@ -328,7 +328,7 @@ fw.viewModels.defaultLocation('/myViewModels/');</code></pre>
     </div>
   </section>
 
-  <a id="module-formats" class="section-anchor"></a>
+  <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="module-formats">
     <div class="highlight"></div>
     <header>
@@ -360,7 +360,7 @@ define(["footwork"],
     </div>
   </section>
 
-  <a id="lifecycle" class="section-anchor"></a>
+  <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="lifecycle">
     <div class="highlight"></div>
     <header>
@@ -420,7 +420,7 @@ viewModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
     </div>
   </section>
 
-  <a id="properties" class="section-anchor"></a>
+  <a id="properties" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="properties">
     <div class="highlight"></div>
     <header>
@@ -461,7 +461,7 @@ navNamespace.trigger('userLoggedIn', 'Jonathan'); // console prints: Welcome Jon
     </div>
   </section>
 
-  <a id="mixins" class="section-anchor"></a>
+  <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="mixins">
     <div class="highlight"></div>
     <header>
@@ -504,7 +504,7 @@ var mySprocket = new Sprocket({ type: 'awesome' });</code></pre>
     </div>
   </section>
 
-  <a id="mixin-configuration" class="section-anchor"></a>
+  <a id="mixin-configuration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="mixin-configuration">
     <div class="highlight"></div>
     <header>
@@ -562,7 +562,7 @@ var bigSprocket = {
     </div>
   </section>
 
-  <a id="mixin-usage" class="section-anchor"></a>
+  <a id="mixin-usage" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="mixin-usage">
     <div class="highlight"></div>
     <header>
@@ -604,7 +604,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
     </div>
   </section>
 
-  <a id="misc" class="section-anchor"></a>
+  <a id="misc" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="misc">
     <div class="highlight"></div>
     <header>
@@ -629,7 +629,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
     </div>
   </section>
 
-  <a id="getAll" class="section-anchor"></a>
+  <a id="getAll" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getAll">
     <div class="highlight"></div>
     <div class="content">
@@ -672,7 +672,7 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
     </div>
   </section>
 
-  <a id="isRegistered" class="section-anchor"></a>
+  <a id="isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="isRegistered">
     <div class="highlight"></div>
     <div class="content">
@@ -691,7 +691,7 @@ fw.viewModels.register('Bike', Bike);
     </div>
   </section>
 
-  <a id="getRegistered" class="section-anchor"></a>
+  <a id="getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getRegistered">
     <div class="highlight"></div>
     <div class="content">
@@ -711,7 +711,7 @@ var Sprocket = fw.viewModel({
     </div>
   </section>
 
-  <a id="getResourceLocation" class="section-anchor"></a>
+  <a id="getResourceLocation" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getResourceLocation">
     <div class="highlight"></div>
     <div class="content">
@@ -722,7 +722,7 @@ var Sprocket = fw.viewModel({
     </div>
   </section>
 
-  <a id="getFileName" class="section-anchor"></a>
+  <a id="getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getFileName">
     <div class="highlight"></div>
     <div class="content">
@@ -740,7 +740,7 @@ var fileNameForSprocket = fw.viewModels.getFileName('sprocket'); // === null
     </div>
   </section>
 
-  <a id="fileExtensions" class="section-anchor"></a>
+  <a id="fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="fileExtensions">
     <div class="highlight"></div>
     <div class="content">

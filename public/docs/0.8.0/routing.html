@@ -1,6 +1,6 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
-  <a id="introduction" class="section-anchor"></a>
+  <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="introduction">
     <div class="highlight"></div>
     <header>
@@ -45,7 +45,7 @@
     </div>
   </section>
 
-  <a id="configuration" class="section-anchor"></a>
+  <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="configuration">
     <div class="highlight"></div>
     <header>
@@ -93,7 +93,7 @@
     </div>
   </section>
 
-  <a id="routes" class="section-anchor"></a>
+  <a id="routes" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="routes">
     <div class="highlight"></div>
     <header>
@@ -125,7 +125,7 @@ unknownRoute: { /* ... */ }
     </div>
   </section>
 
-  <a id="route" class="section-anchor"></a>
+  <a id="route" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="route">
     <div class="highlight"></div>
     <header>
@@ -233,7 +233,7 @@ routes: [
     </div>
   </section>
 
-  <a id="router-properties" class="section-anchor"></a>
+  <a id="router-properties" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="router-properties">
     <div class="highlight"></div>
     <header>
@@ -367,7 +367,7 @@ fw.router({
     </div>
   </section>
 
-  <a id="usage" class="section-anchor"></a>
+  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="usage">
     <div class="highlight"></div>
     <header>
@@ -417,7 +417,7 @@ fw.router({
     </div>
   </section>
 
-  <a id="loading-registering" class="section-anchor"></a>
+  <a id="loading-registering" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="loading-registering">
     <div class="highlight"></div>
     <header>
@@ -489,7 +489,7 @@ fw.routers.defaultLocation('/myRouters/');</code></pre>
     </div>
   </section>
 
-  <a id="module-formats" class="section-anchor"></a>
+  <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="module-formats">
     <div class="highlight"></div>
     <header>
@@ -512,7 +512,7 @@ define(["footwork"],
     </div>
   </section>
 
-  <a id="outlets" class="section-anchor"></a>
+  <a id="outlets" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="outlets">
     <div class="highlight"></div>
     <header>
@@ -562,7 +562,7 @@ define(["footwork"],
     </div>
   </section>
 
-  <a id="outlet-registering" class="section-anchor"></a>
+  <a id="outlet-registering" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="outlet-registering">
     <div class="highlight"></div>
     <header>
@@ -615,7 +615,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
     </div>
   </section>
 
-  <a id="outlet-usage" class="section-anchor"></a>
+  <a id="outlet-usage" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="outlet-usage">
     <div class="highlight"></div>
     <header>
@@ -682,7 +682,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
     </div>
   </section>
 
-  <a id="route-binding" class="section-anchor"></a>
+  <a id="route-binding" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="route-binding">
     <div class="highlight"></div>
     <header>
@@ -718,7 +718,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
     </div>
   </section>
 
-  <a id="binding-options" class="section-anchor"></a>
+  <a id="binding-options" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="binding-options">
     <div class="highlight"></div>
     <header>
@@ -769,7 +769,7 @@ var MainViewModel = fw.viewModel({
     </div>
   </section>
 
-  <a id="misc" class="section-anchor"></a>
+  <a id="misc" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="misc">
     <div class="highlight"></div>
     <header>
@@ -792,7 +792,7 @@ var MainViewModel = fw.viewModel({
     </div>
   </section>
 
-  <a id="routers-getAll" class="section-anchor"></a>
+  <a id="routers-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="routers-getAll">
     <div class="highlight"></div>
     <div class="content">
@@ -807,7 +807,7 @@ var routers = fw.routers.getAll('WidgetRouter');
     </div>
   </section>
 
-  <a id="routers-baseRoute" class="section-anchor"></a>
+  <a id="routers-baseRoute" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="routers-baseRoute">
     <div class="highlight"></div>
     <div class="content">
@@ -819,7 +819,7 @@ fw.routers.baseRoute('/home/directory'); // routers will ignore '/home/directory
     </div>
   </section>
 
-  <a id="routers-activeRouteClassName" class="section-anchor"></a>
+  <a id="routers-activeRouteClassName" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="routers-activeRouteClassName">
     <div class="highlight"></div>
     <div class="content">
@@ -832,7 +832,7 @@ fw.routers.activeRouteClassName('currentlyActive');</code></pre>
     </div>
   </section>
 
-  <a id="routers-disableHistory" class="section-anchor"></a>
+  <a id="routers-disableHistory" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="routers-disableHistory">
     <div class="highlight"></div>
     <div class="content">
@@ -844,7 +844,7 @@ fw.routers.disableHistory(true); // history now disabled, but app still navigabl
     </div>
   </section>
 
-  <a id="routers-html5History" class="section-anchor"></a>
+  <a id="routers-html5History" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="routers-html5History">
     <div class="highlight"></div>
     <div class="content">
@@ -856,7 +856,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
     </div>
   </section>
 
-  <a id="isRegistered" class="section-anchor"></a>
+  <a id="isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="isRegistered">
     <div class="highlight"></div>
     <div class="content">
@@ -871,7 +871,7 @@ fw.routers.register('MainRouter', MainRouter);
     </div>
   </section>
 
-  <a id="getRegistered" class="section-anchor"></a>
+  <a id="getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getRegistered">
     <div class="highlight"></div>
     <div class="content">
@@ -884,7 +884,7 @@ fw.routers.register('MainRouter', MainRouter);
     </div>
   </section>
 
-  <a id="getResourceLocation" class="section-anchor"></a>
+  <a id="getResourceLocation" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getResourceLocation">
     <div class="highlight"></div>
     <div class="content">
@@ -895,7 +895,7 @@ fw.routers.register('MainRouter', MainRouter);
     </div>
   </section>
 
-  <a id="getFileName" class="section-anchor"></a>
+  <a id="getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getFileName">
     <div class="highlight"></div>
     <div class="content">
@@ -913,7 +913,7 @@ var fileNameForMainRouter = fw.routers.getFileName('MainRouter'); // === null
     </div>
   </section>
 
-  <a id="fileExtensions" class="section-anchor"></a>
+  <a id="fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="fileExtensions">
     <div class="highlight"></div>
     <div class="content">
