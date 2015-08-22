@@ -71,6 +71,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
       namespace: 'apiSearch',
       afterBinding: function(element) {
         var $element = this.$element = $(element);
+        this.$inputElement = this.$element.find('input');
         this.$scrollContainer = $element.find('.scrollArea');
         $element.find('.results > .content').on('mouseleave', function() {
           this.inactivateSelection();
@@ -84,8 +85,12 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
         this.searchData = fw.observable().receiveFrom('apiSearchModule', 'searchData');
         this.userTyping = fw.observable(true);
 
-        this.touch = function() {
-          searchTouched(true);
+        this.touch = function(hasFocus) {
+          hasFocus && searchTouched(true);
+        }.bind(this);
+
+        this.selectAll = function() {
+          this.$inputElement.select();
         };
 
         this.hasFocus.subscribe(this.touch);
