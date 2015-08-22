@@ -6,6 +6,7 @@ define([ "footwork", "lodash" ],
     var paneWidth = fw.observable().receiveFrom('Pane', 'width');
     var paneCollapsed = fw.observable().receiveFrom('Configuration', 'paneCollapsed');
     var apiReferenceNamespace = fw.namespace('apiReference');
+    var sectionAnchors = fw.observable().receiveFrom('sectionAnchors', 'sectionAnchors');
 
     // var anchorPositions = fw.observable([]);
     var computeAnchorDelay;
@@ -97,11 +98,20 @@ define([ "footwork", "lodash" ],
           return 'disable';
         }, this);
 
+
         this.viewPortScrollPos.subscribe(function(scrollPosition) {
           this.currentAPISection(undefined);
+          var insideDef = false;
           _.each(this.anchorPositions(), function(anchorDef) {
             if(scrollPosition >= anchorDef.position) {
-              this.currentAPISection(anchorDef.title);
+              var anchors = sectionAnchors();
+              var isInside = true;
+              _.each(anchors, function(anchorPosition) {
+                if(anchorPosition - 10 > anchorDef.position && scrollPosition > anchorPosition) {
+                  isInside = false;
+                }
+              });
+              isInside && this.currentAPISection(anchorDef.title);
             }
           }.bind(this));
         }.bind(this));

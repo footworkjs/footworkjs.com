@@ -1,6 +1,6 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
-  <a id="description" class="section-anchor"></a>
+  <a id="description" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="description">
     <div class="highlight"></div>
     <header>
@@ -20,7 +20,7 @@
     </div>
   </section>
 
-  <a id="configuration" class="section-anchor"></a>
+  <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="configuration">
     <div class="highlight"></div>
     <header>
@@ -38,7 +38,7 @@
         constructor functions are essentially specialized wrappers which enable footwork to hook into your dataModel/module to provide for all of the
         features a <span class="inline-code">dataModel</span> provides.</p>
 
-      <a id="fw-dataModel" class="section-anchor"></a>
+      <a id="fw-dataModel" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">fw.dataModel<span>( <span class="param">configurationObject</span> )</span></em></h3>
       <h3>create a <span class="inline-code">dataModel</span> constructor function:</h3>
 <pre><code class="javascript">var DataModelConstructor = fw.dataModel({
@@ -115,26 +115,26 @@
     </div>
   </section>
 
-  <a id="initialization" class="section-anchor"></a>
-  <section name="initialization">
+  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="usage">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Initialization / Usage</h2>
+      <h2 class="sub title">Usage</h2>
     </header>
     <div class="content">
-      <p>A dataModel can be created/initialized in 3 different ways:</p>
+      <p>A dataModel can be used in 3 different ways:</p>
       <ul>
-        <li>Manually initialized (standard knockout methodology).</li>
+        <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
 
         <li>Automatically via a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM.</li>
 
         <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
-          <a data-bind="$route: docLink('components#usage')">component usage</a>).</li>
+          <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
       </ul>
     </div>
   </section>
 
-  <a id="bind-manually" class="section-anchor"></a>
+  <a id="bind-manually" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="bind-manually">
     <div class="highlight"></div>
     <header>
@@ -166,7 +166,7 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
     </div>
   </section>
 
-  <a id="dataModel-element" class="section-anchor"></a>
+  <a id="dataModel-element" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="dataModel-element">
     <div class="highlight"></div>
     <header>
@@ -195,13 +195,13 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
 </code></pre>
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">dataModel</span> automatically downloaded for you when needed.</p>
-        <p>See <a data-bind="$route" href="#loading-registering">dataModel AMD / Lazy Loading / Registering</a>
+        <p>See <a data-bind="$route" href="#registration">dataModel registration</a>
           for information on how to tell footwork where to find your component assets.</p>
       </div>
     </div>
   </section>
 
-  <a id="inside-component" class="section-anchor"></a>
+  <a id="inside-component" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="inside-component">
     <div class="highlight"></div>
     <header>
@@ -234,7 +234,6 @@ fw.components.register('Person', {
   }),
   template: '&lt;!-- component HTML markup --&gt;'
 });
-
 </code></pre>
 
       <div class="note">
@@ -245,16 +244,77 @@ fw.components.register('Person', {
     </div>
   </section>
 
-  <a id="loading-registering" class="section-anchor"></a>
-  <section name="loading-registering">
+  <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="lifecycle">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">AMD / Lazy Loading / Registering</h2>
+      <h2 class="sub title">Lifecycle</h2>
     </header>
     <div class="content">
-      <p>footwork.js supports both explicitly registering your dataModels ahead of time or automatically loading via AMD/RequireJS. In either case, the
-        declarative <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> syntax will trigger the loading (if necessary),
-        initialization, and binding of the dataModel/module.</p>
+      <p>Lifecycle events are automatically handled for you when using a dataModel via one of the three main methods:</p>
+
+      <ul>
+        <li>Use the <span class="inline-code">&lt;dataModel&gt; ... &lt;/dataModel&gt;</span> declarative syntax.</li>
+        <li>Use the <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declarative syntax.</li>
+        <li>Manually bound (<span class="inline-code">fw.applyBindings()</span>) to the DOM.</li>
+      </ul>
+
+      <p>dataModels that are attached to the DOM retrive two main lifecycle events, one just after binding to the DOM (<span class="inline-code">afterBinding()</span>)
+        and one when the element (that the dataModel bound itself to) is removed from the DOM (<span class="inline-code">onDispose()</span>, called just before the
+        element is removed).</p>
+
+      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to <span class="inline-code">this</span> if you
+        want them to automatically be cleaned up for you when the dataModel is disposed.</div>
+
+<pre><code class="javascript">var someOtherObservable = fw.observable();
+
+var MydataModel = fw.dataModel({
+  initialize: function() {
+    this.myVarSub = someOtherObservable.subscribe(function() {
+      // This subscription will get cleaned up when the dataModel is disposed
+    });
+
+    this.$namespace.command.handler('doSomething', function() {
+      // This command handler will get cleaned up when the dataModel is disposed
+    });
+
+    this.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
+    this.$someOtherNamespace.command.handler('doSomethingElse', function() {
+      // This command handler will get cleaned up when the dataModel is disposed
+    });
+
+    this.someOtherThing = {
+      eventHandler: this.$namespace.event.handler('someEvent', function() {
+        // This will NOT get cleaned up, handler result/subscription is not attached to 'this'
+      })
+    };
+  }
+});
+</code></pre>
+
+      <a id="dataModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">dataModel.dispose<span>()</span></em></h3>
+      <p>If you do not bind a dataModel to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
+        by calling <span class="inline-code">dataModel.dispose()</span> directly.</p>
+      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel:</h3>
+<pre><code class="javascript">var MydataModel = fw.dataModel({ /* ... */ });
+var dataModel = new MydataModel();
+// ...
+dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
+</code></pre>
+    </div>
+  </section>
+
+  <a id="registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="registration">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Registration</h2>
+    </header>
+    <div class="content">
+      <p>Footwork supports both explicitly registering your <span class="inline-code">dataModel</span> ahead of time or automatically loading via
+        AMD/RequireJS. In either case, the declarative <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span>
+        syntax will trigger the loading (if necessary), instantiation, and binding of the <span class="inline-code">dataModel</span>.</p>
 
       <p>AMD/RequireJS is fully supported (and highly encouraged) for a number of reasons:</p>
 
@@ -263,7 +323,7 @@ fw.components.register('Person', {
 
         <li>Helps decouple your application and allow for easier testability.</li>
 
-        <li>footwork can take advantage of its dependency resolution to automatically load and use resources for you as needed at runtime (<em>including the automatic
+        <li>Footwork can take advantage of its dependency resolution to automatically load and use resources for you as needed at runtime (<em>including the automatic
           loading and composing of entire views/pages/routes, components, or dataModels</em>).</li>
 
         <li>Allows for easier debugging as non-compiled assets while still being buildable for release into a production environment.</li>
@@ -276,7 +336,7 @@ fw.components.register('Person', {
 <pre><code class="javascript">/**
  * An AMD/RequireJS module is defined in exactly the same way as a normal knockout module would be.
  * The only difference being that you return the footwork-flavored dataModel constructor function
- * result from fw.dataModel() instead of a normal function() {} constructor.
+ * result from fw.dataModel() instead of a normal (function() {}) constructor.
  */
 define(["footwork"],
   function(fw) {
@@ -299,8 +359,8 @@ define(["footwork"],
   }
 );</code></pre>
 
-      <p>Automatically loading and binding a section of your DOM with a dataModel begins with inserting/wrapping the html in your template with a
-        <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> element.</p>
+      <p>Automatically loading and binding a section of your DOM with a <span class="inline-code">dataModel</span> begins with inserting/wrapping the
+        html in your template with a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> element.</p>
 
       <h3>Example <span class="inline-code">&lt;dataModel&gt;</span> wrapper:</h3>
 <pre><code class="html">&lt;html&gt;
@@ -392,7 +452,7 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
     </div>
   </section>
 
-  <a id="module-formats" class="section-anchor"></a>
+  <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="module-formats">
     <div class="highlight"></div>
     <header>
@@ -424,68 +484,7 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
     </div>
   </section>
 
-  <a id="lifecycle" class="section-anchor"></a>
-  <section name="lifecycle">
-    <div class="highlight"></div>
-    <header>
-      <h2 class="sub title">Lifecycle</h2>
-    </header>
-    <div class="content">
-      <p>Lifecycle events are automatically handled for you when using a dataModel via one of the three main methods:</p>
-
-      <ul>
-        <li>Use the <span class="inline-code">&lt;dataModel&gt; ... &lt;/dataModel&gt;</span> declarative syntax.</li>
-        <li>Use the <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declarative syntax.</li>
-        <li>Manually bound (<span class="inline-code">fw.applyBindings()</span>) to the DOM.</li>
-      </ul>
-
-      <p>dataModels that are attached to the DOM retrive two main lifecycle events, one just after binding to the DOM (<span class="inline-code">afterBinding()</span>)
-        and one when the element (that the dataModel bound itself to) is removed from the DOM (<span class="inline-code">onDispose()</span>, called just before the
-        element is removed).</p>
-
-      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to <span class="inline-code">this</span> if you
-        want them to automatically be cleaned up for you when the dataModel is disposed.</div>
-
-<pre><code class="javascript">var someOtherObservable = fw.observable();
-
-var MydataModel = fw.dataModel({
-  initialize: function() {
-    this.myVarSub = someOtherObservable.subscribe(function() {
-      // This subscription will get cleaned up when the dataModel is disposed
-    });
-
-    this.$namespace.command.handler('doSomething', function() {
-      // This command handler will get cleaned up when the dataModel is disposed
-    });
-
-    this.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
-    this.$someOtherNamespace.command.handler('doSomethingElse', function() {
-      // This command handler will get cleaned up when the dataModel is disposed
-    });
-
-    this.someOtherThing = {
-      eventHandler: this.$namespace.event.handler('someEvent', function() {
-        // This will NOT get cleaned up, handler result/subscription is not attached to 'this'
-      })
-    };
-  }
-});
-</code></pre>
-
-      <a id="dataModel-dispose" class="section-anchor"></a>
-      <h3><em class="func-def">dataModel.dispose<span>()</span></em></h3>
-      <p>If you do not bind a dataModel to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
-        by calling <span class="inline-code">dataModel.dispose()</span> directly.</p>
-      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel:</h3>
-<pre><code class="javascript">var MydataModel = fw.dataModel({ /* ... */ });
-var dataModel = new MydataModel();
-// ...
-dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
-</code></pre>
-    </div>
-  </section>
-
-  <a id="observable-mapTo" class="section-anchor"></a>
+  <a id="observable-mapTo" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="observable-mapTo">
     <div class="highlight"></div>
     <header>
@@ -563,7 +562,7 @@ person.finishMapping();
     </div>
   </section>
 
-  <a id="mixins" class="section-anchor"></a>
+  <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="mixins">
     <div class="highlight"></div>
     <header>
@@ -606,7 +605,7 @@ var mySprocket = new Sprocket({ type: 'awesome' });</code></pre>
     </div>
   </section>
 
-  <a id="mixin-configuration" class="section-anchor"></a>
+  <a id="mixin-configuration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="mixin-configuration">
     <div class="highlight"></div>
     <header>
@@ -664,7 +663,7 @@ var bigSprocket = {
     </div>
   </section>
 
-  <a id="mixin-usage" class="section-anchor"></a>
+  <a id="mixin-usage" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="mixin-usage">
     <div class="highlight"></div>
     <header>
@@ -706,7 +705,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
     </div>
   </section>
 
-  <a id="misc" class="section-anchor"></a>
+  <a id="misc" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="misc">
     <div class="highlight"></div>
     <header>
@@ -731,7 +730,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
     </div>
   </section>
 
-  <a id="getAll" class="section-anchor"></a>
+  <a id="getAll" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getAll">
     <div class="highlight"></div>
     <div class="content">
@@ -775,7 +774,7 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
     </div>
   </section>
 
-  <a id="isRegistered" class="section-anchor"></a>
+  <a id="isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="isRegistered">
     <div class="highlight"></div>
     <div class="content">
@@ -794,7 +793,7 @@ fw.dataModels.register('Bike', Bike);
     </div>
   </section>
 
-  <a id="getRegistered" class="section-anchor"></a>
+  <a id="getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getRegistered">
     <div class="highlight"></div>
     <div class="content">
@@ -814,7 +813,7 @@ var Sprocket = fw.dataModel({
     </div>
   </section>
 
-  <a id="getLocation" class="section-anchor"></a>
+  <a id="getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getLocation">
     <div class="highlight"></div>
     <div class="content">
@@ -825,7 +824,7 @@ var Sprocket = fw.dataModel({
     </div>
   </section>
 
-  <a id="getFileName" class="section-anchor"></a>
+  <a id="getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="getFileName">
     <div class="highlight"></div>
     <div class="content">
@@ -843,7 +842,7 @@ var fileNameForSprocket = fw.dataModels.getFileName('sprocket'); // === null
     </div>
   </section>
 
-  <a id="fileExtensions" class="section-anchor"></a>
+  <a id="fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="fileExtensions">
     <div class="highlight"></div>
     <div class="content">
@@ -864,7 +863,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
     </div>
   </section>
 
-  <a id="properties" class="section-anchor"></a>
+  <a id="properties" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="properties">
     <div class="highlight"></div>
     <header>
@@ -873,7 +872,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
     <div class="content">
       <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
 
-      <a id="dataModel-namespace" class="section-anchor"></a>
+      <a id="dataModel-namespace" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3>dataModel.$namespace</h3>
       <p>The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
         to setup any handlers and subscriptions on the current namespace that a dataModel might need.</p>
@@ -886,7 +885,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
   }
 });</code></pre>
 
-      <a id="dataModel-cid" class="section-anchor"></a>
+      <a id="dataModel-cid" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3>dataModel.$cid</h3>
       <p>Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">dataModel</span> when
         they are first created.</p>
@@ -911,7 +910,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
         { "title": "Configuration and Usage" },
         { "anchor": "configuration",
           "title": "Constructor Function" },
-        { "anchor": "initialization",
+        { "anchor": "usage",
           "title": "Usage",
           "subSections": [
             { "anchor": "bind-manually",
@@ -926,15 +925,25 @@ fw.dataModels.fileExtensions(function(moduleName) {
           ] },
         { "title": "Lifecycle &amp; Registration",
           "subSections": [
-            { "anchor": "loading-registering",
-              "title": "AMD / Lazy Loading / Registering",
-              "description": "How to register a dataModel and have it loaded via AMD, asynchronously." },
-            { "anchor": "module-formats",
-              "title": "Module Formats",
-              "description": "What formats a valid for a dataModel module." },
             { "anchor": "lifecycle",
               "title": "Lifecycle",
-              "description": "Explanation of the lifecycle of a dataModel, including instantiation and disposal." }
+              "description": "Explanation of the lifecycle of a dataModel, including instantiation and disposal.",
+              "subSections": [
+                { "anchor": "afterBinding",
+                  "title": "afterBinding()",
+                  "description": "Method called after binding the dataModel to the DOM." },
+                { "anchor": "onDispose",
+                  "title": "onDispose()",
+                  "description": "Method called after the dataModel is removed from the DOM." }
+              ] },
+            { "anchor": "registration",
+              "title": "Registration",
+              "description": "How to register a dataModel and have it loaded via AMD, asynchronously.",
+              "subSections": [
+                { "anchor": "module-formats",
+                  "title": "Module Formats",
+                  "description": "What formats a valid for a dataModel module." }
+              ] }
           ] },
         { "title": "Data Management",
           "subSections": [

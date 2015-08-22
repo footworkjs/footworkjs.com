@@ -51,7 +51,8 @@ require([
     fw.start();
 
     $window.scroll( function() {
-      scrollPosition( $document.scrollTop() );
+      var position = $document.scrollTop();
+      scrollPosition(position);
     }).resize( function() {
       viewPortDim({ width: $window.width(), height: $window.height() });
     }).on('mouseup', function() {

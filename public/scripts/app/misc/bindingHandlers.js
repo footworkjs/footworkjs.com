@@ -1,5 +1,16 @@
-define(["jquery", "lodash", "knockout", "postal" ],
+define(["jquery", "lodash", "footwork", "postal" ],
   function( $, _, fw, postal ) {
+    var sectionAnchors = fw.observableArray().broadcastAs({ name: 'sectionAnchors', namespace: 'sectionAnchors' });
+    fw.bindingHandlers['sectionAnchor'] = {
+      init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
+        sectionAnchors.push($(element).offset().top);
+
+        fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
+          sectionAnchors.remove($(element).offset().top);
+        });
+      }
+    };
+
     fw.bindingHandlers['limitScroll'] = {
       init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
         var $element = $(element);
