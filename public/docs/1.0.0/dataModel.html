@@ -141,6 +141,8 @@
       <h2>Manual initialization (similar to what would be found in regular knockout.js code):</h2>
     </header>
     <div class="content">
+      <p>To manually bind a <span class="inline-code">dataModel</span> you use a <span class="inline-code">fw.applyBindings()</span>
+        call after instantiating it.</p>
 <pre><code class="javascript">/**
  * You use footwork dataModel class functions just like you would a normal knockout.js constructor function.
  * ie: var dataModelObject = new ConstructorFunc(paramaters ...);
@@ -178,6 +180,8 @@ fw.applyBindings(bestFriend, document.getElementById('best-friend'));
       <h2>Automatic initialization via <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM:</h2>
     </header>
     <div class="content">
+      <p>A <span class="inline-code">dataModel</span> can be instantiated and bound automatically when using a
+        <span class="inline-code">&lt;dataModel&gt;</span> declarative wrapper element.</p>
 <pre><code class="html">&lt;dataModel module="Person"&gt;
   &lt;form&gt;
     &lt;label&gt;First Name: &lt;input type="text" data-bind="value: firstName"&gt;&lt;/label&gt;
@@ -207,6 +211,9 @@ fw.applyBindings(bestFriend, document.getElementById('best-friend'));
       <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
     </header>
     <div class="content">
+      <p>You can supply a <span class="inline-code">dataModel</span> in place of a <span class="inline-code">viewModel</span> inside of a component
+        registration (or location registration). By doing that the component will bind the <span class="inline-code">dataModel</span> against your
+        markup.</p>
 <pre><code class="html">&lt;html&gt;
   &lt;body&gt;
     &lt;person&gt;&lt;/person&gt;
@@ -215,90 +222,60 @@ fw.applyBindings(bestFriend, document.getElementById('best-friend'));
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
+          <p>... and as an example, this <span class="inline-code">component</span> was registered directly:</p>
+<pre><code class="javascript">/**
+ * Note we are supplying a dataModel in place of the viewModel
+ * in this component registration. This also works when registring
+ * a location.
+ */
+fw.components.register('Person', {
+  viewModel: fw.dataModel({
+    namespace: 'Person',
+    initialize: function(params) {
+      this.firstName = fw.observable(person.firstName).mapTo('firstName');
+    }
+  }),
+  template: '&lt;!-- Person component HTML markup --&gt;'
+});
+
+</code></pre>
+
       <div class="note">
-        <p><span class="label">NOTE:</span> You can supply/substitute a <span class="inline-code">dataModel</span> in place of a
-        <span class="inline-code">viewModel</span> inside of a component registration (or location registration).</p>
-        <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
+        <p><span class="label">NOTE:</span> See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
         for information on how to tell footwork where to find your component assets.</p>
       </div>
     </div>
   </section>
 
-  <a id="observable-mapTo" class="section-anchor"></a>
-  <section name="observable-mapTo">
+  <a id="properties" class="section-anchor"></a>
+  <section name="properties">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Mapping Data / observable.mapTo()</h2>
+      <h2 class="sub title">Properties</h2>
     </header>
     <div class="content">
-      <p>When sending to or retreiving from from the server footwork needs to know how to transpose that data to and from your
-        <span class="inline-code">dataModel</span>. Using <span class="inline-code">observable.mapTo()</span> we can define how our data maps to the
-        representation the server expects.</p>
+      <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
 
-      <p><span class="inline-code">observable.mapTo()</span> is generally expected to be called from within a <span class="inline-code">dataModel</span>
-        <span class="inline-code">initialize</span> function. If you do call it from within the <span class="inline-code">initialize</span> function
-        then all you need do is supply it the <span class="inline-code">path</span> to map the value to. This path is used to convert the
-        <span class="inline-code">dataModel</span> to the expected form on the server and to map that same data back into the
-        <span class="inline-code">dataModel</span> when retrieving it.</p>
+  <a id="dataModel-namespace" class="section-anchor"></a>
+      <h3>dataModel.$namespace <em>(available after instantiation)</em></h3>
 
-      <p>If you call <span class="inline-code">.mapTo()</span> sometime after or outside of the main <span class="inline-code">initialize</span> method
-        then you will need to provide <span class="inline-code">.mapTo()</span> a direct reference to the <span class="inline-code">dataModel</span>.</p>
+      <p>Every instantiated dataModel will have a property called <span class="inline-code">$namespace</span>, this is the namespace channel created as a
+        result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used to setup any handlers and subscriptions
+        on the current namespace that a dataModel might need.</p>
 
-      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></em></h3>
-      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></em></h3>
-      <h3>Map a value in a <span class="inline-code">dataModel</span>:</h3>
-<pre><code class="javascript">var Person = fw.dataModel({
-  namespace: 'Person',
-  initialize: function(params) {
-    this.firstName = fw.observable().mapTo('firstName');
-    this.lastName = fw.observable().mapTo('lastName');
-    this.age = fw.observable().mapTo('attributes.age');
-    this.isBestFriend = fw.observable().mapTo('attributes.isBestFriend');
-
-    this.finishMapping = function() {
-      // This gets called sometime after the main initialize(), when doing so we must provide
-      // the dataModel reference directly
-      this.favoriteMovies = fw.observable().mapTo({
-        path: 'attributes.favoriteMovies',
-        dataModel: this
-      });
-    };
+<pre><code class="javascript">var Navigation = fw.dataModel({
+  namespace: 'Navigation',
+  initialize: function() {
+    this.$namespace.event.handler('userLoggedIn', function(username) {
+      console.log('Welcome', username);
+    });
   }
 });
 
-var person = new Person();
+var navigation = new Navigation();
 
-/**
- * This dataModel now has the following internal mappings:
- * {
- *   firstName: dataModel.firstName,
- *   lastName: dataModel.lastName,
- *   attributes: {
- *     age: dataModel.age,
- *     isBestFriend: dataModel.isBestFriend
- *   }
- * }
- */
-
-// now map the favoriteMovies observable
-person.finishMapping();
-
-/**
- * This dataModel now has the following internal mappings:
- * {
- *   firstName: dataModel.firstName,
- *   lastName: dataModel.lastName,
- *   attributes: {
- *     age: dataModel.age,
- *     isBestFriend: dataModel.isBestFriend
- *     favoriteMovies: dataModel.favoriteMovies
- *   }
- * }
- */
-</code></pre>
-
-      <p><span class="inline-code">observable.mapTo()</span> will map that <span class="inline-code">observable</span> value to the dot-notated path
-        you supply.</p>
+var navNamespace = fw.namespace('Navigation');
+navNamespace.trigger('userLoggedIn', 'Jonathan'); // console prints: Welcome Jonathan</code></pre>
     </div>
   </section>
 
@@ -542,35 +519,81 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
     </div>
   </section>
 
-  <a id="properties" class="section-anchor"></a>
-  <section name="properties">
+  <a id="observable-mapTo" class="section-anchor"></a>
+  <section name="observable-mapTo">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Properties</h2>
+      <h2 class="sub title">Mapping Data / observable.mapTo()</h2>
     </header>
     <div class="content">
-      <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
+      <p>When sending to or retreiving from from the server footwork needs to know how to transpose that data to and from your
+        <span class="inline-code">dataModel</span>. Using <span class="inline-code">observable.mapTo()</span> we can define how our data maps to the
+        representation the server expects.</p>
 
-  <a id="dataModel-namespace" class="section-anchor"></a>
-      <h3>dataModel.$namespace <em>(available after instantiation)</em></h3>
+      <p><span class="inline-code">observable.mapTo()</span> is generally expected to be called from within a <span class="inline-code">dataModel</span>
+        <span class="inline-code">initialize</span> function. If you do call it from within the <span class="inline-code">initialize</span> function
+        then all you need do is supply it the <span class="inline-code">path</span> to map the value to. This path is used to convert the
+        <span class="inline-code">dataModel</span> to the expected form on the server and to map that same data back into the
+        <span class="inline-code">dataModel</span> when retrieving it.</p>
 
-      <p>Every instantiated dataModel will have a property called <span class="inline-code">$namespace</span>, this is the namespace channel created as a
-        result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used to setup any handlers and subscriptions
-        on the current namespace that a dataModel might need.</p>
+      <p>If you call <span class="inline-code">.mapTo()</span> sometime after or outside of the main <span class="inline-code">initialize</span> method
+        then you will need to provide <span class="inline-code">.mapTo()</span> a direct reference to the <span class="inline-code">dataModel</span>.</p>
 
-<pre><code class="javascript">var Navigation = fw.dataModel({
-  namespace: 'Navigation',
-  initialize: function() {
-    this.$namespace.event.handler('userLoggedIn', function(username) {
-      console.log('Welcome', username);
-    });
+      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></em></h3>
+      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></em></h3>
+      <h3>Map a value in a <span class="inline-code">dataModel</span>:</h3>
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable().mapTo('firstName');
+    this.lastName = fw.observable().mapTo('lastName');
+    this.age = fw.observable().mapTo('attributes.age');
+    this.isBestFriend = fw.observable().mapTo('attributes.isBestFriend');
+
+    this.finishMapping = function() {
+      // This gets called sometime after the main initialize(), when doing so we must provide
+      // the dataModel reference directly
+      this.favoriteMovies = fw.observable().mapTo({
+        path: 'attributes.favoriteMovies',
+        dataModel: this
+      });
+    };
   }
 });
 
-var navigation = new Navigation();
+var person = new Person();
 
-var navNamespace = fw.namespace('Navigation');
-navNamespace.trigger('userLoggedIn', 'Jonathan'); // console prints: Welcome Jonathan</code></pre>
+/**
+ * This dataModel now has the following internal mappings:
+ * {
+ *   firstName: dataModel.firstName,
+ *   lastName: dataModel.lastName,
+ *   attributes: {
+ *     age: dataModel.age,
+ *     isBestFriend: dataModel.isBestFriend
+ *   }
+ * }
+ */
+
+// now map the favoriteMovies observable
+person.finishMapping();
+
+/**
+ * This dataModel now has the following internal mappings:
+ * {
+ *   firstName: dataModel.firstName,
+ *   lastName: dataModel.lastName,
+ *   attributes: {
+ *     age: dataModel.age,
+ *     isBestFriend: dataModel.isBestFriend
+ *     favoriteMovies: dataModel.favoriteMovies
+ *   }
+ * }
+ */
+</code></pre>
+
+      <p><span class="inline-code">observable.mapTo()</span> will map that <span class="inline-code">observable</span> value to the dot-notated path
+        you supply.</p>
     </div>
   </section>
 
