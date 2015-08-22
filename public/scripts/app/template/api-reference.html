@@ -2,6 +2,13 @@
   <a class="ref-label top-desc" data-bind="attr: { href: anchorAddress }, css: { active: active }, click: choose, hoverTrack: mouseOver, hasFocus: isFocused">
     <span data-bind="text: title"></span>
     <div class="arrow"></div>
-    <div class="description" data-bind="text: description"></div>
+    <div class="description">
+      <span data-bind="text: description"></span>
+      <!-- ko if: hasSubDescriptions -->
+        <!-- ko foreach: subDescriptions -->
+          <div class="sub-description" data-bind="text: $data"></div>
+        <!-- /ko -->
+      <!-- /ko -->
+    </div>
   </a>
 </div>

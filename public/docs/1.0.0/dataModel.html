@@ -17,15 +17,6 @@
         <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, meaning you can use it in exactly the same way you
         would a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, but with the added ability of being able
         to have its data loaded from/saved to a RESTful endpoint as well as a host of other related features.</p>
-
-      <ul>
-        <li><a data-bind="$route" href="#configuration">Configuration</a></li>
-        <li><a data-bind="$route" href="#initialization">Initialization</a></li>
-        <li><a data-bind="$route" href="#loading-registering">AMD / Lazy Loading / Registering</a></li>
-        <li><a data-bind="$route" href="#module-formats">Module Formats</a></li>
-        <li><a data-bind="$route" href="#lifecycle">Lifecycle</a></li>
-        <li><a data-bind="$route" href="#properties">Properties</a></li>
-      </ul>
     </div>
   </section>
 
@@ -33,17 +24,19 @@
   <section name="configuration">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Configuration</h2>
+      <h2 class="sub title">Constructor Function</h2>
     </header>
     <div class="content">
-      <p>Each different type of dataModel you wish to have must have a new constructor function made for it.</p>
+      <p>Each different type of <span class="inline-code">dataModel</span> you wish to have must have a new constructor function created for it. These
+        constructor functions are then used (either by you directly or by footwork) to instantiate new <span class="inline-code">dataModel</span>
+        instances per your definition (which are then used and/or bound to your UI).</p>
 
       <p><span class="inline-code">dataModel</span> constructor functions are created by calling the factory method
         <span class="inline-code">fw.dataModel()</span> and passing it a configuration object.</p>
 
-      <p>The resulting constructor function can then be used to instantiate new instances of that dataModel. These constructor functions are
-        essentially specialized wrappers which enable footwork to hook into both knockout and your dataModel/module to provide for all of the
-        additional features the framework provides.</p>
+      <p>The resulting constructor function can then be used to instantiate new instances of that <span class="inline-code">dataModel</span>. These
+        constructor functions are essentially specialized wrappers which enable footwork to hook into your dataModel/module to provide for all of the
+        features a <span class="inline-code">dataModel</span> provides.</p>
 
       <a id="fw-dataModel" class="section-anchor"></a>
       <h3><em class="func-def">fw.dataModel<span>( <span class="param">configurationObject</span> )</span></em></h3>
@@ -138,8 +131,16 @@
         <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
           <a data-bind="$route: docLink('components#usage')">component usage</a>).</li>
       </ul>
+    </div>
+  </section>
 
-      <h3>Manual initialization (similar to what would be found in regular knockout.js code):</h3>
+  <a id="bind-manually" class="section-anchor"></a>
+  <section name="bind-manually">
+    <div class="highlight"></div>
+    <header>
+      <h2>Manual initialization (similar to what would be found in regular knockout.js code):</h2>
+    </header>
+    <div class="content">
 <pre><code class="javascript">/**
  * You use footwork dataModel class functions just like you would a normal knockout.js constructor function.
  * ie: var dataModelObject = new ConstructorFunc(paramaters ...);
@@ -167,8 +168,16 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
 // You can then bind it to the DOM just like any other knockout viewModel/javascript object:
 fw.applyBindings(bestFriend, document.getElementById('best-friend'));
 </code></pre>
+    </div>
+  </section>
 
-      <h3>Automatic initialization via <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM:</h3>
+  <a id="dataModel-element" class="section-anchor"></a>
+  <section name="dataModel-element">
+    <div class="highlight"></div>
+    <header>
+      <h2>Automatic initialization via <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM:</h2>
+    </header>
+    <div class="content">
 <pre><code class="html">&lt;dataModel module="Person"&gt;
   &lt;form&gt;
     &lt;label&gt;First Name: &lt;input type="text" data-bind="value: firstName"&gt;&lt;/label&gt;
@@ -177,10 +186,27 @@ fw.applyBindings(bestFriend, document.getElementById('best-friend'));
   &lt;/form&gt;
 &lt;/dataModel&gt;</code></pre>
 
+          <p>... and as an example, this <span class="inline-code">dataModel</span> was registered directly:</p>
+<pre><code class="javascript">fw.dataModels.register('Person', fw.dataModel({
+    namespace: 'Person',
+    initialize: function(params) {
+      this.firstName = fw.observable(person.firstName).mapTo('firstName');
+    }
+  })
+);
+</code></pre>
       <p class="note"><span class="label">NOTE:</span> See <a data-bind="$route" href="#loading-registering">AMD / Lazy Loading / Registering</a> for information
-        on how to make sure footwork knows how to find your dataModels/modules.</p>
+      on how to make sure footwork knows how to find your dataModels/modules.</p>
+    </div>
+  </section>
 
-      <h3>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h3>
+  <a id="inside-component" class="section-anchor"></a>
+  <section name="inside-component">
+    <div class="highlight"></div>
+    <header>
+      <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
+    </header>
+    <div class="content">
 <pre><code class="html">&lt;html&gt;
   &lt;body&gt;
     &lt;person&gt;&lt;/person&gt;
@@ -503,9 +529,10 @@ var MydataModel = fw.dataModel({
 });
 </code></pre>
 
+      <a id="dataModel-dispose" class="section-anchor"></a>
+      <h3><em class="func-def">dataModel.dispose<span>()</span></em></h3>
       <p>If you do not bind a dataModel to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
         by calling <span class="inline-code">dataModel.dispose()</span> directly.</p>
-      <h3 class="top"><em class="func-def">dataModel.dispose<span>()</span></em></h3>
       <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel:</h3>
 <pre><code class="javascript">var MydataModel = fw.dataModel({ /* ... */ });
 var dataModel = new MydataModel();
@@ -522,8 +549,9 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
       <h2 class="sub title">Properties</h2>
     </header>
     <div class="content">
-      <p>After a dataModel has been created, there are a few properties/references which are added/available to the object depending on its current state.</p>
+      <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
 
+  <a id="dataModel-namespace" class="section-anchor"></a>
       <h3>dataModel.$namespace <em>(available after instantiation)</em></h3>
 
       <p>Every instantiated dataModel will have a property called <span class="inline-code">$namespace</span>, this is the namespace channel created as a
@@ -543,16 +571,6 @@ var navigation = new Navigation();
 
 var navNamespace = fw.namespace('Navigation');
 navNamespace.trigger('userLoggedIn', 'Jonathan'); // console prints: Welcome Jonathan</code></pre>
-
-      <h3>dataModel.$element <em>(available after binding)</em></h3>
-      <p>After a dataModel is bound with the DOM, the element it is bound to is assigned to the <span class="inline-code">$element</span> property.</p>
-<pre><code class="javascript">var Navigation = fw.dataModel({
-  namespace: 'Navigation',
-  initialize: function() { /* ... */ }
-  afterBinding: function() {
-    this.$element.className += 'isBound';
-  }
-});</code></pre>
     </div>
   </section>
 
@@ -868,10 +886,13 @@ fw.dataModels.fileExtensions(function(moduleName) {
       "subSections": [
         { "title": "Configuration and Usage" },
         { "anchor": "configuration",
-          "title": "Configuration" },
+          "title": "Constructor Function" },
         { "anchor": "initialization",
           "title": "Usage",
           "subSections": [
+            { "anchor": "bind-manually",
+              "title": "Manual binding",
+              "description": "Binding a dataModel using fw.applyBindings()." },
             { "anchor": "dataModel-element",
               "title": "&lt;dataModel&gt;",
               "description": "Using a dataModel with a &lt;dataModel&gt; declarative element." },
@@ -946,6 +967,12 @@ fw.dataModels.fileExtensions(function(moduleName) {
         {
           "label": "Methods",
           "references": [
+            { "anchor": "dataModel-dispose",
+              "title": "dataModel.dispose()",
+              "description": "Dispose of a dataModel and all of its attached handlers and subscriptions.",
+              "subDescriptions": [
+                "This is done automatically when a bound instance is removed from the DOM."
+              ] },
             { "anchor": "dataModel-fetch",
               "title": "dataModel.$fetch()",
               "description": "Fetch a models data from its RESTful endpoint." },
@@ -957,45 +984,9 @@ fw.dataModels.fileExtensions(function(moduleName) {
         {
           "label": "Properties",
           "references": [
-            { "anchor": "dataModel-fetch",
-              "title": "dataModel.$fetch()",
-              "description": "Fetch a models data from its RESTful endpoint." },
-            { "anchor": "dataModel-save",
-              "title": "dataModel.$save()",
-              "description": "Save a models data to its RESTful endpoint." }
-          ]
-        },
-        {
-          "label": "Properties",
-          "references": [
-            { "anchor": "dataModel-fetch",
-              "title": "dataModel.$fetch()",
-              "description": "Fetch a models data from its RESTful endpoint." },
-            { "anchor": "dataModel-save",
-              "title": "dataModel.$save()",
-              "description": "Save a models data to its RESTful endpoint." }
-          ]
-        },
-        {
-          "label": "Properties",
-          "references": [
-            { "anchor": "dataModel-fetch",
-              "title": "dataModel.$fetch()",
-              "description": "Fetch a models data from its RESTful endpoint." },
-            { "anchor": "dataModel-save",
-              "title": "dataModel.$save()",
-              "description": "Save a models data to its RESTful endpoint." }
-          ]
-        },
-        {
-          "label": "Properties",
-          "references": [
-            { "anchor": "dataModel-fetch",
-              "title": "dataModel.$fetch()",
-              "description": "Fetch a models data from its RESTful endpoint." },
-            { "anchor": "dataModel-save",
-              "title": "dataModel.$save()",
-              "description": "Save a models data to its RESTful endpoint." }
+            { "anchor": "dataModel-namespace",
+              "title": "dataModel.$namespace",
+              "description": "The namespace for this dataModel used for communication with other areas of your application." }
           ]
         }
       ]

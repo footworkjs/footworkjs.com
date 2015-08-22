@@ -4,11 +4,14 @@ define([ "footwork", "lodash", "jquery" ],
       namespace: 'apiReference',
       initialize: function(params) {
         _.extend(this, {
-          description: null
+          description: null,
+          subDescriptions: []
         }, fw.unwrap(params.reference));
         this.apiNavNamespace = fw.namespace('apiNav');
         this.currentAPISection = fw.observable().receiveFrom('apiNav', 'currentAPISection');
         this.$anchor = $('#' + this.anchor);
+
+        this.hasSubDescriptions = this.subDescriptions.length;
 
         this.mouseOver = fw.observable().receiveFrom('apiNav', 'mouseOver');
         this.position = fw.observable();
