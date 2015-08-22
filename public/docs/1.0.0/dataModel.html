@@ -138,21 +138,16 @@
   <section name="bind-manually">
     <div class="highlight"></div>
     <header>
-      <h2>Manual initialization (similar to what would be found in regular knockout.js code):</h2>
+      <h2>Manual Instantiation and Binding:</h2>
     </header>
     <div class="content">
+      <p>Manually instantiating a <span class="inline-code">dataModel</span> is done by calling <span class="inline-code">new ConstructorFunc()</span>.
+        With the instance in hand you can then use it as you wish, either directly or by binding it to the DOM (just as you might a
+        <span class="inline-code">viewModel</span>).</p>
+
       <p>To manually bind a <span class="inline-code">dataModel</span> you use a <span class="inline-code">fw.applyBindings()</span>
         call after instantiating it.</p>
-<pre><code class="javascript">/**
- * You use footwork dataModel class functions just like you would a normal knockout.js constructor function.
- * ie: var dataModelObject = new ConstructorFunc(paramaters ...);
- *
- * Note: The parameters you pass into the ConstructorFunc(params) call get passed
- *       into the initialize(params) function from the configuration object.
- */
-
-// example:
-var Person = fw.dataModel({
+<pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   initialize: function(params) {
     // params === object passed in when calling new Person( ... )
@@ -163,12 +158,10 @@ var Person = fw.dataModel({
 });
 
 var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestFriend: true });
-// bestFriend.firstName() === 'Patrick'
-// bestFriend.lastName() === 'Bateman'
-// bestFriend.isBestFriend() === true
+</code></pre>
 
-// You can then bind it to the DOM just like any other knockout viewModel/javascript object:
-fw.applyBindings(bestFriend, document.getElementById('best-friend'));
+      <p>Now, if we wish, we can bind the <span class="inline-code">Person</span> instance (<span class="inline-code">bestFriend</span>) to the DOM:</p>
+<pre><code class="javascript">fw.applyBindings(bestFriend, document.getElementById('best-friend'));
 </code></pre>
     </div>
   </section>
@@ -181,7 +174,8 @@ fw.applyBindings(bestFriend, document.getElementById('best-friend'));
     </header>
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> can be instantiated and bound automatically when using a
-        <span class="inline-code">&lt;dataModel&gt;</span> declarative wrapper element.</p>
+        <span class="inline-code">&lt;dataModel&gt;</span> declarative wrapper element. Using the <span class="inline-code">module=""</span> attribute
+        you can specify which <span class="inline-code">dataModel</span> should be instantiated and bound by footwork.</p>
 <pre><code class="html">&lt;dataModel module="Person"&gt;
   &lt;form&gt;
     &lt;label&gt;First Name: &lt;input type="text" data-bind="value: firstName"&gt;&lt;/label&gt;
@@ -199,8 +193,11 @@ fw.applyBindings(bestFriend, document.getElementById('best-friend'));
   })
 );
 </code></pre>
-      <p class="note"><span class="label">NOTE:</span> See <a data-bind="$route" href="#loading-registering">AMD / Lazy Loading / Registering</a> for information
-      on how to make sure footwork knows how to find your dataModels/modules.</p>
+      <div class="note">
+        <p><span class="label">NOTE:</span> You can have your <span class="inline-code">dataModel</span> automatically downloaded for you when needed.</p>
+        <p>See <a data-bind="$route" href="#loading-registering">dataModel AMD / Lazy Loading / Registering</a>
+          for information on how to tell footwork where to find your component assets.</p>
+      </div>
     </div>
   </section>
 
@@ -226,7 +223,7 @@ fw.applyBindings(bestFriend, document.getElementById('best-friend'));
 <pre><code class="javascript">/**
  * Note we are supplying a dataModel in place of the viewModel
  * in this component registration. This also works when registring
- * a location.
+ * a component location.
  */
 fw.components.register('Person', {
   viewModel: fw.dataModel({
@@ -235,47 +232,16 @@ fw.components.register('Person', {
       this.firstName = fw.observable(person.firstName).mapTo('firstName');
     }
   }),
-  template: '&lt;!-- Person component HTML markup --&gt;'
+  template: '&lt;!-- component HTML markup --&gt;'
 });
 
 </code></pre>
 
       <div class="note">
-        <p><span class="label">NOTE:</span> See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
-        for information on how to tell footwork where to find your component assets.</p>
+        <p><span class="label">NOTE:</span> You can have your <span class="inline-code">component</span> automatically downloaded for you when needed.</p>
+        <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
+          for information on how to tell footwork where to find your component assets.</p>
       </div>
-    </div>
-  </section>
-
-  <a id="properties" class="section-anchor"></a>
-  <section name="properties">
-    <div class="highlight"></div>
-    <header>
-      <h2 class="sub title">Properties</h2>
-    </header>
-    <div class="content">
-      <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
-
-  <a id="dataModel-namespace" class="section-anchor"></a>
-      <h3>dataModel.$namespace <em>(available after instantiation)</em></h3>
-
-      <p>Every instantiated dataModel will have a property called <span class="inline-code">$namespace</span>, this is the namespace channel created as a
-        result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used to setup any handlers and subscriptions
-        on the current namespace that a dataModel might need.</p>
-
-<pre><code class="javascript">var Navigation = fw.dataModel({
-  namespace: 'Navigation',
-  initialize: function() {
-    this.$namespace.event.handler('userLoggedIn', function(username) {
-      console.log('Welcome', username);
-    });
-  }
-});
-
-var navigation = new Navigation();
-
-var navNamespace = fw.namespace('Navigation');
-navNamespace.trigger('userLoggedIn', 'Jonathan'); // console prints: Welcome Jonathan</code></pre>
     </div>
   </section>
 
@@ -897,6 +863,41 @@ fw.dataModels.fileExtensions(function(moduleName) {
 });</code></pre>
     </div>
   </section>
+
+  <a id="properties" class="section-anchor"></a>
+  <section name="properties">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Properties</h2>
+    </header>
+    <div class="content">
+      <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
+
+      <a id="dataModel-namespace" class="section-anchor"></a>
+      <h3>dataModel.$namespace</h3>
+      <p>The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
+        to setup any handlers and subscriptions on the current namespace that a dataModel might need.</p>
+<pre><code class="javascript">var Navigation = fw.dataModel({
+  namespace: 'Navigation',
+  initialize: function() {
+    this.$namespace.event.handler('userLoggedIn', function(username) {
+      console.log('Welcome', username);
+    });
+  }
+});</code></pre>
+
+      <a id="dataModel-cid" class="section-anchor"></a>
+      <h3>dataModel.$cid</h3>
+      <p>Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">dataModel</span> when
+        they are first created.</p>
+<pre><code class="javascript">var Navigation = fw.dataModel({
+  namespace: 'Navigation',
+  initialize: function() {
+    // this.$cid === 'ed53b42d-faa0-a251-29c1-e396d9f083bc'
+  }
+});</code></pre>
+    </div>
+  </section>
 </article>
 
 <div id="metaData">
@@ -914,17 +915,14 @@ fw.dataModels.fileExtensions(function(moduleName) {
           "title": "Usage",
           "subSections": [
             { "anchor": "bind-manually",
-              "title": "Manual binding",
+              "title": "Manual Instantiation and Binding",
               "description": "Binding a dataModel using fw.applyBindings()." },
             { "anchor": "dataModel-element",
               "title": "&lt;dataModel&gt;",
               "description": "Using a dataModel with a &lt;dataModel&gt; declarative element." },
             { "anchor": "inside-component",
               "title": "&lt;component&gt;",
-              "description": "Using a dataModel with a &lt;component&gt; declarative custom element." },
-            { "anchor": "properties",
-              "title": "Instance Properties",
-              "description": "Properties that exist on an instantiated dataModel." }
+              "description": "Using a dataModel with a &lt;component&gt; declarative custom element." }
           ] },
         { "title": "Lifecycle &amp; Registration",
           "subSections": [
@@ -961,18 +959,32 @@ fw.dataModels.fileExtensions(function(moduleName) {
       "collapsable": true,
       "isCollapsed": true,
       "subSections": [
-        { "anchor": "getAll",
-          "title": "fw.dataModels.getAll()" },
-        { "anchor": "isRegistered",
-          "title": "fw.dataModels.isRegistered()" },
-        { "anchor": "getRegistered",
-          "title": "fw.dataModels.getRegistered()" },
-        { "anchor": "getLocation",
-          "title": "fw.dataModels.getLocation()" },
-        { "anchor": "getFileName",
-          "title": "fw.dataModels.getFileName()" },
-        { "anchor": "fileExtensions",
-          "title": "fw.dataModels.fileExtensions()" }
+        { "title": "Utility Functions",
+          "subSections": [
+            { "anchor": "getAll",
+              "title": "fw.dataModels.getAll()" },
+            { "anchor": "isRegistered",
+              "title": "fw.dataModels.isRegistered()" },
+            { "anchor": "getRegistered",
+              "title": "fw.dataModels.getRegistered()" },
+            { "anchor": "getLocation",
+              "title": "fw.dataModels.getLocation()" },
+            { "anchor": "getFileName",
+              "title": "fw.dataModels.getFileName()" },
+            { "anchor": "fileExtensions",
+              "title": "fw.dataModels.fileExtensions()" }
+          ]
+        },
+        { "title": "Instance Properties",
+          "description": "Properties that exist on an instantiated dataModel.",
+          "subSections": [
+            { "anchor": "dataModel-namespace",
+              "title": "dataModel.$namespace",
+              "description": "The namespace for this dataModel used for communication with other areas of your application." },
+            { "anchor": "dataModel-cid",
+              "title": "dataModel.$cid",
+              "description": "A unique identifier automatically assigned to every dataModel when first created." }
+          ] }
       ] }
   ],
   "apiReferences": [
@@ -1009,7 +1021,10 @@ fw.dataModels.fileExtensions(function(moduleName) {
           "references": [
             { "anchor": "dataModel-namespace",
               "title": "dataModel.$namespace",
-              "description": "The namespace for this dataModel used for communication with other areas of your application." }
+              "description": "The namespace for this dataModel used for communication with other areas of your application." },
+            { "anchor": "dataModel-cid",
+              "title": "dataModel.$cid",
+              "description": "A unique identifier automatically assigned to every dataModel when first created." }
           ]
         }
       ]
