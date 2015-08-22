@@ -23,7 +23,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
         this.currentAPIResultSelection = fw.observable().receiveFrom('apiSearch', 'currentAPIResultSelection');
 
         this.$apiSearch = fw.namespace('apiSearch');
-        this.active = fw.observable(this.index === this.currentAPIResultSelection());
+        this.active = fw.observable(this.index === 0);
         this.topOffset = fw.observable(undefined);
         this.bottomOffset = fw.observable(undefined);
         this.height = fw.observable(undefined);

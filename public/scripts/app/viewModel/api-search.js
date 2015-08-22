@@ -106,6 +106,11 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           }
         }.bind(this));
 
+        this.hasQuery = fw.computed(function() {
+          var query = this.query();
+          return _.isString(query) && query.length;
+        }, this);
+
         var evalVisibleState = this.evalVisibleState = function() {
           var query = this.query();
           var searchData = this.searchData();
