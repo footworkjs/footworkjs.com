@@ -1,9 +1,11 @@
 <a class="api-search-result" data-bind="$route: { url: url, handler: goToResult }, css: { active: isActive }, event: { mouseover: makeActive }">
   <!-- ko if: type === 'api' -->
     <div class="path" data-bind="foreach: path">
-      <div class="step" data-bind="text: label"></div>
-      <!-- ko if: !isLast -->
-        <span class="icon icon-angle-right"></span>
+      <!-- ko if: label.length -->
+        <div class="step" data-bind="text: label"></div>
+        <!-- ko if: !isLast -->
+          <span class="icon icon-angle-right"></span>
+        <!-- /ko -->
       <!-- /ko -->
     </div>
     <div class="content">

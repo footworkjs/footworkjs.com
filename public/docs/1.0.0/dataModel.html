@@ -143,7 +143,7 @@
     <div class="content">
       <p>Manually instantiating a <span class="inline-code">dataModel</span> is done by calling <span class="inline-code">new ConstructorFunc()</span>.
         With the instance in hand you can then use it as you wish, either directly or by binding it to the DOM (just as you might a
-        <span class="inline-code">viewModel</span>).</p>
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>).</p>
 
       <p>To manually bind a <span class="inline-code">dataModel</span> you use a <span class="inline-code">fw.applyBindings()</span>
         call after instantiating it.</p>
@@ -259,11 +259,11 @@ fw.components.register('Person', {
         <li>Manually bound (<span class="inline-code">fw.applyBindings()</span>) to the DOM.</li>
       </ul>
 
-      <p>dataModels that are attached to the DOM retrive two main lifecycle events, one just after binding to the DOM (<span class="inline-code">afterBinding()</span>)
-        and one when the element (that the dataModel bound itself to) is removed from the DOM (<span class="inline-code">onDispose()</span>, called just before the
-        element is removed).</p>
+      <p>A dataModel that is attached to the DOM will retrive two main lifecycle events, one just after binding to the DOM
+        (<span class="inline-code">afterBinding()</span>) and one when the element (that the dataModel bound itself to) is removed from the DOM
+        (<span class="inline-code">onDispose()</span>, called just before the element is removed).</p>
 
-      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to <span class="inline-code">this</span> if you
+      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to the instance if you
         want them to automatically be cleaned up for you when the dataModel is disposed.</div>
 
 <pre><code class="javascript">var someOtherObservable = fw.observable();
@@ -1125,10 +1125,10 @@ fw.dataModels.fileExtensions(function(moduleName) {
       ]
     },
     {
-      "label": "Configuration",
+      "label": "Lifecycle",
       "subCategories": [
         {
-          "label": "Options",
+          "label": "Callbacks",
           "references": [
             { "anchor": "afterBinding",
               "title": "afterBinding()",
@@ -1140,6 +1140,17 @@ fw.dataModels.fileExtensions(function(moduleName) {
                 "This is also triggered when dataModel.dispose() is called."
               ] }
           ]
+        },
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "dataModel-dispose",
+              "title": "dataModel.dispose()",
+              "description": "Dispose of a dataModel and all of its attached handlers and subscriptions.",
+              "subDescriptions": [
+                "This is done automatically when a bound instance is removed from the DOM."
+              ] }
+          ]
         }
       ]
     },
@@ -1149,12 +1160,6 @@ fw.dataModels.fileExtensions(function(moduleName) {
         {
           "label": "Methods",
           "references": [
-            { "anchor": "dataModel-dispose",
-              "title": "dataModel.dispose()",
-              "description": "Dispose of a dataModel and all of its attached handlers and subscriptions.",
-              "subDescriptions": [
-                "This is done automatically when a bound instance is removed from the DOM."
-              ] },
             { "anchor": "dataModel-fetch",
               "title": "dataModel.$fetch()",
               "description": "Fetch a models data from its RESTful endpoint.",

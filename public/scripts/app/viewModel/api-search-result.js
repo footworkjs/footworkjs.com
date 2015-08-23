@@ -46,10 +46,10 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           }
         }, this);
 
-        var lastStep = _.last(this.path);
+        var lastStep = _.find(_.clone(this.path).reverse(), function(step) { return _.isString(step) && step.length > 0; });
         this.path = _.reduce(this.path, function(path, stepLabel, index) {
           path.push({
-            label: stepLabel,
+            label: stepLabel || '',
             isLast: lastStep === stepLabel
           });
           return path;
