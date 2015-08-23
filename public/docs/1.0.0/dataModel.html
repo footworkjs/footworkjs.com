@@ -464,18 +464,19 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
         outer-most container (dataModel/component) initializing/processing/binding and rendering, then any nested dataModels/components get initialized (and so
         forth until the end).</div>
 
+      <a id="dataModels-register" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">fw.dataModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></em></h3>
       <h3>Cache a dataModel/module ahead of time:</h3>
 <pre><code class="javascript">// register a footwork dataModel
-var Sprocket = fw.dataModel({ /* configuration object */ });
-fw.dataModels.register('Sprocket', Sprocket);
+var Person = fw.dataModel({ /* configuration object */ });
+fw.dataModels.register('Person', Person);
 
 // register a normal class constructor function (like in regular knockout)
-var Sprocket = function() { this.isUsed = fw.observable(false); };
-fw.dataModels.register('Sprocket', Sprocket);
+var Person = function() { this.isUsed = fw.observable(false); };
+fw.dataModels.register('Person', Person);
 
 // register an instance of an object (like in regular knockout)
-fw.dataModels.register('Sprocket', {
+fw.dataModels.register('Person', {
   instance: { isUsed: false } // object representing the dataModel to be bound against the DOM
 });
 
@@ -484,7 +485,7 @@ fw.dataModels.register('Sprocket', {
  * It is supplied params given at the binding (&lt;dataModel params="exampleParam: true"&gt;) and
  * the containing element of the dataModel.
  */
-fw.dataModels.register('Sprocket', {
+fw.dataModels.register('Person', {
   createdataModel: function(params, info) {
     // info.element = containing &lt;dataModel&gt; element
     // params are the parameters declaratively created from the DOM (See: note below)
@@ -500,6 +501,7 @@ fw.dataModels.register('Sprocket', {
         <p>See: <a data-bind="$route" href="#configuration">dataModel configuration</a>.</p>
       </div>
 
+      <a id="dataModels-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">fw.dataModels.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></em></h3>
       <h3>Register the location of a dataModel/module so footwork can load and bind it for you when needed:</h3>
 <pre><code class="javascript">// Load Person from: /dataModels/Person.js (based on dataModel/module name, case sensitive)
@@ -830,23 +832,23 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
       <p>Various useful methods and utility functions for misc and debugging purposes.</p>
 
       <ul>
-        <li><a data-bind="$route" href="#getAll">fw.dataModels.getAll()</a></li>
+        <li><a data-bind="$route" href="#dataModels-getAll">fw.dataModels.getAll()</a></li>
 
-        <li><a data-bind="$route" href="#isRegistered">fw.dataModels.isRegistered()</a></li>
+        <li><a data-bind="$route" href="#dataModels-isRegistered">fw.dataModels.isRegistered()</a></li>
 
-        <li><a data-bind="$route" href="#getRegistered">fw.dataModels.getRegistered()</a></li>
+        <li><a data-bind="$route" href="#dataModels-getRegistered">fw.dataModels.getRegistered()</a></li>
 
-        <li><a data-bind="$route" href="#getResourceLocation">fw.dataModels.getResourceLocation()</a></li>
+        <li><a data-bind="$route" href="#dataModels-getResourceLocation">fw.dataModels.getResourceLocation()</a></li>
 
-        <li><a data-bind="$route" href="#getFileName">fw.dataModels.getFileName()</a></li>
+        <li><a data-bind="$route" href="#dataModels-getFileName">fw.dataModels.getFileName()</a></li>
 
-        <li><a data-bind="$route" href="#fileExtensions">fw.dataModels.fileExtensions()</a></li>
+        <li><a data-bind="$route" href="#dataModels-fileExtensions">fw.dataModels.fileExtensions()</a></li>
       </ul>
     </div>
   </section>
 
-  <a id="getAll" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getAll">
+  <a id="dataModels-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="dataModels-getAll">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.dataModels.getAll<span>()</span></em></h3>
@@ -889,8 +891,8 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
     </div>
   </section>
 
-  <a id="isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="isRegistered">
+  <a id="dataModels-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="dataModels-isRegistered">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.dataModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -908,8 +910,8 @@ fw.dataModels.register('Bike', Bike);
     </div>
   </section>
 
-  <a id="getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getRegistered">
+  <a id="dataModels-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="dataModels-getRegistered">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.dataModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -939,8 +941,8 @@ var Sprocket = fw.dataModel({
     </div>
   </section>
 
-  <a id="getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getFileName">
+  <a id="dataModels-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="dataModels-getFileName">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.dataModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -957,8 +959,8 @@ var fileNameForSprocket = fw.dataModels.getFileName('sprocket'); // === null
     </div>
   </section>
 
-  <a id="fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="fileExtensions">
+  <a id="dataModels-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="dataModels-fileExtensions">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>
@@ -1089,17 +1091,17 @@ fw.dataModels.fileExtensions(function(moduleName) {
       "subSections": [
         { "title": "Utility Functions",
           "subSections": [
-            { "anchor": "getAll",
+            { "anchor": "dataModels-getAll",
               "title": "fw.dataModels.getAll()" },
-            { "anchor": "isRegistered",
+            { "anchor": "dataModels-isRegistered",
               "title": "fw.dataModels.isRegistered()" },
-            { "anchor": "getRegistered",
+            { "anchor": "dataModels-getRegistered",
               "title": "fw.dataModels.getRegistered()" },
-            { "anchor": "getLocation",
+            { "anchor": "dataModels-getLocation",
               "title": "fw.dataModels.getLocation()" },
-            { "anchor": "getFileName",
+            { "anchor": "dataModels-getFileName",
               "title": "fw.dataModels.getFileName()" },
-            { "anchor": "fileExtensions",
+            { "anchor": "dataModels-fileExtensions",
               "title": "fw.dataModels.fileExtensions()" }
           ]
         },
@@ -1125,6 +1127,37 @@ fw.dataModels.fileExtensions(function(moduleName) {
       ]
     },
     {
+      "label": "Registration",
+      "subCategories": [
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "dataModels-register",
+              "title": "fw.dataModels.register()",
+              "description": "Register/cache a dataModel so that it is ready to be used when needed." },
+            { "anchor": "dataModels-registerLocation",
+              "title": "fw.dataModels.registerLocation()",
+              "description": "Register the location of (or path to) a dataModel so that it can be downloaded/resolved when needed." },
+            { "anchor": "dataModels-isRegistered",
+              "title": "fw.dataModels.isRegistered()",
+              "description": "Method used to check whether or not a dataModel has been registered or not." },
+            { "anchor": "dataModels-getRegistered",
+              "title": "fw.dataModels.getRegistered()",
+              "description": "Return the dataModel registered under a specified name." },
+            { "anchor": "dataModels-getLocation",
+              "title": "fw.dataModels.getLocation()",
+              "description": "Get the location footwork will attempt to download a dataModel from when it is needed." },
+            { "anchor": "dataModels-getFileName",
+              "title": "fw.dataModels.getFileName()",
+              "description": "Get the filename footwork will use when downloading a dataModel.",
+              "subDescriptions": [
+                "This is appended onto the location/path when downloading."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
       "label": "Lifecycle",
       "subCategories": [
         {
@@ -1140,23 +1173,21 @@ fw.dataModels.fileExtensions(function(moduleName) {
                 "This is also triggered when dataModel.dispose() is called."
               ] }
           ]
-        },
-        {
-          "label": "Methods",
-          "references": [
-            { "anchor": "dataModel-dispose",
-              "title": "dataModel.dispose()",
-              "description": "Dispose of a dataModel and all of its attached handlers and subscriptions.",
-              "subDescriptions": [
-                "This is done automatically when a bound instance is removed from the DOM."
-              ] }
-          ]
         }
       ]
     },
     {
       "label": "Instance",
       "subCategories": [
+        {
+          "label": "Utility Methods",
+          "references": [
+            { "anchor": "dataModels-getAll",
+              "title": "fw.dataModels.getAll()",
+              "description": "Get all currently instantiated dataModel references.",
+              "keywords": [ "instance" ] }
+          ]
+        },
         {
           "label": "Methods",
           "references": [
@@ -1167,7 +1198,13 @@ fw.dataModels.fileExtensions(function(moduleName) {
             { "anchor": "dataModel-save",
               "title": "dataModel.$save()",
               "description": "Save a models data to its RESTful endpoint.",
-              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] }
+              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] },
+            { "anchor": "dataModel-dispose",
+              "title": "dataModel.dispose()",
+              "description": "Dispose of a dataModel and all of its attached handlers and subscriptions.",
+              "subDescriptions": [
+                "This is done automatically when a bound instance is removed from the DOM."
+              ] }
           ]
         },
         {
