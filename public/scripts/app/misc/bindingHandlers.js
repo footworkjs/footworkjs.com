@@ -28,7 +28,8 @@ define(["jquery", "lodash", "footwork", "postal" ],
         var $element = $(element);
         var elementPosition;
         var sectionAnchorsNamespace = fw.namespace('sectionAnchors');
-        var computePosition = function() {
+
+        function computePosition() {
           if(!_.isUndefined(elementPosition)) {
             sectionAnchors.remove(elementPosition);
           }
@@ -36,13 +37,12 @@ define(["jquery", "lodash", "footwork", "postal" ],
           sectionAnchors.push(elementPosition);
         };
 
-        sectionAnchorsNamespace.command.handler('computePosition', computePosition);
-
         fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
           sectionAnchors.remove(elementPosition);
           sectionAnchorsNamespace.dispose();
         });
 
+        sectionAnchorsNamespace.command.handler('computePosition', computePosition);
         computePosition();
       }
     };
@@ -50,7 +50,9 @@ define(["jquery", "lodash", "footwork", "postal" ],
     fw.bindingHandlers['limitScroll'] = {
       init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
         var $element = $(element);
-        var trackScrollEvent = function(event) {
+        var scrollEvents = 'mousewheel DOMMouseScroll';
+
+        function trackScrollEvent(event) {
           if(this.scrollHeight === this.offsetHeight) {
             return true;
           }
@@ -61,10 +63,9 @@ define(["jquery", "lodash", "footwork", "postal" ],
           }
         };
 
-        $element.on('mousewheel DOMMouseScroll', trackScrollEvent);
-
+        $element.on(scrollEvents, trackScrollEvent);
         fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
-          $element.off('mousewheel DOMMouseScroll', trackScrollEvent);
+          $element.off(scrollEvents, trackScrollEvent);
         });
       }
     };

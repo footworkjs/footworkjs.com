@@ -173,7 +173,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
                         description: reference.description,
                         url: baseUrl + '#' + reference.anchor,
                         path: entryPath,
-                        pathLength: entryPath.length
+                        pathLength: _.filter(entryPath).length
                       });
                     }
                   });
