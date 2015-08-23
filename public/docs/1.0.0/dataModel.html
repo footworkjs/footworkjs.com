@@ -930,8 +930,8 @@ var Sprocket = fw.dataModel({
     </div>
   </section>
 
-  <a id="getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getLocation">
+  <a id="dataModels-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="dataModels-getLocation">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.dataModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -1119,11 +1119,28 @@ fw.dataModels.fileExtensions(function(moduleName) {
   ],
   "apiReferences": [
     {
-      "label": "Methods",
-      "references": [
-          { "anchor": "fw-dataModel",
-            "title": "fw.dataModel()",
-            "description": "Creates a new dataModel constructor function." }
+      "label": "Constructor Method",
+      "subCategories": [
+        {
+          "references": [
+            { "anchor": "fw-dataModel",
+              "title": "fw.dataModel()",
+              "description": "Creates a new dataModel constructor function." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Mapping Data",
+      "subCategories": [
+        {
+          "references": [
+            { "anchor": "observable-mapTo",
+              "title": "observable.mapTo()",
+              "description": "Tell footwork how data maps to/from the server side.",
+              "keywords": [ "ajax", "REST", "async" ] }
+          ]
+        }
       ]
     },
     {
@@ -1152,6 +1169,25 @@ fw.dataModels.fileExtensions(function(moduleName) {
               "description": "Get the filename footwork will use when downloading a dataModel.",
               "subDescriptions": [
                 "This is appended onto the location/path when downloading."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Mixins",
+      "subCategories": [
+        {
+          "label": "Configuration",
+          "references": [
+            { "anchor": "afterBinding",
+              "title": "afterBinding()",
+              "description": "Method triggered after a dataModel has been bound to the DOM." },
+            { "anchor": "onDispose",
+              "title": "onDispose()",
+              "description": "Method triggered after the element a dataModel is bound to is removed from the DOM.",
+              "subDescriptions": [
+                "This is also triggered when dataModel.dispose() is called."
               ] }
           ]
         }
@@ -1216,19 +1252,6 @@ fw.dataModels.fileExtensions(function(moduleName) {
             { "anchor": "dataModel-cid",
               "title": "dataModel.$cid",
               "description": "A unique identifier automatically assigned to every dataModel when first created." }
-          ]
-        }
-      ]
-    },
-    {
-      "label": "Mapping Data",
-      "subCategories": [
-        {
-          "references": [
-            { "anchor": "observable-mapTo",
-              "title": "observable.mapTo()",
-              "description": "Tell footwork how data maps to/from the server side.",
-              "keywords": [ "ajax", "REST", "async" ] }
           ]
         }
       ]
