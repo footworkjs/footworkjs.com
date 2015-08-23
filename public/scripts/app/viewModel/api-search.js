@@ -163,7 +163,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
                     var foundTerms = _.unique([].concat(
                       searchArrayInString(query, reference.title),
                       searchArrayInString(query, reference.description),
-                      searchArrayInArray(query, reference.keywords)
+                      searchArrayInArray(query, reference.keywords || [])
                     ));
 
                     if(foundTerms.length === query.length) {
