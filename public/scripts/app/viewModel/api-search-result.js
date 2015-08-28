@@ -66,6 +66,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           var currentPage = _.last($router.request('urlParts').path.split('/'));
           var myPage = new RegExp('\/docs\/' + selectedDocsVersion().replace(/\./g,'\\.') + '\/' + currentPage + '#');
           this.$apiSearch.command('close');
+          this.currentAPIResultSelection(this.index);
 
           if(!url.match(myPage) && event.which !== 2) {
             event.preventDefault();

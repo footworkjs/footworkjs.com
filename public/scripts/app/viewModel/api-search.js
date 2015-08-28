@@ -142,7 +142,6 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
         this.close = function() {
           if(!dontClose) {
             this.searchResultsVisible(false);
-            this.currentAPIResultSelection(undefined);
           } else {
             dontClose = false;
           }
