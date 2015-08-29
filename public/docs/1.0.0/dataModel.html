@@ -603,19 +603,94 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
       <h2 class="sub title">Data Management</h2>
     </header>
     <div class="content">
-      <p>Performing RESTful operations on your data as well as related functionality requires being able to specify what data and the functionality to
-        easily get that stuff done.</p>
+      <p>A <span class="inline-code">dataModel</span> is a construct provided by footwork which enables easy management of data which maps to a RESTful
+        endpoint.</p>
 
-      <p>To that end, footwork includes a lot of additional functionality directly aimed at RESTful operations and various
-        other 'stateful' features you might need on a model.</p>
+      <p>This includes functionality for:</p>
+
+      <ul>
+        <li>Telling the framework where the data and how it maps to the other side.</li>
+        <li>How to read the data from your <span class="inline-code">dataModel</span>.</li>
+        <li>How to set that data in your <span class="inline-code">dataModel</span>.</li>
+        <li>How to fetch the data from its REST endpoint.</li>
+        <li>How to save the data to its REST endpoint.</li>
+        <li>How to delete/destroy the data on its REST endpoint.</li>
+      </ul>
     </div>
   </section>
 
-  <a id="observable-mapTo" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="observable-mapTo">
+  <a id="mapping-getting-setting-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="mapping-getting-setting-data">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">observable.mapTo()</h2>
+      <h2 class="sub title">Mapping / Getting / Setting Data</h2>
+    </header>
+    <div class="content">
+      <p>In order to perform REST operations you will need to be able to map, get, and set the data on your <span class="inline-code">dataModel</span>.</p>
+      <p>The following sections describe how to perform those operations.</p>
+    </div>
+  </section>
+
+  <a id="mapping-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="mapping-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Mapping Data</h2>
+    </header>
+    <div class="content">
+      <p>When sending to or retreiving from from the server footwork needs to know how to transpose that data to and from your
+        <span class="inline-code">dataModel</span>. Using <span class="inline-code">observable.mapTo()</span> we can define how our data maps to the
+        representation the server expects.</p>
+
+      <p><span class="inline-code">observable.mapTo()</span> is generally expected to be called from within a <span class="inline-code">dataModel</span>
+        <span class="inline-code">initialize</span> function. If you do call it from within the <span class="inline-code">initialize</span> function
+        then all you need do is supply it the <span class="inline-code">path</span> to map the value to. This path is used to convert the
+        <span class="inline-code">dataModel</span> to the expected form on the server and to map that same data back into the
+        <span class="inline-code">dataModel</span> when retrieving it.</p>
+
+      <div class="note">
+        <span class="label">NOTE:</span> If you call <span class="inline-code">.mapTo()</span> sometime after or outside of the main
+        <span class="inline-code">dataModel</span> <span class="inline-code">initialize</span> method then you will need to provide it a direct reference to the
+        <span class="inline-code">dataModel</span> instance using the <span class="inline-code">{ path: '', dataModel: instance }</span> object-notation version.
+      </div>
+
+      <a id="observable-mapTo" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></em></h3>
+      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></em></h3>
+      <p><span class="inline-code">observable.mapTo()</span> will map that <span class="inline-code">observable</span> value to the dot-notated path
+        you supply.</p>
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable().mapTo('firstName');
+    this.lastName = fw.observable().mapTo('lastName');
+    this.age = fw.observable().mapTo('attributes.age');
+    this.isBestFriend = fw.observable().mapTo('attributes.isBestFriend');
+  }
+});
+
+var person = new Person();
+
+/**
+ * This dataModel now has the following internal mappings:
+ * {
+ *   firstName: dataModel.firstName,
+ *   lastName: dataModel.lastName,
+ *   attributes: {
+ *     age: dataModel.age,
+ *     isBestFriend: dataModel.isBestFriend
+ *   }
+ * }
+ */
+</code></pre>
+    </div>
+  </section>
+
+  <a id="getting-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="getting-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Getting / Reading Data</h2>
     </header>
     <div class="content">
       <p>When sending to or retreiving from from the server footwork needs to know how to transpose that data to and from your
@@ -634,9 +709,12 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
         <span class="inline-code">dataModel</span> instance using the <span class="inline-code">{ path: '', dataModel: '' }</span> object-notation version.
       </div>
 
+      <h3>Map a value in a <span class="inline-code">dataModel</span>:</h3>
+      <a id="observable-mapTo" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></em></h3>
       <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></em></h3>
-      <h3>Map a value in a <span class="inline-code">dataModel</span>:</h3>
+      <p><span class="inline-code">observable.mapTo()</span> will map that <span class="inline-code">observable</span> value to the dot-notated path
+        you supply.</p>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   initialize: function(params) {
@@ -644,15 +722,6 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
     this.lastName = fw.observable().mapTo('lastName');
     this.age = fw.observable().mapTo('attributes.age');
     this.isBestFriend = fw.observable().mapTo('attributes.isBestFriend');
-
-    this.finishMapping = function() {
-      // This gets called sometime after the main initialize(), when doing so we must provide
-      // the dataModel reference directly
-      this.favoriteMovies = fw.observable().mapTo({
-        path: 'attributes.favoriteMovies',
-        dataModel: this
-      });
-    };
   }
 });
 
@@ -669,26 +738,7 @@ var person = new Person();
  *   }
  * }
  */
-
-// now map the favoriteMovies observable
-person.finishMapping();
-
-/**
- * This dataModel now has the following internal mappings:
- * {
- *   firstName: dataModel.firstName,
- *   lastName: dataModel.lastName,
- *   attributes: {
- *     age: dataModel.age,
- *     isBestFriend: dataModel.isBestFriend
- *     favoriteMovies: dataModel.favoriteMovies
- *   }
- * }
- */
 </code></pre>
-
-      <p><span class="inline-code">observable.mapTo()</span> will map that <span class="inline-code">observable</span> value to the dot-notated path
-        you supply.</p>
     </div>
   </section>
 
@@ -1069,10 +1119,33 @@ fw.dataModels.fileExtensions(function(moduleName) {
           "collapsable": true,
           "isCollapsed": true,
           "subSections": [
-            { "anchor": "observable-mapTo",
-              "title": "observable.mapTo()" },
-            { "anchor": "dataModel-toJS",
-              "title": "dataModel.$toJS()" }
+            { "anchor": "mapping-getting-setting-data",
+              "title": "Mapping / Getting / Setting Data",
+              "subSections": [
+                { "anchor": "mapping-data",
+                  "title": "Mapping Data",
+                  "description": "How to map data in your dataModel, informing footwork how to transpose it to/from its RESTful endpoint." },
+                { "anchor": "getting-data",
+                  "title": "Getting / Reading Data",
+                  "description": "Reading the mapped data from a dataModel." },
+                { "anchor": "setting-data",
+                  "title": "Setting / Writing Data",
+                  "description": "Writing data to the dataModel via its mapped observables." }
+              ] },
+            { "anchor": "rest-operations",
+              "title": "REST Operations",
+              "keywords": [ "ajax" ],
+              "subSections": [
+                { "anchor": "fetching-data",
+                  "title": "Fetch Model Data",
+                  "description": "Fetching a models data from its REST endpoint via AJAX." },
+                { "anchor": "saving-data",
+                  "title": "Saving Model Data",
+                  "description": "Saving a models data to its REST endpoint via AJAX." },
+                { "anchor": "deleting-data",
+                  "title": "Deleting / Destroying Data",
+                  "description": "Deleting / destroying data from a dataModel REST endpoint." }
+              ] }
           ] },
         { "anchor": "mixins",
           "title": "Mixins",

@@ -16,7 +16,6 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
         var anchorComputeDelay = 100;
         var $anchor = $('#' + (_.isObject(pageSectionData) ? pageSectionData.anchor : ''));
         var $anchorContainer = $('[name=' + pageSectionData.anchor + ']');
-        var parentIsCollapsed = function noop() {};
         var anchorOffset = PageSectionsNamespace.request('anchorOffset');
         var PageSection = this;
 
@@ -57,7 +56,6 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
           var isActive = this.currentSection() === this.anchor;
           if(isActive) {
             this.isCollapsed(false);
-            parentIsCollapsed(false);
           }
           return isActive;
         }, this);

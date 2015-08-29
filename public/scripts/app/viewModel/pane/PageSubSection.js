@@ -11,7 +11,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
       namespace: 'PageSubSection',
       initialize: function(params) {
         var subSectionData = params.sectionData;
-        var parent = this.parent = params.parent;
+        this.parent = params.parent;
         var $anchorContainer = $('[name=' + subSectionData.anchor + ']');
         var $anchor = $('#' + (_.isObject(subSectionData) ? subSectionData.anchor : ''));
 
@@ -25,9 +25,16 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
           }
         }.bind(this);
 
-        while(!_.isFunction(parent.isCollapsed) && !_.isUndefined(parent.parent)) {
-          parent = parent.parent;
+        while(!_.isFunction(this.parent.isCollapsed) && !_.isUndefined(this.parent.parent)) {
+          this.parent = this.parent.parent;
         }
+        function findParentCollapsed(pObject) {
+          if(!_.isUndefined(pObject.parent) && pObject.parent.$namespace.getName() !== 'PageSection' && _.isFunction(pObject.parent.isCollapsed)) {
+            return findParentCollapsed(pObject.parent);
+          }
+          return pObject.isCollapsed;
+        }
+        var parentIsCollapsed = findParentCollapsed(this.parent);
 
         this.$namespace.event.handler('resetURL', resetURL);
         this.anchorAddress = fw.observable();
@@ -48,7 +55,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
           var isActive = this.currentSection() === subSectionData.anchor;
           if(isActive) {
             this.isCollapsed(false);
-            parent.isCollapsed(false);
+            parentIsCollapsed(false);
           }
           return isActive;
         }, this);
