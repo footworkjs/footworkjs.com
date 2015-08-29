@@ -28,9 +28,15 @@
   }
 }
 
+@pageSectionTitleHeight: 25px;
+.toplevel-title-style {
+  font-size: 17px;
+  font-weight: bold;
+  line-height: @pageSectionTitleHeight;
+}
+
 .pane .content .pane-component {
   &.pageSections {
-    @pageSectionTitleHeight: 25px;
     .entry-row {
       .sub-sections {
         .border-radius(3px 0 0 3px);
@@ -45,10 +51,39 @@
         }
 
         .title {
-          font-size: 17px;
-          font-weight: bold;
-          line-height: @pageSectionTitleHeight;
+          .toplevel-title-style;
           padding-bottom: 0;
+        }
+      }
+    }
+
+    .isCollapsable {
+      &.isCollapsed {
+        & > .sub-sections {
+          height: 0;
+          opacity: 0;
+          .transition(opacity 0s linear);
+        }
+      }
+
+      &.hasSubSections > .content {
+        & > .title {
+          & > .label, & > .icon {
+            right: -10px;
+          }
+          & > .label {
+            position: relative;
+            margin-right: @iconWidth + 5px;
+            padding-right: 0;
+          }
+        }
+      }
+    }
+
+    .sub-section.isCollapsable {
+      &.isCollapsed {
+        & > .content > .sub-sections-list {
+          display: none;
         }
       }
     }
@@ -58,28 +93,6 @@
       cursor: pointer;
       text-decoration: none;
       margin: -10px 0 0;
-
-      &.isCollapsable {
-        &.isCollapsed {
-          & > .sub-sections {
-            height: 0;
-            opacity: 0;
-            .transition(opacity 0s linear);
-          }
-        }
-
-        &.hasSubSections > .content {
-          & > .title {
-            & > .label, & > .icon {
-              right: -10px;
-            }
-            & > .label {
-              position: relative;
-              margin-right: @iconWidth + 5px;
-            }
-          }
-        }
-      }
 
       &.hasTitle {
         margin-top: 10px;
@@ -127,7 +140,6 @@
           top: 0;
           right: 0;
           width: @iconWidth;
-          height: 100%;
           font-size: 15px;
           line-height: @pageSectionTitleHeight;
           text-align: center;
@@ -167,18 +179,41 @@
         border: none;
       }
 
-      .sub.title + .sub-sections-list {
-        margin: 0px 5px 5px 5px;
-        .border-radius(none);
+      pagesubsection + pagesubsection {
+        margin-top: 5px;
       }
 
       .sub.title.isFirstItem {
-        color: white;
-        line-height: 25px;
+        .toplevel-title-style;
+        padding-bottom: 5px;
       }
 
-      pagesubsection pagesubsection .sub.title.isFirstItem {
-        background: @background;
+      pagesubsection {
+        .isCollapsable.hasSubSections > .content > .title {
+          .label {
+            position: relative;
+          }
+          .label, .icon {
+            right: 0;
+          }
+        }
+        pagesubsection + pagesubsection {
+          margin-top: 0px;
+        }
+      }
+
+      pagesubsection pagesubsection {
+        .sub.title {
+          padding-bottom: 0 !important;
+          &.isFirstItem {
+            background: @background;
+            font-size: 13px;
+            font-weight: normal;
+          }
+          &.hasSubSections {
+            padding-bottom: 0;
+          }
+        }
       }
 
       .sub-section > .content {
@@ -189,7 +224,7 @@
         display: block;
 
         .active > a > .arrow {
-          right: -20px !important;
+          right: -19px !important;
           opacity: 1;
         }
 
@@ -208,12 +243,16 @@
         }
 
         .sub.title {
+          &.hasSubSections {
+            padding-bottom: 5px;
+          }
+
           .label {
             padding-right: 10px;
           }
         }
         & pagesubsection .sub-sections-list {
-          margin: 0 !important;
+          margin: 0;
         }
       }
 

@@ -20,6 +20,25 @@
     </div>
   </section>
 
+  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="usage">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Usage</h2>
+    </header>
+    <div class="content">
+      <p>A dataModel can be used in 3 different ways:</p>
+      <ul>
+        <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
+
+        <li>Automatically via a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM.</li>
+
+        <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
+          <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
+      </ul>
+    </div>
+  </section>
+
   <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="configuration">
     <div class="highlight"></div>
@@ -112,25 +131,6 @@
     // this === the dataModel object
   }
 });</code></pre>
-    </div>
-  </section>
-
-  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="usage">
-    <div class="highlight"></div>
-    <header>
-      <h2 class="sub title">Usage</h2>
-    </header>
-    <div class="content">
-      <p>A dataModel can be used in 3 different ways:</p>
-      <ul>
-        <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
-
-        <li>Automatically via a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM.</li>
-
-        <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
-          <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
-      </ul>
     </div>
   </section>
 
@@ -1085,24 +1085,22 @@ fw.dataModels.fileExtensions(function(moduleName) {
               "title": "observable.mapTo()" },
             { "anchor": "dataModel-toJS",
               "title": "dataModel.$toJS()" }
+          ] },
+        { "anchor": "mixins",
+          "title": "Mixins",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "mixin-configuration",
+              "title": "Configuration" },
+            { "anchor": "mixin-usage",
+              "title": "Usage" }
           ] }
       ] },
-    { "anchor": "mixins",
-      "title": "Mixins",
-      "collapsable": true,
-      "isCollapsed": true,
-      "subSections": [
-        { "anchor": "mixin-configuration",
-          "title": "Configuration" },
-        { "anchor": "mixin-usage",
-          "title": "Usage" }
-      ] },
-    { "anchor": "misc",
-      "title": "Utility / Misc",
-      "collapsable": true,
-      "isCollapsed": true,
-      "subSections": [
+    { "subSections": [
         { "title": "Utility Functions",
+          "collapsable": true,
+          "isCollapsed": true,
           "subSections": [
             { "anchor": "dataModels-getAll",
               "title": "fw.dataModels.getAll()" },
@@ -1120,6 +1118,8 @@ fw.dataModels.fileExtensions(function(moduleName) {
         },
         { "title": "Instance Properties",
           "description": "Properties that exist on an instantiated dataModel.",
+          "collapsable": true,
+          "isCollapsed": true,
           "subSections": [
             { "anchor": "dataModel-namespace",
               "title": "dataModel.$namespace",

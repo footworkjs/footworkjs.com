@@ -35,6 +35,14 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
 
         this.currentSection = fw.observable().receiveFrom('PageSections', 'currentSection');
         this.isFirstItem = subSectionData.isFirstItem;
+        this.isCollapsable = fw.observable( !!subSectionData.collapsable );
+        this.isCollapsed = fw.observable( !!subSectionData.isCollapsed );
+        this.collapseIcon = fw.computed(function() {
+          if( this.isCollapsed() ) {
+            return 'icon-chevron-down';
+          }
+          return 'icon-chevron-up';
+        }, this);
         this.title = subSectionData.title;
         this.active = fw.computed(function() {
           var isActive = this.currentSection() === subSectionData.anchor;
@@ -63,6 +71,14 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
           $anchorContainer.pulse({ className: 'active', duration: 1000 });
           return true;
         }.bind(this);
+
+        this.toggleCollapse = function(viewModel, event) {
+          this.isCollapsed( !this.isCollapsed() );
+          if( _.isObject(event) && _.isFunction(event.stopPropagation) ) {
+            event.stopPropagation();
+          }
+          return false;
+        };
 
         this.$namespace.request.handler('position', function() {
           var offset = $anchor.offset() || { top: 99999999999 };
