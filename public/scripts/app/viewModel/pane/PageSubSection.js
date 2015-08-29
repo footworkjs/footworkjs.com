@@ -47,6 +47,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
         this.active = fw.computed(function() {
           var isActive = this.currentSection() === subSectionData.anchor;
           if(isActive) {
+            this.isCollapsed(false);
             parent.isCollapsed(false);
           }
           return isActive;

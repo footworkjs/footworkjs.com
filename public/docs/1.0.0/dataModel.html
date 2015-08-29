@@ -835,28 +835,14 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
     </div>
   </section>
 
-  <a id="misc" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="misc">
+  <a id="utility-functions" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="utility-functions">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Utility / Misc</h1>
     </header>
     <div class="content">
-      <p>Various useful methods and utility functions for misc and debugging purposes.</p>
-
-      <ul>
-        <li><a data-bind="$route" href="#dataModels-getAll">fw.dataModels.getAll()</a></li>
-
-        <li><a data-bind="$route" href="#dataModels-isRegistered">fw.dataModels.isRegistered()</a></li>
-
-        <li><a data-bind="$route" href="#dataModels-getRegistered">fw.dataModels.getRegistered()</a></li>
-
-        <li><a data-bind="$route" href="#dataModels-getResourceLocation">fw.dataModels.getResourceLocation()</a></li>
-
-        <li><a data-bind="$route" href="#dataModels-getFileName">fw.dataModels.getFileName()</a></li>
-
-        <li><a data-bind="$route" href="#dataModels-fileExtensions">fw.dataModels.fileExtensions()</a></li>
-      </ul>
+      <p>Various useful methods and utility functions for miscellaneous and debugging purposes.</p>
     </div>
   </section>
 
@@ -993,11 +979,11 @@ fw.dataModels.fileExtensions(function(moduleName) {
     </div>
   </section>
 
-  <a id="properties" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="properties">
+  <a id="instance-properties" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="instance-properties">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Properties</h2>
+      <h2 class="sub title">Instance Properties</h2>
     </header>
     <div class="content">
       <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
@@ -1080,6 +1066,8 @@ fw.dataModels.fileExtensions(function(moduleName) {
           ] },
         { "anchor": "data-management",
           "title": "Data Management",
+          "collapsable": true,
+          "isCollapsed": true,
           "subSections": [
             { "anchor": "observable-mapTo",
               "title": "observable.mapTo()" },
@@ -1098,7 +1086,8 @@ fw.dataModels.fileExtensions(function(moduleName) {
           ] }
       ] },
     { "subSections": [
-        { "title": "Utility Functions",
+        { "anchor": "utility-functions",
+          "title": "Utility Functions",
           "collapsable": true,
           "isCollapsed": true,
           "subSections": [
@@ -1116,7 +1105,8 @@ fw.dataModels.fileExtensions(function(moduleName) {
               "title": "fw.dataModels.fileExtensions()" }
           ]
         },
-        { "title": "Instance Properties",
+        { "anchor": "instance-properties",
+          "title": "Instance Properties",
           "description": "Properties that exist on an instantiated dataModel.",
           "collapsable": true,
           "isCollapsed": true,
