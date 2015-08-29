@@ -1,7 +1,6 @@
-define([ "footwork" ],
-  function( fw ) {
+define(["footwork"],
+  function(fw) {
     return function resourceHelper(rootPaths) {
-      fw.routers.registerLocation('SubRouter', '/scripts/routers/SubRouter.js');
       fw.routers.registerLocation('MainRouter', '/scripts/app/router.js');
 
       var locations = {

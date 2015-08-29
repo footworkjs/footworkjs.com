@@ -1,10 +1,10 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
-  <a id="description" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="description">
+  <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="introduction">
     <div class="highlight"></div>
     <header>
-      <h1 class="sub title">Description</h1>
+      <h1 class="sub title">Introduction</h1>
     </header>
     <div class="content">
       <p>The primary purpose behind a <span class="inline-code">dataModel</span> is the management of RESTful data and related logic.</p>
@@ -24,7 +24,7 @@
   <section name="configuration">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Constructor Function</h2>
+      <h2 class="sub title">Factory Method</h2>
     </header>
     <div class="content">
       <p>Each different type of <span class="inline-code">dataModel</span> you wish to have must have a new constructor function created for it. These
@@ -241,6 +241,19 @@ fw.components.register('Person', {
         <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
           for information on how to tell footwork where to find your component assets.</p>
       </div>
+    </div>
+  </section>
+
+  <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="lifecycle-registration">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Lifecycle &amp; Registration</h2>
+    </header>
+    <div class="content">
+      <p>Each <span class="inline-code">dataModel</span> instantiated and bound to the DOM will receive lifecycle events.</p>
+      <p>These events can be used for any code you need to run when the instance is initially setup on or removed from the page. A common example
+        would be the setup and teardown of a jQuery plugin, or events.</p>
     </div>
   </section>
 
@@ -1021,15 +1034,14 @@ fw.dataModels.fileExtensions(function(moduleName) {
   "title": "DataModel",
   "description": "Bindable logic and data for your markup with additional RESTful persistence features.",
   "sections": [
-    { "anchor": "description",
-      "title": "DataModel",
+    { "anchor": "introduction",
+      "title": "Introduction",
       "subSections": [
-        { "title": "Configuration and Usage" },
-        { "anchor": "configuration",
-          "title": "Constructor Function" },
         { "anchor": "usage",
           "title": "Usage",
           "subSections": [
+            { "anchor": "configuration",
+              "title": "Factory Method" },
             { "anchor": "bind-manually",
               "title": "Manual Instantiation and Binding",
               "description": "Binding a dataModel using fw.applyBindings()." },
@@ -1041,6 +1053,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
               "description": "Using a dataModel with a &lt;component&gt; declarative custom element." }
           ] },
         { "title": "Lifecycle &amp; Registration",
+          "anchor": "lifecycle-registration",
           "subSections": [
             { "anchor": "lifecycle",
               "title": "Lifecycle",

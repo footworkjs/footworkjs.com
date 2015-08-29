@@ -1,42 +1,22 @@
 <div class="content">
   <div class="sub-section">
-
-    <!-- ko ifnot: hasSubSections -->
     <div class="content" data-bind="css: { active: active }">
       <!-- ko if: anchorAddress -->
-      <a class="sub title" data-bind="click: chooseSection, attr: { href: anchorAddress }">
-        <span class="label" data-bind="text: title"></span>
-        <div class="arrow"></div>
-      </a>
+        <a class="sub title" data-bind="css: { hasSubSections: hasSubSections, isFirstItem: isFirstItem }, click: chooseSection, attr: { href: anchorAddress }">
+          <span class="label" data-bind="text: title"></span>
+          <div class="arrow"></div>
+        </a>
       <!-- /ko -->
       <!-- ko ifnot: anchorAddress -->
-        <span class="sub title">
+        <span class="sub title" data-bind="css: { hasSubSections: hasSubSections, isFirstItem: isFirstItem }">
           <span class="label" data-bind="text: title"></span>
         </span>
       <!-- /ko -->
-    </div>
-    <!-- /ko -->
-
-    <!-- ko if: hasSubSections -->
-      <div class="sub-sections">
-        <div class="content" data-bind="css: { active: active }">
-          <!-- ko if: anchorAddress -->
-            <a class="sub title" data-bind="click: chooseSection, attr: { href: anchorAddress }">
-              <span class="label" data-bind="text: title"></span>
-              <div class="arrow"></div>
-            </a>
-          <!-- /ko -->
-          <!-- ko ifnot: anchorAddress -->
-            <span class="sub title">
-              <span class="label" data-bind="text: title"></span>
-            </span>
-          <!-- /ko -->
-        </div>
+      <!-- ko if: hasSubSections -->
         <div class="sub-sections-list" data-bind="foreach: subSections">
           <pagesubsection params="sectionData: $data, parent: $parent"></pagesubsection>
         </div>
-      </div>
-    <!-- /ko -->
-
+      <!-- /ko -->
+    </div>
   </div>
 </div>

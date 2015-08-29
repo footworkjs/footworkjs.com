@@ -51,7 +51,7 @@ define([ "jquery", "lodash", "footwork" ],
         var anchorOffset = 0;
 
         this.visible = fw.observable(false);
-        this.description = fw.observable();
+        this.description = fw.observable('Loading...');
         this.hasDescription = fw.computed(function() {
           var description = this.description();
           return _.isString(description) && description.length;

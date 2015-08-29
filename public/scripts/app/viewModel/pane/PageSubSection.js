@@ -34,6 +34,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
         resetURL();
 
         this.currentSection = fw.observable().receiveFrom('PageSections', 'currentSection');
+        this.isFirstItem = subSectionData.isFirstItem;
         this.title = subSectionData.title;
         this.active = fw.computed(function() {
           var isActive = this.currentSection() === subSectionData.anchor;
@@ -44,6 +45,10 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
         }, this);
 
         this.hasSubSections = _.isArray(subSectionData.subSections) && subSectionData.subSections.length;
+        if(_.isArray(subSectionData.subSections)) {
+          this.isFirstItem = true;
+        }
+
         this.subSections = subSectionData.subSections;
 
         this.chooseSection = function() {
