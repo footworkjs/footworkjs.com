@@ -661,7 +661,7 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
         you supply.</p>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
-  initialize: function(params) {
+  initialize: function() {
     this.firstName = fw.observable().mapTo('firstName');
     this.lastName = fw.observable().mapTo('lastName');
     this.age = fw.observable().mapTo('attributes.age');
@@ -690,54 +690,116 @@ var person = new Person();
   <section name="getting-data">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Getting / Reading Data</h2>
+      <h2 class="sub title">Getting / Reading</h2>
     </header>
     <div class="content">
-      <p>When sending to or retreiving from from the server footwork needs to know how to transpose that data to and from your
-        <span class="inline-code">dataModel</span>. Using <span class="inline-code">observable.mapTo()</span> we can define how our data maps to the
-        representation the server expects.</p>
+      <p>Sometimes you need to convert a <span class="inline-code">dataModel</span> to <span class="inline-code">JSON</span> or want to grab its values.</p>
 
-      <p><span class="inline-code">observable.mapTo()</span> is generally expected to be called from within a <span class="inline-code">dataModel</span>
-        <span class="inline-code">initialize</span> function. If you do call it from within the <span class="inline-code">initialize</span> function
-        then all you need do is supply it the <span class="inline-code">path</span> to map the value to. This path is used to convert the
-        <span class="inline-code">dataModel</span> to the expected form on the server and to map that same data back into the
-        <span class="inline-code">dataModel</span> when retrieving it.</p>
+      <p>To do this you can either reference the mapped observables directly (which requires a lot of boilerplate) or use one of the supplied
+        <span class="inline-code">dataModel</span> methods which gathers the data together/based on the mappings you have setup.</p>
 
-      <div class="note">
-        <span class="label">NOTE:</span> If you call <span class="inline-code">.mapTo()</span> sometime after or outside of the main
-        <span class="inline-code">initialize</span> method then you will need to provide it a direct reference to the
-        <span class="inline-code">dataModel</span> instance using the <span class="inline-code">{ path: '', dataModel: '' }</span> object-notation version.
-      </div>
+      <a id="dataModel-get" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def"><span>dataModel</span>.$get<span>()</em></h3>
+      <h3><em class="func-def"><span>dataModel</span>.$get<span>( <span class="param">'mapped.variable'</span> )</em></h3>
+      <h3><em class="func-def"><span>dataModel</span>.$get<span>( [ <span class="param">'mapped.variable'</span>, <span class="param">'other.variable'</span> ] )</em></h3>
+      <p>Convert a <span class="inline-code">dataModel</span> or specified mapped value into its hash-mapped plain-javascript-object version.</p>
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+  }
+});
 
-      <h3>Map a value in a <span class="inline-code">dataModel</span>:</h3>
-      <a id="observable-mapTo" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></em></h3>
-      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></em></h3>
-      <p><span class="inline-code">observable.mapTo()</span> will map that <span class="inline-code">observable</span> value to the dot-notated path
-        you supply.</p>
+var person = new Person({
+  firstName: 'Gary',
+  lastName: 'Busey'
+});
+
+/**
+ * person.$get() === {
+ *   firstName: 'Gary',
+ *   lastName: 'Busey'
+ * }
+ *
+ * person.$get('firstName') === 'Gary'
+ */
+</code></pre>
+    </div>
+  </section>
+
+  <a id="setting-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="setting-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Setting / Writing</h2>
+    </header>
+    <div class="content">
+      <p>When you are not using one of the RESTful methods (like <span class="inline-code">dataModel.$fetch()</span>) to retrieve and set the values in
+        your <span class="inline-code">dataModel</span> you will need to set them by some other means.</p>
+
+      <p>One method is to write to the underlying observables that are mapped inside of your <span class="inline-code">dataModel</span>. You
+        might do this when a click event or some other internal event occurs that originates from inside your application.</p>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   initialize: function(params) {
     this.firstName = fw.observable().mapTo('firstName');
     this.lastName = fw.observable().mapTo('lastName');
-    this.age = fw.observable().mapTo('attributes.age');
-    this.isBestFriend = fw.observable().mapTo('attributes.isBestFriend');
+    this.isDead = fw.observable(false).mapTo('isDead');
+
+    this.kill = function() {
+      this.isDead(true);
+    };
   }
 });
 
 var person = new Person();
 
-/**
- * This dataModel now has the following internal mappings:
- * {
- *   firstName: dataModel.firstName,
- *   lastName: dataModel.lastName,
- *   attributes: {
- *     age: dataModel.age,
- *     isBestFriend: dataModel.isBestFriend
- *   }
- * }
- */
+// This method writes a value directly to the underlying observable
+person.kill();
+</code></pre>
+
+      <p>Another possibility is that you have the <span class="inline-code">dataModel</span> bound to the DOM and it is manipulated via the user and
+        two-way bindings (ex: when a <span class="inline-code">dataModel</span> is bound to an HTML <span class="inline-code">&lt;form&gt;</span>).</p>
+
+      <p>This works in many circumstances, and might in fact be what you want/need to do.</p>
+
+      <p>However if you are handling data from the server/REST endpoint for your <span class="inline-code">dataModel</span> then you likely want to write that
+        data using the mappings you have setup. Otherwise you will have to manually map and write that data to each underlying observable, which may or
+        may not be a direct 1-to-1 mapping and requires a lot more boilerplate.</p>
+
+      <p>Footwork provides a <span class="inline-code">dataModel.$set()</span> method which will take the (plain object) data you pass it, map it
+        to the variables in your <span class="inline-code">dataModel</span> and write to them as appropriate.</p>
+
+      <a id="dataModel-set" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def"><span>dataModel</span>.$set<span>( <span class="param">'mapped.variable'</span>, <span class="param">value</span> )</em></h3>
+      <h3><em class="func-def"><span>dataModel</span>.$set<span>( <span class="param">object</span> )</em></h3>
+      <p>Write a POJO (object) model to a <span class="inline-code">dataModel</span> using the internal mapping.</p>
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('attr.dead');
+  }
+});
+
+var person = new Person();
+// person.isDead() === false
+
+person.$set({
+  firstName: 'Gary',
+  lastName: 'Busey',
+  attr: {
+    dead: true
+  }
+});
+// person.firstName() === 'Gary'
+// person.isDead() === true
+
+// ...and you can also just pass a single value to $set
+person.$set('firstName', 'Jake');
+// person.firstName() === 'Jake'
 </code></pre>
     </div>
   </section>
@@ -1126,10 +1188,10 @@ fw.dataModels.fileExtensions(function(moduleName) {
                   "title": "Mapping Data",
                   "description": "How to map data in your dataModel, informing footwork how to transpose it to/from its RESTful endpoint." },
                 { "anchor": "getting-data",
-                  "title": "Getting / Reading Data",
+                  "title": "Getting / Reading",
                   "description": "Reading the mapped data from a dataModel." },
                 { "anchor": "setting-data",
-                  "title": "Setting / Writing Data",
+                  "title": "Setting / Writing",
                   "description": "Writing data to the dataModel via its mapped observables." }
               ] },
             { "anchor": "rest-operations",
