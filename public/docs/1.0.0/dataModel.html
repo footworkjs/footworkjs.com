@@ -661,28 +661,41 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
         you supply.</p>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
-  initialize: function() {
-    this.firstName = fw.observable().mapTo('firstName');
-    this.lastName = fw.observable().mapTo('lastName');
-    this.age = fw.observable().mapTo('attributes.age');
-    this.isBestFriend = fw.observable().mapTo('attributes.isBestFriend');
+  initialize: function(params) {
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.age = fw.observable(params.attributes.age).mapTo('attributes.age');
+    this.inTheMachine = fw.observable(params.attributes.inTheMachine).mapTo('attributes.inTheMachine');
+  }
+});
+var person = new Person();
+
+person.$set({
+  firstName: 'Kevin',
+  lastName: 'Flynn',
+  attributes: {
+    age: 33,
+    inTheMachine: true
   }
 });
 
-var person = new Person();
-
 /**
- * This dataModel now has the following internal mappings:
- * {
- *   firstName: dataModel.firstName,
- *   lastName: dataModel.lastName,
+ * person.inTheMachine() === true
+ * person.$get() === {
+ *   firstName: 'Kevin',
+ *   lastName: 'Flynn',
  *   attributes: {
- *     age: dataModel.age,
- *     isBestFriend: dataModel.isBestFriend
+ *     age: 33,
+ *     inTheMachine: true
  *   }
  * }
  */
 </code></pre>
+
+      <div class="note">
+        <span class="label">NOTE:</span> <span class="inline-code"><a data-bind="$route" href="#dataModel-get">dataModel.$get()</a></span> and
+        <span class="inline-code"><a data-bind="$route" href="#dataModel-set">dataModel.$set()</a></span> are documented further down the page.
+      </div>
     </div>
   </section>
 
@@ -801,6 +814,62 @@ person.$set({
 person.$set('firstName', 'Jake');
 // person.firstName() === 'Jake'
 </code></pre>
+    </div>
+  </section>
+
+  <a id="rest-operations" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="rest-operations">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">REST Operations</h2>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">dataModel</span> is often times used to communicate or transfer state to/from a RESTful endpoint.</p>
+      <p>To aid in performing those operations, footwork provides a number of useful methods/features.</p>
+    </div>
+  </section>
+
+  <a id="fetching-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="fetching-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Fetching Model Data</h2>
+    </header>
+    <div class="content">
+      <p>To fetch the data for a <span class="inline-code">dataModel</span> it must be configured with a <span class="inline-code">url</span>,
+        see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel()</a></span> factory method for details on that
+        option.</p>
+
+      <p>Assuming that has been done, fetching the data is done via a call to <span class="inline-code">dataModel.$fetch()</span>.</p>
+
+      <a id="dataModel-fetch" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def"><span>dataModel</span>.$fetch<span>( <span class="param">ajaxOptions</span> )</em></h3>
+      <p>Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</p>
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  url: '/person',
+  initialize: function(params) {
+    this.id = fw.observable(params.id).mapTo('id');
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('attr.dead');
+  }
+});
+
+var person = new Person({
+  id: 1
+});
+// person.isDead() === false
+
+// ... some time later
+person.$fetch();
+// person.firstName() === 'Gary'
+// person.isDead() === true
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$fetch</span>
+        are exactly the same as is supported in a
+        <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
     </div>
   </section>
 
@@ -1199,7 +1268,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
               "keywords": [ "ajax" ],
               "subSections": [
                 { "anchor": "fetching-data",
-                  "title": "Fetch Model Data",
+                  "title": "Fetching Model Data",
                   "description": "Fetching a models data from its REST endpoint via AJAX." },
                 { "anchor": "saving-data",
                   "title": "Saving Model Data",
