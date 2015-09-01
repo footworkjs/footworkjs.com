@@ -873,6 +873,90 @@ person.$fetch();
     </div>
   </section>
 
+  <a id="saving-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="saving-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Saving Model Data</h2>
+    </header>
+    <div class="content">
+      <p>To save the data for a <span class="inline-code">dataModel</span> to its endpoint it must be configured with a <span class="inline-code">url</span>,
+        see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel()</a></span> factory method for details on that
+        option.</p>
+
+      <p>Assuming that has been done, saving the data is done via a call to <span class="inline-code">dataModel.$save()</span>. You can save either the
+        entire <span class="inline-code">dataModel</span> (all the mapped values), or save specific data by passing it the appropriate parameters.</p>
+
+      <a id="dataModel-save" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def"><span>dataModel</span>.$save<span>( <span class="param">optionsObject</span> )</em></h3>
+      <h3><em class="func-def"><span>dataModel</span>.$save<span>( <span class="param">key</span>, <span class="param">value</span>, <span class="param">optionsObject</span> )</em></h3>
+      <p>Save the data for a <span class="inline-code">dataModel</span> to its configured endpoint.</p>
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  url: '/person',
+  initialize: function(params) {
+    this.id = fw.observable(params.id).mapTo('id');
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('attr.dead');
+  }
+});
+
+var person = new Person({
+  id: 1,
+  firstName: 'Alfred',
+  lastName: 'Hitchcock'
+});
+
+person.$save();
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$fetch</span>
+        are exactly the same as is supported in a
+        <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
+    </div>
+  </section>
+
+  <a id="deleting-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="deleting-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Deleting / Destroying Model Data</h2>
+    </header>
+    <div class="content">
+      <p>To delete or destroy the data for a <span class="inline-code">dataModel</span> (send the DELETE request) to its endpoint it must be configured
+        with a <span class="inline-code">url</span>, see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel()</a></span>
+        factory method for details on that option.</p>
+
+      <p>Assuming that has been done, destroying the data is done via a call to <span class="inline-code">dataModel.$destroy()</span>.</p>
+
+      <a id="dataModel-destroy" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def"><span>dataModel</span>.$destroy<span>( <span class="param">optionsObject</span> )</em></h3>
+      <p>Destroy the data for a <span class="inline-code">dataModel</span> on/at its configured endpoint.</p>
+<pre><code class="javascript">var Person = fw.dataModel({
+  namespace: 'Person',
+  url: '/person',
+  initialize: function(params) {
+    this.id = fw.observable(params.id).mapTo('id');
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('attr.dead');
+  }
+});
+
+var person = new Person({
+  id: 1
+});
+
+person.$destroy();
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$fetch</span>
+        are exactly the same as is supported in a
+        <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
+    </div>
+  </section>
+
   <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="mixins">
     <div class="highlight"></div>
