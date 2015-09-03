@@ -14,24 +14,29 @@
         this has many disadvantages/issues (primarily, it requires a lot of legwork by you). Footwork.js can handle the initialization, wrapping, and binding for you
         automatically based on the HTML/DOM (<em>it can also autoload them via AMD/RequireJS as needed</em>).</p>
 
-      <p>Footwork-flavored viewModels provide a clean way of wrapping your knockout and other HTML markup while also enhancing with functionality for lifecycle events,
-        routing, component integration,
-
-      <a href="http://martinfowler.com/bliki/CQRS.html" target="_blank" title="Command Query Responsibility Segregation">CQRS</a>, and more.</p>
-
       <p>In addition, they can contain any number of nested viewModels, components, and any other markup...making them extremely powerful (especially when integrated into a
         <a data-bind="$route: docLink('components')">component</a>).</p>
 
       <p>There are a number of ways to create viewModels, but a simple plain old javascript object (just as in normal knockout.js) at its most basic level is all that is
         needed to bind to the DOM.</p>
+    </div>
+  </section>
 
+  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="usage">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Usage</h2>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">viewModel</span> can be used in 3 different ways:</p>
       <ul>
-        <li><a data-bind="$route" href="#configuration">Configuration</a></li>
-        <li><a data-bind="$route" href="#initialization">Initialization</a></li>
-        <li><a data-bind="$route" href="#loading-registering">AMD / Lazy Loading / Registering</a></li>
-        <li><a data-bind="$route" href="#module-formats">Module Formats</a></li>
-        <li><a data-bind="$route" href="#lifecycle">Lifecycle</a></li>
-        <li><a data-bind="$route" href="#properties">Properties</a></li>
+        <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
+
+        <li>Automatically via a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM.</li>
+
+        <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
+          <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
       </ul>
     </div>
   </section>
@@ -103,38 +108,22 @@
     </div>
   </section>
 
-  <a id="initialization" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="initialization">
+  <a id="bind-manually" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="bind-manually">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Initialization / Usage</h2>
+      <h2>Manual Instantiation and Binding:</h2>
     </header>
     <div class="content">
-      <p>A viewModel can be created/initialized in 3 different ways:</p>
-      <ul>
-        <li>Manually initialized (standard knockout methodology).</li>
+      <p>Manually instantiating a <span class="inline-code">viewModel</span> is done by calling <span class="inline-code">new ConstructorFunc()</span>.
+        With the instance in hand you can then use it as you wish, either directly or by binding it to the DOM.</p>
 
-        <li>Automatically via a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM.</li>
-
-        <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
-          <a data-bind="$route: docLink('components#usage')">component usage</a>).</li>
-      </ul>
-
-      <h3>Manual initialization (similar to what would be found in regular knockout.js code):</h3>
-<pre><code class="javascript">/**
- * You use footwork viewModel class functions just like you would a normal knockout.js constructor function.
- * ie: var viewModelObject = new ConstructorFunc(paramaters ...);
- *
- * Note: The parameters you pass into the ConstructorFunc(params) call get passed
- *       into the initialize(params) function from the configuration object.
- */
-
-// example:
-var Sprocket = fw.viewModel({
-  // ... configuration object ...
+      <p>To manually bind a <span class="inline-code">viewModel</span> you use a <span class="inline-code">fw.applyBindings()</span>
+        call after instantiating it.</p>
+<pre><code class="javascript">var Sprocket = fw.viewModel({
   namespace: 'Sprocket',
   initialize: function(params) {
-    // params === object passed in when calling new Sprocket( ... )
+    // params === object passed in when calling new Sprocket()
     this.type = fw.observable(params.type);
     this.color = params.color || 'orange';
     this.price = fw.observable(params.price);
@@ -146,28 +135,59 @@ var Sprocket = fw.viewModel({
 
 var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
 // awesomeSprocket.type() === 'awesome'
-// awesomeSprocket.color() === 'orange'
+// awesomeSprocket.color === 'orange'
 // awesomeSprocket.isExpensive() === false
-
-// You can then bind it to the DOM just like any other knockout viewModel/javascript object:
-fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'));
 </code></pre>
 
-      <h3>Automatic initialization via <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM:</h3>
-<pre><code class="html">&lt;html&gt;
-  &lt;body&gt;
-    &lt;viewModel module="Sprocket"&gt;
-      Type: &lt;span data-bind="text: type"&gt;&lt;/span&gt;
-      &lt;!-- ko if: isExpensive --&gt;
-        &lt;span class="warning"&gt;This is expensive!&lt;/span&gt;
-      &lt;!-- /ko --&gt;
-    &lt;/viewModel&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-      <p class="note"><span class="label">NOTE:</span> See <a data-bind="$route" href="#loading-registering">AMD / Lazy Loading / Registering</a> for information
-        on how to make sure footwork knows how to find your viewModels/modules.</p>
+      <p>Now, if we wish, we can bind the <span class="inline-code">Sprocket</span> instance (<span class="inline-code">awesomeSprocket</span>) to the DOM:</p>
+<pre><code class="javascript">fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'));</code></pre>
+    </div>
+  </section>
 
-      <h3>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h3>
+  <a id="viewModel-element" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="viewModel-element">
+    <div class="highlight"></div>
+    <header>
+      <h2>Automatic initialization via <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM:</h2>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">viewModel</span> can be instantiated and bound automatically when using a
+        <span class="inline-code">&lt;viewModel&gt;</span> declarative wrapper element. Using the <span class="inline-code">module=""</span> attribute
+        you can specify which <span class="inline-code">viewModel</span> should be instantiated and bound by footwork.</p>
+<pre><code class="html">&lt;viewModel module="Person"&gt;
+  &lt;form&gt;
+    &lt;label&gt;First Name: &lt;input type="text" data-bind="value: firstName"&gt;&lt;/label&gt;
+    &lt;label&gt;Last Name: &lt;input type="text" data-bind="value: lastName"&gt;&lt;/label&gt;
+    &lt;input type="submit" value="Save"&gt;
+  &lt;/form&gt;
+&lt;/viewModel&gt;</code></pre>
+
+          <p>... and as an example, this <span class="inline-code">viewModel</span> was registered directly:</p>
+<pre><code class="javascript">fw.viewModels.register('Person', fw.viewModel({
+    namespace: 'Person',
+    initialize: function(params) {
+      this.firstName = fw.observable(params.firstName);
+    }
+  })
+);
+</code></pre>
+      <div class="note">
+        <p><span class="label">NOTE:</span> You can have your <span class="inline-code">viewModel</span> automatically downloaded for you when needed.</p>
+        <p>See <a data-bind="$route" href="#registration">viewModel registration</a>
+          for information on how to tell footwork where to find your component assets.</p>
+      </div>
+    </div>
+  </section>
+
+  <a id="inside-component" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="inside-component">
+    <div class="highlight"></div>
+    <header>
+      <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
+    </header>
+    <div class="content">
+      <p>You can supply a <span class="inline-code">viewModel</span> inside of a component registration (or location registration). By doing that the
+        component will bind the <span class="inline-code">viewModel</span> against your markup.</p>
 <pre><code class="html">&lt;html&gt;
   &lt;body&gt;
     &lt;sprocket&gt;&lt;/sprocket&gt;
@@ -176,10 +196,356 @@ fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'))
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-      <p class="note"><span class="label">NOTE:</span> See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
-        for information on how to tell footwork where to find your component assets.</p>
+          <p>... and as an example, this <span class="inline-code">component</span> was registered directly:</p>
+<pre><code class="javascript">fw.components.register('sprocket', {
+  viewModel: fw.viewModel({
+    namespace: 'Sprocket',
+    initialize: function(params) {
+      this.type = fw.observable(params.type);
+    }
+  }),
+  template: '&lt;!-- component HTML markup --&gt;'
+});
+</code></pre>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> You can have your <span class="inline-code">component</span> automatically downloaded for you when needed.</p>
+        <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
+          for information on how to tell footwork where to find your component assets.</p>
+      </div>
     </div>
   </section>
+
+  <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="lifecycle-registration">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Lifecycle &amp; Registration</h2>
+    </header>
+    <div class="content">
+      <p>Each <span class="inline-code">viewModel</span> instantiated and bound to the DOM will receive lifecycle events.</p>
+      <p>These events can be used for any code you need to run when the instance is initially setup on or removed from the page. A common example
+        would be the setup and teardown of a jQuery plugin, or events.</p>
+    </div>
+  </section>
+
+  <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="lifecycle-registration">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Lifecycle &amp; Registration</h2>
+    </header>
+    <div class="content">
+      <p>Each <span class="inline-code">dataModel</span> instantiated and bound to the DOM will receive lifecycle events.</p>
+      <p>These events can be used for any code you need to run when the instance is initially setup on or removed from the page. A common example
+        would be the setup and teardown of a jQuery plugin, or events.</p>
+    </div>
+  </section>
+
+  <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="lifecycle">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Lifecycle</h2>
+    </header>
+    <div class="content">
+      <p>Lifecycle events are automatically handled for you when using a <span class="inline-code">viewModel</span> via one of the three main methods:</p>
+
+      <ul>
+        <li>Use the <span class="inline-code">&lt;viewModel&gt; ... &lt;/viewModel&gt;</span> declarative syntax.</li>
+        <li>Use the <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declarative syntax.</li>
+        <li>Manually bound (<span class="inline-code">fw.applyBindings()</span>) to the DOM.</li>
+      </ul>
+
+      <p>A viewModel that is attached to the DOM will retrive two main lifecycle events, one just after binding to the DOM
+        (<span class="inline-code">afterBinding()</span>) and one when the element (that the viewModel bound itself to) is removed from the DOM
+        (<span class="inline-code">onDispose()</span>, called just before the element is removed).</p>
+
+      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to the instance if you
+        want them to automatically be cleaned up for you when the viewModel is disposed.</div>
+
+<pre><code class="javascript">var someOtherObservable = fw.observable();
+
+var MyViewModel = fw.viewModel({
+  initialize: function() {
+    this.myVarSub = someOtherObservable.subscribe(function() {
+      // This subscription will get cleaned up when the viewModel is disposed
+    });
+
+    this.$namespace.command.handler('doSomething', function() {
+      // This command handler will get cleaned up when the viewModel is disposed
+    });
+
+    this.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
+    this.$someOtherNamespace.command.handler('doSomethingElse', function() {
+      // This command handler will get cleaned up when the viewModel is disposed
+    });
+
+    this.someOtherThing = {
+      eventHandler: this.$namespace.event.handler('someEvent', function() {
+        // This will NOT get cleaned up, handler result/subscription is not attached to 'this'
+      })
+    };
+  }
+});
+</code></pre>
+
+      <a id="viewModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">viewModel.dispose<span>()</span></em></h3>
+      <p>If you do not bind a viewModel to the DOM then you will want to clean up its references and subscriptions when you are done with it. This is done
+        by calling <span class="inline-code">viewModel.dispose()</span> directly.</p>
+      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a viewModel:</h3>
+<pre><code class="javascript">var MyViewModel = fw.viewModel({ /* ... */ });
+var viewModel = new MyViewModel();
+// ...
+viewModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
+</code></pre>
+    </div>
+  </section>
+
+  <a id="afterBinding" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="afterBinding">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">afterBinding()</h2>
+    </header>
+    <div class="content">
+      <p>If provided, the <span class="inline-code">viewModel</span> configuration <span class="inline-code">afterBinding()</span> method will be called
+        just after a <span class="inline-code">viewModel</span> is bound to the DOM. This provides a handy integration point for external libraries or
+        plugins (such as jQuery).</p>
+
+<pre><code class="javascript">var Person = fw.viewModel({
+  namespace: 'Person',
+  afterBinding: function(domElement) {
+    var person = this;
+    domElement.addEventListener('click', function() {
+      console.info('You clicked', person.firstName());
+    });
+  },
+  initialize: function(params) {
+    this.firstName = fw.observable().mapTo('firstName');
+  }
+});
+</code></pre>
+
+  <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="onDispose">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">onDispose()</h2>
+    </header>
+    <div class="content">
+      <p>If provided, the <span class="inline-code">viewModel</span> configuration <span class="inline-code">onDispose()</span> method will be called
+        just after the element a <span class="inline-code">viewModel</span> is bound to is removed from the DOM. This provides a handy integration
+        point for external libraries or plugins (such as jQuery).</p>
+
+<pre><code class="javascript">var Person = fw.viewModel({
+  namespace: 'Person',
+  afterBinding: function(domElement) {
+    domElement.addEventListener('click', this.clickPerson);
+  },
+  onDispose: function(domElement) {
+    domElement.removeEventListener('click', this.clickPerson);
+  },
+  initialize: function(params) {
+    var person = this;
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.clickPerson = function() {
+      console.info('You clicked', person.firstName());
+    };
+  }
+});
+</code></pre>
+
+      <a id="viewModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">viewModel.dispose<span>()</span></em></h3>
+      <p>If you do not bind a viewModel to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
+        by calling <span class="inline-code">viewModel.dispose()</span> directly.</p>
+      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a viewModel:</h3>
+<pre><code class="javascript">var MyViewModel = fw.viewModel({ /* ... */ });
+var viewModel = new MyViewModel();
+// ...
+viewModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
+</code></pre>
+    </div>
+  </section>
+
+  <a id="registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="registration">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Registration</h2>
+    </header>
+    <div class="content">
+      <p>In order for footwork to know what to do when it encounters a <span class="inline-code">&lt;viewModel&gt;</span> it must be registered in some
+        way.</p>
+
+      <p>Footwork supports both explicitly registering your <span class="inline-code">viewModel</span> ahead of time (caching it directly) or
+        automatically/lazily loading via AMD/RequireJS.</p>
+
+      <p>That is done with one of the following methods:</p>
+
+      <ul>
+        <li><span class="inline-code"><a data-bind="$route" href="#viewModels-register">fw.viewModels.register()</a></span> - Register (cache) a
+          <span class="inline-code">viewModel</span> explicitly.</li>
+        <li><span class="inline-code"><a data-bind="$route" href="#viewModels-registerLocation">fw.viewModels.registerLocation()</a></span> - Register the location of a
+          <span class="inline-code">viewModel</span> so that it can be dynamically loaded at some time in the future.</li>
+      </ul>
+
+      <p>In either case, the declarative <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span>
+        syntax will trigger the loading (if necessary), instantiation, and binding of the <span class="inline-code">viewModel</span>.</p>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> AMD/RequireJS is fully supported (and highly encouraged) for a number of reasons:</p>
+
+        <ul>
+          <li>It strongly encourages modularization and separation of concerns.</li>
+
+          <li>Helps decouple your application and allow for easier testability.</li>
+
+          <li>Footwork can take advantage of its dependency resolution to automatically load and use resources for you as needed at runtime (<em>including the automatic
+            loading and composing of entire views/pages/routes, components, or viewModels</em>).</li>
+
+          <li>Allows for easier debugging as non-compiled assets while still being buildable for release into a production environment.</li>
+
+          <li>Allows for easy and highly configurable caching/preloading of assets (this includes all components, viewModels, and templates). None, some, or all of
+            it...you choose what your users wait for.</li>
+        </ul>
+      </div>
+
+      <p>To load and bind a section of your DOM with a <span class="inline-code">viewModel</span>, insert/wrap the HTML with a
+        <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> element.</p>
+
+      <h3>Example <span class="inline-code">&lt;viewModel&gt;</span> wrapper:</h3>
+<pre><code class="html">&lt;html&gt;
+  &lt;body&gt;
+    &lt;viewModel module="Person"&gt;
+      &lt;!-- HTML to be bound using an instance of the viewModel/module --&gt;
+      Hello &lt;span data-bind="text: firstName"&gt;&lt;/span&gt;!
+    &lt;/viewModel&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      <div class="note">
+        <span class="label">NOTE:</span> You can nest <span class="inline-code">viewModels</span>, <span class="inline-code">viewModels</span>, and
+        <span class="inline-code">components</span> within one another.
+      </div>
+    </div>
+  </section>
+
+  <a id="module-resolution" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="module-resolution">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Module Resolution</h2>
+    </header>
+    <div class="content">
+      <p>There are 3 ways footwork will try to resolve your <span class="inline-code">viewModel</span> when it encounters the declarative
+        <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> element you place in the DOM.</p>
+
+      <p>Here they are in order of priority:</p>
+
+      <ul>
+        <li>Explicitly registered with a <span class="inline-code">fw.dataModels.register()</span> call.</li>
+        <li>Automatic download/resolution via AMD/RequireJS at a pre-registered location (<span class="inline-code">fw.dataModels.registerLocation()</span>).</li>
+        <li>Automatic download/resolution via AMD/RequireJS at the configurable default (<span class="inline-code">fw.dataModels.defaultLocation()</span>).</li>
+      </ul>
+
+      <p>Registering a dataModel explicitly with <span class="inline-code">fw.dataModels.register()</span> makes it immediately available. Any
+        <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declarations encountered will be processed with no delay
+        (the dataModel is 'cached' when registered).</p>
+
+      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell footwork where it can
+        download your dataModel module (in the event you do not explicitly register it). In any case your markup will wait until the dataModel is resolved prior
+        to being initialized.</p>
+
+      <div class="note"><span class="label">NOTE:</span> Nested dataModels and components are independently resolved. It works as you would expect, with an
+        outer-most container (dataModel/component) initializing/processing/binding and rendering, then any nested dataModels/components get initialized (and so
+        forth until the end).</div>
+
+      <a id="dataModels-register" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">fw.dataModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></em></h3>
+      <h3>Cache a dataModel/module ahead of time:</h3>
+<pre><code class="javascript">// register a footwork dataModel
+var Person = fw.dataModel({ /* configuration object */ });
+fw.dataModels.register('Person', Person);
+
+// register a normal class constructor function (like in regular knockout)
+var Person = function() { this.isUsed = fw.observable(false); };
+fw.dataModels.register('Person', Person);
+
+// register an instance of an object (like in regular knockout)
+fw.dataModels.register('Person', {
+  instance: { isUsed: false } // object representing the dataModel to be bound against the DOM
+});
+
+/**
+ * A constructor function to be called when the declaration is encountered.
+ * It is supplied params given at the binding (&lt;dataModel params="exampleParam: true"&gt;) and
+ * the containing element of the dataModel.
+ */
+fw.dataModels.register('Person', {
+  createdataModel: function(params, info) {
+    // info.element = containing &lt;dataModel&gt; element
+    // params are the parameters declaratively created from the DOM (See: note below)
+    return { isUsed: false }; // object representing the dataModel to be bound against the DOM
+  }
+});</code></pre>
+      <div class="note">
+        <p><span class="label">NOTE:</span> Are you using a fw.dataModel() constructor and simply want to register it using the namespace name (recommended)?</p>
+
+        <p>You can optionally just set <span class="inline-code">autoRegister: true</span> in the dataModel configuration object, then the fw.dataModel.register
+          call is taken care of for you when the dataModel constructor is created.</p>
+
+        <p>See: <a data-bind="$route" href="#configuration">dataModel configuration</a>.</p>
+      </div>
+
+      <a id="dataModels-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">fw.dataModels.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></em></h3>
+      <h3>Register the location of a dataModel/module so footwork can load and bind it for you when needed:</h3>
+<pre><code class="javascript">// Load Person from: /dataModels/Person.js (based on dataModel/module name, case sensitive)
+fw.dataModels.registerLocation('Person', '/dataModels/');
+
+// Load Person from: /dataModels/DifferentFileName.js (specify full file name)
+fw.dataModels.registerLocation('Person', '/dataModels/DifferentFileName.js');
+
+// register the location of several dataModels at once (ie: all in the same folder)
+fw.dataModels.registerLocation(['Reservations', 'Invoices', 'Notes'], '/dataModels/stuff/');</code></pre>
+
+      <h3>Example AMD/RequireJS enhanced footwork module:</h3>
+<pre><code class="javascript">/**
+ * An AMD/RequireJS module is defined in exactly the same way as a normal knockout module would be.
+ * The only difference being that you return the footwork-flavored dataModel constructor function
+ * result from fw.dataModel() instead of a normal (function() {}) constructor.
+ */
+define(["footwork"],
+  function(fw) {
+    return fw.dataModel({
+      // ... configuration object ...
+      namespace: 'Person',
+
+      /**
+       * [optional] This module will now automatically register itself as 'Person' and footwork
+       * can autoload and bind it as soon as it is pulled in via AMD.
+       *
+       * This is an easy way to autoload and cache your dataModels for declarative use in your HTML.
+       */
+      autoRegister: true,
+
+      initialize: function() {
+        this.isUsed = fw.observable(false);
+      }
+    });
+  }
+);</code></pre>
+
+      <h3><em class="func-def">fw.dataModels.defaultLocation<span>( <span class="param">'path/to/dataModel/folder'</span> )</span></em></h3>
+      <h3>Register the default location of dataModels/modules so footwork can load and bind them for you when needed:</h3>
+<pre><code class="javascript">// Load all dataModels from /mydataModels/[module-name].js (case sensitive)
+fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
+    </div>
+  </section>
+
+  <!-- ******************************************************* -->
 
   <a id="loading-registering" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="loading-registering">
@@ -765,53 +1131,273 @@ fw.viewModels.fileExtensions(function(moduleName) {
 
 <div id="metaData">
 {
-  "title": "viewModel",
+  "title": "ViewModel",
   "description": "Bindable logic and statefulness for your markup.",
   "sections": [
     { "anchor": "introduction",
       "title": "Introduction",
       "subSections": [
-        { "anchor": "configuration",
-          "title": "Configuration" },
-        { "anchor": "initialization",
-          "title": "Initialization / Usage" },
-        { "anchor": "loading-registering",
-          "title": "AMD / Lazy Loading / Registering" },
-        { "anchor": "module-formats",
-          "title": "Module Formats" },
-        { "anchor": "lifecycle",
-          "title": "Lifecycle" },
-        { "anchor": "properties",
-          "title": "Properties" }
+        { "anchor": "usage",
+          "title": "Usage",
+          "subSections": [
+            { "anchor": "configuration",
+              "title": "Factory Method" },
+            { "anchor": "bind-manually",
+              "title": "Manual Instantiation and Binding",
+              "description": "Binding a viewModel using fw.applyBindings()." },
+            { "anchor": "viewModel-element",
+              "title": "&lt;viewModel&gt;",
+              "description": "Using a viewModel with a &lt;viewModel&gt; declarative element." },
+            { "anchor": "inside-component",
+              "title": "&lt;component&gt;",
+              "description": "Using a viewModel with a &lt;component&gt; declarative custom element." }
+          ] },
+        { "title": "Lifecycle &amp; Registration",
+          "anchor": "lifecycle-registration",
+          "subSections": [
+            { "anchor": "lifecycle",
+              "title": "Lifecycle",
+              "description": "Explanation of the lifecycle of a viewModel, including instantiation and disposal.",
+              "subSections": [
+                { "anchor": "afterBinding",
+                  "title": "afterBinding()",
+                  "description": "Method called after binding the viewModel to the DOM." },
+                { "anchor": "onDispose",
+                  "title": "onDispose()",
+                  "description": "Method called after the viewModel is removed from the DOM." }
+              ] },
+            { "anchor": "registration",
+              "title": "Registration",
+              "description": "How to register a viewModel and have it loaded via AMD, asynchronously.",
+              "subSections": [
+                { "anchor": "module-resolution",
+                  "title": "Module Resolution",
+                  "description": "How footwork loads/resolves your viewModel prior to instantiation." },
+                { "anchor": "module-formats",
+                  "title": "Module Formats",
+                  "description": "What formats a valid for a viewModel module." }
+              ] }
+          ] },
+        { "anchor": "data-management",
+          "title": "Data Management",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "mapping-getting-setting-data",
+              "title": "Mapping / Getting / Setting Data",
+              "subSections": [
+                { "anchor": "mapping-data",
+                  "title": "Mapping Data",
+                  "description": "How to map data in your viewModel, informing footwork how to transpose it to/from its RESTful endpoint." },
+                { "anchor": "getting-data",
+                  "title": "Getting / Reading",
+                  "description": "Reading the mapped data from a viewModel." },
+                { "anchor": "setting-data",
+                  "title": "Setting / Writing",
+                  "description": "Writing data to the viewModel via its mapped observables." }
+              ] },
+            { "anchor": "rest-operations",
+              "title": "REST Operations",
+              "keywords": [ "ajax" ],
+              "subSections": [
+                { "anchor": "fetching-data",
+                  "title": "Fetching Model Data",
+                  "description": "Fetching a models data from its REST endpoint via AJAX." },
+                { "anchor": "saving-data",
+                  "title": "Saving Model Data",
+                  "description": "Saving a models data to its REST endpoint via AJAX." },
+                { "anchor": "deleting-data",
+                  "title": "Deleting / Destroying Data",
+                  "description": "Deleting / destroying data from a viewModel REST endpoint." }
+              ] }
+          ] },
+        { "anchor": "mixins",
+          "title": "Mixins",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "mixin-configuration",
+              "title": "Configuration" },
+            { "anchor": "mixin-usage",
+              "title": "Usage" }
+          ] }
       ] },
-    { "anchor": "mixins",
-      "title": "Mixins",
-      "collapsable": true,
-      "isCollapsed": true,
-      "subSections": [
-        { "anchor": "mixin-configuration",
-          "title": "Configuration" },
-        { "anchor": "mixin-usage",
-          "title": "Usage" }
-      ] },
-    { "anchor": "misc",
-      "title": "Utility / Misc",
-      "collapsable": true,
-      "isCollapsed": true,
-      "subSections": [
-        { "anchor": "getAll",
-          "title": "fw.viewModels.getAll()" },
-        { "anchor": "isRegistered",
-          "title": "fw.viewModels.isRegistered()" },
-        { "anchor": "getRegistered",
-          "title": "fw.viewModels.getRegistered()" },
-        { "anchor": "getLocation",
-          "title": "fw.viewModels.getLocation()" },
-        { "anchor": "getFileName",
-          "title": "fw.viewModels.getFileName()" },
-        { "anchor": "fileExtensions",
-          "title": "fw.viewModels.fileExtensions()" }
+    { "subSections": [
+        { "anchor": "utility-functions",
+          "title": "Utility Functions",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "viewModels-getAll",
+              "title": "fw.viewModels.getAll()" },
+            { "anchor": "viewModels-isRegistered",
+              "title": "fw.viewModels.isRegistered()" },
+            { "anchor": "viewModels-getRegistered",
+              "title": "fw.viewModels.getRegistered()" },
+            { "anchor": "viewModels-getLocation",
+              "title": "fw.viewModels.getLocation()" },
+            { "anchor": "viewModels-getFileName",
+              "title": "fw.viewModels.getFileName()" },
+            { "anchor": "viewModels-fileExtensions",
+              "title": "fw.viewModels.fileExtensions()" }
+          ]
+        },
+        { "anchor": "instance-properties",
+          "title": "Instance Properties",
+          "description": "Properties that exist on an instantiated viewModel.",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "viewModel-namespace",
+              "title": "viewModel.$namespace",
+              "description": "The namespace for this viewModel used for communication with other areas of your application." },
+            { "anchor": "viewModel-cid",
+              "title": "viewModel.$cid",
+              "description": "A unique identifier automatically assigned to every viewModel when first created." }
+          ] }
       ] }
+  ],
+  "apiReferences": [
+    {
+      "label": "Constructor",
+      "subCategories": [
+        {
+          "label": "Factory",
+          "references": [
+            { "anchor": "fw-viewModel",
+              "title": "fw.viewModel()",
+              "description": "Creates a new viewModel constructor function." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Mapping Data",
+      "subCategories": [
+        {
+          "references": [
+            { "anchor": "observable-mapTo",
+              "title": "observable.mapTo()",
+              "description": "Tell footwork how data maps to/from the server side.",
+              "keywords": [ "ajax", "REST", "async" ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Registration",
+      "subCategories": [
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "viewModels-register",
+              "title": "fw.viewModels.register()",
+              "description": "Register/cache a viewModel so that it is ready to be used when needed." },
+            { "anchor": "viewModels-registerLocation",
+              "title": "fw.viewModels.registerLocation()",
+              "description": "Register the location of (or path to) a viewModel so that it can be downloaded/resolved when needed." },
+            { "anchor": "viewModels-isRegistered",
+              "title": "fw.viewModels.isRegistered()",
+              "description": "Method used to check whether or not a viewModel has been registered or not." },
+            { "anchor": "viewModels-getRegistered",
+              "title": "fw.viewModels.getRegistered()",
+              "description": "Return the viewModel registered under a specified name." },
+            { "anchor": "viewModels-getLocation",
+              "title": "fw.viewModels.getLocation()",
+              "description": "Get the location footwork will attempt to download a viewModel from when it is needed." },
+            { "anchor": "viewModels-getFileName",
+              "title": "fw.viewModels.getFileName()",
+              "description": "Get the filename footwork will use when downloading a viewModel.",
+              "subDescriptions": [
+                "This is appended onto the location/path when downloading."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Mixins",
+      "subCategories": [
+        {
+          "label": "Configuration",
+          "references": [
+            { "anchor": "afterBinding",
+              "title": "afterBinding()",
+              "description": "Method triggered after a viewModel has been bound to the DOM." },
+            { "anchor": "onDispose",
+              "title": "onDispose()",
+              "description": "Method triggered after the element a viewModel is bound to is removed from the DOM.",
+              "subDescriptions": [
+                "This is also triggered when viewModel.dispose() is called."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Lifecycle",
+      "subCategories": [
+        {
+          "label": "Callbacks",
+          "references": [
+            { "anchor": "afterBinding",
+              "title": "afterBinding()",
+              "description": "Method triggered after a viewModel has been bound to the DOM." },
+            { "anchor": "onDispose",
+              "title": "onDispose()",
+              "description": "Method triggered after the element a viewModel is bound to is removed from the DOM.",
+              "subDescriptions": [
+                "This is also triggered when viewModel.dispose() is called."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Instance",
+      "subCategories": [
+        {
+          "label": "Utility Methods",
+          "references": [
+            { "anchor": "viewModels-getAll",
+              "title": "fw.viewModels.getAll()",
+              "description": "Get all currently instantiated viewModel references.",
+              "keywords": [ "instance" ] }
+          ]
+        },
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "viewModel-fetch",
+              "title": "viewModel.$fetch()",
+              "description": "Fetch a models data from its RESTful endpoint.",
+              "keywords": [ "ajax", "REST", "async", "GET" ] },
+            { "anchor": "viewModel-save",
+              "title": "viewModel.$save()",
+              "description": "Save a models data to its RESTful endpoint.",
+              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] },
+            { "anchor": "viewModel-dispose",
+              "title": "viewModel.dispose()",
+              "description": "Dispose of a viewModel and all of its attached handlers and subscriptions.",
+              "subDescriptions": [
+                "This is done automatically when a bound instance is removed from the DOM."
+              ] }
+          ]
+        },
+        {
+          "label": "Properties",
+          "references": [
+            { "anchor": "viewModel-namespace",
+              "title": "viewModel.$namespace",
+              "description": "The namespace for this viewModel used for communication with other areas of your application." },
+            { "anchor": "viewModel-cid",
+              "title": "viewModel.$cid",
+              "description": "A unique identifier automatically assigned to every viewModel when first created." }
+          ]
+        }
+      ]
+    }
   ]
 }
 </div>
+

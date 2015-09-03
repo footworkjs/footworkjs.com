@@ -27,7 +27,7 @@
       <h2 class="sub title">Usage</h2>
     </header>
     <div class="content">
-      <p>A dataModel can be used in 3 different ways:</p>
+      <p>A <span class="inline-code">dataModel</span> can be used in 3 different ways:</p>
       <ul>
         <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
 
@@ -229,7 +229,7 @@ fw.components.register('Person', {
   viewModel: fw.dataModel({
     namespace: 'Person',
     initialize: function(params) {
-      this.firstName = fw.observable(person.firstName).mapTo('firstName');
+      this.firstName = fw.observable(params.firstName).mapTo('firstName');
     }
   }),
   template: '&lt;!-- component HTML markup --&gt;'
@@ -454,7 +454,7 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
       <h2 class="sub title">Module Resolution</h2>
     </header>
     <div class="content">
-      <p>There are 3 ways footwork will try to resolve your dataModel when it encounters the declarative
+      <p>There are 3 ways footwork will try to resolve your <span class="inline-code">dataModel</span> when it encounters the declarative
         <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> element you place in the DOM.</p>
 
       <p>Here they are in order of priority:</p>
@@ -557,7 +557,6 @@ define(["footwork"],
       <h3>Register the default location of dataModels/modules so footwork can load and bind them for you when needed:</h3>
 <pre><code class="javascript">// Load all dataModels from /mydataModels/[module-name].js (case sensitive)
 fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
-
     </div>
   </section>
 
@@ -888,6 +887,7 @@ person.$fetch();
         entire <span class="inline-code">dataModel</span> (all the mapped values), or save specific data by passing it the appropriate parameters.</p>
 
       <a id="dataModel-save" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def"><span>dataModel</span>.$save<span>()</em></h3>
       <h3><em class="func-def"><span>dataModel</span>.$save<span>( <span class="param">optionsObject</span> )</em></h3>
       <h3><em class="func-def"><span>dataModel</span>.$save<span>( <span class="param">key</span>, <span class="param">value</span>, <span class="param">optionsObject</span> )</em></h3>
       <p>Save the data for a <span class="inline-code">dataModel</span> to its configured endpoint.</p>
