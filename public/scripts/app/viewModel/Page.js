@@ -4,6 +4,7 @@ define([ "jquery", "lodash", "footwork" ],
       namespace: 'Page',
       initialize: function() {
         this.$pageSections = fw.namespace('PageSections');
+        this.$apiNav = fw.namespace('apiNav');
         this.defaultTitle = fw.observable('staticty.pe');
         this.transitionsEnabled = fw.observable(false).receiveFrom('ViewPort', 'transitionsEnabled');
         this.scrollPosition = fw.observable().receiveFrom('ViewPort', 'scrollPosition');
@@ -17,7 +18,8 @@ define([ "jquery", "lodash", "footwork" ],
 
         this.loadPageMeta = function( metaData ) {
           if( !_.isUndefined(metaData) ) {
-            this.$pageSections.publish( 'pageMetaData', metaData );
+            this.$pageSections.publish('pageMetaData', metaData);
+            this.$apiNav.publish('newNavData', metaData.apiReferences);
             pageMetaData = metaData;
             this.shortTitle(metaData.title);
           }

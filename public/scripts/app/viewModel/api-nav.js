@@ -41,6 +41,9 @@ define([ "footwork", "lodash" ],
         }, this);
 
         this.navData = fw.observable(fw.unwrap(params.apiReferences));
+        this.$namespace.subscribe('newNavData', function(navData) {
+          this.navData(navData);
+        }.bind(this));
 
         this.active = fw.observable(false);
 
