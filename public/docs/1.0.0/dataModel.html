@@ -39,8 +39,8 @@
     </div>
   </section>
 
-  <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="configuration">
+  <a id="factory-method" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="factory-method">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Factory Method</h2>
@@ -511,7 +511,7 @@ fw.dataModels.register('Person', {
         <p>You can optionally just set <span class="inline-code">autoRegister: true</span> in the dataModel configuration object, then the fw.dataModel.register
           call is taken care of for you when the dataModel constructor is created.</p>
 
-        <p>See: <a data-bind="$route" href="#configuration">dataModel configuration</a>.</p>
+        <p>See: <a data-bind="$route" href="#factory-method">dataModel configuration</a>.</p>
       </div>
 
       <a id="dataModels-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -1288,7 +1288,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
         { "anchor": "usage",
           "title": "Usage",
           "subSections": [
-            { "anchor": "configuration",
+            { "anchor": "factory-method",
               "title": "Factory Method" },
             { "anchor": "bind-manually",
               "title": "Manual Instantiation and Binding",
@@ -1464,25 +1464,6 @@ fw.dataModels.fileExtensions(function(moduleName) {
       ]
     },
     {
-      "label": "Mixins",
-      "subCategories": [
-        {
-          "label": "Configuration",
-          "references": [
-            { "anchor": "afterBinding",
-              "title": "afterBinding()",
-              "description": "Method triggered after a dataModel has been bound to the DOM." },
-            { "anchor": "onDispose",
-              "title": "onDispose()",
-              "description": "Method triggered after the element a dataModel is bound to is removed from the DOM.",
-              "subDescriptions": [
-                "This is also triggered when dataModel.dispose() is called."
-              ] }
-          ]
-        }
-      ]
-    },
-    {
       "label": "Lifecycle",
       "subCategories": [
         {
@@ -1498,6 +1479,35 @@ fw.dataModels.fileExtensions(function(moduleName) {
                 "This is also triggered when dataModel.dispose() is called."
               ] }
           ]
+        },
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "dataModel-dispose",
+              "title": "dataModel.dispose()",
+              "description": "Dispose of a dataModel and all of its attached handlers and subscriptions.",
+              "subDescriptions": [
+                "This is done automatically when a bound instance is removed from the DOM."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "REST",
+      "subCategories": [
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "dataModel-fetch",
+              "title": "dataModel.$fetch()",
+              "description": "Fetch a models data from its RESTful endpoint.",
+              "keywords": [ "ajax", "REST", "async", "GET" ] },
+            { "anchor": "dataModel-save",
+              "title": "dataModel.$save()",
+              "description": "Save a models data to its RESTful endpoint.",
+              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] }
+          ]
         }
       ]
     },
@@ -1511,25 +1521,6 @@ fw.dataModels.fileExtensions(function(moduleName) {
               "title": "fw.dataModels.getAll()",
               "description": "Get all currently instantiated dataModel references.",
               "keywords": [ "instance" ] }
-          ]
-        },
-        {
-          "label": "Methods",
-          "references": [
-            { "anchor": "dataModel-fetch",
-              "title": "dataModel.$fetch()",
-              "description": "Fetch a models data from its RESTful endpoint.",
-              "keywords": [ "ajax", "REST", "async", "GET" ] },
-            { "anchor": "dataModel-save",
-              "title": "dataModel.$save()",
-              "description": "Save a models data to its RESTful endpoint.",
-              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] },
-            { "anchor": "dataModel-dispose",
-              "title": "dataModel.dispose()",
-              "description": "Dispose of a dataModel and all of its attached handlers and subscriptions.",
-              "subDescriptions": [
-                "This is done automatically when a bound instance is removed from the DOM."
-              ] }
           ]
         },
         {

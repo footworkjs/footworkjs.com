@@ -41,11 +41,11 @@
     </div>
   </section>
 
-  <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="configuration">
+  <a id="factory-method" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="factory-method">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Configuration</h2>
+      <h2 class="sub title">Factory Method</h2>
     </header>
     <div class="content">
       <p>Each different type of viewModel you wish to have must have a new constructor function made for it.</p>
@@ -56,6 +56,7 @@
         These constructor functions are essentially specialized wrappers which enable footwork to hook into both knockout and your viewModel/module to provide for all of
         the additional features the framework provides.</p>
 
+      <a id="fw-viewModel" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">fw.viewModel<span>( <span class="param">configurationObject</span> )</span></em></h3>
       <h3>create a <span class="inline-code">viewModel</span> constructor function:</h3>
 <pre><code class="javascript">var ViewModelConstructor = fw.viewModel({
@@ -291,17 +292,6 @@ var MyViewModel = fw.viewModel({
   }
 });
 </code></pre>
-
-      <a id="viewModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">viewModel.dispose<span>()</span></em></h3>
-      <p>If you do not bind a viewModel to the DOM then you will want to clean up its references and subscriptions when you are done with it. This is done
-        by calling <span class="inline-code">viewModel.dispose()</span> directly.</p>
-      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a viewModel:</h3>
-<pre><code class="javascript">var MyViewModel = fw.viewModel({ /* ... */ });
-var viewModel = new MyViewModel();
-// ...
-viewModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
-</code></pre>
     </div>
   </section>
 
@@ -498,7 +488,7 @@ fw.viewModels.register('Sprocket', {
         <p>You can optionally just set <span class="inline-code">autoRegister: true</span> in the viewModel configuration object, then the fw.viewModel.register
           call is taken care of for you when the viewModel constructor is created.</p>
 
-        <p>See: <a data-bind="$route" href="#configuration">viewModel configuration</a>.</p>
+        <p>See: <a data-bind="$route" href="#factory-method">viewModel configuration</a>.</p>
       </div>
 
       <a id="viewModels-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -913,7 +903,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
         { "anchor": "usage",
           "title": "Usage",
           "subSections": [
-            { "anchor": "configuration",
+            { "anchor": "factory-method",
               "title": "Factory Method" },
             { "anchor": "bind-manually",
               "title": "Manual Instantiation and Binding",
@@ -1012,19 +1002,6 @@ fw.viewModels.fileExtensions(function(moduleName) {
       ]
     },
     {
-      "label": "Mapping Data",
-      "subCategories": [
-        {
-          "references": [
-            { "anchor": "observable-mapTo",
-              "title": "observable.mapTo()",
-              "description": "Tell footwork how data maps to/from the server side.",
-              "keywords": [ "ajax", "REST", "async" ] }
-          ]
-        }
-      ]
-    },
-    {
       "label": "Registration",
       "subCategories": [
         {
@@ -1056,25 +1033,6 @@ fw.viewModels.fileExtensions(function(moduleName) {
       ]
     },
     {
-      "label": "Mixins",
-      "subCategories": [
-        {
-          "label": "Configuration",
-          "references": [
-            { "anchor": "afterBinding",
-              "title": "afterBinding()",
-              "description": "Method triggered after a viewModel has been bound to the DOM." },
-            { "anchor": "onDispose",
-              "title": "onDispose()",
-              "description": "Method triggered after the element a viewModel is bound to is removed from the DOM.",
-              "subDescriptions": [
-                "This is also triggered when viewModel.dispose() is called."
-              ] }
-          ]
-        }
-      ]
-    },
-    {
       "label": "Lifecycle",
       "subCategories": [
         {
@@ -1090,6 +1048,17 @@ fw.viewModels.fileExtensions(function(moduleName) {
                 "This is also triggered when viewModel.dispose() is called."
               ] }
           ]
+        },
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "viewModel-dispose",
+              "title": "viewModel.dispose()",
+              "description": "Dispose of a viewModel and all of its attached handlers and subscriptions.",
+              "subDescriptions": [
+                "This is done automatically when a bound instance is removed from the DOM."
+              ] }
+          ]
         }
       ]
     },
@@ -1103,25 +1072,6 @@ fw.viewModels.fileExtensions(function(moduleName) {
               "title": "fw.viewModels.getAll()",
               "description": "Get all currently instantiated viewModel references.",
               "keywords": [ "instance" ] }
-          ]
-        },
-        {
-          "label": "Methods",
-          "references": [
-            { "anchor": "viewModel-fetch",
-              "title": "viewModel.$fetch()",
-              "description": "Fetch a models data from its RESTful endpoint.",
-              "keywords": [ "ajax", "REST", "async", "GET" ] },
-            { "anchor": "viewModel-save",
-              "title": "viewModel.$save()",
-              "description": "Save a models data to its RESTful endpoint.",
-              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] },
-            { "anchor": "viewModel-dispose",
-              "title": "viewModel.dispose()",
-              "description": "Dispose of a viewModel and all of its attached handlers and subscriptions.",
-              "subDescriptions": [
-                "This is done automatically when a bound instance is removed from the DOM."
-              ] }
           ]
         },
         {
