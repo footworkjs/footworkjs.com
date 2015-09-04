@@ -877,17 +877,6 @@ fw.viewModels.fileExtensions(function(moduleName) {
     });
   }
 });</code></pre>
-
-      <a id="viewModel-cid" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3>viewModel.$cid</h3>
-      <p>Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">viewModel</span> when
-        they are first created.</p>
-<pre><code class="javascript">var Navigation = fw.viewModel({
-  namespace: 'Navigation',
-  initialize: function() {
-    // this.$cid === 'ed53b42d-faa0-a251-29c1-e396d9f083bc'
-  }
-});</code></pre>
     </div>
   </section>
 </article>
@@ -954,37 +943,10 @@ fw.viewModels.fileExtensions(function(moduleName) {
       ] },
     { "subSections": [
         { "anchor": "utility-functions",
-          "title": "Utility Functions",
-          "collapsable": true,
-          "isCollapsed": true,
-          "subSections": [
-            { "anchor": "viewModels-getAll",
-              "title": "fw.viewModels.getAll()" },
-            { "anchor": "viewModels-isRegistered",
-              "title": "fw.viewModels.isRegistered()" },
-            { "anchor": "viewModels-getRegistered",
-              "title": "fw.viewModels.getRegistered()" },
-            { "anchor": "viewModels-getLocation",
-              "title": "fw.viewModels.getLocation()" },
-            { "anchor": "viewModels-getFileName",
-              "title": "fw.viewModels.getFileName()" },
-            { "anchor": "viewModels-fileExtensions",
-              "title": "fw.viewModels.fileExtensions()" }
-          ]
-        },
+          "title": "Utility Functions" },
         { "anchor": "instance-properties",
           "title": "Instance Properties",
-          "description": "Properties that exist on an instantiated viewModel.",
-          "collapsable": true,
-          "isCollapsed": true,
-          "subSections": [
-            { "anchor": "viewModel-namespace",
-              "title": "viewModel.$namespace",
-              "description": "The namespace for this viewModel used for communication with other areas of your application." },
-            { "anchor": "viewModel-cid",
-              "title": "viewModel.$cid",
-              "description": "A unique identifier automatically assigned to every viewModel when first created." }
-          ] }
+          "description": "Properties that exist on an instantiated viewModel." }
       ] }
   ],
   "apiReferences": [
@@ -1079,10 +1041,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
           "references": [
             { "anchor": "viewModel-namespace",
               "title": "viewModel.$namespace",
-              "description": "The namespace for this viewModel used for communication with other areas of your application." },
-            { "anchor": "viewModel-cid",
-              "title": "viewModel.$cid",
-              "description": "A unique identifier automatically assigned to every viewModel when first created." }
+              "description": "The namespace for this viewModel used for communication with other areas of your application." }
           ]
         }
       ]
