@@ -147,6 +147,8 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           }
         }.bind(this);
 
+        this.currentAPIResultSelection = fw.observable(0).broadcastAs('currentAPIResultSelection', true);
+
         this.results = fw.computed(function computeSearchResults() {
           var queryString = this.queryString();
           var searchData = this.searchData();
@@ -210,6 +212,8 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
             }.bind(this));
           }
 
+          this.currentAPIResultSelection(0);
+
           return searchResults;
         }, this);
 
@@ -223,8 +227,6 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
           }
           return 'results';
         }, this);
-
-        this.currentAPIResultSelection = fw.observable(0).broadcastAs('currentAPIResultSelection', true);
 
         this.$namespace.command.handler('next-result', function(event) {
           var currentAPIResultSelection = this.currentAPIResultSelection();

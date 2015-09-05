@@ -469,7 +469,7 @@ person.$set('firstName', 'Jake');
   <section name="rest-operations">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">REST Operations</h2>
+      <h2 class="sub title">REST / AJAX Operations</h2>
     </header>
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> is often times used to communicate or transfer state to/from a RESTful endpoint.</p>
@@ -843,16 +843,18 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
       <h3><em class="func-def">fw.dataModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></em></h3>
       <h3>Cache a dataModel/module ahead of time:</h3>
 <pre><code class="javascript">// register a footwork dataModel
-var Person = fw.dataModel({ /* configuration object */ });
-fw.dataModels.register('Person', Person);
+fw.dataModels.register('Person', fw.dataModel({
+  this.isCool = fw.observable(false);
+}));
 
 // register a normal class constructor function (like in regular knockout)
-var Person = function() { this.isCool = fw.observable(false); };
-fw.dataModels.register('Person', Person);
+fw.dataModels.register('Person', function() {
+  this.isCool = fw.observable(false);
+});
 
 // register an instance of an object (like in regular knockout)
 fw.dataModels.register('Person', {
-  instance: { isCool: false } // object representing the dataModel to be bound against the DOM
+  instance: { isCool: false }
 });
 
 /**
@@ -1101,20 +1103,15 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
   <section name="utility-functions">
     <div class="highlight"></div>
     <header>
-      <h1 class="sub title">Utility / Misc</h1>
+      <h1 class="sub title">Utility Functions</h1>
     </header>
     <div class="content">
       <p>Various useful methods and utility functions for miscellaneous and debugging purposes.</p>
-    </div>
-  </section>
 
-  <a id="dataModels-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="dataModels-getAll">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.dataModels.getAll<span>()</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.dataModels.getAll<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.dataModels.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></em></h3>
+      <a id="dataModels-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">fw.dataModels.getAll<span>()</span></em></h3>
+      <h3><em class="func-def">fw.dataModels.getAll<span>( <span class="param">'moduleName'</span> )</span></em></h3>
+      <h3><em class="func-def">fw.dataModels.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></em></h3>
       <h3>Get list of currently instantiated dataModels grouped/indexed by namespace:</h3>
 <pre><code class="javascript">var Bike = fw.dataModel({
   namespace: 'Bike',
@@ -1149,14 +1146,9 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
 //  Wheel: [ { ... }, { ... } ]
 // }
 </code></pre>
-    </div>
-  </section>
 
-  <a id="dataModels-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="dataModels-isRegistered">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.dataModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
+      <a id="dataModels-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">fw.dataModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
       <h3>Return true or false based on whether or not there is a dataModel that has been registered under 'moduleName':</h3>
 <pre><code class="javascript">var Bike = fw.dataModel({
   namespace: 'Bike',
@@ -1168,14 +1160,9 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
 fw.dataModels.register('Bike', Bike);
 // fw.dataModels.isRegistered('Bike') === true
 // fw.dataModels.isRegistered('ModuleThatIsLoadedByAMD') === false</code></pre>
-    </div>
-  </section>
 
-  <a id="dataModels-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="dataModels-getRegistered">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.dataModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
+      <a id="dataModels-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">fw.dataModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
       <h3>Return dataModel that has been registered under 'moduleName':</h3>
 <pre><code class="javascript">// Explicit registration
 var Bike = fw.dataModel({ /* ... configuration object */ });
@@ -1188,25 +1175,14 @@ var Sprocket = fw.dataModel({
   // ... remainder of configuration object
 });
 // fw.dataModels.getRegistered('Sprocket') === Sprocket;</code></pre>
-    </div>
-  </section>
 
-  <a id="dataModels-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="dataModels-getLocation">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.dataModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></em></h3>
+      <a id="dataModels-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">fw.dataModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></em></h3>
       <h3>Get the path footwork will attempt to load for the given 'moduleName':</h3>
 <pre><code class="javascript">fw.dataModels.registerLocation('Sprocket', '/path/to/dataModel/folder');
 // fw.dataModels.getLocation('Sprocket') === '/path/to/dataModel/folder'</code></pre>
-    </div>
-  </section>
 
-  <a id="dataModels-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="dataModels-getFileName">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.dataModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></em></h3>
+      <h3><em class="func-def">fw.dataModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></em></h3>
       <h3>Get the file name that footwork will appended to the path when downloading the dataModel:</h3>
 <pre><code class="javascript">var fileNameForSprocket = fw.dataModels.getFileName('sprocket'); // === sprocket.js
 
@@ -1217,15 +1193,10 @@ var Sprocket = fw.dataModel({
 fw.dataModels.register('sprocket', fw.dataModel({ /* configuration object */ }) );
 var fileNameForSprocket = fw.dataModels.getFileName('sprocket'); // === null
 </code></pre>
-    </div>
-  </section>
 
-  <a id="dataModels-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="dataModels-fileExtensions">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></em></h3>
+      <a id="dataModels-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>
+      <h3><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></em></h3>
       <h3>Specify the extension to append to an AMD/RequireJS loaded dataModel path when it does not have an extension specified (ie: full file name not specified):</h3>
 <pre><code class="javascript">// Explicitely set the extension
 fw.dataModels.fileExtensions('.jscript'); // append dataModel module files with '.jscript'
@@ -1317,7 +1288,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
                   "description": "Writing data to the dataModel via its mapped observables." }
               ] },
             { "anchor": "rest-operations",
-              "title": "REST Operations",
+              "title": "REST / AJAX Operations",
               "keywords": [ "ajax" ],
               "subSections": [
                 { "anchor": "fetching-data",
