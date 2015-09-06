@@ -36,12 +36,12 @@
       <p>There are essentially 2 different ways a namespace can be used:</p>
 
       <ul>
-        <li>Coupled with a viewModel/dataModel/router/component, automatically initialized and disposed of for you.</li>
+        <li>Coupled with a viewModel/component, automatically initialized and disposed of for you.</li>
         <li>Independently/Manually instantiated by you and <em>sometimes</em> disposed of for you.</li>
       </ul>
 
-      <div class="note"><span class="label">NOTE:</span> If you just need to share a property across differing areas of your application then take a look
-        <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable / receivable</a>, they make sharing of data and state a no-brainer.</div>
+      <div class="note"><span class="label">NOTE:</span> If you just need to share a property across viewModels/components then take a look
+        <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable / receivable</a>, they make basic sharing of data between modules a no-brainer.</div>
 
       <ul>
         <li><a data-bind="$route" href="#independent-usage">Independent Usage</a></li>
@@ -93,7 +93,7 @@ alsoMyNamespace.publish('hello', 'Jonathan'); // console prints: 'Greetings Jona
       <p>Anytime you place a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> or
         <span class="inline-code">&lt;component&gt;&lt;/component&gt;</span> in your markup footwork is essentially wrapping that section of HTML with a viewModel. That viewModel
         has a namespace attached to/associated with it (based on the <span class="inline-code">namespace:</span> viewModel configuration attribute, see
-        <a data-bind="$route: docLink('viewModel#factory-method')">viewModel configuration</a>).</p>
+        <a data-bind="$route: docLink('viewModel#configuration')">viewModel configuration</a>).</p>
 
       <p>When footwork sets up the new instance of your viewModel it automatically creates a namespace channel and assigns it to <span class="inline-code">this.$namespace</span>.
         This namespace will have its lifecycle handled automatically, and any subscriptions made on it will be cleaned up when the viewModel is destroyed.</p>
@@ -406,7 +406,7 @@ findWaldo.unsubscribe(); // also works</code></pre>
 
 <div id="metaData">
 {
-  "title": "Namespacing",
+  "title": "Namespace",
   "description": "Communicate to/from, send/receive commands, and trigger events between differing areas of your application.",
   "sections": [
     { "anchor": "introduction",

@@ -20,14 +20,14 @@
     "page": "components.html"
   },
   {
-    "label": "Routing",
+    "label": "Router",
     "description": "Swap out views and manage user state in your application.",
-    "page": "routing.html"
+    "page": "router.html"
   },
   {
-    "label": "Namespacing",
+    "label": "Namespace",
     "description": "Communicate to/from, send/receive commands, and trigger events between differing areas of your application.",
-    "page": "namespacing.html"
+    "page": "namespace.html"
   },
   {
     "label": "Broadcastable / Receivable",

@@ -196,7 +196,7 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">dataModel</span> automatically downloaded for you when needed.</p>
         <p>See <a data-bind="$route" href="#registration">dataModel registration</a>
-          for information on how to tell footwork where to find your component assets.</p>
+          for information on how to tell footwork where to find your <span class="inline-code">dataModel</span> module.</p>
       </div>
     </div>
   </section>
@@ -669,7 +669,7 @@ var MydataModel = fw.dataModel({
 
       <a id="dataModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">dataModel.dispose<span>()</span></em></h3>
-      <p>If you do not bind a dataModel to the DOM then you will want to clean up its references and subscriptions when you are done with it. This is done
+      <p>If you do not bind a <span class="inline-code">dataModel</span> to the DOM then you will want to clean up its references and subscriptions when you are done with it. This is done
         by calling <span class="inline-code">dataModel.dispose()</span> directly.</p>
       <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel:</h3>
 <pre><code class="javascript">var MydataModel = fw.dataModel({ /* ... */ });
@@ -803,8 +803,8 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
       <div class="note">
-        <span class="label">NOTE:</span> You can nest <span class="inline-code">dataModels</span>, <span class="inline-code">viewModels</span>, and
-        <span class="inline-code">components</span> within one another.
+        <span class="label">NOTE:</span> You can nest <span class="inline-code">dataModels</span>, <span class="inline-code">viewModels</span>,
+        <span class="inline-code">routers</span>, and <span class="inline-code">components</span> within one another.
       </div>
     </div>
   </section>
@@ -835,9 +835,9 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
         download your dataModel module (in the event you do not explicitly register it). In any case your markup will wait until the dataModel is resolved prior
         to being initialized.</p>
 
-      <div class="note"><span class="label">NOTE:</span> Nested dataModels and components are independently resolved. It works as you would expect, with an
-        outer-most container (dataModel/component) initializing/processing/binding and rendering, then any nested dataModels/components get initialized (and so
-        forth until the end).</div>
+      <div class="note"><span class="label">NOTE:</span> Nested routers, viewModels, dataModels, and components are independently resolved. It works as
+        you would expect, with an outer-most container (router/component/etc) initializing/processing/binding and rendering, then any nested routers/components/etc
+        get initialized (and so forth until the end).</div>
 
       <a id="dataModels-register" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">fw.dataModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></em></h3>
@@ -872,8 +872,8 @@ fw.dataModels.register('Person', {
       <div class="note">
         <p><span class="label">NOTE:</span> Are you using a fw.dataModel() constructor and simply want to register it using the namespace name (recommended)?</p>
 
-        <p>You can optionally just set <span class="inline-code">autoRegister: true</span> in the dataModel configuration object, then the fw.dataModel.register
-          call is taken care of for you when the dataModel constructor is created.</p>
+        <p>You can optionally just set <span class="inline-code">autoRegister: true</span> in the <span class="inline-code">dataModel</span> configuration object,
+          then the <span class="inline-code">fw.dataModel.register</span> call is taken care of for you when the router constructor is created.</p>
 
         <p>See: <a data-bind="$route" href="#factory-method">dataModel configuration</a>.</p>
       </div>
@@ -890,36 +890,10 @@ fw.dataModels.registerLocation('Person', '/dataModels/DifferentFileName.js');
 // register the location of several dataModels at once (ie: all in the same folder)
 fw.dataModels.registerLocation(['Reservations', 'Invoices', 'Notes'], '/dataModels/stuff/');</code></pre>
 
-      <h3>Example AMD/RequireJS enhanced footwork module:</h3>
-<pre><code class="javascript">/**
- * An AMD/RequireJS module is defined in exactly the same way as a normal knockout module would be.
- * The only difference being that you return the footwork-flavored dataModel constructor function
- * result from fw.dataModel() instead of a normal (function() {}) constructor.
- */
-define(["footwork"],
-  function(fw) {
-    return fw.dataModel({
-      namespace: 'Person',
-
-      /**
-       * [optional] This module will now automatically register itself as 'Person' and footwork
-       * can autoload and bind it as soon as it is pulled in via AMD.
-       *
-       * This is an easy way to autoload and cache your dataModels for declarative use in your HTML.
-       */
-      autoRegister: true,
-
-      initialize: function() {
-        this.isCool = fw.observable(false);
-      }
-    });
-  }
-);</code></pre>
-
       <h3><em class="func-def">fw.dataModels.defaultLocation<span>( <span class="param">'path/to/dataModel/folder'</span> )</span></em></h3>
       <h3>Register the default location of dataModels/modules so footwork can load and bind them for you when needed:</h3>
 <pre><code class="javascript">// Load all dataModels from /mydataModels/[module-name].js (case sensitive)
-fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
+fw.dataModels.defaultLocation('/myDataModels/');</code></pre>
     </div>
   </section>
 
@@ -933,7 +907,7 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
       <p>Loading your <span class="inline-code">dataModel</span> in so that footwork can use it is done via a script loader.</p>
 
       <p>Both <a href="http://requirejs.org">AMD/RequireJS</a> and <a href="http://browserify.org" target="_blank">Browserify</a> are supported. However RequireJS is
-        preferred as it will enable footwork to resolve your dataModels/components (and their dependencies) automatically at runtime as needed.</p>
+        preferred as it will enable footwork to resolve your dataModels/etc (and their dependencies) automatically at runtime as needed.</p>
 
       <h3>The following example shows the RequireJS/AMD flavored version:</h3>
 <div class="file-location">/dataModel/Person.js</div>
@@ -968,7 +942,7 @@ fw.dataModels.defaultLocation('/mydataModels/');</code></pre>
       <p>The mixin functionality in footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
       All <span class="inline-code">fw.dataModel()</span> based constructor functions are riveter constructor functions. Above and beyond the
       functionality outlined here, each object has various methods extended from riveter which can enable you to extend dataModels in
-      various ways, I would encourage you to also <a href="https://github.com/a2labs/riveter" target="_blank">look at its documentation</a>.</p>
+      various ways, it is recommended you to also <a href="https://github.com/a2labs/riveter" target="_blank">look at its documentation</a>.</p>
 
       <ul>
         <li><a data-bind="$route" href="#mixin-configuration">Configuration</a></li>
@@ -1027,11 +1001,9 @@ var bigSprocket = {
      */
     function1: function() {
       // function that is extended onto the dataModel object (this) upon creation
-      // this === the dataModel
     },
     function2: function() {
       // another function that is extended onto the dataModel object (this) upon creation
-      // this === the dataModel
     },
     property1: 'someValue' // a raw property extended to the object
     // ...
@@ -1040,7 +1012,7 @@ var bigSprocket = {
   _postInit: function() {
     /**
      * called after the initialize() method from the dataModel configuration is called
-     * this === the dataModel
+     * this === the dataModel instance
      */
   }
 };</code></pre>
@@ -1051,7 +1023,8 @@ var bigSprocket = {
           <li>If you require some other type of object extension or mixin, as recommended above you should look at the
             <a href="https://github.com/a2labs/riveter" target="_blank">riveter documentation</a>.</li>
 
-          <li>A dataModel can have as many mixins as you want, and you can re-use them across as many differing dataModels/modules as you like.</li>
+          <li>A <span class="inline-code">dataModel</span> can have as many mixins as you want, and you can re-use them across as many differing
+            dataModels/modules as you like.</li>
         </ul>
       </div>
     </div>
@@ -1064,10 +1037,10 @@ var bigSprocket = {
       <h2 class="sub title">Example mixin usage</h2>
     </header>
     <div class="content">
-      <p>Each mixin behavior is added to each new instance of the dataModel that is created. This goes for ones instantiated automatically via declarative HTML, or
-        directly/manually in javascript code.</p>
+      <p>Each mixin behavior is added to each new instance of the <span class="inline-code">dataModel</span> that is created. This goes for ones
+        instantiated automatically via declarative HTML, or directly/manually in javascript code.</p>
 
-      <p>All mixins may be reused on both a standalone dataModel and dataModels attributed with a component.</p>
+      <p>All mixins may be reused on both a standalone <span class="inline-code">dataModel</span> and dataModels attributed with a <span class="inline-code">component</span>.</p>
       <h3>Example usage:</h3>
 <pre><code class="javascript">// define the mixin configuration object
 var bigSprocket = {
@@ -1150,14 +1123,13 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
       <a id="dataModels-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">fw.dataModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
       <h3>Return true or false based on whether or not there is a dataModel that has been registered under 'moduleName':</h3>
-<pre><code class="javascript">var Bike = fw.dataModel({
+<pre><code class="javascript">fw.dataModels.register('Bike', fw.dataModel({
   namespace: 'Bike',
   initialize: function() {
     this.isBike = true;
   }
-});
+}));
 
-fw.dataModels.register('Bike', Bike);
 // fw.dataModels.isRegistered('Bike') === true
 // fw.dataModels.isRegistered('ModuleThatIsLoadedByAMD') === false</code></pre>
 
@@ -1170,28 +1142,29 @@ fw.dataModels.register('Bike', Bike);
 // fw.dataModels.getRegistered('Bike') === Bike;
 
 // dataModel that registers itself
-var Sprocket = fw.dataModel({
+var Person = fw.dataModel({
+  namespace: 'Person',
   autoRegister: true,
-  // ... remainder of configuration object
+  // ...
 });
-// fw.dataModels.getRegistered('Sprocket') === Sprocket;</code></pre>
+// fw.dataModels.getRegistered('Person') === Person;</code></pre>
 
       <a id="dataModels-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3><em class="func-def">fw.dataModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></em></h3>
       <h3>Get the path footwork will attempt to load for the given 'moduleName':</h3>
-<pre><code class="javascript">fw.dataModels.registerLocation('Sprocket', '/path/to/dataModel/folder');
-// fw.dataModels.getLocation('Sprocket') === '/path/to/dataModel/folder'</code></pre>
+<pre><code class="javascript">fw.dataModels.registerLocation('Person', '/path/to/dataModel/folder');
+// fw.dataModels.getLocation('Person') === '/path/to/dataModel/folder'</code></pre>
 
       <h3><em class="func-def">fw.dataModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></em></h3>
       <h3>Get the file name that footwork will appended to the path when downloading the dataModel:</h3>
-<pre><code class="javascript">var fileNameForSprocket = fw.dataModels.getFileName('sprocket'); // === sprocket.js
+<pre><code class="javascript">var fileNameForPerson = fw.dataModels.getFileName('Person'); // === Person.js
 
 /**
  * If the dataModel was explicitly registered (cached), then null is returned for any
  * fileType because the file name will never be used.
  */
-fw.dataModels.register('sprocket', fw.dataModel({ /* configuration object */ }) );
-var fileNameForSprocket = fw.dataModels.getFileName('sprocket'); // === null
+fw.dataModels.register('Person', fw.dataModel({ /* configuration object */ }) );
+var fileNameForPerson = fw.dataModels.getFileName('Person'); // === null
 </code></pre>
 
       <a id="dataModels-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>

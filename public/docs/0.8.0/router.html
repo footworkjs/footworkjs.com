@@ -56,44 +56,12 @@
         functions created by <span class="inline-code">fw.router()</span>.</p>
 
       <h3><em class="func-def">fw.router<span>( <span class="param">configurationObject</span> )</span></em></h3>
-      <h3>create a <span class="inline-code">router</span> constructor function:</h3>
 <pre><code class="javascript">var RouterConstructor = fw.router({
   // by default the namespace is based off of the viewModel it is paired with
   namespace: 'namespaceName', // (this is not usually needed)
 
-  /**
-   * If true, footwork will register the router under its namespace name. This means
-   * that when this fw.router() call is made it will automatically call
-   * fw.routers.register('RouterName', ThisRouterConstructor)
-   * This is one (handy) way of telling footwork how to find your router when it needs it.
-   */
-  autoRegister: false, // default === false
-
-  /**
-   * If true, the namespace will have an auto-incremented 0-based index number appended for
-   * each new router (ie: new instances will not share the same namespace).
-   */
-  autoIncrement: false, // default === false
-
   // function which will run just after the router is initialized and bound onto the DOM
-  initialize: function(param1, param2, param3, ...) {
-    // this === the router instance
-    // Note that you can create observables to bind against just like a viewModel/etc
-    this.param1 = fw.observable(param1);
-  },
-
-  // Behavioral mixins to include with each new router created
-  mixins: [
-    // See: 'Mixins' section on this page
-  ],
-
-  // Function called just after binding to the DOM
-  afterBinding: function(containingElement) {
-    // this === the router instance
-  },
-
-  // Function called just before the html this router is bound to is removed from the DOM
-  onDispose: function(containingElement) {
+  initialize: function() {
     // this === the router instance
   },
 
@@ -172,7 +140,7 @@ unknownRoute: { /* ... */ }
         <li><span class="inline-code">route:</span> - A specially structured string which is used to match against a given URL (and optionally provide for named parameters).</li>
 
         <li><span class="inline-code">controller:</span> - Callback function used when a route is chosen, this is where <span class="inline-code">outlets</span> get changed and the
-          state of your application is altered. Any parameters defined by the <span class="inline-code">route:</span> will be passed in as individual arguments.</li>
+          state of your application is altered. Any parameters defined by the <span class="inline-code">route:</span> will be passed in.</li>
 
         <li><span class="inline-code">title:</span> - (<em>optional</em>) A string or callback function used to set the title of the page when the route is chosen. Any parameters
           defined by the <span class="inline-code">route:</span> will be passed in.</li>
@@ -191,15 +159,15 @@ routes: [
   },
   { // route with required parameter isbn
     route: '/book/:isbn',
-    controller: function(isbn) {
-      console.log('Book ISBN', isbn);
+    controller: function(params) {
+      console.log('Book ISBN', params.isbn);
     }
   },
   { // route with optional parameter storeNum
     route: '/info(/:storeNum)',
-    controller: function(storeNum) {
-      // storeNum is undefined if no storeNum is provided in the route
-      console.log('Store Number', storeNum);
+    controller: function(params) {
+      // params.storeNum is undefined if no storeNum is provided in the route
+      console.log('Store Number', params.storeNum);
     }
   }
 ],
@@ -217,8 +185,8 @@ routes: [
     controller: function() { /* ... */ }
   },
   { // callback-based title
-    title: function(isbn) {
-      return 'Book ' + isbn;
+    title: function(params) {
+      return 'Book ' + params.isbn;
     },
     route: '/book/:isbn',
     controller: function(params) { /* ... */ }
@@ -237,11 +205,11 @@ routes: [
   { // only routed to when isbn === '12345'
     route: '/book/:isbn',
     title: 'Special Book Page',
-    controller: function(isbn) {
-      console.log('Special Book ISBN', isbn);
+    controller: function(params) {
+      console.log('Special Book ISBN', params.isbn);
     },
-    filter: function(isbn) {
-      if(isbn === '12345') {
+    filter: function(params) {
+      if(params.isbn === '12345') {
         return true; // this route used only if isbn === '12345'
       }
       return false;
@@ -250,15 +218,15 @@ routes: [
   { // normal book/:isbn route that is used when isbn !== '12345'
     route: '/book/:isbn',
     title: 'Home Page',
-    controller: function(isbn) {
-      console.log('Book ISBN', isbn);
+    controller: function(params) {
+      console.log('Book ISBN', params.isbn);
     }
   }
 ],
 // ...
 </code></pre>
 
-      <div class="note"><span class="label">NOTE:</span> Remember that you can always <a data-bind="$route: docLink('namespacing#request')">
+      <div class="note"><span class="label">NOTE:</span> Remember that you can always <a data-bind="$route: docLink('namespace#request')">
         <span class="inline-code">request</span></a>
         data, or use <a data-bind="$route: docLink('broadcastable-receivable')"><span class="inline-code">receivables</span>/<span class="inline-code">broadcastables</span></a>/etc
         inside of your filter functions too.</div>
@@ -543,147 +511,6 @@ define(["footwork"],
 );</code></pre>
     </div>
   </section>
-  <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixins">
-    <div class="highlight"></div>
-    <header>
-      <h1 class="sub title">Mixins</h1>
-    </header>
-    <div class="content">
-      <p>Mixins are about reusing behavior, functionality, and code whenever possible. They allow you to write various behaviors/logic and then later on combine
-      and compose them as you want at runtime.</p>
-      <p>The mixin functionality in footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
-      All <span class="inline-code">fw.router()</span> based constructor functions are riveter constructor functions. Above and beyond the
-      functionality outlined here, each object has various methods extended from riveter which can enable you to extend routers in
-      various ways, I would encourage you to also <a href="https://github.com/a2labs/riveter" target="_blank">look at its documentation</a>.</p>
-
-      <ul>
-        <li><a data-bind="$route" href="#mixin-configuration">Configuration</a></li>
-        <li><a data-bind="$route" href="#mixin-usage">Usage</a></li>
-      </ul>
-
-      <h3>Basic usage:</h3>
-<pre><code class="javascript">var bigSprocket = { /* mixin configuration object */ };
-var bikeSprocket = { /* mixin configuration object, detailed in the next section */ };
-
-/**
- * Mixin behavior is applied to a router by passing it into the
- * fw.router() configuration object
- * NOTE: mixins are applied to the router in the order they are given.
- */
-var MainRouter = fw.router({
-  // ... router configuration object
-  namespace: 'MainRouter',
-  initialize: function(param) {
-    this.type = param.type;
-  },
-
-  // mixins/behavior to include for each new 'Sprocket' router
-  mixins: [ HomeSiteMixin ]
-});</code></pre>
-    </div>
-  </section>
-
-  <a id="mixin-configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixin-configuration">
-    <div class="highlight"></div>
-    <header>
-      <h2 class="sub title">Configuration</h2>
-    </header>
-    <div class="content">
-      <p>Each mixin is simply a configuration object defining certain behaviors, functionality, and logic. The behavior you define will be added to each
-        router instance it is configured with.</p>
-
-      <h3>Mixin configuration object synopsis:</h3>
-<pre><code class="javascript">// define 'HomeSiteMixin' as an object to serve as the configuration container
-var HomeSiteMixin = {
-  _preInit: function(param1, param2, ...) {
-    /**
-     * called prior to the initialize() method from the router configuration being called
-     * params === params passed in at creation
-     * this === the router
-     */
-  },
-
-  mixin: {
-    /**
-     * these properties are added to 'this' object immediately upon creation, before
-     * any methods (including _preInit) are called
-     */
-    function1: function() {
-      // function that is extended onto the router object (this) upon creation
-      // this === the router
-    },
-    function2: function() {
-      // another function that is extended onto the router object (this) upon creation
-      // this === the router
-    },
-    property1: 'someValue' // a raw property extended to the object
-    // ...
-  },
-
-  _postInit: function() {
-    /**
-     * called after the initialize() method from the router configuration is called
-     * this === the router
-     */
-  }
-};</code></pre>
-
-      <div class="note">
-        <span class="label">NOTE:</span>
-        <ul>
-          <li>If you require some other type of object extension or mixin, as recommended above you should look at the
-            <a href="https://github.com/a2labs/riveter" target="_blank">riveter documentation</a>.</li>
-
-          <li>A router can have as many mixins as you want, and you can re-use them across as many differing routers/modules as you like (you can even use
-            the same mixins on <a data-bind="$route: docLink('viewModel')">viewModel</a> and <a data-bind="$route: docLink('dataModel')">dataModel</a> instances!).</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <a id="mixin-usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixin-usage">
-    <div class="highlight"></div>
-    <header>
-      <h2 class="sub title">Example mixin usage</h2>
-    </header>
-    <div class="content">
-      <p>Each mixin behavior is added to each new instance of the router that is created. This goes for ones instantiated automatically via declarative HTML, or
-        directly/manually in javascript code.</p>
-
-      <p>All mixins may be reused on both a standalone router and routers attributed with a component.</p>
-      <h3>Example usage:</h3>
-<pre><code class="javascript">// define the mixin configuration object
-var bigSprocket = {
-  _preInit: function(param) {
-    this.isAwesome = (param.type === 'awesome' ? true : false);
-    // this.isBig === true
-  },
-  mixin: {
-    isBig: true,
-    fitInSmallPlace: function() {
-      return false;
-    }
-  }
-};
-
-// create a BigSprocket contructor and include the bigSprocket mixin
-var BigSprocket = fw.router({
-  namespace: 'Sprocket',
-  initialize: function(param) {
-    this.type = param.type;
-  },
-  mixins: [ bigSprocket ]
-});
-
-var mySprocket = new BigSprocket({ type: 'awesome' });
-// mySprocket.fitInSmallPlace() === false
-// mySprocket.isBig === true
-// mySprocket.isAwesome === true</code></pre>
-    </div>
-  </section>
 
   <a id="outlets" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="outlets">
@@ -765,7 +592,7 @@ fw.outlets.registerView('calendar-page', 'Calendar: &lt;calendar&gt;&lt;/calenda
 </code></pre>
       <div class="note">
         <p><span class="label">NOTE:</span> It is generally recommended you load your templates via a module system such as RequireJS (don't just write them inline in a string as
-          shown, that was only used as an example for reasons of brevity).</p><a data-bind="$route: docLink('namespacing')">namespacing</a>
+          shown, that was only used as an example for reasons of brevity).</p>
         <p>For an example of how to do this check the <a href="/tutorials" data-bind="$route">tutorials page</a>, or alternatively just specify the location of the view via
           <span class="inline-code">fw.outlets.registerViewLocation()</span>.</p>
       </div>
@@ -799,8 +626,8 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
         <span class="inline-code">&lt;outlet name=""&gt;&lt;/outlet&gt;</span> declarations you want in the HTML and then change/set them via the
         <span class="inline-code">router.$outlet()</span> method.</p>
 
+      <h3><em class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">options</span> )</span></em></h3>
       <h3><em class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(containingElement)</span> )</span></em></h3>
-      <h3><em class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">{ onComplete: function(containingElement), onFailure: function(error) }</span> )</span></em></h3>
       <h3>Trigger an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel.</h3>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
@@ -850,7 +677,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
 // ...
 </code></pre>
       <div class="note"><span class="label">NOTE:</span> Remember that in addition to passing arguments directly from a route, you can also leverage the
-      powerful <a data-bind="$route: docLink('namespacing')">namespacing</a> or <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable/receivable</a>
+      powerful <a data-bind="$route: docLink('namespace')">namespace</a> or <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable/receivable</a>
       features of footwork to facilitate communication/initialization of your view component.</div>
     </div>
   </section>
@@ -933,12 +760,7 @@ var MainViewModel = fw.viewModel({
   initialize: function() {
     this.clickHandler = function(event, url) {
       console.log('Route Destination:', url);
-
-      // must prevent the default action on an &lt;a&gt; tag (otherwise it will reload the page)
-      event.preventDefault();
-
-      // tell footwork to route to the url (false === do not route)
-      return true;
+      return true; // tell footwork to route to the url (false === do not route)
     }
   }
   // ...
@@ -956,7 +778,7 @@ var MainViewModel = fw.viewModel({
     <div class="content">
       <p>Miscelaneous useful and utility methods.</p>
       <ul>
-        <li><span class="inline-code"><a data-bind="$route" href="#routers-getAll">fw.routers.getAll()</a></span> - Return list of instantiated routers.</li>
+        <li><span class="inline-code"><a data-bind="$route" href="#routers-getAll">fw.routers.getAll()</a></span> - Return router (that has optionally been registered for the viewModel 'viewModelNamespaceName').</li>
         <li><span class="inline-code"><a data-bind="$route" href="#routers-baseRoute">fw.routers.baseRoute()</a></span> - Get or set the beginning portion of a route to ignore for the given path.</li>
         <li><span class="inline-code"><a data-bind="$route" href="#routers-activeRouteClassName">fw.routers.activeRouteClassName()</a></span> - Get or set the class which is added to an active <span class="inline-code">$route</span> bound element.</li>
         <li><span class="inline-code"><a data-bind="$route" href="#routers-disableHistory">fw.routers.disableHistory()</a></span> - Enable or disable history (or get the current setting).</li>
@@ -975,8 +797,8 @@ var MainViewModel = fw.viewModel({
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.getAll<span>()</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.routers.getAll<span>( <span class="param">'namespace'</span> )</span></em></h3>
-      <h3>Return list of instantiated routers:</h3>
+      <h3 class="top"><em class="func-def">fw.routers.getAll<span>( <span class="param">'viewModelNamespaceName'</span> )</span></em></h3>
+      <h3>Return router (that has optionally been registered for the viewModel 'viewModelNamespaceName'):</h3>
 <pre><code class="javascript">var routers = fw.routers.getAll();
 // routers === { MainRouter: router, WidgetRouter: router }
 
@@ -1114,7 +936,7 @@ fw.routers.fileExtensions(function(moduleName) {
 
 <div id="metaData">
 {
-  "title": "Routing",
+  "title": "Router",
   "description": "Swap out views and manage user state in your application.",
   "sections": [
     { "anchor": "introduction",
@@ -1138,16 +960,6 @@ fw.routers.fileExtensions(function(moduleName) {
           "title": "Lazy Loading / Registering Routers" },
         { "anchor": "module-formats",
           "title": "Module Formats" }
-      ] },
-    { "anchor": "mixins",
-      "title": "Mixins",
-      "collapsable": true,
-      "isCollapsed": true,
-      "subSections": [
-        { "anchor": "mixin-configuration",
-          "title": "Configuration" },
-        { "anchor": "mixin-usage",
-          "title": "Usage" }
       ] },
     { "anchor": "outlets",
       "title": "Outlets",

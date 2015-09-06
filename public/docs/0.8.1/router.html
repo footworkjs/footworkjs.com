@@ -226,7 +226,7 @@ routes: [
 // ...
 </code></pre>
 
-      <div class="note"><span class="label">NOTE:</span> Remember that you can always <a data-bind="$route: docLink('namespacing#request')">
+      <div class="note"><span class="label">NOTE:</span> Remember that you can always <a data-bind="$route: docLink('namespace#request')">
         <span class="inline-code">request</span></a>
         data, or use <a data-bind="$route: docLink('broadcastable-receivable')"><span class="inline-code">receivables</span>/<span class="inline-code">broadcastables</span></a>/etc
         inside of your filter functions too.</div>
@@ -677,7 +677,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
 // ...
 </code></pre>
       <div class="note"><span class="label">NOTE:</span> Remember that in addition to passing arguments directly from a route, you can also leverage the
-      powerful <a data-bind="$route: docLink('namespacing')">namespacing</a> or <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable/receivable</a>
+      powerful <a data-bind="$route: docLink('namespace')">namespace</a> or <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable/receivable</a>
       features of footwork to facilitate communication/initialization of your view component.</div>
     </div>
   </section>
@@ -936,7 +936,7 @@ fw.routers.fileExtensions(function(moduleName) {
 
 <div id="metaData">
 {
-  "title": "Routing",
+  "title": "Router",
   "description": "Swap out views and manage user state in your application.",
   "sections": [
     { "anchor": "introduction",
