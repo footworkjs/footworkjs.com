@@ -86,7 +86,7 @@
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.router<span>( <span class="param">configurationObject</span> )</span></div>
         </div>
-        <div class="description">Create a <span class="inline-code">router</span> constructor function</div>
+        <div class="description">Create a <span class="inline-code">router</span> constructor function.</div>
       </h3>
 <pre><code class="javascript">var RouterConstructor = fw.router({
   // by default the namespace is based off of the viewModel it is paired with
@@ -158,7 +158,7 @@
 
       <p>To manually bind a <span class="inline-code">router</span> you use a <span class="inline-code">fw.applyBindings()</span>
         call after instantiating it.</p>
-<pre><code class="javascript">var AppRouter = fw.viewModel({
+<pre><code class="javascript">var AppRouter = fw.router({
   namespace: 'AppRouter',
   // ...
 });
@@ -429,6 +429,13 @@ var MyRouter = fw.router({
         just after a <span class="inline-code">router</span> is bound to the DOM. This provides a handy integration point for external libraries or
         plugins (such as jQuery).</p>
 
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">afterBinding<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after binding to the DOM.</div>
+      </h3>
 <pre><code class="javascript">var MainRouter = fw.router({
   namespace: 'MainRouter',
   routes: [ /* ... */ ],
@@ -451,6 +458,13 @@ var MyRouter = fw.router({
         just after the element a <span class="inline-code">router</span> is bound to is removed from the DOM. This provides a handy integration
         point for external libraries or plugins (such as jQuery).</p>
 
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">onDispose<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after the parent bound element is removed from the DOM.</div>
+      </h3>
 <pre><code class="javascript">var MainRouter = fw.router({
   namespace: 'MainRouter',
   initialize: function(params) {
@@ -467,11 +481,17 @@ var MyRouter = fw.router({
 });
 </code></pre>
 
-      <a id="router-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">router.dispose<span>()</span></em></h3>
       <p>If you do not bind a <span class="inline-code">router</span> to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
         by calling <span class="inline-code">router.dispose()</span> directly.</p>
-      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a router:</h3>
+
+      <a id="router-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.dispose<span>()</span></div>
+        </div>
+        <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a router.</div>
+      </h3>
 <pre><code class="javascript">var MyRouter = fw.router({ /* ... */ });
 var router = new MyRouter();
 // ...

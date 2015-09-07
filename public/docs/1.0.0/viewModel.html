@@ -59,8 +59,13 @@
         provide for all of the additional features the framework provides.</p>
 
       <a id="fw-viewModel" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.viewModel<span>( <span class="param">configurationObject</span> )</span></em></h3>
-      <h3>create a <span class="inline-code">viewModel</span> constructor function:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.viewModel<span>( <span class="param">configurationObject</span> )</span></div>
+        </div>
+        <div class="description">Create a <span class="inline-code">viewModel</span> constructor function.</div>
+      </h3>
 <pre><code class="javascript">var ViewModelConstructor = fw.viewModel({
   /**
    * The namespace (communications channel) the viewModel uses. This is essentially used as
@@ -309,6 +314,13 @@ var MyViewModel = fw.viewModel({
         just after a <span class="inline-code">viewModel</span> is bound to the DOM. This provides a handy integration point for external libraries or
         plugins (such as jQuery).</p>
 
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">afterBinding<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after binding to the DOM.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.viewModel({
   namespace: 'Person',
   afterBinding: function(domElement) {
@@ -334,6 +346,13 @@ var MyViewModel = fw.viewModel({
         just after the element a <span class="inline-code">viewModel</span> is bound to is removed from the DOM. This provides a handy integration
         point for external libraries or plugins (such as jQuery).</p>
 
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">onDispose<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after the parent bound element is removed from the DOM.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.viewModel({
   namespace: 'Person',
   afterBinding: function(domElement) {
@@ -352,11 +371,17 @@ var MyViewModel = fw.viewModel({
 });
 </code></pre>
 
-      <a id="viewModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">viewModel.dispose<span>()</span></em></h3>
       <p>If you do not bind a <span class="inline-code">viewModel</span> to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
         by calling <span class="inline-code">viewModel.dispose()</span> directly.</p>
-      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a viewModel:</h3>
+
+      <a id="viewModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">viewModel.dispose<span>()</span></div>
+        </div>
+        <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a viewModel.</div>
+      </h3>
 <pre><code class="javascript">var MyViewModel = fw.viewModel({ /* ... */ });
 var viewModel = new MyViewModel();
 // ...

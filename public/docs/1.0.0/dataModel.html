@@ -58,8 +58,13 @@
         features a <span class="inline-code">dataModel</span> provides.</p>
 
       <a id="fw-dataModel" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.dataModel<span>( <span class="param">configurationObject</span> )</span></em></h3>
-      <h3>create a <span class="inline-code">dataModel</span> constructor function:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModel<span>( <span class="param">configurationObject</span> )</span></div>
+        </div>
+        <div class="description">Create a <span class="inline-code">dataModel</span> constructor function.</div>
+      </h3>
 <pre><code class="javascript">var DataModelConstructor = fw.dataModel({
   /**
    * The namespace (communications channel) the dataModel uses. This is essentially used as
@@ -666,17 +671,6 @@ var MydataModel = fw.dataModel({
   }
 });
 </code></pre>
-
-      <a id="dataModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">dataModel.dispose<span>()</span></em></h3>
-      <p>If you do not bind a <span class="inline-code">dataModel</span> to the DOM then you will want to clean up its references and subscriptions when you are done with it. This is done
-        by calling <span class="inline-code">dataModel.dispose()</span> directly.</p>
-      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel:</h3>
-<pre><code class="javascript">var MydataModel = fw.dataModel({ /* ... */ });
-var dataModel = new MydataModel();
-// ...
-dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
-</code></pre>
     </div>
   </section>
 
@@ -691,6 +685,13 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
         just after a <span class="inline-code">dataModel</span> is bound to the DOM. This provides a handy integration point for external libraries or
         plugins (such as jQuery).</p>
 
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">afterBinding<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after binding to the DOM.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   afterBinding: function(domElement) {
@@ -716,6 +717,13 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
         just after the element a <span class="inline-code">dataModel</span> is bound to is removed from the DOM. This provides a handy integration
         point for external libraries or plugins (such as jQuery).</p>
 
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">onDispose<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after the parent bound element is removed from the DOM.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   afterBinding: function(domElement) {
@@ -734,11 +742,17 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
 });
 </code></pre>
 
-      <a id="dataModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">dataModel.dispose<span>()</span></em></h3>
-      <p>If you do not bind a dataModel to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
+      <p>If you do not bind a <span class="inline-code">dataModel</span> to the DOM then you will want to clean up its references and subscriptions when you are done with it. This is done
         by calling <span class="inline-code">dataModel.dispose()</span> directly.</p>
-      <h3>Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel:</h3>
+
+      <a id="dataModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">dataModel.dispose<span>()</span></div>
+        </div>
+        <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel.</div>
+      </h3>
 <pre><code class="javascript">var MydataModel = fw.dataModel({ /* ... */ });
 var dataModel = new MydataModel();
 // ...
@@ -1171,7 +1185,7 @@ var fileNameForPerson = fw.dataModels.getFileName('Person'); // === null
       <h3><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>
       <h3><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></em></h3>
       <h3>Specify the extension to append to an AMD/RequireJS loaded dataModel path when it does not have an extension specified (ie: full file name not specified):</h3>
-<pre><code class="javascript">// Explicitely set the extension
+<pre><code class="javascript">// explicitly set the extension
 fw.dataModels.fileExtensions('.jscript'); // append dataModel module files with '.jscript'
 
 // You can also specify a function() whose return value is used as the extension.

@@ -91,6 +91,7 @@ article, .docco {
       & > .type {
         text-transform: uppercase;
         color: @typeColor;
+        position: relative;
 
         .icon {
           color: darken(@typeColor, 15%);
@@ -98,6 +99,9 @@ article, .docco {
           margin-right: 5px;
 
           &.icon-code {
+            position: absolute;
+            top: 0;
+            left: 0;
             margin-right: 0;
           }
 
@@ -122,7 +126,8 @@ article, .docco {
         color: @typeColor;
         font-weight: normal;
         float: left;
-        margin-left: 5px;
+        margin-left: 20px;
+        clear: both;
 
         & > span {
           color: mix(@typeColor, @handlerBackground);
