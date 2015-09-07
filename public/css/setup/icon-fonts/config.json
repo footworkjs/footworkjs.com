@@ -127,6 +127,12 @@
       "src": "entypo"
     },
     {
+      "uid": "91426c82d94428a33353e495418435e3",
+      "css": "code",
+      "code": 59419,
+      "src": "entypo"
+    },
+    {
       "uid": "b7a336095aa4535c3689cb557edf23db",
       "css": "screen",
       "code": 59402,
@@ -155,6 +161,12 @@
       "css": "cog",
       "code": 59404,
       "src": "mfglabs"
+    },
+    {
+      "uid": "8c23ecabc7d5df3666a038ad7c699421",
+      "css": "communicate",
+      "code": 59417,
+      "src": "elusive"
     }
   ]
 }

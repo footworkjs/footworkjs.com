@@ -68,6 +68,93 @@ article, .docco {
     }
   }
 
+  .ref-block {
+    @handlerBackground: #444;
+    @handlerForeground: contrast(@handlerBackground);
+    @typeColor: yellow;
+
+    background: @handlerBackground;
+    color: @handlerForeground;
+    padding: 0 10px;
+    .border-radius(3px 3px 0 0);
+    .clearblock;
+
+    .title {
+      .clearblock;
+      line-height: 20px;
+      padding-top: 5px;
+
+      & > .type, & > .match, & > .param {
+        float: left;
+      }
+
+      & > .type {
+        text-transform: uppercase;
+        color: @typeColor;
+
+        .icon {
+          color: darken(@typeColor, 15%);
+          float: left;
+          margin-right: 5px;
+
+          &.icon-code {
+            margin-right: 0;
+          }
+
+          &:before {
+            margin: 0;
+          }
+        }
+      }
+
+      & > .match {
+        color: mix(@typeColor, @handlerBackground, 70%);
+        margin-left: 5px;
+        font-weight: normal;
+      }
+
+      & > .param {
+        font-weight: normal;
+        margin-left: 5px;
+      }
+
+      & > .func-def {
+        color: @typeColor;
+        font-weight: normal;
+        float: left;
+        margin-left: 5px;
+
+        & > span {
+          color: mix(@typeColor, @handlerBackground);
+          margin-left: 3px;
+          font-weight: bold;
+        }
+
+        .param {
+          color: @handlerForeground;
+          font-weight: normal;
+        }
+      }
+    }
+
+    .description {
+      clear: both;
+      font-weight: normal;
+      font-size: 13px;
+      color: mix(@handlerBackground, @handlerForeground);
+
+      .inline-code {
+        background: transparent;
+        color: @handlerForeground;
+        .border-radius(none);
+      }
+    }
+  }
+
+  .ref-block + pre {
+    .border-radius(0 0 3px 3px);
+  }
+
   h3 {
     margin-top: 15px;
 

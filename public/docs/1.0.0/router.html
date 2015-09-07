@@ -81,8 +81,13 @@
         provide for all of the additional features the framework provides.</p>
 
       <a id="fw-router" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.router<span>( <span class="param">configurationObject</span> )</span></em></h3>
-      <h3>create a <span class="inline-code">router</span> constructor function:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.router<span>( <span class="param">configurationObject</span> )</span></div>
+        </div>
+        <div class="description">Create a <span class="inline-code">router</span> constructor function</div>
+      </h3>
 <pre><code class="javascript">var RouterConstructor = fw.router({
   // by default the namespace is based off of the viewModel it is paired with
   namespace: 'namespaceName', // (this is not usually needed)
@@ -232,11 +237,115 @@ var router = new AppRouter();
     </div>
   </section>
 
+  <a id="routing" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="routing">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Routing</h1>
+    </header>
+    <div class="content">
+      <p>The following sections describe how to define <span class="inline-code">routes</span> as well as bind and route to different addresses in
+        your application.</p>
+
+      <p>The enables you to set and trigger different states within your application based on the browser address/URL.</p>
+    </div>
+  </section>
+
+  <a id="routes-and-controllers" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="routes-and-controllers">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Routes and Controllers</h2>
+    </header>
+    <div class="content">
+      <p>In order for the <span class="inline-code">router</span> to do its job it must have a list of <span class="inline-code">routes</span> to work
+        with.</p>
+
+      <p>The following sections describe how to define various <span class="inline-code">routes</span> and their respective
+        <span class="inline-code">controller</span> methods that get called upon.</p>
+    </div>
+  </section>
+
+  <a id="routes" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="routes">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Routes List</h2>
+    </header>
+    <div class="content">
+      <p>There are a few ways in which you can define a <span class="inline-code">route</span>.</p>
+
+      <p>One is via directly registering a <span class="inline-code">route</span> using the method <span class="inline-code">setState()</span> on a
+        router.</p>
+    </div>
+  </section>
+
+  <a id="setting-state" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="setting-state">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Setting State Explicitly</h2>
+    </header>
+    <div class="content">
+      <p>There are two ways to set the state explicitly on a router.</p>
+
+      <p>The first involves simply calling <span class="inline-code">setState()</span> on the <span class="inline-code">router</span> instance itself.</p>
+
+      <a id="router-setState" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.setState<span>( <span class="param">'/path/to/route/to'</span> )</span></div>
+        </div>
+        <div class="description">Change the route to the specified URL and trigger any matching controllers</div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'MainRouter',
+  routes: [ /* ... */ ],
+  initialize: function() {
+    var router = this;
+    this.$namespace.command.handler('goHome', function() {
+      // We received the 'goHome' command, lets go to the default ('/') home route
+      router.setState('/');
+    });
+  }
+});</code></pre>
+
+      <p>Footwork also sets up a default command handler (<span class="inline-code">setState</span>) that you can use/call in case you just want to
+        tell the <span class="inline-code">router</span> to set its state to a certain value.</p>
+
+      <a id="command-handler-setState" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-communicate"></span> command</div>
+          <div class="match">setState</div>
+          <div class="param">'/path/to/route/to'</div>
+        </div>
+        <div class="description">Change the route to the specified URL and trigger any matching controllers</div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'MainRouter',
+  routes: [ /* ... */ ]
+});
+
+// ...
+
+var mainRouter = fw.namespace('MainRouter');
+
+// Send the router to the default '/' route
+mainRouter.command('setState', '/');
+</code></pre>
+
+      <p>The other (more common) method of registering routes is to define them when configuring the constructor function for a <span class="inline-code">router</span>. The
+        optional <span class="inline-code">routes</span> array can be used to define the usable routes as well.</p>
+    </div>
+  </section>
+
   <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="lifecycle-registration">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Lifecycle &amp; Registration</h2>
+      <h1 class="title">Lifecycle &amp; Registration</h1>
     </header>
     <div class="content">
       <p>Each <span class="inline-code">router</span> instantiated and bound to the DOM will receive lifecycle events.</p>
@@ -709,7 +818,7 @@ var MainRouter = fw.router({
       <h3><em class="func-def">fw.routers.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>
       <h3><em class="func-def">fw.routers.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></em></h3>
       <h3>Specify the extension to append to an AMD/RequireJS loaded router path when it does not have an extension specified (ie: full file name not specified):</h3>
-<pre><code class="javascript">// Explicitely set the extension
+<pre><code class="javascript">// explicitly set the extension
 fw.routers.fileExtensions('.jscript'); // append router module files with '.jscript'
 
 // You can also specify a function() whose return value is used as the extension.
@@ -771,8 +880,44 @@ fw.routers.fileExtensions(function(moduleName) {
               "title": "&lt;component&gt;",
               "description": "Using a router with a &lt;component&gt; declarative custom element." }
           ] },
+        { "anchor": "routing",
+          "title": "Routing",
+          "subSections": [
+            { "anchor": "routes-and-controllers",
+              "title": "Routes and Controllers",
+              "subSections": [
+                { "anchor": "routes",
+                  "title": "Routes List" },
+                { "anchor": "route",
+                  "title": "Route Definition" }
+              ] },
+            { "anchor": "outlets",
+              "title": "Outlets",
+              "keywords": [ "view", "layout" ],
+              "subSections": [
+                { "anchor": "registering-views",
+                  "title": "Registering Views",
+                  "description": "How to register a view/component so footwork knows where to find it." },
+                { "anchor": "outlet-element",
+                  "title": "&lt;outlet&gt;",
+                  "description": "How to create and use outlets your application can load views/templates into." }
+              ] },
+            { "anchor": "changing-route",
+              "title": "Changing the Route",
+              "keywords": [ "view", "layout" ],
+              "subSections": [
+                { "anchor": "setting-state",
+                  "title": "Setting State Explicitly",
+                  "description": "How to set the state of a router (or change the URL) explicitly." },
+                { "anchor": "route-binding",
+                  "title": "$route binding",
+                  "description": "How to bind an element to a route via an event." }
+              ] }
+          ] },
         { "title": "Lifecycle &amp; Registration",
           "anchor": "lifecycle-registration",
+          "collapsable": true,
+          "isCollapsed": true,
           "subSections": [
             { "anchor": "lifecycle",
               "title": "Lifecycle",
