@@ -34,7 +34,7 @@
       <ul>
         <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
 
-        <li>Automatically via a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM.</li>
+        <li>Automatically via a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM.</li>
 
         <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
           <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
@@ -65,6 +65,10 @@
           <div class="func-def">fw.viewModel<span>( <span class="param">configurationObject</span> )</span></div>
         </div>
         <div class="description">Create a <span class="inline-code">viewModel</span> constructor function.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">function()</span> ViewModel Constructor Function</span>
+        </div>
       </h3>
 <pre><code class="javascript">var ViewModelConstructor = fw.viewModel({
   /**
@@ -247,7 +251,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       <h2 class="sub title">Lifecycle &amp; Registration</h2>
     </header>
     <div class="content">
-      <p>Each <span class="inline-code">dataModel</span> instantiated and bound to the DOM will receive lifecycle events.</p>
+      <p>Each <span class="inline-code">viewModel</span> instantiated and bound to the DOM will receive lifecycle events.</p>
       <p>These events can be used for any code you need to run when the instance is initially setup on or removed from the page. A common example
         would be the setup and teardown of a jQuery plugin, or events.</p>
     </div>
@@ -381,6 +385,10 @@ var MyViewModel = fw.viewModel({
           <div class="func-def">viewModel.dispose<span>()</span></div>
         </div>
         <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a viewModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> the viewModel instance</span>
+        </div>
       </h3>
 <pre><code class="javascript">var MyViewModel = fw.viewModel({ /* ... */ });
 var viewModel = new MyViewModel();
@@ -751,6 +759,10 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
           <div class="func-def">fw.viewModels.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
         </div>
         <div class="description">Get list of currently instantiated viewModels grouped/indexed by namespace.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">array[]</span> list of instances</span>
+        </div>
       </h3>
 <pre><code class="javascript">var Bike = fw.viewModel({
   namespace: 'Bike',
@@ -793,6 +805,10 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
           <div class="func-def">fw.viewModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return true or false based on whether or not there is a viewModel that has been registered under 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> TRUE or FALSE depending on registration state of the module</span>
+        </div>
       </h3>
 <pre><code class="javascript">fw.viewModels.register('Bike', fw.viewModel({
   namespace: 'Bike',
@@ -811,6 +827,10 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
           <div class="func-def">fw.viewModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return viewModel that has been registered under 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">function()</span> Returns whatever viewModel is registered under that moduleName</span>
+        </div>
       </h3>
 <pre><code class="javascript">// Explicit registration
 var Bike = fw.viewModel({ /* ... configuration object */ });
@@ -832,9 +852,13 @@ var Sprocket = fw.viewModel({
           <div class="func-def">fw.viewModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Path to the module</span>
+        </div>
       </h3>
-<pre><code class="javascript">fw.viewModels.registerLocation('Sprocket', '/path/to/viewModel/folder');
-// fw.viewModels.getLocation('Sprocket') === '/path/to/viewModel/folder'</code></pre>
+<pre><code class="javascript">fw.viewModels.registerLocation('Sprocket', '/path/to/viewModel/folder/');
+// fw.viewModels.getLocation('Sprocket') === '/path/to/viewModel/folder/'</code></pre>
 
       <a id="viewModels-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
@@ -843,15 +867,20 @@ var Sprocket = fw.viewModel({
           <div class="func-def">fw.viewModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the file name that footwork will appended to the path when downloading the viewModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Filename of module</span>
+        </div>
       </h3>
-<pre><code class="javascript">var fileNameForSprocket = fw.viewModels.getFileName('sprocket'); // === sprocket.js
+<pre><code class="javascript">fw.viewModels.registerLocation('Sprocket', '/path/to/viewModel/folder/');
+var fileNameForSprocket = fw.viewModels.getFileName('Sprocket'); // === Sprocket.js
 
 /**
  * If the viewModel was explicitly registered (cached), then null is returned for any
  * fileType because the file name will never be used.
  */
-fw.viewModels.register('sprocket', fw.viewModel({ /* configuration object */ }) );
-var fileNameForSprocket = fw.viewModels.getFileName('sprocket'); // === null
+fw.viewModels.register('Sprocket', fw.viewModel({ /* configuration object */ }) );
+var fileNameForSprocket = fw.viewModels.getFileName('Sprocket'); // === null
 </code></pre>
 
       <a id="viewModels-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>

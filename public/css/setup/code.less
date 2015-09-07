@@ -147,13 +147,52 @@ article, .docco {
       font-weight: normal;
       font-size: 13px;
       line-height: 16px;
-      margin: 5px 0;
+      margin: 5px 0 5px 20px;
       color: mix(@handlerBackground, @handlerForeground);
 
       .inline-code {
         background: transparent;
         color: @handlerForeground;
         .border-radius(none);
+      }
+    }
+
+    .return-value {
+      font-weight: normal;
+      font-size: 12px;
+      font-style: italic;
+      position: relative;
+      margin-bottom: 5px;
+      .clearblock;
+
+      .label, .value {
+        float: left;
+      }
+
+      @labelWidth: 61px;
+      .label {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: @labelWidth;
+        text-align: right;
+      }
+
+      .value {
+        margin-left: @labelWidth + 5px;
+        color: mix(@handlerBackground, @handlerForeground);
+        padding: 0 5px;
+        background: darken(@handlerBackground, 10%);
+        .border-radius(3px);
+
+        .type {
+          color: @handlerForeground;
+          margin: 0 3px;
+
+          &:first-child {
+            margin-left: 0;
+          }
+        }
       }
     }
   }

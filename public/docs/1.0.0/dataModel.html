@@ -517,6 +517,7 @@ person.$set('firstName', 'Jake');
           <div class="func-def"><span>dataModel</span>.$fetch<span>( <span class="param">ajaxOptions</span> )</div>
         </div>
         <div class="description">Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</div>
+        <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
       </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
@@ -569,6 +570,7 @@ person.$fetch();
           <div class="func-def"><span>dataModel</span>.$save<span>( <span class="param">key</span>, <span class="param">value</span>, <span class="param">optionsObject</span> )</div>
         </div>
         <div class="description">Save the data for a <span class="inline-code">dataModel</span> to its configured endpoint.</div>
+        <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
       </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
@@ -590,7 +592,7 @@ var person = new Person({
 person.$save();
 </code></pre>
 
-      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$fetch</span>
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$save</span>
         are exactly the same as is supported in a
         <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
     </div>
@@ -616,6 +618,7 @@ person.$save();
           <div class="func-def"><span>dataModel</span>.$destroy<span>( <span class="param">optionsObject</span> )</div>
         </div>
         <div class="description">Destroy the data for a <span class="inline-code">dataModel</span> on/at its configured endpoint.</div>
+        <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
       </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
@@ -635,7 +638,7 @@ var person = new Person({
 person.$destroy();
 </code></pre>
 
-      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$fetch</span>
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$destroy</span>
         are exactly the same as is supported in a
         <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
     </div>
