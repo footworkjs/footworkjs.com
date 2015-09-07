@@ -308,10 +308,15 @@ fw.components.register('Person', {
       </div>
 
       <a id="observable-mapTo" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></em></h3>
-      <h3><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></em></h3>
-      <p><span class="inline-code">observable.mapTo()</span> will map that <span class="inline-code">observable</span> value to the dot-notated path
-        you supply.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></div>
+          <div class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></div>
+        </div>
+        <div class="description"><span class="inline-code">observable.mapTo()</span> will map an <span class="inline-code">observable</span> value to the dot-notated path
+        supplied.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   initialize: function(params) {
@@ -365,10 +370,15 @@ person.$set({
         <span class="inline-code">dataModel</span> methods which gathers the data together/based on the mappings you have setup.</p>
 
       <a id="dataModel-get" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def"><span>dataModel</span>.$get<span>()</em></h3>
-      <h3><em class="func-def"><span>dataModel</span>.$get<span>( <span class="param">'mapped.variable'</span> )</em></h3>
-      <h3><em class="func-def"><span>dataModel</span>.$get<span>( [ <span class="param">'mapped.variable'</span>, <span class="param">'other.variable'</span> ] )</em></h3>
-      <p>Convert a <span class="inline-code">dataModel</span> or specified mapped value into its hash-mapped plain-javascript-object version.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$get<span>()</div>
+          <div class="func-def"><span>dataModel</span>.$get<span>( <span class="param">'mapped.variable'</span> )</div>
+          <div class="func-def"><span>dataModel</span>.$get<span>( [ <span class="param">'mapped.variable'</span>, <span class="param">'other.variable'</span> ] )</div>
+        </div>
+        <div class="description">Convert a <span class="inline-code">dataModel</span> or specified mapped value into its hash-mapped plain-javascript-object version.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   initialize: function(params) {
@@ -438,9 +448,14 @@ person.kill();
         to the variables in your <span class="inline-code">dataModel</span> and write to them as appropriate.</p>
 
       <a id="dataModel-set" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def"><span>dataModel</span>.$set<span>( <span class="param">'mapped.variable'</span>, <span class="param">value</span> )</em></h3>
-      <h3><em class="func-def"><span>dataModel</span>.$set<span>( <span class="param">object</span> )</em></h3>
-      <p>Write a POJO (object) model to a <span class="inline-code">dataModel</span> using the internal mapping.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$set<span>( <span class="param">'mapped.variable'</span>, <span class="param">value</span> )</div>
+          <div class="func-def"><span>dataModel</span>.$set<span>( <span class="param">object</span> )</div>
+        </div>
+        <div class="description">Write a POJO (object) model to a <span class="inline-code">dataModel</span> using the internal mapping.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   initialize: function(params) {
@@ -496,8 +511,13 @@ person.$set('firstName', 'Jake');
       <p>Assuming that has been done, fetching the data is done via a call to <span class="inline-code">dataModel.$fetch()</span>.</p>
 
       <a id="dataModel-fetch" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def"><span>dataModel</span>.$fetch<span>( <span class="param">ajaxOptions</span> )</em></h3>
-      <p>Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$fetch<span>( <span class="param">ajaxOptions</span> )</div>
+        </div>
+        <div class="description">Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   url: '/person',
@@ -541,10 +561,15 @@ person.$fetch();
         entire <span class="inline-code">dataModel</span> (all the mapped values), or save specific data by passing it the appropriate parameters.</p>
 
       <a id="dataModel-save" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def"><span>dataModel</span>.$save<span>()</em></h3>
-      <h3><em class="func-def"><span>dataModel</span>.$save<span>( <span class="param">optionsObject</span> )</em></h3>
-      <h3><em class="func-def"><span>dataModel</span>.$save<span>( <span class="param">key</span>, <span class="param">value</span>, <span class="param">optionsObject</span> )</em></h3>
-      <p>Save the data for a <span class="inline-code">dataModel</span> to its configured endpoint.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$save<span>()</div>
+          <div class="func-def"><span>dataModel</span>.$save<span>( <span class="param">optionsObject</span> )</div>
+          <div class="func-def"><span>dataModel</span>.$save<span>( <span class="param">key</span>, <span class="param">value</span>, <span class="param">optionsObject</span> )</div>
+        </div>
+        <div class="description">Save the data for a <span class="inline-code">dataModel</span> to its configured endpoint.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   url: '/person',
@@ -585,8 +610,13 @@ person.$save();
       <p>Assuming that has been done, destroying the data is done via a call to <span class="inline-code">dataModel.$destroy()</span>.</p>
 
       <a id="dataModel-destroy" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def"><span>dataModel</span>.$destroy<span>( <span class="param">optionsObject</span> )</em></h3>
-      <p>Destroy the data for a <span class="inline-code">dataModel</span> on/at its configured endpoint.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$destroy<span>( <span class="param">optionsObject</span> )</div>
+        </div>
+        <div class="description">Destroy the data for a <span class="inline-code">dataModel</span> on/at its configured endpoint.</div>
+      </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
   url: '/person',
@@ -854,8 +884,13 @@ dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
         get initialized (and so forth until the end).</div>
 
       <a id="dataModels-register" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.dataModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></em></h3>
-      <h3>Cache a dataModel/module ahead of time:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></div>
+        </div>
+        <div class="description">Cache a dataModel/module ahead of time.</div>
+      </h3>
 <pre><code class="javascript">// register a footwork dataModel
 fw.dataModels.register('Person', fw.dataModel({
   this.isCool = fw.observable(false);
@@ -893,8 +928,13 @@ fw.dataModels.register('Person', {
       </div>
 
       <a id="dataModels-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.dataModels.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></em></h3>
-      <h3>Register the location of a dataModel/module so footwork can load and bind it for you when needed:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+        </div>
+        <div class="description">Register the location of a dataModel/module so footwork can load and bind it for you when needed.</div>
+      </h3>
 <pre><code class="javascript">// Load Person from: /dataModels/Person.js (based on dataModel/module name, case sensitive)
 fw.dataModels.registerLocation('Person', '/dataModels/');
 
@@ -904,8 +944,14 @@ fw.dataModels.registerLocation('Person', '/dataModels/DifferentFileName.js');
 // register the location of several dataModels at once (ie: all in the same folder)
 fw.dataModels.registerLocation(['Reservations', 'Invoices', 'Notes'], '/dataModels/stuff/');</code></pre>
 
-      <h3><em class="func-def">fw.dataModels.defaultLocation<span>( <span class="param">'path/to/dataModel/folder'</span> )</span></em></h3>
-      <h3>Register the default location of dataModels/modules so footwork can load and bind them for you when needed:</h3>
+      <a id="dataModels-defaultLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.defaultLocation<span>( <span class="param">'path/to/dataModel/folder'</span> )</span></div>
+        </div>
+        <div class="description">Register the default location of dataModels/modules so footwork can load and bind them for you when needed.</div>
+      </h3>
 <pre><code class="javascript">// Load all dataModels from /mydataModels/[module-name].js (case sensitive)
 fw.dataModels.defaultLocation('/myDataModels/');</code></pre>
     </div>
@@ -1096,10 +1142,15 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
       <p>Various useful methods and utility functions for miscellaneous and debugging purposes.</p>
 
       <a id="dataModels-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.dataModels.getAll<span>()</span></em></h3>
-      <h3><em class="func-def">fw.dataModels.getAll<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3><em class="func-def">fw.dataModels.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></em></h3>
-      <h3>Get list of currently instantiated dataModels grouped/indexed by namespace:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.getAll<span>()</span></div>
+          <div class="func-def">fw.dataModels.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def">fw.dataModels.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
+        </div>
+        <div class="description">Get list of currently instantiated dataModels grouped/indexed by namespace.</div>
+      </h3>
 <pre><code class="javascript">var Bike = fw.dataModel({
   namespace: 'Bike',
   initialize: function() {
@@ -1135,8 +1186,13 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
 </code></pre>
 
       <a id="dataModels-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.dataModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3>Return true or false based on whether or not there is a dataModel that has been registered under 'moduleName':</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Return true or false based on whether or not there is a dataModel that has been registered under 'moduleName'.</div>
+      </h3>
 <pre><code class="javascript">fw.dataModels.register('Bike', fw.dataModel({
   namespace: 'Bike',
   initialize: function() {
@@ -1148,8 +1204,13 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
 // fw.dataModels.isRegistered('ModuleThatIsLoadedByAMD') === false</code></pre>
 
       <a id="dataModels-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.dataModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3>Return dataModel that has been registered under 'moduleName':</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Return dataModel that has been registered under 'moduleName'.</div>
+      </h3>
 <pre><code class="javascript">// Explicit registration
 var Bike = fw.dataModel({ /* ... configuration object */ });
 fw.dataModels.register('Bike', Bike);
@@ -1164,13 +1225,24 @@ var Person = fw.dataModel({
 // fw.dataModels.getRegistered('Person') === Person;</code></pre>
 
       <a id="dataModels-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.dataModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3>Get the path footwork will attempt to load for the given 'moduleName':</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
+      </h3>
 <pre><code class="javascript">fw.dataModels.registerLocation('Person', '/path/to/dataModel/folder');
 // fw.dataModels.getLocation('Person') === '/path/to/dataModel/folder'</code></pre>
 
-      <h3><em class="func-def">fw.dataModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3>Get the file name that footwork will appended to the path when downloading the dataModel:</h3>
+      <a id="dataModels-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Get the file name that footwork will appended to the path when downloading the dataModel.</div>
+      </h3>
 <pre><code class="javascript">var fileNameForPerson = fw.dataModels.getFileName('Person'); // === Person.js
 
 /**
@@ -1182,9 +1254,14 @@ var fileNameForPerson = fw.dataModels.getFileName('Person'); // === null
 </code></pre>
 
       <a id="dataModels-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>
-      <h3><em class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></em></h3>
-      <h3>Specify the extension to append to an AMD/RequireJS loaded dataModel path when it does not have an extension specified (ie: full file name not specified):</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></div>
+          <div class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
+        </div>
+        <div class="description">Specify the extension to append to an AMD/RequireJS loaded dataModel path when it does not have an extension specified (ie: full file name not specified).</div>
+      </h3>
 <pre><code class="javascript">// explicitly set the extension
 fw.dataModels.fileExtensions('.jscript'); // append dataModel module files with '.jscript'
 
@@ -1209,9 +1286,14 @@ fw.dataModels.fileExtensions(function(moduleName) {
       <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
 
       <a id="dataModel-namespace" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3>dataModel.$namespace</h3>
-      <p>The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
-        to setup any handlers and subscriptions on the current namespace that a dataModel might need.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">dataModel.$namespace</div>
+        </div>
+        <div class="description">The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
+        to setup any handlers and subscriptions on the current namespace that a dataModel might need.</div>
+      </h3>
 <pre><code class="javascript">var Navigation = fw.dataModel({
   namespace: 'Navigation',
   initialize: function() {
@@ -1222,9 +1304,14 @@ fw.dataModels.fileExtensions(function(moduleName) {
 });</code></pre>
 
       <a id="dataModel-cid" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3>dataModel.$cid</h3>
-      <p>Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">dataModel</span> when
-        they are first created.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">dataModel.$cid</div>
+        </div>
+        <div class="description">Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">dataModel</span> when
+        they are first created.</div>
+      </h3>
 <pre><code class="javascript">var Navigation = fw.dataModel({
   namespace: 'Navigation',
   initialize: function() {
