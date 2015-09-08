@@ -1594,6 +1594,15 @@ fw.dataModels.fileExtensions(function(moduleName) {
             { "anchor": "dataModel-namespace",
               "title": "dataModel.$namespace",
               "description": "The namespace for this dataModel used for communication with other areas of your application." },
+            { "anchor": "dataModel-rootNamespace",
+              "title": "dataModel.$rootNamespace",
+              "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
+            { "anchor": "dataModel-globalNamespace",
+              "title": "dataModel.$globalNamespace",
+              "description": "Global namespace channel all instances get access to.",
+              "subDescriptions": [
+                "Think of this as a broadcast channel everyone can talk on."
+              ] },
             { "anchor": "dataModel-cid",
               "title": "dataModel.$cid",
               "description": "A unique identifier automatically assigned to every dataModel when first created." }

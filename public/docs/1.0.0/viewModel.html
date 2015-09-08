@@ -919,6 +919,48 @@ fw.viewModels.fileExtensions(function(moduleName) {
     });
   }
 });</code></pre>
+
+      <a id="viewModel-rootNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">viewModel.$rootNamespace</div>
+        </div>
+        <div class="description">
+          <p>The root (non-indexed) namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
+          <p>If you provide the option <span class="inline-code">autoIncrement: true</span> then each new <span class="inline-code">viewModel</span> instance will have
+            an indexed namespace name, the <span class="inline-code">$rootNamespace</span> is the namespace channel provided which hooks into the
+            non-indexed (root) namespace name.</p>
+        </div>
+      </h3>
+<pre><code class="javascript">fw.viewModel({
+  namespace: 'Sprocket',
+  initialize: function() {
+    this.$rootNamespace.event.handler('showData', function(data) {
+      console.log('All SubviewModels Received Event Data', data);
+    });
+  }
+});</code></pre>
+
+      <a id="viewModel-globalNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">viewModel.$globalNamespace</div>
+        </div>
+        <div class="description">
+          <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>
+        </div>
+      </h3>
+<pre><code class="javascript">fw.viewModel({
+  namespace: 'Sprocket',
+  initialize: function() {
+    var thisViewModel = this;
+    this.$globalNamespace.command.handler('sayHello', function() {
+      console.log('Hello from', thisViewModel);
+    });
+  }
+});</code></pre>
     </div>
   </section>
 </article>
@@ -1083,7 +1125,16 @@ fw.viewModels.fileExtensions(function(moduleName) {
           "references": [
             { "anchor": "viewModel-namespace",
               "title": "viewModel.$namespace",
-              "description": "The namespace for this viewModel used for communication with other areas of your application." }
+              "description": "The namespace for this viewModel used for communication with other areas of your application." },
+            { "anchor": "viewModel-rootNamespace",
+              "title": "viewModel.$rootNamespace",
+              "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
+            { "anchor": "viewModel-globalNamespace",
+              "title": "viewModel.$globalNamespace",
+              "description": "Global namespace channel all instances get access to.",
+              "subDescriptions": [
+                "Think of this as a broadcast channel everyone can talk on."
+              ] }
           ]
         }
       ]

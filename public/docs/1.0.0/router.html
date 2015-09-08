@@ -1493,14 +1493,63 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
       <p>After a <span class="inline-code">router</span> has been created, there are a few properties which are on the instantiated object.</p>
 
       <a id="router-namespace" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3>router.$namespace</h3>
-      <p>The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
-        to setup any handlers and subscriptions on the current namespace that a router might need.</p>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.$namespace</div>
+        </div>
+        <div class="description">
+          <p>The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
+          <p>This should be used to setup any handlers and subscriptions on the current namespace that a router might need.</p>
+        </div>
+      </h3>
 <pre><code class="javascript">var MainPage = fw.router({
   namespace: 'MainPage',
   initialize: function() {
     this.$namespace.event.handler('userLoggedIn', function(username) {
       console.log('Welcome', username);
+    });
+  }
+});</code></pre>
+
+      <a id="router-rootNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.$rootNamespace</div>
+        </div>
+        <div class="description">
+          <p>The root (non-indexed) namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
+          <p>If you provide the option <span class="inline-code">autoIncrement: true</span> then each new <span class="inline-code">router</span> instance will have
+            an indexed namespace name, the <span class="inline-code">$rootNamespace</span> is the namespace channel provided which hooks into the
+            non-indexed (root) namespace name.</p>
+        </div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'SubRouters',
+  initialize: function() {
+    this.$rootNamespace.event.handler('showData', function(data) {
+      console.log('All SubRouters Received Event Data', data);
+    });
+  }
+});</code></pre>
+
+      <a id="router-globalNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.$globalNamespace</div>
+        </div>
+        <div class="description">
+          <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>
+        </div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'SubRouters',
+  initialize: function() {
+    var thisRouter = this;
+    this.$globalNamespace.command.handler('sayHello', function() {
+      console.log('Hello from', thisRouter);
     });
   }
 });</code></pre>
@@ -1651,16 +1700,20 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
           "references": [
             { "anchor": "router-setState",
               "title": "router.setState()",
-              "description": "Change the route to the specified URL and trigger any matching controllers." },
+              "description": "Change the route to the specified URL and trigger any matching controllers.",
+              "keywords": [ "routing" ] },
             { "anchor": "router-addRoutes",
               "title": "router.addRoutes()",
-              "description": "Add route(s) to the router." },
+              "description": "Add route(s) to the router.",
+              "keywords": [ "routing" ] },
             { "anchor": "router-setRoutes",
               "title": "router.setRoutes()",
-              "description": "(clear out and) Set the routes for a router." },
+              "description": "(clear out and) Set the routes for a router.",
+              "keywords": [ "routing" ] },
             { "anchor": "router-currentRoute",
               "title": "router.currentRoute()",
-              "description": "Get the current route details." }
+              "description": "Get the current route details.",
+              "keywords": [ "routing" ] }
           ]
         },
         {
@@ -1776,6 +1829,15 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
             { "anchor": "router-namespace",
               "title": "router.$namespace",
               "description": "The namespace for this router used for communication with other areas of your application." },
+            { "anchor": "router-rootNamespace",
+              "title": "router.$rootNamespace",
+              "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
+            { "anchor": "router-globalNamespace",
+              "title": "router.$globalNamespace",
+              "description": "Global namespace channel all instances get access to.",
+              "subDescriptions": [
+                "Think of this as a broadcast channel everyone can talk on."
+              ] },
             { "anchor": "router-outlets",
               "title": "router.outlets",
               "description": "List/Collection of registered outlets." }
