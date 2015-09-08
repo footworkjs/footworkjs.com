@@ -64,6 +64,10 @@
           <div class="func-def">fw.dataModel<span>( <span class="param">configurationObject</span> )</span></div>
         </div>
         <div class="description">Create a <span class="inline-code">dataModel</span> constructor function.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">function()</span> DataModel Constructor Function</span>
+        </div>
       </h3>
 <pre><code class="javascript">var DataModelConstructor = fw.dataModel({
   /**
@@ -316,6 +320,10 @@ fw.components.register('Person', {
         </div>
         <div class="description"><span class="inline-code">observable.mapTo()</span> will map an <span class="inline-code">observable</span> value to the dot-notated path
         supplied.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">observable()</span> Observable that has now been mapped</span>
+        </div>
       </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
@@ -373,11 +381,15 @@ person.$set({
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>dataModel</span>.$get<span>()</div>
-          <div class="func-def"><span>dataModel</span>.$get<span>( <span class="param">'mapped.variable'</span> )</div>
-          <div class="func-def"><span>dataModel</span>.$get<span>( [ <span class="param">'mapped.variable'</span>, <span class="param">'other.variable'</span> ] )</div>
+          <div class="func-def">dataModel.$get<span>()</span></div>
+          <div class="func-def">dataModel.$get<span>( <span class="param">'mapped.variable'</span> )</span></div>
+          <div class="func-def">dataModel.$get<span>( [ <span class="param">'mapped.variable'</span>, <span class="param">'other.variable'</span> ] )</span></div>
         </div>
         <div class="description">Convert a <span class="inline-code">dataModel</span> or specified mapped value into its hash-mapped plain-javascript-object version.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> Object representing the pure javascript representation of the dataModels data</span>
+        </div>
       </h3>
 <pre><code class="javascript">var Person = fw.dataModel({
   namespace: 'Person',
@@ -451,8 +463,8 @@ person.kill();
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>dataModel</span>.$set<span>( <span class="param">'mapped.variable'</span>, <span class="param">value</span> )</div>
-          <div class="func-def"><span>dataModel</span>.$set<span>( <span class="param">object</span> )</div>
+          <div class="func-def">dataModel.$set<span>( <span class="param">'mapped.variable'</span>, <span class="param">value</span> )</span></div>
+          <div class="func-def">dataModel.$set<span>( <span class="param">object</span> )</span></div>
         </div>
         <div class="description">Write a POJO (object) model to a <span class="inline-code">dataModel</span> using the internal mapping.</div>
       </h3>
@@ -514,7 +526,7 @@ person.$set('firstName', 'Jake');
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>dataModel</span>.$fetch<span>( <span class="param">ajaxOptions</span> )</div>
+          <div class="func-def">dataModel.$fetch<span>( <span class="param">ajaxOptions</span> )</span></div>
         </div>
         <div class="description">Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</div>
         <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
@@ -536,9 +548,10 @@ var person = new Person({
 // person.isDead() === false
 
 // ... some time later
-person.$fetch();
-// person.firstName() === 'Gary'
-// person.isDead() === true
+person.$fetch().done(function() {
+  // person.firstName() === 'Gary'
+  // person.isDead() === true
+});
 </code></pre>
 
       <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$fetch</span>
@@ -589,7 +602,9 @@ var person = new Person({
   lastName: 'Hitchcock'
 });
 
-person.$save();
+person.$save().done(function() {
+  console.info('dataModel saved successfully.');
+});
 </code></pre>
 
       <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$save</span>
@@ -635,7 +650,9 @@ var person = new Person({
   id: 1
 });
 
-person.$destroy();
+person.$destroy().done(function() {
+  console.info('dataModel destroyed successfully.');
+});
 </code></pre>
 
       <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$destroy</span>
@@ -785,6 +802,10 @@ var MydataModel = fw.dataModel({
           <div class="func-def">dataModel.dispose<span>()</span></div>
         </div>
         <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The dataModel instance</span>
+        </div>
       </h3>
 <pre><code class="javascript">var MydataModel = fw.dataModel({ /* ... */ });
 var dataModel = new MydataModel();
@@ -1153,6 +1174,10 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
           <div class="func-def">fw.dataModels.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
         </div>
         <div class="description">Get list of currently instantiated dataModels grouped/indexed by namespace.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">array[]</span> list of instances</span>
+        </div>
       </h3>
 <pre><code class="javascript">var Bike = fw.dataModel({
   namespace: 'Bike',
@@ -1195,6 +1220,10 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
           <div class="func-def">fw.dataModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return true or false based on whether or not there is a dataModel that has been registered under 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> TRUE or FALSE depending on registration state of the module</span>
+        </div>
       </h3>
 <pre><code class="javascript">fw.dataModels.register('Bike', fw.dataModel({
   namespace: 'Bike',
@@ -1213,6 +1242,10 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
           <div class="func-def">fw.dataModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return dataModel that has been registered under 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">function()</span> Returns whatever dataModel is registered under that moduleName</span>
+        </div>
       </h3>
 <pre><code class="javascript">// Explicit registration
 var Bike = fw.dataModel({ /* ... configuration object */ });
@@ -1234,6 +1267,10 @@ var Person = fw.dataModel({
           <div class="func-def">fw.dataModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Path to the module</span>
+        </div>
       </h3>
 <pre><code class="javascript">fw.dataModels.registerLocation('Person', '/path/to/dataModel/folder');
 // fw.dataModels.getLocation('Person') === '/path/to/dataModel/folder'</code></pre>
@@ -1245,6 +1282,10 @@ var Person = fw.dataModel({
           <div class="func-def">fw.dataModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the file name that footwork will appended to the path when downloading the dataModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Filename of the module</span>
+        </div>
       </h3>
 <pre><code class="javascript">var fileNameForPerson = fw.dataModels.getFileName('Person'); // === Person.js
 
@@ -1526,7 +1567,11 @@ fw.dataModels.fileExtensions(function(moduleName) {
             { "anchor": "dataModel-save",
               "title": "dataModel.$save()",
               "description": "Save a models data to its RESTful endpoint.",
-              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] }
+              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] },
+            { "anchor": "dataModel-destroy",
+              "title": "dataModel.$destroy()",
+              "description": "Delete a dataModel from its RESTful endpoint.",
+              "keywords": [ "ajax", "REST", "async", "DELETE" ] }
           ]
         }
       ]
