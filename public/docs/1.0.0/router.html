@@ -295,6 +295,104 @@ unknownRoute: { /* ... */ }
       <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">unknownRoute:</span> definition has no <span class="inline-code">route:</span> parameter (it
         is ignored if included). This route is triggered when no matching route is found in the <span class="inline-code">routes:</span> list. It is otherwise configured just like
         the other route definitions.</div>
+
+      <p>You may also configure routes at any time using the provided helper methods:<p>
+
+      <a id="router-addRoutes" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.addRoutes<span>( <span class="param">[ /* routes */ ]</span> )</span></div>
+        </div>
+        <div class="description">Add route(s) to the <span class="inline-code">router</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> the router instance</span>
+        </div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'MainRouter',
+  initialize: function() {
+    this.addRoutes([
+      {
+        title: 'Index Page',
+        route: '/',
+        controller: function() { /* ... */ }
+      },
+      {
+        title: 'Book Page',
+        route: '/book/:isbn',
+        controller: function(params) { /* ... */ }
+      }
+    ]);
+  }
+});</code></pre>
+
+      <a id="router-setRoutes" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.setRoutes<span>( <span class="param">[ /* routes */ ]</span> )</span></div>
+        </div>
+        <div class="description">(clear out and) Set the routes for a <span class="inline-code">router</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> the router instance</span>
+        </div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'MainRouter',
+  initialize: function() {
+    this.setRoutes([
+      {
+        title: 'Index Page',
+        route: '/',
+        controller: function() { /* ... */ }
+      },
+      {
+        title: 'Book Page',
+        route: '/book/:isbn',
+        controller: function(params) { /* ... */ }
+      }
+    ]);
+  }
+});</code></pre>
+
+      <a id="router-currentRoute" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.currentRoute<span>()</span></div>
+        </div>
+        <div class="description">Get the current route details.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> the current route details</span>
+        </div>
+      </h3>
+<pre><code class="javascript">// Browser currently pointed to 'http://application.com/book/22'
+fw.router({
+  namespace: 'MainRouter',
+  routes: [
+    {
+      title: 'Index Page',
+      route: '/',
+      controller: function() { /* ... */ }
+    },
+    {
+      title: 'Book Page',
+      route: '/book/:isbn',
+      controller: function(params) { /* ... */ }
+    }
+  ],
+  initialize: function() {
+    var currentRoute = this.currentRoute();
+    // currentRoute.segment === '/book/22' (this specific route segment/path)
+    // currentRoute.url === '/book/22' (full url, includes parent and children segments)
+    // currentRoute.namedParams.isbn === '22'
+    // currentRoute.title === 'Book Page'
+  }
+});</code></pre>
     </div>
   </section>
 
@@ -596,6 +694,22 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <div class="note"><span class="label">NOTE:</span> Remember that in addition to passing arguments directly from a route, you can also leverage the
       powerful <a data-bind="$route: docLink('namespace')">namespace</a> or <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable/receivable</a>
       features of footwork to facilitate communication/initialization of your view component.</div>
+
+      <a id="router-outlets" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.outlets<span>{}</span></div>
+        </div>
+        <div class="description">List/Collection of registered outlets.</div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'MainRouter',
+  afterBinding: function() {
+    console.log('Registered outlets', this.$router.outlets);
+  }
+});
+</code></pre>
     </div>
   </section>
 
@@ -629,7 +743,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.setState<span>( <span class="param">'/path/to/route/to'</span> )</span></div>
         </div>
-        <div class="description">Change the route to the specified URL and trigger any matching controllers</div>
+        <div class="description">Change the route to the specified URL and trigger any matching controllers.</div>
       </h3>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
@@ -653,7 +767,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
           <div class="match">setState</div>
           <div class="param">'/path/to/route/to'</div>
         </div>
-        <div class="description">Change the route to the specified URL and trigger any matching controllers</div>
+        <div class="description">Change the route to the specified URL and trigger any matching controllers.</div>
       </h3>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
@@ -1398,6 +1512,37 @@ fw.routers.fileExtensions(function(moduleName) {
       ]
     },
     {
+      "label": "Routing",
+      "subCategories": [
+        {
+          "label": "Method",
+          "references": [
+            { "anchor": "router-setState",
+              "title": "router.setState()",
+              "description": "Change the route to the specified URL and trigger any matching controllers." }
+          ]
+        },
+        {
+          "label": "Outlet",
+          "references": [
+            { "anchor": "router-outlet",
+              "title": "router.$outlet",
+              "description": "Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel/dataModel/etc.",
+              "keywords": [ "component", "routing", "view", "template" ] }
+          ]
+        },
+        {
+          "label": "COMMAND",
+          "references": [
+            { "anchor": "command-handler-setState",
+              "title": "setState",
+              "description": "Change the route to the specified URL and trigger any matching controllers.",
+              "keywords": [ "cqrs", "command" ] }
+          ]
+        }
+      ]
+    },
+    {
       "label": "Register",
       "subCategories": [
         {
@@ -1427,7 +1572,7 @@ fw.routers.fileExtensions(function(moduleName) {
           ]
         },
         {
-          "label": "Views",
+          "label": "Outlet Views",
           "references": [
             { "anchor": "outlets-registerView",
               "title": "fw.outlets.registerView()",
@@ -1486,21 +1631,10 @@ fw.routers.fileExtensions(function(moduleName) {
           "references": [
             { "anchor": "router-namespace",
               "title": "router.$namespace",
-              "description": "The namespace for this router used for communication with other areas of your application." }
-          ]
-        }
-      ]
-    },
-    {
-      "label": "CQRS",
-      "subCategories": [
-        {
-          "label": "Commands",
-          "references": [
-            { "anchor": "command-handler-setState",
-              "title": "setState",
-              "description": "Change the route to the specified URL and trigger any matching controllers.",
-              "keywords": [ "cqrs", "command" ] }
+              "description": "The namespace for this router used for communication with other areas of your application." },
+            { "anchor": "router-outlets",
+              "title": "router.outlets",
+              "description": "List/Collection of registered outlets." }
           ]
         }
       ]
