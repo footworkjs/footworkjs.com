@@ -49,7 +49,7 @@
   <section name="usage">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Usage</h2>
+      <h1 class="title">Usage</h1>
     </header>
     <div class="content">
       <p>A <span class="inline-code">router</span> can be used in 3 different ways:</p>
@@ -280,6 +280,320 @@ var router = new AppRouter();
     </div>
   </section>
 
+  <a id="route" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="route">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Route Definition</h2>
+    </header>
+    <div class="content">
+      <p>A route definition is simply an object which describes a route. Footwork will match the browser path up
+      against the <span class="inline-code">route:</span> parameter and use the other options to trigger and setup the state of your application.</p>
+
+      <p>A route definition has four possible parameters:</p>
+      <ul>
+        <li><span class="inline-code">route:</span> - A specially structured string which is used to match against a given URL (and optionally provide for named parameters).</li>
+
+        <li><span class="inline-code">controller:</span> - Callback function used when a route is chosen, this is where <span class="inline-code">outlets</span> get changed and the
+          state of your application is altered. Any parameters defined by the <span class="inline-code">route:</span> will be passed in as individual arguments.</li>
+
+        <li><span class="inline-code">title:</span> - (<em>optional</em>) A string or callback function used to set the title of the page when the route is chosen. Any parameters
+          defined by the <span class="inline-code">route:</span> will be passed in.</li>
+
+        <li><span class="inline-code">filter:</span> - (<em>optional</em>) A predicate function used to tell footwork if it should consider a route. Any parameters defined by the
+          <span class="inline-code">route:</span> will be passed in.</li>
+      </ul>
+
+      <h3><span class="inline-code">route:</span> example definitions with and without parameters specified:</h3>
+      <h3><span class="inline-code">controller:</span> example definitions with and without parameters passed in:</h3>
+<pre><code class="javascript">// ...
+routes: [
+  { // static route (no parameters): /about-us
+    route: '/about-us',
+    controller: function() { /* ... */ }
+  },
+  { // route with required parameter isbn
+    route: '/book/:isbn',
+    controller: function(isbn) {
+      console.log('Book ISBN', isbn);
+    }
+  },
+  { // route with optional parameter storeNum
+    route: '/info(/:storeNum)',
+    controller: function(storeNum) {
+      // storeNum is undefined if no storeNum is provided in the route
+      console.log('Store Number', storeNum);
+    }
+  }
+],
+// ...
+</code></pre>
+
+      <h3><span class="inline-code">title:</span> example definitions as a string and callback:</h3>
+      <p>This (optional) parameter defines what the title of the page will be set to when routing to this route. The route params (if any) as described by the route: string will be
+        passed in.</p>
+<pre><code class="javascript">// ...
+routes: [
+  { // 'string' title
+    title: 'Store Page',
+    route: '/store',
+    controller: function() { /* ... */ }
+  },
+  { // callback-based title
+    title: function(isbn) {
+      return 'Book ' + isbn;
+    },
+    route: '/book/:isbn',
+    controller: function(params) { /* ... */ }
+  }
+],
+// ...
+</code></pre>
+
+      <h3><span class="inline-code">filter:</span> example definition:</h3>
+      <p>If this (optional) callback returns a 'falsey' value, the
+      router will ignore the route even if the path matches. Conversely if the callback returns a
+      'truthy' value the router will consider it on a first-found first-routed basis as normal.
+      The route params (if any) as described by the <span class="inline-code">route:</span> string will be passed in.</p>
+<pre><code class="javascript">// ...
+routes: [
+  { // only routed to when isbn === '12345'
+    route: '/book/:isbn',
+    title: 'Special Book Page',
+    controller: function(isbn) {
+      console.log('Special Book ISBN', isbn);
+    },
+    filter: function(isbn) {
+      if(isbn === '12345') {
+        return true; // this route used only if isbn === '12345'
+      }
+      return false;
+    }
+  },
+  { // normal book/:isbn route that is used when isbn !== '12345'
+    route: '/book/:isbn',
+    title: 'Home Page',
+    controller: function(isbn) {
+      console.log('Book ISBN', isbn);
+    }
+  }
+],
+// ...
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Remember that you can always <a data-bind="$route: docLink('namespace#request')">
+        <span class="inline-code">request</span></a>
+        data, or use <a data-bind="$route: docLink('broadcastable-receivable')"><span class="inline-code">receivables</span>/<span class="inline-code">broadcastables</span></a>/etc
+        inside of your filter functions too.</div>
+    </div>
+  </section>
+
+  <a id="outlets" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="outlets">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Outlets</h2>
+    </header>
+    <div class="content">
+      <p>Outlets are simply areas in your application where you can control what is displayed. Their placement in your application is designated by one or more
+        <span class="inline-code">&lt;outlet name=""&gt;&lt;/outlet&gt;</span> declarations in your HTML. The <span class="inline-code">name=""</span> key is used by the router to
+        target that specific outlet.</p>
+
+<pre><code class="html">&lt;html&gt;
+  &lt;body&gt;
+    &lt;router module="MainRouter"&gt;
+      &lt;!-- ... --&gt;
+      &lt;outlet name="main-view"&gt;&lt;/outlet&gt;
+      &lt;!-- ... --&gt;
+    &lt;/router&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <p>When you tell an outlet what to show, you are telling it to load a component. Thus for each 'page' or view you want
+      to display for an <span class="inline-code">outlet</span>, footwork will need one of the three following things:</p>
+
+      <ul>
+        <li>A corresponding view registered (cached/preloaded) via <span class="inline-code">fw.outlets.registerView()</span> or
+          <a data-bind="$route: docLink('components#loading-registering')"><span class="inline-code">fw.components.register()</span></a></li>
+
+        <li>A registered location where it can load the view via <span class="inline-code">fw.outlets.registerViewLocation()</span> or
+          <a data-bind="$route: docLink('components#loading-registering')"><span class="inline-code">fw.components.registerLocation()</span></a></li>
+
+        <li>A component/view available at the default component location (<span class="inline-code">fw.components.defaultLocation()</span>, see
+          <a data-bind="$route: docLink('components#loading-registering')">component registration</a>).</li>
+      </ul>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> You can tell an <span class="inline-code">&lt;outlet&gt;&lt;/outlet&gt;</span> to show <em>any</em> component, not just ones you
+          register with <span class="inline-code">fw.outlets.registerView()</span> or <span class="inline-code">fw.outlets.registerViewLocation()</span>. Those methods are simply
+          provided as a shortcut for creating a component and marking it as 'template-only'.</p>
+
+        <p>Also remember that components can contain any depth and complexity of nested viewModels, components, routers, etc. This means you can even nest entire applications
+          within the view of another, all with simple declarative syntax.</p>
+      </div>
+      <ul>
+        <li><a data-bind="$route" href="#outlet-registering">Lazy Loading / Registering Views (components without a viewModel)</a></li>
+        <li><a data-bind="$route" href="#outlet-usage">Usage</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <a id="registering-views" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="registering-views">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Registering Views</h2>
+    </header>
+    <div class="content">
+      <p>Because most things you might want to show in an outlet (pages/views) consist of only template/html code (they have no corresponding
+        <span class="inline-code">viewModel</span>), footwork provides two shortcut methods for registering a template-only outlet view (ie: a
+        page/view/template you can show in an <span class="inline-code">&lt;outlet&gt;&lt;/outlet&gt;</span>).</p>
+
+      <ul>
+        <li><span class="inline-code">fw.outlets.registerView()</span> - Cache a view/template for later use (available instantly, no download time).</li>
+
+        <li><span class="inline-code">fw.outlets.registerViewLocation()</span> - Tell footwork where it can download it via AMD/RequireJS (dynamically/lazy loaded for you when
+          requested). Since outlet views are just viewModel-less components, they are resolved just like any other
+          <a data-bind="$route: docLink('components#loading-registering')">AMD/RequireJS loaded component</a>.</li>
+      </ul>
+
+      <p>Essentially they are ways to easily create/register a view you can use in an outlet.</p>
+
+      <a id="outlets-registerView" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.outlets.registerView<span>( <span class="param">'viewName'</span>, <span class="param">'&lt;!-- template HTML --&gt;'</span> )</span></div>
+        </div>
+        <div class="description">Register/cache a view for later use.</div>
+      </h3>
+<pre><code class="javascript">// Register the 'index-page' template view
+fw.outlets.registerView('index-page', '&lt;p&gt;Welcome to footwork.js&lt;/p&gt;');
+
+// Register a different view that has a nested component
+fw.outlets.registerView('calendar-page', 'Calendar: &lt;calendar&gt;&lt;/calendar&gt;');
+</code></pre>
+      <div class="note">
+        <p><span class="label">NOTE:</span> It is generally recommended you load your templates via a module system such as RequireJS (don't just write them inline in a string as
+          shown, that was only used as an example for reasons of brevity).</p><a data-bind="$route: docLink('namespace')">namespace</a>
+        <p>For an example of how to do this check the <a href="/tutorials" data-bind="$route">tutorials page</a>, or alternatively just specify the location of the view via
+          <span class="inline-code">fw.outlets.registerViewLocation()</span>.</p>
+      </div>
+
+      <a id="outlets-registerViewLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.outlets.registerViewLocation<span>( <span class="param">'viewName'</span>, <span class="param">'/path/to/template'</span> )</span></div>
+          <div class="func-def">fw.outlets.registerViewLocation<span>( <span class="param">[ 'viewName', 'viewName2', ... ]</span>, <span class="param">'/path/to/template/'</span> )</span></div>
+        </div>
+        <div class="description">Tell footwork where it can download a view via AMD/RequireJS.</div>
+      </h3>
+<pre><code class="javascript">// Register location of the 'index-page' template view
+fw.outlets.registerViewLocation('index-page', '/pages/index-page.html');
+
+/**
+ * Footwork will append the filename if you end it with a trailing slash (/)
+ * The following will try to load '/otherPages/calendar-page.html' when needed
+ */
+fw.outlets.registerViewLocation('calendar-page', '/otherPages/');
+
+// Register location for multiple views (the same filename appending occurs):
+fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/');
+</code></pre>
+    </div>
+  </section>
+
+  <a id="outlet-element" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="outlet-element">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">&lt;outlet&gt;</h2>
+    </header>
+    <div class="content">
+      <p>Once footwork knows how to resolve your outlet view it can be used in your application. From that point you need only place whatever
+        <span class="inline-code">&lt;outlet name=""&gt;&lt;/outlet&gt;</span> declarations you want in the HTML and then change/set them via the
+        <span class="inline-code">router.$outlet()</span> method.</p>
+
+      <a id="router-outlet" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(containingElement)</span> )</span></div>
+          <div class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">{ onComplete: function(containingElement), onFailure: function(error) }</span> )</span></div>
+        </div>
+        <div class="description">Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> the router instance</span>
+        </div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'MainRouter',
+  routes: [
+    {
+      route: '/',
+      controller: function() {
+        // route changed to '/', make the 'main-view' outlet show the 'index-page' view
+        this.$outlet('main-view', 'index-page');
+      }
+    }, {
+      route: '/about',
+      controller: function() {
+        // route changed to '/about', make the 'main-view' outlet show the 'about-page' view
+        this.$outlet('main-view', 'about-page', function(element) {
+          // callback triggered after about-page is loaded
+          console.log('About page is loaded inside of', element);
+        });
+      }
+    }
+  ]
+});
+</code></pre>
+
+      <p>You can also pass an <span class="inline-code">options</span> object to the <span class="inline-code">router.$outlet()</span> method. This object can contain the
+        following:</p>
+
+      <ul>
+        <li><span class="inline-code">params:</span> - (<em>optional</em>) Object passed to the <span class="inline-code">initialize()</span> method of the viewModel (if your view/component has a viewModel).</li>
+        <li><span class="inline-code">onComplete:</span> - (<em>optional</em>) A callback function which is run after the new view/component is loaded (same as above).</li>
+      </ul>
+<pre><code class="javascript">// ...
+{
+  route: '/about',
+  controller: function() {
+    this.$outlet('main-view', 'about-page', {
+      // params object passed to the viewModel initialize() method
+      params: { thisObject: 'isPassedToTheComponent' },
+
+      // callback which is run after it is loaded
+      onComplete: function(element) {
+        console.log('About page is loaded inside of', element);
+      }
+    });
+  }
+}
+// ...
+</code></pre>
+      <div class="note"><span class="label">NOTE:</span> Remember that in addition to passing arguments directly from a route, you can also leverage the
+      powerful <a data-bind="$route: docLink('namespace')">namespace</a> or <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable/receivable</a>
+      features of footwork to facilitate communication/initialization of your view component.</div>
+    </div>
+  </section>
+
+  <a id="changing-route" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="changing-route">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Changing the Route</h2>
+    </header>
+    <div class="content">
+      <p>Changing the route of your <span class="inline-code">router</span> can occur via a few differing methods. It can be triggered either explicitly
+        or via some external means such as a <span class="inline-code">$route</span> binding on the DOM.</p>
+      <p>The following sections explain how to trigger route changes in your application.</p>
+    </div>
+  </section>
+
   <a id="setting-state" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="setting-state">
     <div class="highlight"></div>
@@ -341,16 +655,86 @@ mainRouter.command('setState', '/');
     </div>
   </section>
 
-  <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="lifecycle-registration">
+  <a id="route-binding" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="route-binding">
     <div class="highlight"></div>
     <header>
-      <h1 class="title">Lifecycle &amp; Registration</h1>
+      <h2 class="sub title">$route Binding</h2>
     </header>
     <div class="content">
-      <p>Each <span class="inline-code">router</span> instantiated and bound to the DOM will receive lifecycle events.</p>
-      <p>These events can be used for any code you need to run when the instance is initially setup on or removed from the page. A common example
-        would be the setup and teardown of a jQuery plugin, or events.</p>
+      <p>In order to make your links and other elements work with the router, footwork needs to know about them. This is done with the <span class="inline-code">$route</span>
+        binding.</p>
+
+      <p>The <span class="inline-code">$route</span> binding is simply a <a href="http://knockoutjs.com/documentation/custom-bindings.html" target="_blank">custom knockout binding</a>
+        which is created by footwork. This binding allows footwork to correctly connect your DOM element event (click, by default) to a router action.</p>
+
+      <p>Whenever footwork encounters the <span class="inline-code">$route</span> binding it will traverse up the DOM node path searching for the nearest parent router. Whenever
+        the designated event occurs on that element it will trigger the state change as described on that router.</p>
+
+      <h3><span class="inline-code">$route</span> binding basic example:</h3>
+<pre><code class="html">&lt;html&gt;
+  &lt;body&gt;
+    &lt;router module="MainRouter"&gt;
+      &lt;div class="navigation"&gt;
+        &lt;!-- 'click' events on these will route application to their href="" paths --&gt;
+        &lt;a href="/" data-bind="$route"&gt;Home Page&lt;/a&gt;
+        &lt;a href="/about" data-bind="$route"&gt;About Page&lt;/a&gt;
+      &lt;/div&gt;
+
+      &lt;outlet name="main-view"&gt;&lt;/outlet&gt;
+    &lt;/router&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> If you do not wish to use the <span class="inline-code">$route</span> binding to trigger state changes you can always just
+        use the <span class="inline-code">router.setState()</span> method.</div>
+
+      <p>The <span class="inline-code">$route</span> binding has a few optional parameters.</p>
+      <ul>
+        <li><span class="inline-code">url:</span> - <span class="inline-code">string / callback()</span> The route to send the application to.</li>
+        <li><span class="inline-code">on:</span> - <span class="inline-code">string</span> The event to trigger the action on (click, by default).</li>
+        <li><span class="inline-code">handler:</span> - <span class="inline-code">function(event, url)</span> Callback handler for the event.</li>
+        <li><span class="inline-code">addActiveClass:</span> - <span class="inline-code">boolean</span> Flag indicating whether or not the 'active' class should be added to the element.</li>
+        <li><span class="inline-code">activeClass:</span> - <span class="inline-code">string</span> The classname to add to the element when the route is active (default is 'active').</li>
+      </ul>
+
+      <h3><span class="inline-code">url:</span> - <span class="inline-code">string / callback()</span> The URL/HREF/route to send the application to:</h3>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;!-- If not provided, footwork will attempt to find the url for the action on the href="" attribute. --&gt;
+  &lt;a data-bind="$route: { url: '/about' }"&gt;About Page&lt;/a&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Footwork will also set the <span class="inline-code">href=""</span> attribute to the appropriate URL after the router
+        has initialized the <span class="inline-code">$route</span> binding.</div>
+
+      <h3><span class="inline-code">on:</span> - <span class="inline-code">string</span> The event to trigger the action on (click, by default):</h3>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;!-- Trigger the action on a double-click --&gt;
+  &lt;a data-bind="$route: { url: '/about', on: 'dblclick' }"&gt;About Page&lt;/a&gt;
+&lt;!-- ... --&gt;</code></pre>
+
+      <h3><span class="inline-code">handler:</span> - <span class="inline-code">function(event, url)</span> Callback handler for the event:</h3>
+<pre><code class="html">&lt;!-- ... --&gt;
+  &lt;!-- Trigger the action with a custom handler --&gt;
+  &lt;a data-bind="$route: { url: '/about', handler: clickHandler }"&gt;About Page&lt;/a&gt;
+&lt;!-- ... --&gt;</code></pre>
+<pre><code class="javascript">// example viewModel showing the handler from above
+var MainViewModel = fw.viewModel({
+  // ...
+  initialize: function() {
+    this.clickHandler = function(event, url) {
+      console.log('Route Destination:', url);
+
+      // must prevent the default action on an &lt;a&gt; tag (otherwise it will reload the page)
+      event.preventDefault();
+
+      // tell footwork to route to the url (false === do not route)
+      return true;
+    }
+  }
+  // ...
+});
+</code></pre>
     </div>
   </section>
 
@@ -358,7 +742,7 @@ mainRouter.command('setState', '/');
   <section name="lifecycle-registration">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Lifecycle &amp; Registration</h2>
+      <h1 class="title">Lifecycle &amp; Registration</h1>
     </header>
     <div class="content">
       <p>Each <span class="inline-code">router</span> instantiated and bound to the DOM will receive lifecycle events.</p>
@@ -856,7 +1240,7 @@ fw.routers.fileExtensions(function(moduleName) {
   <section name="instance-properties">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Instance Properties</h2>
+      <h1 class="title">Instance Properties</h1>
     </header>
     <div class="content">
       <p>After a <span class="inline-code">router</span> has been created, there are a few properties which are on the instantiated object.</p>
@@ -930,7 +1314,7 @@ fw.routers.fileExtensions(function(moduleName) {
                   "title": "Setting State Explicitly",
                   "description": "How to set the state of a router (or change the URL) explicitly." },
                 { "anchor": "route-binding",
-                  "title": "$route binding",
+                  "title": "$route Binding",
                   "description": "How to bind an element to a route via an event." }
               ] }
           ] },
