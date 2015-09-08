@@ -1515,11 +1515,20 @@ fw.routers.fileExtensions(function(moduleName) {
       "label": "Routing",
       "subCategories": [
         {
-          "label": "Method",
+          "label": "Methods",
           "references": [
             { "anchor": "router-setState",
               "title": "router.setState()",
-              "description": "Change the route to the specified URL and trigger any matching controllers." }
+              "description": "Change the route to the specified URL and trigger any matching controllers." },
+            { "anchor": "router-addRoutes",
+              "title": "router.addRoutes()",
+              "description": "Add route(s) to the router." },
+            { "anchor": "router-setRoutes",
+              "title": "router.setRoutes()",
+              "description": "(clear out and) Set the routes for a router." },
+            { "anchor": "router-currentRoute",
+              "title": "router.currentRoute()",
+              "description": "Get the current route details." }
           ]
         },
         {
