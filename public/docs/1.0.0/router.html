@@ -1309,15 +1309,33 @@ var router = new MainRouter();
       <p>Various useful methods and utility functions for miscellaneous and debugging purposes.</p>
 
       <a id="routers-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.routers.getAll<span>()</span></em></h3>
-      <h3><em class="func-def">fw.routers.getAll<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3><em class="func-def">fw.routers.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></em></h3>
-      <h3>Get list of currently instantiated routers grouped/indexed by namespace:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.getAll<span>()</span></div>
+          <div class="func-def">fw.routers.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def">fw.routers.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
+        </div>
+        <div class="description">Get list of currently instantiated routers grouped/indexed by namespace.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">array[]</span> list of instances</span>
+        </div>
+      </h3>
 <pre><code class="javascript">var routers = fw.routers.getAll(); // get all instantiated routers</code></pre>
 
       <a id="routers-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.routers.isRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3>Return true or false based on whether or not there is a router that has been registered under 'moduleName':</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Return true or false based on whether or not there is a router that has been registered under 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> TRUE or FALSE depending on registration state of the module</span>
+        </div>
+      </h3>
 <pre><code class="javascript">fw.routers.register('MainRouter', fw.router({
   namespace: 'MainRouter'
 }));
@@ -1326,8 +1344,17 @@ var router = new MainRouter();
 // fw.routers.isRegistered('ModuleThatIsLoadedByAMD') === false</code></pre>
 
       <a id="routers-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.routers.getRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3>Return router that has been registered under 'moduleName':</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Return router that has been registered under 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">function()</span> Returns whatever router is registered under that moduleName</span>
+        </div>
+      </h3>
 <pre><code class="javascript">// Explicit registration
 fw.routers.register('MainRouter', fw.router({ /* ... configuration object */ }));
 
@@ -1340,20 +1367,43 @@ var MainRouter = fw.router({
 // fw.routers.getRegistered('MainRouter') === MainRouter;</code></pre>
 
       <a id="routers-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.routers.getLocation<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3>Get the path footwork will attempt to load for the given 'moduleName':</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Path to the module</span>
+        </div>
+      </h3>
 <pre><code class="javascript">fw.routers.registerLocation('MainRouter', '/path/to/router/folder');
 // fw.routers.getLocation('MainRouter') === '/path/to/router/folder'</code></pre>
 
       <a id="routers-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.routers.getFileName<span>( <span class="param">'moduleName'</span> )</span></em></h3>
-      <h3>Get the file name that footwork will appended to the path when downloading the router:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Get the file name that footwork will appended to the path when downloading the router.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Filename of the module</span>
+        </div>
+      </h3>
 <pre><code class="javascript">var fileNameForSprocket = fw.routers.getFileName('MainRouter'); // === MainRouter.js</code></pre>
 
       <a id="routers-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.routers.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>
-      <h3><em class="func-def">fw.routers.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></em></h3>
-      <h3>Specify the extension to append to an AMD/RequireJS loaded router path when it does not have an extension specified (ie: full file name not specified):</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
+          <div class="func-def">fw.routers.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
+        </div>
+        <div class="description">Specify the extension to append to an AMD/RequireJS loaded router path when it does not have an extension specified (ie: full file name not specified).</div>
+      </h3>
 <pre><code class="javascript">// explicitly set the extension
 fw.routers.fileExtensions('.jscript'); // append router module files with '.jscript'
 
@@ -1365,6 +1415,71 @@ fw.routers.fileExtensions(function(moduleName) {
     return '.js';
   }
 });</code></pre>
+
+      <a id="routers-baseRoute" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.baseRoute<span>()</span></div>
+          <div class="func-def">fw.routers.baseRoute<span>( <span class="param">'/path/to/ignore'</span> )</span></div>
+        </div>
+        <div class="description">Get or set the beginning portion of a route to ignore for the given path.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> baseRoute path</span>
+        </div>
+      </h3>
+<pre><code class="javascript">// fw.routers.baseRoute() === ''
+fw.routers.baseRoute('/home/directory'); // routers will ignore '/home/directory' at beginning of url</code></pre>
+
+      <a id="routers-activeRouteClassName" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.activeRouteClassName<span>()</span></div>
+          <div class="func-def">fw.routers.activeRouteClassName<span>( <span class="param">'className'</span> )</span></div>
+        </div>
+        <div class="description">Get or set the class which is added to an active <span class="inline-code">$route</span> bound element.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> class name used when a $route binding is active</span>
+        </div>
+      </h3>
+<pre><code class="javascript">// fw.routers.activeRouteClassName() === 'active' // default === 'active'
+// active routes will now have 'currentlyActive' added to their className
+fw.routers.activeRouteClassName('currentlyActive');</code></pre>
+
+      <a id="routers-disableHistory" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.disableHistory<span>()</span></div>
+          <div class="func-def">fw.routers.disableHistory<span>( <span class="param">isDisabled</span> )</span></div>
+        </div>
+        <div class="description">Enable or disable history (or get the current setting).</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> flag indicating intent of the router when using HTML5 history</span>
+        </div>
+      </h3>
+<pre><code class="javascript">// fw.routers.disableHistory() === false (default)
+fw.routers.disableHistory(true); // history now disabled, but app still navigable</code></pre>
+
+      <a id="routers-html5History" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.html5History<span>()</span></div>
+        </div>
+        <div class="description">Get a boolean flag indicating whether or not footwork is using the HTML5 history API.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> current state of HTML5 history API usage in this router</span>
+        </div>
+      </h3>
+<pre><code class="javascript">// fw.routers.html5History() === true (when using chrome)
+fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
+      <div class="note"><span class="label">NOTE:</span> You can force HTML4 (hash-based) routing by running this code before DOM onload: <span class="inline-code">window.History = { options: { html4Mode: true } };</span></div>
     </div>
   </section>
 
@@ -1512,8 +1627,25 @@ fw.routers.fileExtensions(function(moduleName) {
       ]
     },
     {
-      "label": "Routing",
+      "label": "Router",
       "subCategories": [
+        {
+          "label": "Options / Helpers",
+          "references": [
+            { "anchor": "routers-baseRoute",
+              "title": "fw.routers.baseRoute()",
+              "description": "Get or set the beginning portion of a route to ignore for the given path." },
+            { "anchor": "routers-activeRouteClassName",
+              "title": "fw.routers.activeRouteClassName()",
+              "description": "Get or set the class which is added to an active $route bound element." },
+            { "anchor": "routers-disableHistory",
+              "title": "fw.routers.disableHistory()",
+              "description": "Enable or disable history (or get the current setting)." },
+            { "anchor": "routers-html5History",
+              "title": "fw.routers.html5History()",
+              "description": "Get a boolean flag indicating whether or not footwork is using the HTML5 history API." }
+          ]
+        },
         {
           "label": "Methods",
           "references": [
@@ -1535,7 +1667,7 @@ fw.routers.fileExtensions(function(moduleName) {
           "label": "Outlet",
           "references": [
             { "anchor": "router-outlet",
-              "title": "router.$outlet",
+              "title": "router.$outlet()",
               "description": "Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel/dataModel/etc.",
               "keywords": [ "component", "routing", "view", "template" ] }
           ]
@@ -1577,7 +1709,10 @@ fw.routers.fileExtensions(function(moduleName) {
               "description": "Get the filename footwork will use when downloading a router.",
               "subDescriptions": [
                 "This is appended onto the location/path when downloading."
-              ] }
+              ] },
+            { "anchor": "routers-fileExtensions",
+              "title": "fw.routers.fileExtensions()",
+              "description": "Specify the extension to append to an AMD/RequireJS loaded router path when it does not have an extension specified (ie: full file name not specified)." }
           ]
         },
         {
