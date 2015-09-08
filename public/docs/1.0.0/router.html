@@ -273,10 +273,28 @@ var router = new AppRouter();
       <h2 class="sub title">Routes List</h2>
     </header>
     <div class="content">
-      <p>There are a few ways in which you can define a <span class="inline-code">route</span>.</p>
+      <p>When a new state/url is requested each router will iteratively search its <span class="inline-code">routes: []</span> list from the top down for the first matching route.
+        If more than one route matches for a given url/state then only the first one found found will be used.</p>
 
-      <p>One is via directly registering a <span class="inline-code">route</span> using the method <span class="inline-code">setState()</span> on a
-        router.</p>
+      <h3>Example <span class="inline-code">routes: []</span> list definition:</h3>
+<pre><code class="javascript">// ...
+routes: [
+  { // default route: '/'
+    route: '/',
+    // ...
+  },
+  { // route: /store
+    route: '/store',
+    // ...
+  }
+],
+unknownRoute: { /* ... */ }
+// ...
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">unknownRoute:</span> definition has no <span class="inline-code">route:</span> parameter (it
+        is ignored if included). This route is triggered when no matching route is found in the <span class="inline-code">routes:</span> list. It is otherwise configured just like
+        the other route definitions.</div>
     </div>
   </section>
 
@@ -1380,10 +1398,10 @@ fw.routers.fileExtensions(function(moduleName) {
       ]
     },
     {
-      "label": "Registration",
+      "label": "Register",
       "subCategories": [
         {
-          "label": "Methods",
+          "label": "Routers",
           "references": [
             { "anchor": "routers-register",
               "title": "fw.routers.register()",
@@ -1406,6 +1424,17 @@ fw.routers.fileExtensions(function(moduleName) {
               "subDescriptions": [
                 "This is appended onto the location/path when downloading."
               ] }
+          ]
+        },
+        {
+          "label": "Views",
+          "references": [
+            { "anchor": "outlets-registerView",
+              "title": "fw.outlets.registerView()",
+              "description": "Register/cache a view for later use." },
+            { "anchor": "outlets-registerViewLocation",
+              "title": "fw.outlets.registerViewLocation()",
+              "description": "Tell footwork where it can download a view via AMD/RequireJS." }
           ]
         }
       ]
@@ -1458,6 +1487,20 @@ fw.routers.fileExtensions(function(moduleName) {
             { "anchor": "router-namespace",
               "title": "router.$namespace",
               "description": "The namespace for this router used for communication with other areas of your application." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "CQRS",
+      "subCategories": [
+        {
+          "label": "Commands",
+          "references": [
+            { "anchor": "command-handler-setState",
+              "title": "setState",
+              "description": "Change the route to the specified URL and trigger any matching controllers.",
+              "keywords": [ "cqrs", "command" ] }
           ]
         }
       ]
