@@ -322,7 +322,7 @@ unknownRoute: { /* ... */ }
       {
         title: 'Book Page',
         route: '/book/:isbn',
-        controller: function(params) { /* ... */ }
+        controller: function(isbn) { /* ... */ }
       }
     ]);
   }
@@ -352,7 +352,7 @@ unknownRoute: { /* ... */ }
       {
         title: 'Book Page',
         route: '/book/:isbn',
-        controller: function(params) { /* ... */ }
+        controller: function(isbn) { /* ... */ }
       }
     ]);
   }
@@ -382,7 +382,7 @@ fw.router({
     {
       title: 'Book Page',
       route: '/book/:isbn',
-      controller: function(params) { /* ... */ }
+      controller: function(isbn) { /* ... */ }
     }
   ],
   initialize: function() {
@@ -410,6 +410,8 @@ fw.router({
       <ul>
         <li><span class="inline-code">route:</span> - A specially structured string (or array of strings) which is used to match against a given URL (and optionally provide for named parameters).</li>
 
+        <li><span class="inline-code">name:</span> - A string value which can be used to route with.</li>
+
         <li><span class="inline-code">controller:</span> - Callback function used when a route is chosen, this is where an <span class="inline-code">outlet</span> gets changed and the
           state of your application is altered. Any parameters defined by the <span class="inline-code">route:</span> will be passed in as individual arguments.</li>
 
@@ -436,6 +438,7 @@ fw.router({
   // static routes (no parameters): /about-us and /about go to the same controller
   {
     route: [ '/about-us', '/about' ],
+    name: 'about', // optional/alternative name for this route
     controller: function() { /* ... */ }
   },
 
@@ -463,6 +466,7 @@ fw.router({
   // normal book/:isbn route that is used when isbn !== '12345'
   {
     route: '/book/:isbn',
+    name: 'book', // optional/alternative name for this route
     title: 'Home Page',
     controller: function(isbn) {
       console.log('Book ISBN', isbn);
@@ -609,8 +613,8 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(containingElement)</span> )</span></div>
-          <div class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">{ onComplete: function(containingElement), onFailure: function(error) }</span> )</span></div>
+          <div class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(</span>containingElement<span class="param">) )</span></div>
+          <div class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, { <span class="param">onComplete</span>: function(containingElement), <span class="param">onFailure</span>: function(error), <span class="param">params</span>: {} }</span> )</span></div>
         </div>
         <div class="description">Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel.</div>
         <div class="return-value">
@@ -636,35 +640,27 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
           console.log('About page is loaded inside of', element);
         });
       }
+    }, {
+      route: '/dashboard',
+      controller: function() {
+        /**
+         * route changed to '/dashboard', make the 'main-view' outlet show the
+         * 'dashboard' component while passing in the accountId to its viewModel as well as
+         * callbacks for onComplete and onFailure lifecycle events
+         */
+        this.$outlet('main-view', 'dashboard', {
+          params: {
+            accountId: 234
+          },
+          onComplete: function(element) { /* ... */ },
+          onFailure: function(element) { /* ... */ }
+        });
+      }
     }
   ]
 });
 </code></pre>
 
-      <p>You can also pass an <span class="inline-code">options</span> object to the <span class="inline-code">router.$outlet()</span> method. This object can contain the
-        following:</p>
-
-      <ul>
-        <li><span class="inline-code">params:</span> - (<em>optional</em>) Object passed to the <span class="inline-code">initialize()</span> method of the viewModel (if your view/component has a viewModel).</li>
-        <li><span class="inline-code">onComplete:</span> - (<em>optional</em>) A callback function which is run after the new view/component is loaded (same as above).</li>
-      </ul>
-<pre><code class="javascript">// ...
-{
-  route: '/about',
-  controller: function() {
-    this.$outlet('main-view', 'about-page', {
-      // params object passed to the viewModel initialize() method
-      params: { thisObject: 'isPassedToTheComponent' },
-
-      // callback which is run after it is loaded
-      onComplete: function(element) {
-        console.log('About page is loaded inside of', element);
-      }
-    });
-  }
-}
-// ...
-</code></pre>
       <div class="note"><span class="label">NOTE:</span> Remember that in addition to passing arguments directly from a route, you can also leverage the
       powerful <a data-bind="$route: docLink('namespace')">namespace</a> or <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable/receivable</a>
       features of footwork to facilitate communication/initialization of your view component.</div>
@@ -716,20 +712,40 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.setState<span>( <span class="param">'/path/to/route/to'</span> )</span></div>
+          <div class="func-def">router.setState<span>( <span class="param">'namedRoute'</span>, <span class="param">paramsObject</span> )</span></div>
         </div>
         <div class="description">Change the route to the specified URL and trigger any matching controllers.</div>
       </h3>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
-  routes: [ /* ... */ ],
+  routes: [
+    {
+      title: 'Book Page',
+      route: '/book/:isbn',
+      controller: function(isbn) { /* ... */ }
+    }
+  ],
   initialize: function() {
     var router = this;
     this.$namespace.command.handler('goHome', function() {
       // We received the 'goHome' command, lets go to the default ('/') home route
       router.setState('/');
     });
+
+    this.$namespace.command.handler('gotoBook', function(bookNum) {
+      // We received the 'goHome' command, lets go to the named 'book' route and pass it the bookNum
+      router.setState('book', '/book/' + bookNum);
+    });
+
+    this.$namespace.command.handler('gotoMyBook', function() {
+      // We received the 'gotoMyBook' command, lets go to the named 'book' route and pass it the id of our book
+      router.setState('book', { id: 123 });
+    });
   }
 });</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> If you want to use a <span class="inline-code">named</span> route then you must pass a params
+        object to <span class="inline-code">setState()</span> even if it is just an empty object.</div>
 
       <p>Footwork also sets up a default command handler (<span class="inline-code">setState</span>) that you can use/call in case you just want to
         tell the <span class="inline-code">router</span> to set its state to a certain value.</p>
