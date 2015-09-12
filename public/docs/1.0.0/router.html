@@ -408,24 +408,57 @@ fw.router({
 
       <p>A route definition has four possible parameters:</p>
       <ul>
-        <li><span class="inline-code">route:</span> - A specially structured string which is used to match against a given URL (and optionally provide for named parameters).</li>
+        <li><span class="inline-code"><a data-bind="$route" href="#routeDefinition-route">route:</a></span> - A specially structured string (or array of strings) which is used to match against a given URL (and optionally provide for named parameters).</li>
 
-        <li><span class="inline-code">controller:</span> - Callback function used when a route is chosen, this is where <span class="inline-code">outlets</span> get changed and the
+        <li><span class="inline-code"><a data-bind="$route" href="#routeDefinition-controller">controller:</a></span> - Callback function used when a route is chosen, this is where <span class="inline-code">outlets</span> get changed and the
           state of your application is altered. Any parameters defined by the <span class="inline-code">route:</span> will be passed in as individual arguments.</li>
 
-        <li><span class="inline-code">title:</span> - (<em>optional</em>) A string or callback function used to set the title of the page when the route is chosen. Any parameters
+        <li><span class="inline-code"><a data-bind="$route" href="#routeDefinition-title">title:</a></span> - (<em>optional</em>) A string or callback function used to set the title of the page when the route is chosen. Any parameters
           defined by the <span class="inline-code">route:</span> will be passed in.</li>
 
-        <li><span class="inline-code">filter:</span> - (<em>optional</em>) A predicate function used to tell footwork if it should consider a route. Any parameters defined by the
+        <li><span class="inline-code"><a data-bind="$route" href="#routeDefinition-filter">filter:</a></span> - (<em>optional</em>) A predicate function used to tell footwork if it should consider a route. Any parameters defined by the
           <span class="inline-code">route:</span> will be passed in.</li>
       </ul>
 
-      <h3><span class="inline-code">route:</span> example definitions with and without parameters specified:</h3>
-      <h3><span class="inline-code">controller:</span> example definitions with and without parameters passed in:</h3>
+      <a id="routeDefinition-route" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">route<span>: <span class="param">'/path'</span> or <span class="param">[ '/path1', '/path2', ... ]</span></span></div>
+        </div>
+        <div class="description">A specially structured string (or array of strings) which is used to match against a given URL (optionally providing for named parameters).</div>
+      </h3>
 <pre><code class="javascript">// ...
 routes: [
-  { // static route (no parameters): /about-us
-    route: '/about-us',
+  { // static routes (no parameters): /about-us and /about go to the same controller
+    route: [ '/about-us', '/about' ],
+    controller: function() { /* ... */ }
+  },
+  { // route with required parameter isbn
+    route: '/book/:isbn',
+    controller: function(isbn) {}
+  },
+  { // route with optional parameter storeNum
+    route: '/info(/:storeNum)',
+    controller: function(storeNum) {}
+  }
+],
+// ...
+</code></pre>
+
+      <a id="routeDefinition-controller" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">controller<span>: <span class="param">function()</span></div>
+        </div>
+        <div class="description">Callback function used when a route is chosen, this is where you might change an <span class="inline-code">outlet</span> and the
+          state of your application is altered. Any parameters defined by the <span class="inline-code">route:</span> will be passed in as individual arguments.</div>
+      </h3>
+<pre><code class="javascript">// ...
+routes: [
+  {
+    route: [ '/about-us', '/about' ],
     controller: function() { /* ... */ }
   },
   { // route with required parameter isbn
@@ -445,9 +478,15 @@ routes: [
 // ...
 </code></pre>
 
-      <h3><span class="inline-code">title:</span> example definitions as a string and callback:</h3>
-      <p>This (optional) parameter defines what the title of the page will be set to when routing to this route. The route params (if any) as described by the route: string will be
-        passed in.</p>
+      <a id="routeDefinition-title" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">title<span>: <span class="param">'string'</span> or <span class="param">function()</span></div>
+        </div>
+        <div class="description">(<em>optional</em>) A string or callback function used to set the title of the page when the route is chosen. Any parameters
+          defined by the <span class="inline-code">route:</span> will be passed in.</div>
+      </h3>
 <pre><code class="javascript">// ...
 routes: [
   { // 'string' title
@@ -466,11 +505,21 @@ routes: [
 // ...
 </code></pre>
 
-      <h3><span class="inline-code">filter:</span> example definition:</h3>
-      <p>If this (optional) callback returns a 'falsey' value, the
-      router will ignore the route even if the path matches. Conversely if the callback returns a
-      'truthy' value the router will consider it on a first-found first-routed basis as normal.
-      The route params (if any) as described by the <span class="inline-code">route:</span> string will be passed in.</p>
+      <a id="routeDefinition-filter" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">filter<span>: <span class="param">function()</span></div>
+        </div>
+        <div class="description">
+          <p>(<em>optional</em>) A predicate function used to tell footwork if it should consider a route. Any parameters defined by the
+          <span class="inline-code">route:</span> will be passed in.</p>
+
+            <p>If this callback returns a 'falsey' value, the router will ignore the route even if the path matches. Conversely if the callback returns
+              a 'truthy' value the router will consider it on a first-found first-routed basis as normal. The route params (if any) as described by the
+              <span class="inline-code">route:</span> string will be passed in.</p>
+          </div>
+      </h3>
 <pre><code class="javascript">// ...
 routes: [
   { // only routed to when isbn === '12345'
@@ -1713,6 +1762,15 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
             { "anchor": "router-currentRoute",
               "title": "router.currentRoute()",
               "description": "Get the current route details.",
+              "keywords": [ "routing" ] }
+          ]
+        },
+        {
+          "label": "Route Definition Options",
+          "references": [
+            { "anchor": "routeDefinition-route",
+              "title": "route Definition",
+              "description": "Object that defines how to match for and what to do when triggering a route.",
               "keywords": [ "routing" ] }
           ]
         },
