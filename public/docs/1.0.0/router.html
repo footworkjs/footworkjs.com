@@ -797,36 +797,48 @@ mainRouter.command('setState', '/');
 
       <p>The <span class="inline-code">$route</span> binding has a few optional parameters.</p>
       <ul>
-        <li><span class="inline-code">url:</span> - <span class="inline-code">string / callback()</span> The route to send the application to.</li>
-        <li><span class="inline-code">on:</span> - <span class="inline-code">string</span> The event to trigger the action on (click, by default).</li>
+        <li><span class="inline-code">url:</span> - <span class="inline-code">'string' / callback() / observable</span> The route to send the application to.</li>
+        <li><span class="inline-code">on:</span> - <span class="inline-code">'string' / callback() / observable</span> The event to trigger the action on (click, by default).</li>
         <li><span class="inline-code">handler:</span> - <span class="inline-code">function(event, url)</span> Callback handler for the event.</li>
-        <li><span class="inline-code">addActiveClass:</span> - <span class="inline-code">boolean</span> Flag indicating whether or not the 'active' class should be added to the element.</li>
-        <li><span class="inline-code">activeClass:</span> - <span class="inline-code">string</span> The classname to add to the element when the route is active (default is 'active').</li>
+        <li><span class="inline-code">addActiveClass:</span> - <span class="inline-code">boolean / callback() / observable</span> Flag indicating whether or not the 'active' class should be added to the element.</li>
+        <li><span class="inline-code">activeClass:</span> - <span class="inline-code">'string' / callback() / observable</span> The class name to add to the element when the route is active (default is 'active').</li>
       </ul>
 
-      <h3><span class="inline-code">url:</span> - <span class="inline-code">string / callback()</span> The URL/HREF/route to send the application to:</h3>
+      <a id="route-binding-def" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">$route <span>binding</span></div>
+        </div>
+        <div class="description">Binding which will connect an HTML DOM event to a route (eg: clicking a link).</div>
+      </h3>
 <pre><code class="html">&lt;!-- ... --&gt;
-  &lt;!-- If not provided, footwork will attempt to find the url for the action on the href="" attribute. --&gt;
-  &lt;a data-bind="$route: { url: '/about' }"&gt;About Page&lt;/a&gt;
-&lt;!-- ... --&gt;</code></pre>
+  &lt;!-- If the url is not explicitely provided, footwork will use the url attribute from the element instead. --&gt;
+  &lt;a href="/about" data-bind="$route"&gt;About Page&lt;/a&gt;
+&lt;!-- ... --&gt;
 
-      <div class="note"><span class="label">NOTE:</span> Footwork will also set the <span class="inline-code">href=""</span> attribute to the appropriate URL after the router
-        has initialized the <span class="inline-code">$route</span> binding.</div>
+&lt;!-- ... --&gt;
+  &lt;!-- Trigger the action on the URL provided by a callback (evaluated on each click) --&gt;
+  &lt;a data-bind="$route: { url: routeURL }"&gt;About Page&lt;/a&gt;
+&lt;!-- ... --&gt;
 
-      <h3><span class="inline-code">on:</span> - <span class="inline-code">string</span> The event to trigger the action on (click, by default):</h3>
-<pre><code class="html">&lt;!-- ... --&gt;
+&lt;!-- ... --&gt;
   &lt;!-- Trigger the action on a double-click --&gt;
   &lt;a data-bind="$route: { url: '/about', on: 'dblclick' }"&gt;About Page&lt;/a&gt;
+&lt;!-- ... --&gt;
+
+&lt;!-- ... --&gt;
+  &lt;!-- Provide a custom className to use when the current route matches the route this binding points to --&gt;
+  &lt;a href="/about" data-bind="$route: { activeClass: 'thisRouteIsActive' }"&gt;About Page&lt;/a&gt;
+&lt;!-- ... --&gt;
+
+&lt;!-- ... --&gt;
+  &lt;!-- Trigger the action with a custom handler --&gt;
+  &lt;a href="/about" data-bind="$route: { handler: clickHandler }"&gt;About Page&lt;/a&gt;
 &lt;!-- ... --&gt;</code></pre>
 
-      <h3><span class="inline-code">handler:</span> - <span class="inline-code">function(event, url)</span> Callback handler for the event:</h3>
-<pre><code class="html">&lt;!-- ... --&gt;
-  &lt;!-- Trigger the action with a custom handler --&gt;
-  &lt;a data-bind="$route: { url: '/about', handler: clickHandler }"&gt;About Page&lt;/a&gt;
-&lt;!-- ... --&gt;</code></pre>
-<pre><code class="javascript">// example viewModel showing the handler from above
+<pre><code class="javascript">// viewModel showing the example handler from above
 var MainViewModel = fw.viewModel({
-  // ...
   initialize: function() {
     this.clickHandler = function(event, url) {
       console.log('Route Destination:', url);
@@ -838,9 +850,11 @@ var MainViewModel = fw.viewModel({
       return true;
     }
   }
-  // ...
 });
 </code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Footwork will also set the <span class="inline-code">href=""</span> attribute (if appropriate)
+        to the appropriate URL after the router has initialized the <span class="inline-code">$route</span> binding.</div>
     </div>
   </section>
 
@@ -1637,17 +1651,20 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
   ],
   "apiReferences": [
     {
-      "label": "Constructor",
+      "label": "",
       "subCategories": [
         {
-          "label": "Factory",
+          "label": "General",
           "references": [
             { "anchor": "fw-router",
               "title": "fw.router()",
               "description": "Creates a new router constructor function." },
             { "anchor": "route-definition",
-              "title": "Route Definition",
-              "description": "Configuration object which defines a route." }
+              "title": "Route definition",
+              "description": "Configuration object which defines a route." },
+            { "anchor": "route-binding-def",
+              "title": "$route binding",
+              "description": "Binding which will connect an HTML DOM event to a route (eg: clicking a link)." }
           ]
         }
       ]
