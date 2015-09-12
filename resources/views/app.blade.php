@@ -413,7 +413,6 @@
                           <polygon fill="#999999" points="8.862,10.283 0,14.762 0,17.708 8.862,13.229 17.72,17.708 17.72,14.762 "/>
                         </svg>
                       </div>
-                      <div class="facet right"></div>
                       <div class="facet face">
                         <svg viewBox="0 0 17.72 17.708">
                           <title>Semantic Mark-Up</title>

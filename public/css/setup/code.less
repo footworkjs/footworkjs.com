@@ -161,7 +161,7 @@ article, .docco {
       }
     }
 
-    .return-value {
+    .return-value, .context {
       font-weight: normal;
       font-size: 12px;
       font-style: italic;
@@ -169,21 +169,16 @@ article, .docco {
       margin-bottom: 5px;
       .clearblock;
 
+      .label {
+        margin-left: 20px;
+      }
+
       .label, .value {
         float: left;
       }
 
-      @labelWidth: 61px;
-      .label {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: @labelWidth;
-        text-align: right;
-      }
-
       .value {
-        margin-left: @labelWidth + 5px;
+        margin-left: 5px;
         color: mix(@handlerBackground, @handlerForeground);
         padding: 0 5px;
         background: darken(@handlerBackground, 10%);
