@@ -797,11 +797,11 @@ mainRouter.command('setState', '/');
 
       <p>The <span class="inline-code">$route</span> binding has a few optional parameters.</p>
       <ul>
-        <li><span class="inline-code">url:</span> - <span class="inline-code">'string' / callback() / observable</span> The route to send the application to.</li>
-        <li><span class="inline-code">on:</span> - <span class="inline-code">'string' / callback() / observable</span> The event to trigger the action on (click, by default).</li>
-        <li><span class="inline-code">handler:</span> - <span class="inline-code">function(event, url)</span> Callback handler for the event.</li>
-        <li><span class="inline-code">addActiveClass:</span> - <span class="inline-code">boolean / callback() / observable</span> Flag indicating whether or not the 'active' class should be added to the element.</li>
-        <li><span class="inline-code">activeClass:</span> - <span class="inline-code">'string' / callback() / observable</span> The class name to add to the element when the route is active (default is 'active').</li>
+        <li><span class="inline-code">url:</span> <span class="inline-code">'string' / callback() / observable</span> The route to send the application to.</li>
+        <li><span class="inline-code">on:</span> <span class="inline-code">'string' / callback() / observable</span> The event to trigger the action on (click, by default).</li>
+        <li><span class="inline-code">handler:</span> <span class="inline-code">function(event, url)</span> Callback handler for the event.</li>
+        <li><span class="inline-code">addActiveClass:</span> <span class="inline-code">boolean / callback() / observable</span> Flag indicating whether or not the 'active' class should be added to the element.</li>
+        <li><span class="inline-code">activeClass:</span> <span class="inline-code">'string' / callback() / observable</span> The class name to add to the element when the route is active (default is 'active').</li>
       </ul>
 
       <a id="route-binding-def" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -1097,8 +1097,13 @@ router.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/
         get initialized (and so forth until the end).</div>
 
       <a id="routers-register" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.routers.register<span>( <span class="param">'moduleName'</span>, <span class="param">router</span> )</span></em></h3>
-      <h3>Cache a router/module ahead of time:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.register<span>( <span class="param">'moduleName'</span>, <span class="param">router</span> )</span></div>
+        </div>
+        <div class="description">Cache a router/module ahead of time.</div>
+      </h3>
 <pre><code class="javascript">// register a footwork router
 fw.routers.register('MainRouter', fw.router({ /* ... */ }));</code></pre>
       <div class="note">
@@ -1111,16 +1116,27 @@ fw.routers.register('MainRouter', fw.router({ /* ... */ }));</code></pre>
       </div>
 
       <a id="routers-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3><em class="func-def">fw.routers.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></em></h3>
-      <h3>Register the location of a router/module so footwork can load and bind it for you when needed:</h3>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+        </div>
+        <div class="description">Register the location of a router/module so footwork can load and bind it for you when needed.</div>
+      </h3>
 <pre><code class="javascript">// Load MainRouter from: /routers/MainRouter.js (based on router/module name, case sensitive)
 fw.routers.registerLocation('MainRouter', '/routers/');
 
 // Load MainRouter from: /routers/DifferentFileName.js (specify full file name)
 fw.routers.registerLocation('MainRouter', '/routers/DifferentFileName.js');</code></pre>
 
-      <h3><em class="func-def">fw.routers.defaultLocation<span>( <span class="param">'path/to/router/folder'</span> )</span></em></h3>
-      <h3>Register the default location of routers/modules so footwork can load and bind them for you when needed:</h3>
+      <a id="routers-defaultLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">fw.routers.defaultLocation<span>( <span class="param">'path/to/router/folder'</span> )</span></div>
+        </div>
+        <div class="description">Register the location of a router/module so footwork can load and bind it for you when needed.</div>
+      </h3>
 <pre><code class="javascript">// Load all routers from /myrouters/[module-name].js (case sensitive)
 fw.routers.defaultLocation('/myRouters/');</code></pre>
     </div>
@@ -1427,7 +1443,7 @@ fw.routers.baseRoute('/home/directory'); // routers will ignore '/home/directory
           <div class="func-def">fw.routers.activeRouteClassName<span>()</span></div>
           <div class="func-def">fw.routers.activeRouteClassName<span>( <span class="param">'className'</span> )</span></div>
         </div>
-        <div class="description">Get or set the class which is added to an active <span class="inline-code">$route</span> bound element.</div>
+        <div class="description">Get or set the default class which is added to an active <span class="inline-code">$route</span> bound element.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> class name used when a $route binding is active</span>
@@ -1748,6 +1764,9 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
             { "anchor": "routers-getRegistered",
               "title": "fw.routers.getRegistered()",
               "description": "Return the router registered under a specified name." },
+            { "anchor": "routers-defaultLocation",
+              "title": "fw.routers.defaultLocation()",
+              "description": "Register the location of a router/module so footwork can load and bind it for you when needed." },
             { "anchor": "routers-getLocation",
               "title": "fw.routers.getLocation()",
               "description": "Get the location footwork will attempt to download a router from when it is needed." },
