@@ -80,17 +80,62 @@ article, .docco {
     padding: 0 10px;
     .border-radius(3px 3px 0 0);
     .clearblock;
+    font-size: 13px;
 
     .title {
       .clearblock;
       line-height: 20px;
       padding-top: 5px;
 
-      & > .type, & > .match, & > .param {
-        float: left;
+      .icon {
+        font-size: 15px;
       }
 
-      & > .type {
+      & > .cqrs {
+        clear: both;
+
+        & + .cqrs {
+          .icon {
+            visibility: hidden;
+          }
+        }
+
+        & > .type, & > .match, & > .param {
+          float: left;
+        }
+
+        & > .match {
+          color: mix(@typeColor, @handlerBackground, 70%);
+          margin-left: 5px;
+          font-weight: normal;
+        }
+
+        & > .param {
+          font-weight: normal;
+          margin-left: 5px;
+        }
+      }
+
+      & > .func-def {
+        color: @typeColor;
+        font-weight: normal;
+        float: left;
+        margin-left: 20px;
+        clear: both;
+
+        & > span {
+          color: mix(@typeColor, @handlerBackground);
+          margin-left: 3px;
+          font-weight: bold;
+        }
+
+        .param {
+          color: @handlerForeground;
+          font-weight: normal;
+        }
+      }
+
+      .type {
         text-transform: uppercase;
         color: @typeColor;
         position: relative;
@@ -112,42 +157,11 @@ article, .docco {
           }
         }
       }
-
-      & > .match {
-        color: mix(@typeColor, @handlerBackground, 70%);
-        margin-left: 5px;
-        font-weight: normal;
-      }
-
-      & > .param {
-        font-weight: normal;
-        margin-left: 5px;
-      }
-
-      & > .func-def {
-        color: @typeColor;
-        font-weight: normal;
-        float: left;
-        margin-left: 20px;
-        clear: both;
-
-        & > span {
-          color: mix(@typeColor, @handlerBackground);
-          margin-left: 3px;
-          font-weight: bold;
-        }
-
-        .param {
-          color: @handlerForeground;
-          font-weight: normal;
-        }
-      }
     }
 
     .description {
       clear: both;
       font-weight: normal;
-      font-size: 13px;
       line-height: 16px;
       margin: 5px 0 5px 20px;
       color: mix(@handlerBackground, @handlerForeground);

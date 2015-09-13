@@ -720,6 +720,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
   namespace: 'MainRouter',
   routes: [
     {
+      name: 'book',
       title: 'Book Page',
       route: '/book/:isbn',
       controller: function(isbn) { /* ... */ }
@@ -747,15 +748,22 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <div class="note"><span class="label">NOTE:</span> If you want to use a <span class="inline-code">named</span> route then you must pass a params
         object to <span class="inline-code">setState()</span> even if it is just an empty object.</div>
 
-      <p>Footwork also sets up a default command handler (<span class="inline-code">setState</span>) that you can use/call in case you just want to
-        tell the <span class="inline-code">router</span> to set its state to a certain value.</p>
+      <p>For the second, footwork also sets up a default command handler (<span class="inline-code">setState</span>) that you can use/call in case you
+        just want to tell the <span class="inline-code">router</span> to set its state to a certain value from another area in your application.</p>
 
       <a id="command-handler-setState" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
         <div class="title">
-          <div class="type"><span class="icon icon-communicate"></span> command</div>
-          <div class="match">setState</div>
-          <div class="param">'/path/to/route/to'</div>
+          <div class="cqrs">
+            <div class="type"><span class="icon icon-communicate"></span> command</div>
+            <div class="match">setState</div>
+            <div class="param">'/path/to/route/to'</div>
+          </div>
+          <div class="cqrs">
+            <div class="type"><span class="icon icon-communicate"></span> command</div>
+            <div class="match">setState</div>
+            <span class="param">{ name: 'namedRoute', params: paramsObject }</span>
+          </div>
         </div>
         <div class="description">Change the route to the specified URL and trigger any matching controllers.</div>
       </h3>
@@ -770,10 +778,15 @@ var mainRouter = fw.namespace('MainRouter');
 
 // Send the router to the default '/' route
 mainRouter.command('setState', '/');
-</code></pre>
 
-      <p>The other (more common) method of registering routes is to define them when configuring the constructor function for a <span class="inline-code">router</span>. The
-        optional <span class="inline-code">routes</span> array can be used to define the usable routes as well.</p>
+// Send the router to the named route 'book' with the id passed in
+mainRouter.command('setState', {
+  name: 'book',
+  params: {
+    id: 123
+  }
+});
+</code></pre>
     </div>
   </section>
 
@@ -792,24 +805,6 @@ mainRouter.command('setState', '/');
 
       <p>Whenever footwork encounters the <span class="inline-code">$route</span> binding it will traverse up the DOM node path searching for the nearest parent router. Whenever
         the designated event occurs on that element it will trigger the state change as described on that router.</p>
-
-      <h3><span class="inline-code">$route</span> binding basic example:</h3>
-<pre><code class="html">&lt;html&gt;
-  &lt;body&gt;
-    &lt;router module="MainRouter"&gt;
-      &lt;div class="navigation"&gt;
-        &lt;!-- 'click' events on these will route application to their href="" paths --&gt;
-        &lt;a href="/" data-bind="$route"&gt;Home Page&lt;/a&gt;
-        &lt;a href="/about" data-bind="$route"&gt;About Page&lt;/a&gt;
-      &lt;/div&gt;
-
-      &lt;outlet name="main-view"&gt;&lt;/outlet&gt;
-    &lt;/router&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-
-      <div class="note"><span class="label">NOTE:</span> If you do not wish to use the <span class="inline-code">$route</span> binding to trigger state changes you can always just
-        use the <span class="inline-code">router.setState()</span> method.</div>
 
       <p>The <span class="inline-code">$route</span> binding has a few optional parameters.</p>
       <ul>
