@@ -72,7 +72,7 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
 
     function showNotFoundPage() {
       var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-      this.$outlet('mainContent', 'not-found-page', showLoadedPage);
+      this.outlet('mainContent', 'not-found-page', showLoadedPage);
     }
 
     function getViewName(docVersion, page) {
@@ -98,49 +98,49 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
           title: 'footwork.js',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.$outlet('mainContent', 'index-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', 'index-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials',
           title: 'Tutorials - footwork.js',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.$outlet('mainContent', 'tutorials-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', 'tutorials-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/creatingApplication',
           title: 'footworkjs - Tutorials - TodoMVC - Creating the Application',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.$outlet('mainContent', 'todomvc-creating-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', 'todomvc-creating-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/routing',
           title: 'footworkjs - Tutorials - TodoMVC - Routing',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.$outlet('mainContent', 'todomvc-routing-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', 'todomvc-routing-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/generalFunctionality',
           title: 'footworkjs - Tutorials - TodoMVC - General Functionality',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.$outlet('mainContent', 'todomvc-general-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', 'todomvc-general-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/about',
           title: 'about - footwork.js',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.$outlet('mainContent', 'about-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', 'about-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/docs/list',
           title: 'Documentation - footwork.js',
           controller: function(params) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.$outlet('mainContent', 'docs', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', 'docs', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/docs/:docVersion/:page',
@@ -157,7 +157,7 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
               });
             }
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.$outlet('mainContent', viewName, { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', viewName, { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }
       ],

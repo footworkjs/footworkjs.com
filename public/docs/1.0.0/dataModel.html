@@ -94,7 +94,7 @@
 
   /**
    * Parse function called whenever a models data is returned by the server from either a
-   * $save() or $fetch().
+   * save() or fetch().
    * This method is passed the response object and should return the attributes hash to be
    * $set() on the dataModel. By default this method simply returns the responseObject back
    * to be used in the $set() call.
@@ -423,7 +423,7 @@ var person = new Person({
       <h2 class="sub title">Setting / Writing</h2>
     </header>
     <div class="content">
-      <p>When you are not using one of the RESTful methods (like <span class="inline-code">dataModel.$fetch()</span>) to retrieve and set the values in
+      <p>When you are not using one of the RESTful methods (like <span class="inline-code">dataModel.fetch()</span>) to retrieve and set the values in
         your <span class="inline-code">dataModel</span> you will need to set them by some other means.</p>
 
       <p>One method is to write to the underlying observables that are mapped inside of your <span class="inline-code">dataModel</span>. You
@@ -520,13 +520,13 @@ person.$set('firstName', 'Jake');
         see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel()</a></span> factory method for details on that
         option.</p>
 
-      <p>Assuming that has been done, fetching the data is done via a call to <span class="inline-code">dataModel.$fetch()</span>.</p>
+      <p>Assuming that has been done, fetching the data is done via a call to <span class="inline-code">dataModel.fetch()</span>.</p>
 
       <a id="dataModel-fetch" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">dataModel.$fetch<span>( <span class="param">ajaxOptions</span> )</span></div>
+          <div class="func-def">dataModel.fetch<span>( <span class="param">ajaxOptions</span> )</span></div>
         </div>
         <div class="description">Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</div>
         <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
@@ -548,13 +548,13 @@ var person = new Person({
 // person.isDead() === false
 
 // ... some time later
-person.$fetch().done(function() {
+person.fetch().done(function() {
   // person.firstName() === 'Gary'
   // person.isDead() === true
 });
 </code></pre>
 
-      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$fetch</span>
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">fetch</span>
         are exactly the same as is supported in a
         <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
     </div>
@@ -571,16 +571,16 @@ person.$fetch().done(function() {
         see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel()</a></span> factory method for details on that
         option.</p>
 
-      <p>Assuming that has been done, saving the data is done via a call to <span class="inline-code">dataModel.$save()</span>. You can save either the
+      <p>Assuming that has been done, saving the data is done via a call to <span class="inline-code">dataModel.save()</span>. You can save either the
         entire <span class="inline-code">dataModel</span> (all the mapped values), or save specific data by passing it the appropriate parameters.</p>
 
       <a id="dataModel-save" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>dataModel</span>.$save<span>()</div>
-          <div class="func-def"><span>dataModel</span>.$save<span>( <span class="param">optionsObject</span> )</div>
-          <div class="func-def"><span>dataModel</span>.$save<span>( <span class="param">key</span>, <span class="param">value</span>, <span class="param">optionsObject</span> )</div>
+          <div class="func-def"><span>dataModel</span>.save<span>()</div>
+          <div class="func-def"><span>dataModel</span>.save<span>( <span class="param">optionsObject</span> )</div>
+          <div class="func-def"><span>dataModel</span>.save<span>( <span class="param">key</span>, <span class="param">value</span>, <span class="param">optionsObject</span> )</div>
         </div>
         <div class="description">Save the data for a <span class="inline-code">dataModel</span> to its configured endpoint.</div>
         <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
@@ -602,12 +602,12 @@ var person = new Person({
   lastName: 'Hitchcock'
 });
 
-person.$save().done(function() {
+person.save().done(function() {
   console.info('dataModel saved successfully.');
 });
 </code></pre>
 
-      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$save</span>
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">save</span>
         are exactly the same as is supported in a
         <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
     </div>
@@ -624,13 +624,13 @@ person.$save().done(function() {
         with a <span class="inline-code">url</span>, see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel()</a></span>
         factory method for details on that option.</p>
 
-      <p>Assuming that has been done, destroying the data is done via a call to <span class="inline-code">dataModel.$destroy()</span>.</p>
+      <p>Assuming that has been done, destroying the data is done via a call to <span class="inline-code">dataModel.destroy()</span>.</p>
 
       <a id="dataModel-destroy" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>dataModel</span>.$destroy<span>( <span class="param">optionsObject</span> )</div>
+          <div class="func-def"><span>dataModel</span>.destroy<span>( <span class="param">optionsObject</span> )</div>
         </div>
         <div class="description">Destroy the data for a <span class="inline-code">dataModel</span> on/at its configured endpoint.</div>
         <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
@@ -650,12 +650,12 @@ var person = new Person({
   id: 1
 });
 
-person.$destroy().done(function() {
+person.destroy().done(function() {
   console.info('dataModel destroyed successfully.');
 });
 </code></pre>
 
-      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">$destroy</span>
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">destroy</span>
         are exactly the same as is supported in a
         <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
     </div>
@@ -1351,7 +1351,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">dataModel.$cid</div>
+          <div class="func-def">dataModel.cid</div>
         </div>
         <div class="description">Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">dataModel</span> when
         they are first created.</div>
@@ -1359,7 +1359,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
 <pre><code class="javascript">var Navigation = fw.dataModel({
   namespace: 'Navigation',
   initialize: function() {
-    // this.$cid === 'ed53b42d-faa0-a251-29c1-e396d9f083bc'
+    // this.cid === 'ed53b42d-faa0-a251-29c1-e396d9f083bc'
   }
 });</code></pre>
     </div>
@@ -1561,15 +1561,15 @@ fw.dataModels.fileExtensions(function(moduleName) {
           "label": "Methods",
           "references": [
             { "anchor": "dataModel-fetch",
-              "title": "dataModel.$fetch()",
+              "title": "dataModel.fetch()",
               "description": "Fetch a models data from its RESTful endpoint.",
               "keywords": [ "ajax", "REST", "async", "GET" ] },
             { "anchor": "dataModel-save",
-              "title": "dataModel.$save()",
+              "title": "dataModel.save()",
               "description": "Save a models data to its RESTful endpoint.",
               "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] },
             { "anchor": "dataModel-destroy",
-              "title": "dataModel.$destroy()",
+              "title": "dataModel.destroy()",
               "description": "Delete a dataModel from its RESTful endpoint.",
               "keywords": [ "ajax", "REST", "async", "DELETE" ] }
           ]
@@ -1604,7 +1604,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
                 "Think of this as a broadcast channel everyone can talk on."
               ] },
             { "anchor": "dataModel-cid",
-              "title": "dataModel.$cid",
+              "title": "dataModel.cid",
               "description": "A unique identifier automatically assigned to every dataModel when first created." }
           ]
         }

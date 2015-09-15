@@ -517,8 +517,8 @@ fw.router({
     },
     {
       name: 'profile',
-      route: '/profile',
-      controller: function() {
+      route: '/profile/:username',
+      controller: function(username) {
         // ...
       }
     }
@@ -653,14 +653,14 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
     <div class="content">
       <p>Once footwork knows how to resolve your outlet view it can be used in your application. From that point you need only place whatever
         <span class="inline-code">&lt;outlet name=""&gt;&lt;/outlet&gt;</span> declarations you want in the HTML and then change/set them via the
-        <span class="inline-code">router.$outlet()</span> method.</p>
+        <span class="inline-code">router.outlet()</span> method.</p>
 
       <a id="router-outlet" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(</span>containingElement<span class="param">) )</span></div>
-          <div class="func-def">router.$outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, { <span class="param">onComplete</span>: function(containingElement), <span class="param">onFailure</span>: function(error), <span class="param">params</span>: {} }</span> )</span></div>
+          <div class="func-def">router.outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(</span>containingElement<span class="param">) )</span></div>
+          <div class="func-def">router.outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, { <span class="param">onComplete</span>: function(containingElement), <span class="param">onFailure</span>: function(error), <span class="param">params</span>: {} }</span> )</span></div>
         </div>
         <div class="description">Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel.</div>
         <div class="return-value">
@@ -675,13 +675,13 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       route: '/',
       controller: function() {
         // route changed to '/', make the 'main-view' outlet show the 'index-page' view
-        this.$outlet('main-view', 'index-page');
+        this.outlet('main-view', 'index-page');
       }
     }, {
       route: '/about',
       controller: function() {
         // route changed to '/about', make the 'main-view' outlet show the 'about-page' view
-        this.$outlet('main-view', 'about-page', function(element) {
+        this.outlet('main-view', 'about-page', function(element) {
           // callback triggered after about-page is loaded
           console.log('About page is loaded inside of', element);
         });
@@ -694,7 +694,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
          * 'dashboard' component while passing in the accountId to its viewModel as well as
          * callbacks for onComplete and onFailure lifecycle events
          */
-        this.$outlet('main-view', 'dashboard', {
+        this.outlet('main-view', 'dashboard', {
           params: {
             accountId: 234
           },
@@ -1780,16 +1780,40 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
             { "anchor": "router-currentRoute",
               "title": "router.currentRoute()",
               "description": "Get the current route details.",
+              "keywords": [ "routing" ] },
+            { "anchor": "router-matchesRoute",
+              "title": "router.matchesRoute()",
+              "description": "Determine whether or not a '/route/string' matches a named route.",
               "keywords": [ "routing" ] }
+          ]
+        },
+        {
+          "label": "Namespaces",
+          "references": [
+            { "anchor": "router-namespace",
+              "title": "router.$namespace",
+              "description": "The namespace for this router used for communication with other areas of your application." },
+            { "anchor": "router-rootNamespace",
+              "title": "router.$rootNamespace",
+              "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
+            { "anchor": "router-globalNamespace",
+              "title": "router.$globalNamespace",
+              "description": "Global namespace channel all instances get access to.",
+              "subDescriptions": [
+                "Think of this as a broadcast channel everyone can talk on."
+              ] }
           ]
         },
         {
           "label": "Outlet",
           "references": [
             { "anchor": "router-outlet",
-              "title": "router.$outlet()",
+              "title": "router.outlet()",
               "description": "Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel/dataModel/etc.",
-              "keywords": [ "component", "routing", "view", "template" ] }
+              "keywords": [ "component", "routing", "view", "template" ] },
+            { "anchor": "router-outlets",
+              "title": "router.outlets",
+              "description": "List/Collection of registered outlets." }
           ]
         },
         {
@@ -1799,6 +1823,15 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
               "title": "setState",
               "description": "Change the route to the specified URL and trigger any matching controllers.",
               "keywords": [ "cqrs", "command" ] }
+          ]
+        },
+        {
+          "label": "Utility Methods",
+          "references": [
+            { "anchor": "routers-getAll",
+              "title": "fw.routers.getAll()",
+              "description": "Get all currently instantiated router references.",
+              "keywords": [ "instance" ] }
           ]
         }
       ]
@@ -1877,40 +1910,6 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
               "subDescriptions": [
                 "This is done automatically when a bound instance is removed from the DOM."
               ] }
-          ]
-        }
-      ]
-    },
-    {
-      "label": "Instance",
-      "subCategories": [
-        {
-          "label": "Utility Methods",
-          "references": [
-            { "anchor": "routers-getAll",
-              "title": "fw.routers.getAll()",
-              "description": "Get all currently instantiated router references.",
-              "keywords": [ "instance" ] }
-          ]
-        },
-        {
-          "label": "Properties",
-          "references": [
-            { "anchor": "router-namespace",
-              "title": "router.$namespace",
-              "description": "The namespace for this router used for communication with other areas of your application." },
-            { "anchor": "router-rootNamespace",
-              "title": "router.$rootNamespace",
-              "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
-            { "anchor": "router-globalNamespace",
-              "title": "router.$globalNamespace",
-              "description": "Global namespace channel all instances get access to.",
-              "subDescriptions": [
-                "Think of this as a broadcast channel everyone can talk on."
-              ] },
-            { "anchor": "router-outlets",
-              "title": "router.outlets",
-              "description": "List/Collection of registered outlets." }
           ]
         }
       ]
