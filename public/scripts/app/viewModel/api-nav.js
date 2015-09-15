@@ -1,5 +1,5 @@
-define([ "footwork", "lodash" ],
-  function( fw, _ ) {
+define([ "footwork", "lodash", "jquery" ],
+  function( fw, _, $ ) {
     var viewPortLayoutMode = fw.observable().receiveFrom('ViewPort', 'layoutMode');
     var headerHeight = fw.observable().receiveFrom('Header', 'height');
     var viewPortDimensions = fw.observable().receiveFrom('ViewPort', 'dimensions');
@@ -7,6 +7,8 @@ define([ "footwork", "lodash" ],
     var paneCollapsed = fw.observable().receiveFrom('Configuration', 'paneCollapsed');
     var apiReferenceNamespace = fw.namespace('apiReference');
     var sectionAnchors = fw.observable().receiveFrom('sectionAnchors', 'sectionAnchors');
+    var apiScrollPosition = fw.observable(0).broadcastAs({ name: 'apiScrollPosition', namespace: 'apiNav' });
+    var apiWindowHeight = fw.observable(0).broadcastAs({ name: 'apiWindowHeight', namespace: 'apiNav' });
 
     var computeAnchorDelay;
     function computeAnchorPos() {
@@ -16,11 +18,28 @@ define([ "footwork", "lodash" ],
       }, 500);
     };
 
-    this.layoutModeSub = viewPortLayoutMode.subscribe( computeAnchorPos );
-    this.dimensionSub = viewPortDimensions.subscribe( computeAnchorPos );
-    this.heightSub = headerHeight.subscribe( computeAnchorPos );
-    this.widthSub = paneWidth.subscribe( computeAnchorPos );
-    this.collapsedSub = paneCollapsed.subscribe( computeAnchorPos );
+    this.layoutModeSub = viewPortLayoutMode.subscribe(computeAnchorPos);
+    this.dimensionSub = viewPortDimensions.subscribe(computeAnchorPos);
+    this.heightSub = headerHeight.subscribe(computeAnchorPos);
+    this.widthSub = paneWidth.subscribe(computeAnchorPos);
+    this.collapsedSub = paneCollapsed.subscribe(computeAnchorPos);
+    var $scrollContainer;
+
+    fw.bindingHandlers.apiScroll = {
+      init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        $scrollContainer = $(element);
+        var updateScrollPosition = function(event) {
+          apiScrollPosition(event.target.scrollTop);
+        };
+        apiWindowHeight($scrollContainer.outerHeight());
+
+        $scrollContainer.on('scroll', updateScrollPosition);
+
+        fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
+          $scrollContainer.off(updateScrollPosition);
+        });
+      }
+    };
 
     return fw.viewModel({
       namespace: 'apiNav',
@@ -46,6 +65,9 @@ define([ "footwork", "lodash" ],
         }.bind(this));
 
         this.active = fw.observable(false);
+        this.active.subscribe(function() {
+          apiReferenceNamespace.command('computePopupPosition');
+        });
 
         this.paneWidth = fw.observable().receiveFrom('Pane', 'width');
 
@@ -99,7 +121,6 @@ define([ "footwork", "lodash" ],
           }
           return 'disable';
         }, this);
-
 
         this.viewPortScrollPos.subscribe(function(scrollPosition) {
           this.currentAPISection(undefined);
