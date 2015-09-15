@@ -479,6 +479,52 @@ fw.router({
         <span class="inline-code">request</span></a>
         data, or use <a data-bind="$route: docLink('broadcastable-receivable')"><span class="inline-code">receivables</span>/<span class="inline-code">broadcastables</span></a>/etc
         inside of your filter functions too.</div>
+
+      <p>Sometimes you might need to check and see if a <span class="inline-code">'string'</span> matches a <span class="inline-code">route</span>. An
+        example use case for this would be when integrating some sort of authentication system. You might want to block a <span class="inline-code">route</span>
+        from being accessed when a user is not logged in. Footwork includes a method on an instantiated <span class="inline-code">router</span> called
+        <span class="inline-code">matchesRoute()</span>.</p>
+
+      <a id="router-matchesRoute" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.matchesRoute<span>( <span class="param">'routeName'</span>, <span class="param">'/route/to/match'</span> )</span></div>
+        </div>
+        <div class="description">Determine whether or not a <span class="inline-code">'/route/string'</span> matches a named <span class="inline-code">route</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> <span class="inline-code">true</span> if matches, <span class="inline-code">false</span> if not</span>
+        </div>
+      </h3>
+<pre><code class="javascript">var Router = fw.router({
+  initialize: function() {
+    this.userIsLoggedIn = fw.observable().receiveFrom('auth', 'userIsLoggedIn');
+  },
+  beforeRoute: function(url) {
+    if(this.matchesRoute('profile', url) && !this.userIsLoggedIn()) {
+      return false;
+    }
+    return true;
+  },
+  routes: [
+    {
+      name: 'home',
+      route: '/',
+      controller: function() {
+        // ...
+      }
+    },
+    {
+      name: 'profile',
+      route: '/profile',
+      controller: function() {
+        // ...
+      }
+    }
+  ]
+});</code></pre>
+
     </div>
   </section>
 
