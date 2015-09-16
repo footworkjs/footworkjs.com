@@ -113,6 +113,22 @@
     this.param1 = fw.observable(param1);
   },
 
+  /**
+   * Sometimes you want to show something while a component loads. This is the property
+   * which defines which component to show while the chosen one downloads.
+   * Note: You will typically only want to use an explicitly registered component/view for
+   *       this otherwise it will need to be downloaded first as well.
+   */
+  showDuringLoad: 'component-name',
+  showDuringLoad: function(outletName, componentToShow) { return 'component-name'; },
+
+  /**
+   * Specify the minimum transition time between outlet changes (ie: show the
+   * showDuringLoad component for a minimum specified amount of time)
+   */
+  minTransitionPeriod: 300, // msec
+  minTransitionPeriod: function(outletName, componentToShow) { return 300; }
+
   // Behavioral mixins to include with each new router created
   mixins: [
     // See: 'Mixins' section on this page
