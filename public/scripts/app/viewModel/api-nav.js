@@ -25,8 +25,8 @@ define([ "footwork", "lodash", "jquery" ],
     this.collapsedSub = paneCollapsed.subscribe(computeAnchorPos);
     var $scrollContainer;
 
-    fw.bindingHandlers.apiScroll = {
-      init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+    fw.bindingHandlers["apiScroll"] = {
+      'init': function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         $scrollContainer = $(element);
         var updateScrollPosition = function(event) {
           apiScrollPosition(event.target.scrollTop);
@@ -36,7 +36,7 @@ define([ "footwork", "lodash", "jquery" ],
         $scrollContainer.on('scroll', updateScrollPosition);
 
         fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
-          $scrollContainer.off(updateScrollPosition);
+          $scrollContainer.off('scroll', updateScrollPosition);
         });
       }
     };
