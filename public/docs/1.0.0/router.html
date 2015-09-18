@@ -87,6 +87,10 @@
           <div class="func-def">fw.router<span>( <span class="param">configurationObject</span> )</span></div>
         </div>
         <div class="description">Create a <span class="inline-code">router</span> constructor function.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">function()</span> <span class="inline-code">Router</span> constructor function</span>
+        </div>
       </h3>
 <pre><code class="javascript">var RouterConstructor = fw.router({
   // by default the namespace is based off of the viewModel it is paired with
@@ -587,10 +591,6 @@ fw.router({
         <p>Also remember that components can contain any depth and complexity of nested viewModels, components, routers, etc. This means you can even nest entire applications
           within the view of another, all with simple declarative syntax.</p>
       </div>
-      <ul>
-        <li><a data-bind="$route" href="#outlet-registering">Lazy Loading / Registering Views (components without a viewModel)</a></li>
-        <li><a data-bind="$route" href="#outlet-usage">Usage</a></li>
-      </ul>
     </div>
   </section>
 
