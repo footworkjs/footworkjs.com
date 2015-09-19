@@ -671,6 +671,9 @@ person.destroy().done(function() {
       <p>Each <span class="inline-code">dataModel</span> instantiated and bound to the DOM will receive lifecycle events.</p>
       <p>These events can be used for any code you need to run when the instance is initially setup on or removed from the page. A common example
         would be the setup and teardown of a jQuery plugin, or events.</p>
+
+      <p>Registration of a <span class="inline-code">dataModel</span> is referring to telling footwork (in one way or another) where your
+        <span class="inline-code">dataModel</span> is so that it can be used when needed.</p>
     </div>
   </section>
 
@@ -681,7 +684,10 @@ person.destroy().done(function() {
       <h2 class="sub title">Lifecycle</h2>
     </header>
     <div class="content">
-      <p>Lifecycle events are automatically handled for you when using a <span class="inline-code">dataModel</span> via one of the three main methods:</p>
+      <p>A <span class="inline-code">dataModel</span> is instantiated, then bound to the DOM and used, or just used independent of the DOM. Depending on
+        what you choose to do with a <span class="inline-code">dataModel</span> determines its exact lifecycle.</p>
+
+      <p>Lifecycle events are automatically triggered for you when using a <span class="inline-code">dataModel</span> via one of the three main methods:</p>
 
       <ul>
         <li>Use the <span class="inline-code">&lt;dataModel&gt; ... &lt;/dataModel&gt;</span> declarative syntax.</li>
@@ -692,43 +698,14 @@ person.destroy().done(function() {
       <p>A dataModel that is attached to the DOM will retrive two main lifecycle events, one just after binding to the DOM
         (<span class="inline-code">afterBinding()</span>) and one when the element (that the dataModel bound itself to) is removed from the DOM
         (<span class="inline-code">onDispose()</span>, called just before the element is removed).</p>
-
-      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to the instance if you
-        want them to automatically be cleaned up for you when the dataModel is disposed.</div>
-
-<pre><code class="javascript">var someOtherObservable = fw.observable();
-
-var MydataModel = fw.dataModel({
-  initialize: function() {
-    this.myVarSub = someOtherObservable.subscribe(function() {
-      // This subscription will get cleaned up when the dataModel is disposed
-    });
-
-    this.$namespace.command.handler('doSomething', function() {
-      // This command handler will get cleaned up when the dataModel is disposed
-    });
-
-    this.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
-    this.$someOtherNamespace.command.handler('doSomethingElse', function() {
-      // This command handler will get cleaned up when the dataModel is disposed
-    });
-
-    this.someOtherThing = {
-      eventHandler: this.$namespace.event.handler('someEvent', function() {
-        // This will NOT get cleaned up, handler result/subscription is not attached to 'this'
-      })
-    };
-  }
-});
-</code></pre>
     </div>
   </section>
 
-  <a id="afterBinding" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="afterBinding">
+  <a id="binding" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="binding">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">afterBinding()</h2>
+      <h2 class="sub title">Binding</h2>
     </header>
     <div class="content">
       <p>If provided, the <span class="inline-code">dataModel</span> configuration <span class="inline-code">afterBinding()</span> method will be called
@@ -755,12 +732,14 @@ var MydataModel = fw.dataModel({
   }
 });
 </code></pre>
+    </div>
+  </section>
 
-  <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="onDispose">
+  <a id="disposal" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="disposal">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">onDispose()</h2>
+      <h2 class="sub title">Disposal</h2>
     </header>
     <div class="content">
       <p>If provided, the <span class="inline-code">dataModel</span> configuration <span class="inline-code">onDispose()</span> method will be called
@@ -811,6 +790,38 @@ var MydataModel = fw.dataModel({
 var dataModel = new MydataModel();
 // ...
 dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to the instance if you
+        want them to automatically be cleaned up for you when the dataModel is disposed.</div>
+
+<pre><code class="javascript">var someOtherObservable = fw.observable();
+
+var MyDataModel = fw.dataModel({
+  initialize: function() {
+    // Make dataModel the instance reference
+    var dataModel = this;
+
+    dataModel.myVarSub = someOtherObservable.subscribe(function() {
+      // This subscription will get cleaned up when the dataModel is disposed
+    });
+
+    dataModel.$namespace.command.handler('doSomething', function() {
+      // This command handler will get cleaned up when the dataModel is disposed
+    });
+
+    dataModel.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
+    dataModel.$someOtherNamespace.command.handler('doSomethingElse', function() {
+      // This command handler will get cleaned up when the dataModel is disposed
+    });
+
+    dataModel.someOtherThing = {
+      eventHandler: dataModel.$namespace.event.handler('someEvent', function() {
+        // This will NOT get cleaned up, handler result/subscription is not attached the instance
+      })
+    };
+  }
+});
 </code></pre>
     </div>
   </section>
@@ -1080,7 +1091,7 @@ var bigSprocket = {
 
   mixin: {
     /**
-     * these properties are added to 'this' object immediately upon creation, before
+     * these properties are added the instance object immediately upon creation, before
      * any methods (including _preInit) are called
      */
     function1: function() {
@@ -1429,12 +1440,12 @@ fw.dataModels.fileExtensions(function(moduleName) {
               "title": "Lifecycle",
               "description": "Explanation of the lifecycle of a dataModel, including instantiation and disposal.",
               "subSections": [
-                { "anchor": "afterBinding",
-                  "title": "afterBinding()",
-                  "description": "Method called after binding the dataModel to the DOM." },
-                { "anchor": "onDispose",
-                  "title": "onDispose()",
-                  "description": "Method called after the dataModel is removed from the DOM." }
+                { "anchor": "binding",
+                  "title": "Binding",
+                  "description": "Information about how a dataModel is bound to the DOM." },
+                { "anchor": "disposal",
+                  "title": "Disposal",
+                  "description": "Information about how disposal of a dataModel is handled." }
               ] },
             { "anchor": "registration",
               "title": "Registration",

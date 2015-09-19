@@ -1014,6 +1014,9 @@ console.info(currentRoute.url); // === '/book/1234'
       <p>Each <span class="inline-code">router</span> instantiated and bound to the DOM will receive lifecycle events.</p>
       <p>These events can be used for any code you need to run when the instance is initially setup on or removed from the page. A common example
         would be the setup and teardown of a jQuery plugin, or events.</p>
+
+      <p>Registration of a <span class="inline-code">router</span> is referring to telling footwork (in one way or another) where your
+        <span class="inline-code">router</span> is so that it can be used when needed.</p>
     </div>
   </section>
 
@@ -1024,7 +1027,17 @@ console.info(currentRoute.url); // === '/book/1234'
       <h2 class="sub title">Lifecycle</h2>
     </header>
     <div class="content">
-      <p>Lifecycle events are automatically handled for you when using a <span class="inline-code">router</span> via one of the three main methods:</p>
+      <p>A <span class="inline-code">router</span> lifecycle follows exactly the same pattern as a
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> but with one crucial exception. A
+        <span class="inline-code">router</span> will not trigger any of its routes (and thus, controllers) until it is activated.</p>
+
+      <p>This activation can/will occur automatically when you bind it to the DOM, or you can trigger it explicitly by calling
+        <span class="inline-code">router.activate()</span> directly on the instance.</p>
+
+      <p>A <span class="inline-code">router</span> is instantiated, then bound to the DOM and used, or just used independent of the DOM. Depending on
+        what you choose to do with a <span class="inline-code">router</span> determines its exact lifecycle.</p>
+
+      <p>Lifecycle events are automatically triggered for you when using a <span class="inline-code">router</span> via one of the three main methods:</p>
 
       <ul>
         <li>Use the <span class="inline-code">&lt;router&gt; ... &lt;/router&gt;</span> declarative syntax.</li>
@@ -1035,50 +1048,73 @@ console.info(currentRoute.url); // === '/book/1234'
       <p>A router that is attached to the DOM will retrive two main lifecycle events, one just after binding to the DOM
         (<span class="inline-code">afterBinding()</span>) and one when the element (that the router bound itself to) is removed from the DOM
         (<span class="inline-code">onDispose()</span>, called just before the element is removed).</p>
+    </div>
+  </section>
 
-      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to the instance if you
-        want them to automatically be cleaned up for you when the router is disposed.</div>
+  <a id="activation" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="activation">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Activation</h2>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">router</span> is first instantiated and then activated. No routing will occur (the controller methods will not be
+        activated/called) until a <span class="inline-code">router</span> is activated.</p>
 
-<pre><code class="javascript">var someOtherObservable = fw.observable();
+      <p>This activation can occur automatically when you bind it to the DOM or explicitly when calling
+        <span class="inline-code">router.activate()</span> directly on the instance.</p>
 
-var MyRouter = fw.router({
-  routes: [ /* ... */ ],
-  initialize: function() {
-    this.myVarSub = someOtherObservable.subscribe(function() {
-      // This subscription will get cleaned up when the router is disposed
-    });
-
-    this.$namespace.command.handler('doSomething', function() {
-      // This command handler will get cleaned up when the router is disposed
-    });
-
-    this.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
-    this.$someOtherNamespace.command.handler('doSomethingElse', function() {
-      // This command handler will get cleaned up when the router is disposed
-    });
-
-    this.someOtherThing = {
-      eventHandler: this.$namespace.event.handler('someEvent', function() {
-        // This will NOT get cleaned up, handler result/subscription is not attached to 'this'
-      })
-    };
-  }
+      <a id="router-activate" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.activate<span>()</span></div>
+        </div>
+        <div class="description">Activate (turn on, start routing for) a <span class="inline-code">router</span> instance.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The <span class="inline-code">router</span> instance</span>
+        </div>
+      </h3>
+<pre><code class="javascript">// Configure the router with a single route
+var MainRouter = fw.router({
+  routes: [
+      {
+        title: 'Home Page',
+        route: '/home',
+        controller: function() {
+          console.info('Went to home page');
+        }
+      }
+    ]
 });
+
+// Instantiate an instance of the router
+var router = new MainRouter();
+
+// Activate the router without binding it to the DOM
+router.activate();
+
+// Set the state/route to a specific value
+router.setState('/home');
+
+// Console prints 'Went to home page'
 </code></pre>
     </div>
   </section>
 
-  <a id="afterBinding" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="afterBinding">
+  <a id="binding" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="binding">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">afterBinding()</h2>
+      <h2 class="sub title">Binding</h2>
     </header>
     <div class="content">
       <p>If provided, the <span class="inline-code">router</span> configuration <span class="inline-code">afterBinding()</span> method will be called
         just after a <span class="inline-code">router</span> is bound to the DOM. This provides a handy integration point for external libraries or
         plugins (such as jQuery).</p>
 
+      <a id="afterBinding" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
@@ -1148,6 +1184,39 @@ var MyRouter = fw.router({
 var router = new MyRouter();
 // ...
 router.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to the instance if you
+        want them to automatically be cleaned up for you when the router is disposed.</div>
+
+<pre><code class="javascript">var someOtherObservable = fw.observable();
+
+var MyRouter = fw.router({
+  routes: [ /* ... */ ],
+  initialize: function() {
+    // Make router the instance reference
+    var router = this;
+
+    router.myVarSub = someOtherObservable.subscribe(function() {
+      // This subscription will get cleaned up when the router is disposed
+    });
+
+    router.$namespace.command.handler('doSomething', function() {
+      // This command handler will get cleaned up when the router is disposed
+    });
+
+    router.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
+    router.$someOtherNamespace.command.handler('doSomethingElse', function() {
+      // This command handler will get cleaned up when the router is disposed
+    });
+
+    router.someOtherThing = {
+      eventHandler: router.$namespace.event.handler('someEvent', function() {
+        // This will NOT get cleaned up, handler result/subscription is not attached to the instance
+      })
+    };
+  }
+});
 </code></pre>
     </div>
   </section>
@@ -1386,7 +1455,7 @@ var mainRouterBehavior = {
 
   mixin: {
     /**
-     * these properties are added to 'this' object immediately upon creation, before
+     * these properties are added the instance object immediately upon creation, before
      * any methods (including _preInit) are called
      */
     function1: function() {
@@ -1778,12 +1847,15 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
               "title": "Lifecycle",
               "description": "Explanation of the lifecycle of a router, including instantiation and disposal.",
               "subSections": [
-                { "anchor": "afterBinding",
-                  "title": "afterBinding()",
-                  "description": "Method called after binding the router to the DOM." },
-                { "anchor": "onDispose",
-                  "title": "onDispose()",
-                  "description": "Method called after the router is removed from the DOM." }
+                { "anchor": "activation",
+                  "title": "Activation",
+                  "description": "Activation of a router. How it happens, or how to make it happen." },
+                { "anchor": "binding",
+                  "title": "Binding",
+                  "description": "Information about how a router is bound to the DOM." },
+                { "anchor": "disposal",
+                  "title": "Disposal",
+                  "description": "Information about how disposal of a router is handled." }
               ] },
             { "anchor": "registration",
               "title": "Registration",
