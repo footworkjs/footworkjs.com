@@ -97,9 +97,11 @@
    * Note: it is passed in the parameters supplied at creation.
    */
   initialize: function(param1, param2, ...) {
-    // this === the viewModel object
+    // this === the viewModel instance
+    var viewModel = this;
+
     // Perform normal viewModel initialization here, just like typical knockout.js code.
-    this.param1 = fw.observable(param1);
+    viewModel.param1 = fw.observable(param1);
   },
 
   // Behavioral mixins to include with each new viewModel created
@@ -109,12 +111,12 @@
 
   // Function called just after binding to the DOM
   afterBinding: function(containingElement) {
-    // this === the viewModel object
+    // this === the viewModel instance
   },
 
   // Function called just before the html this viewModel is bound to is removed from the DOM
   onDispose: function(containingElement) {
-    // this === the viewModel object
+    // this === the viewModel instance
   }
 });</code></pre>
     </div>

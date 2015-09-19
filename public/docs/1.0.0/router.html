@@ -113,8 +113,10 @@
   // function which will run just after the router is initialized and bound onto the DOM
   initialize: function(param1, param2, param3, ...) {
     // this === the router instance
+    var router = this;
+
     // Note that you can create observables to bind against just like a viewModel/etc
-    this.param1 = fw.observable(param1);
+    router.param1 = fw.observable(param1);
   },
 
   /**
@@ -128,7 +130,8 @@
 
   /**
    * Specify the minimum transition time between outlet changes (ie: show the
-   * showDuringLoad component for a minimum specified amount of time)
+   * showDuringLoad component for a minimum specified amount of time). Using this helps
+   * reduce UI thrashing and provides a more friendly user experience.
    */
   minTransitionPeriod: 300, // msec
   minTransitionPeriod: function(outletName, componentToShow) { return 300; }
