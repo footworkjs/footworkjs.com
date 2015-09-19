@@ -104,15 +104,16 @@
   dataModel: DataModelConstructor
 });</code></pre>
 
-      <h3>Very basic example usage. Instantiation and pre-filling with data:</h3>
-<pre><code class="javascript">// Create the dataModel we will use in our collection
-var Person = fw.dataModel({
+      <h3>Very basic dataModel used in the collection examples below:</h3>
+<pre><code class="javascript">var Person = fw.dataModel({
   initialize: function(personData) {
     this.name = fw.observable(personData.name);
   }
-});
+});</code></pre>
 
-// Define the collection, giving it the REST endpoint and dataModel to use
+      <h3>Creation of constructor function:</h3>
+<pre><code class="javascript">// Create the dataModel we will use in our collection
+// Create the collection constructor, giving it the REST endpoint and dataModel to use
 var GroupOfPeople = fw.collection({
   url: '/people',
   dataModel: Person
@@ -122,7 +123,7 @@ var GroupOfPeople = fw.collection({
 var group = GroupOfPeople();
 
 /**
- * Instantiate a new group of people (with a list of people).
+ * Instantiate a new group of people (this time with a list of people).
  * NOTE: Each item in the following array is passed to a new instantiation of the Person dataModel
  */
 var group = GroupOfPeople([

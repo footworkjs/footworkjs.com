@@ -931,6 +931,79 @@ var MainViewModel = fw.viewModel({
     </div>
   </section>
 
+  <a id="getting-state" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="getting-state">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Getting the State</h2>
+    </header>
+    <div class="content">
+      <p>Sometimes you might want to retrieve or read the current state of the <span class="inline-code">router</span>.</p>
+
+      <p>There are two principle ways to retrieve the current state of a <span class="inline-code">router</span>. The most direct method is via reading
+        the <span class="inline-code">currentRoute</span> observable directly from the instance.</p>
+
+      <a id="router-currentRoute" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">router.currentRoute<span>()</span></div>
+        </div>
+        <div class="description">Get the current route details.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> Current <span class="inline-code">route</span> details</span>
+        </div>
+      </h3>
+<pre><code class="javascript">// Instantiate the router, activate it and set the state
+var router = new MyRouter();
+router.activate().setState('/book/1234');
+
+// Grab the currentRoute directly from the instance
+var currentRoute = router.currentRoute();
+
+console.info(currentRoute.url); // === '/book/1234'
+</code></pre>
+
+      <p>If you need to retrieve the <span class="inline-code">currentRoute</span> from another part of your application (outside of the
+        <span class="inline-code">router</span> then you will want to <span class="inline-code">REQUEST</span> it using the namespace of your
+        <span class="inline-code">router</span>. Footwork sets up a <span class="inline-code">REQUEST</span> handler by default for
+        <span class="inline-code">'currentRoute'</span> which returns the current <span class="inline-code">route</span> details.</p>
+
+      <a id="request-handler-currentRoute" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="cqrs">
+            <div class="type"><span class="icon icon-communicate"></span> request</div>
+            <div class="match">currentRoute</div>
+          </div>
+        </div>
+        <div class="description">Get the current active <span class="inline-code">route</span> details.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> Current <span class="inline-code">route</span> details</span>
+        </div>
+      </h3>
+<pre><code class="javascript">var MyRouter = fw.router({
+  namespace: 'MyRouter', // note we will use this namespace to REQUEST the currentRoute
+  // ...
+});
+
+// Instantiate the router, activate it and set the state
+var router = new MyRouter();
+router.activate().setState('/book/1234');
+
+// Create the namespace channel we will use to request the currentRoute
+var MyRouter = fw.namespace('MyRouter');
+
+// Request the currentRoute
+var currentRoute = MyRouter.request('currentRoute');
+
+console.info(currentRoute.url); // === '/book/1234'
+</code></pre>
+    </div>
+  </section>
+
   <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="lifecycle-registration">
     <div class="highlight"></div>
@@ -1023,6 +1096,8 @@ var MyRouter = fw.router({
   }
 });
 </code></pre>
+    </div>
+  </section>
 
   <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
   <section name="onDispose">
@@ -1688,7 +1763,10 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
                   "description": "How to set the state of a router (or change the URL) explicitly." },
                 { "anchor": "route-binding",
                   "title": "$route Binding",
-                  "description": "How to bind an element to a route via an event." }
+                  "description": "How to bind an element to a route via an event." },
+                { "anchor": "getting-state",
+                  "title": "Getting the State",
+                  "description": "How to get the current state/route of a router." }
               ] }
           ] },
         { "title": "Lifecycle &amp; Registration",
@@ -1839,6 +1917,15 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
               "title": "setState",
               "description": "Change the route to the specified URL and trigger any matching controllers.",
               "keywords": [ "cqrs", "command" ] }
+          ]
+        },
+        {
+          "label": "REQUEST",
+          "references": [
+            { "anchor": "request-handler-currentRoute",
+              "title": "currentRoute",
+              "description": "Get the current active route details.",
+              "keywords": [ "cqrs", "request" ] }
           ]
         },
         {
