@@ -1,7 +1,7 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
   <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="introduction">
+  <section data-name="introduction">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Introduction</h1>
@@ -42,7 +42,7 @@
   </section>
 
   <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="usage">
+  <section data-name="usage">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Usage</h1>
@@ -59,7 +59,7 @@
   </section>
 
   <a id="factory-method" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="factory-method">
+  <section data-name="factory-method">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Factory Method</h2>
@@ -72,7 +72,7 @@
       <p>The resulting constructor function can then be used to instantiate new instances of that <span class="inline-code">collection</span>.</p>
 
       <a id="fw-collection" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.collection<span>( <span class="param">configurationObject</span> )</span></div>
@@ -82,7 +82,7 @@
           <span class="label">Returns:</span>
           <span class="value"><span class="type">function()</span> <span class="inline-code">Collection</span> Constructor Function</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var Collection = fw.collection({
   /**
    * The namespace (communications channel) the collection uses. This is essentially used as
@@ -139,7 +139,7 @@ var person2 = people[1];
   </section>
 
   <a id="ui-binding" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="ui-binding">
+  <section data-name="ui-binding">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">UI Binding</h2>

@@ -1,7 +1,7 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
   <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="introduction">
+  <section data-name="introduction">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Introduction</h1>
@@ -46,7 +46,7 @@
   </section>
 
   <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="configuration">
+  <section data-name="configuration">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Configuration</h1>
@@ -94,7 +94,7 @@
   </section>
 
   <a id="routes" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routes">
+  <section data-name="routes">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Routes List</h2>
@@ -126,7 +126,7 @@ unknownRoute: { /* ... */ }
   </section>
 
   <a id="route" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="route">
+  <section data-name="route">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Route Definition</h2>
@@ -234,7 +234,7 @@ routes: [
   </section>
 
   <a id="router-properties" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="router-properties">
+  <section data-name="router-properties">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">(instantiated) Router Properties</h2>
@@ -368,7 +368,7 @@ fw.router({
   </section>
 
   <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="usage">
+  <section data-name="usage">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Usage</h1>
@@ -418,7 +418,7 @@ fw.router({
   </section>
 
   <a id="loading-registering" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="loading-registering">
+  <section data-name="loading-registering">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">AMD / Lazy Loading / Registering</h2>
@@ -490,7 +490,7 @@ fw.routers.defaultLocation('/myRouters/');</code></pre>
   </section>
 
   <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="module-formats">
+  <section data-name="module-formats">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Module Formats</h2>
@@ -513,7 +513,7 @@ define(["footwork"],
   </section>
 
   <a id="outlets" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="outlets">
+  <section data-name="outlets">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Outlets</h1>
@@ -563,7 +563,7 @@ define(["footwork"],
   </section>
 
   <a id="outlet-registering" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="outlet-registering">
+  <section data-name="outlet-registering">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Lazy Loading / Registering Views (components without a viewModel)</h2>
@@ -616,7 +616,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
   </section>
 
   <a id="outlet-usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="outlet-usage">
+  <section data-name="outlet-usage">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Usage</h2>
@@ -683,7 +683,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
   </section>
 
   <a id="route-binding" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="route-binding">
+  <section data-name="route-binding">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">$route Binding</h1>
@@ -719,7 +719,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
   </section>
 
   <a id="binding-options" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="binding-options">
+  <section data-name="binding-options">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Binding Options</h2>
@@ -770,7 +770,7 @@ var MainViewModel = fw.viewModel({
   </section>
 
   <a id="misc" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="misc">
+  <section data-name="misc">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Misc / Utility</h2>
@@ -793,7 +793,7 @@ var MainViewModel = fw.viewModel({
   </section>
 
   <a id="routers-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routers-getAll">
+  <section data-name="routers-getAll">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.getAll<span>()</span></em></h3>
@@ -808,7 +808,7 @@ var routers = fw.routers.getAll('WidgetRouter');
   </section>
 
   <a id="routers-baseRoute" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routers-baseRoute">
+  <section data-name="routers-baseRoute">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.baseRoute<span>()</span></em></h3>
@@ -820,7 +820,7 @@ fw.routers.baseRoute('/home/directory'); // routers will ignore '/home/directory
   </section>
 
   <a id="routers-activeRouteClassName" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routers-activeRouteClassName">
+  <section data-name="routers-activeRouteClassName">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.activeRouteClassName<span>()</span></em></h3>
@@ -833,7 +833,7 @@ fw.routers.activeRouteClassName('currentlyActive');</code></pre>
   </section>
 
   <a id="routers-disableHistory" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routers-disableHistory">
+  <section data-name="routers-disableHistory">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.disableHistory<span>()</span></em></h3>
@@ -845,7 +845,7 @@ fw.routers.disableHistory(true); // history now disabled, but app still navigabl
   </section>
 
   <a id="routers-html5History" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routers-html5History">
+  <section data-name="routers-html5History">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.html5History<span>()</span></em></h3>
@@ -857,7 +857,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
   </section>
 
   <a id="isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="isRegistered">
+  <section data-name="isRegistered">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.isRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -872,7 +872,7 @@ fw.routers.register('MainRouter', MainRouter);
   </section>
 
   <a id="getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getRegistered">
+  <section data-name="getRegistered">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.getRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -885,7 +885,7 @@ fw.routers.register('MainRouter', MainRouter);
   </section>
 
   <a id="getResourceLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getResourceLocation">
+  <section data-name="getResourceLocation">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.getResourceLocation<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -896,7 +896,7 @@ fw.routers.register('MainRouter', MainRouter);
   </section>
 
   <a id="getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getFileName">
+  <section data-name="getFileName">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.getFileName<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -914,7 +914,7 @@ var fileNameForMainRouter = fw.routers.getFileName('MainRouter'); // === null
   </section>
 
   <a id="fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="fileExtensions">
+  <section data-name="fileExtensions">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.routers.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>

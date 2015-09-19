@@ -1,7 +1,7 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
   <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="introduction">
+  <section data-name="introduction">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Introduction</h1>
@@ -23,7 +23,7 @@
   </section>
 
   <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="usage">
+  <section data-name="usage">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Usage</h1>
@@ -55,7 +55,7 @@
   </section>
 
   <a id="observable-receiveFrom" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="observable-receiveFrom">
+  <section data-name="observable-receiveFrom">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).receiveFrom<span>( <span class="param">'namespaceName'</span>, <span class="param">'variableName'</span> )</span></em></h3>
@@ -122,7 +122,7 @@ user.login('Sam', '12345');
   </section>
 
   <a id="observable-broadcastAs" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="observable-broadcastAs">
+  <section data-name="observable-broadcastAs">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).broadcastAs<span>( <span class="param">'variableName'</span> )</span></em></h3>
@@ -212,7 +212,7 @@ userBrowserType('Internet Explorer 6');
   </section>
 
   <a id="receivable-when" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="receivable-when">
+  <section data-name="receivable-when">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">receivable.when<span>( <span class="param">function predicate(observableValue) { ... }</span> )</span></em></h3>
@@ -241,7 +241,7 @@ this.loggedInUserAlsoSam = fw.observable()
   </section>
 
   <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="lifecycle">
+  <section data-name="lifecycle">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Lifecycle</h1>
@@ -257,7 +257,7 @@ this.loggedInUserAlsoSam = fw.observable()
   </section>
 
   <a id="dispose" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="dispose">
+  <section data-name="dispose">
     <div class="highlight"></div>
     <div class="content">
 
@@ -286,7 +286,7 @@ broadcastable('Hello');
   </section>
 
   <a id="utility" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="utility">
+  <section data-name="utility">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Utility</h1>
@@ -297,7 +297,7 @@ broadcastable('Hello');
   </section>
 
   <a id="isReceivable" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="isReceivable">
+  <section data-name="isReceivable">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.isReceivable<span>( <span class="param">thing</span> )</span></em></h3>
@@ -309,7 +309,7 @@ broadcastable('Hello');
   </section>
 
   <a id="isBroadcastable" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="isBroadcastable">
+  <section data-name="isBroadcastable">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.isBroadcastable<span>( <span class="param">thing</span> )</span></em></h3>

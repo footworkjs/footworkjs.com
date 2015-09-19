@@ -12,7 +12,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
       initialize: function(params) {
         var subSectionData = params.sectionData;
         this.parent = params.parent;
-        var $anchorContainer = $('[name=' + subSectionData.anchor + ']');
+        var $anchorContainer = $('[data-name=' + subSectionData.anchor + ']');
         var $anchor = $('#' + (_.isObject(subSectionData) ? subSectionData.anchor : ''));
 
         var pageBaseURL = '';

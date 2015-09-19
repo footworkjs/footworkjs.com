@@ -1,7 +1,7 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
   <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="introduction">
+  <section data-name="introduction">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Introduction</h1>
@@ -46,7 +46,7 @@
   </section>
 
   <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="usage">
+  <section data-name="usage">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Usage</h1>
@@ -65,7 +65,7 @@
   </section>
 
   <a id="factory-method" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="factory-method">
+  <section data-name="factory-method">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Factory Method</h2>
@@ -81,7 +81,7 @@
         provide for all of the additional features the framework provides.</p>
 
       <a id="fw-router" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.router<span>( <span class="param">configurationObject</span> )</span></div>
@@ -91,7 +91,7 @@
           <span class="label">Returns:</span>
           <span class="value"><span class="type">function()</span> <span class="inline-code">Router</span> constructor function</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var RouterConstructor = fw.router({
   // by default the namespace is based off of the viewModel it is paired with
   namespace: 'namespaceName', // (this is not usually needed)
@@ -170,7 +170,7 @@
   </section>
 
   <a id="bind-manually" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="bind-manually">
+  <section data-name="bind-manually">
     <div class="highlight"></div>
     <header>
       <h2>Manual Instantiation and Binding:</h2>
@@ -195,7 +195,7 @@ var router = new AppRouter();
   </section>
 
   <a id="router-element" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="router-element">
+  <section data-name="router-element">
     <div class="highlight"></div>
     <header>
       <h2>Automatic initialization via <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> declaration in
@@ -226,7 +226,7 @@ var router = new AppRouter();
   </section>
 
   <a id="inside-component" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="inside-component">
+  <section data-name="inside-component">
     <div class="highlight"></div>
     <header>
       <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
@@ -261,7 +261,7 @@ var router = new AppRouter();
   </section>
 
   <a id="routing" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routing">
+  <section data-name="routing">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Routing</h1>
@@ -275,7 +275,7 @@ var router = new AppRouter();
   </section>
 
   <a id="routes-and-controllers" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routes-and-controllers">
+  <section data-name="routes-and-controllers">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Routes and Controllers</h2>
@@ -290,7 +290,7 @@ var router = new AppRouter();
   </section>
 
   <a id="routes" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="routes">
+  <section data-name="routes">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Routes List</h2>
@@ -322,7 +322,7 @@ unknownRoute: { /* ... */ }
       <p>You may also configure routes at any time using the provided helper methods:<p>
 
       <a id="router-addRoutes" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.addRoutes<span>( <span class="param">[ /* routes */ ]</span> )</span></div>
@@ -332,7 +332,7 @@ unknownRoute: { /* ... */ }
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> the router instance</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
   initialize: function() {
@@ -352,7 +352,7 @@ unknownRoute: { /* ... */ }
 });</code></pre>
 
       <a id="router-setRoutes" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.setRoutes<span>( <span class="param">[ /* routes */ ]</span> )</span></div>
@@ -362,7 +362,7 @@ unknownRoute: { /* ... */ }
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> the router instance</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
   initialize: function() {
@@ -384,7 +384,7 @@ unknownRoute: { /* ... */ }
   </section>
 
   <a id="route" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="route">
+  <section data-name="route">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Route Definition</h2>
@@ -410,7 +410,7 @@ unknownRoute: { /* ... */ }
       </ul>
 
       <a id="route-definition" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">Route Definition</div>
@@ -420,7 +420,7 @@ unknownRoute: { /* ... */ }
           <span class="label">Context (for callbacks):</span>
           <span class="value"><span class="type">object{}</span> the router instance</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">routes: [
   // static routes (no parameters): /about-us and /about go to the same controller
   {
@@ -473,7 +473,7 @@ unknownRoute: { /* ... */ }
         <span class="inline-code">matchesRoute()</span>.</p>
 
       <a id="router-matchesRoute" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.matchesRoute<span>( <span class="param">'routeName'</span>, <span class="param">'/route/to/match'</span> )</span></div>
@@ -483,7 +483,7 @@ unknownRoute: { /* ... */ }
           <span class="label">Returns:</span>
           <span class="value"><span class="type">boolean</span> <span class="inline-code">true</span> if matches, <span class="inline-code">false</span> if not</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var Router = fw.router({
   initialize: function() {
     this.userIsLoggedIn = fw.observable().receiveFrom('auth', 'userIsLoggedIn');
@@ -516,7 +516,7 @@ unknownRoute: { /* ... */ }
   </section>
 
   <a id="outlets" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="outlets">
+  <section data-name="outlets">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Outlets</h2>
@@ -562,7 +562,7 @@ unknownRoute: { /* ... */ }
   </section>
 
   <a id="registering-views" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="registering-views">
+  <section data-name="registering-views">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Registering Views</h2>
@@ -583,13 +583,13 @@ unknownRoute: { /* ... */ }
       <p>Essentially they are ways to easily create/register a view you can use in an outlet.</p>
 
       <a id="outlets-registerView" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.outlets.registerView<span>( <span class="param">'viewName'</span>, <span class="param">'&lt;!-- template HTML --&gt;'</span> )</span></div>
         </div>
         <div class="description">Register/cache a view for later use.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Register the 'index-page' template view
 fw.outlets.registerView('index-page', '&lt;p&gt;Welcome to footwork.js&lt;/p&gt;');
 
@@ -604,14 +604,14 @@ fw.outlets.registerView('calendar-page', 'Calendar: &lt;calendar&gt;&lt;/calenda
       </div>
 
       <a id="outlets-registerViewLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.outlets.registerViewLocation<span>( <span class="param">'viewName'</span>, <span class="param">'/path/to/template'</span> )</span></div>
           <div class="func-def">fw.outlets.registerViewLocation<span>( <span class="param">[ 'viewName', 'viewName2', ... ]</span>, <span class="param">'/path/to/template/'</span> )</span></div>
         </div>
         <div class="description">Tell footwork where it can download a view via AMD/RequireJS.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Register location of the 'index-page' template view
 fw.outlets.registerViewLocation('index-page', '/pages/index-page.html');
 
@@ -628,7 +628,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
   </section>
 
   <a id="outlet-element" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="outlet-element">
+  <section data-name="outlet-element">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">&lt;outlet&gt;</h2>
@@ -639,18 +639,18 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
         <span class="inline-code">router.outlet()</span> method.</p>
 
       <a id="router-outlet" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(</span>containingElement<span class="param">) )</span></div>
-          <div class="func-def">router.outlet<span>( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, { <span class="param">onComplete</span>: function(containingElement), <span class="param">onFailure</span>: function(error), <span class="param">params</span>: {} }</span> )</span></div>
+          <div class="func-def">router.outlet( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(</span>containingElement<span class="param">) )</span></div>
+          <div class="func-def">router.outlet( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, { <span class="param">onComplete</span>: function(containingElement), <span class="param">onFailure</span>: function(error), <span class="param">params</span>: {} } )</div>
         </div>
         <div class="description">Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> the router instance</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
   routes: [
@@ -695,13 +695,13 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       features of footwork to facilitate communication/initialization of your view component.</div>
 
       <a id="router-outlets" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.outlets<span>{}</span></div>
         </div>
         <div class="description">List/Collection of registered outlets.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
   afterBinding: function() {
@@ -713,7 +713,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
   </section>
 
   <a id="changing-route" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="changing-route">
+  <section data-name="changing-route">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Changing the Route</h2>
@@ -726,7 +726,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
   </section>
 
   <a id="setting-state" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="setting-state">
+  <section data-name="setting-state">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Setting State Explicitly</h2>
@@ -737,14 +737,14 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <p>The first involves simply calling <span class="inline-code">setState()</span> on the <span class="inline-code">router</span> instance itself.</p>
 
       <a id="router-setState" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.setState<span>( <span class="param">'/path/to/route/to'</span> )</span></div>
           <div class="func-def">router.setState<span>( <span class="param">'namedRoute'</span>, <span class="param">paramsObject</span> )</span></div>
         </div>
         <div class="description">Change the route to the specified URL and trigger any matching controllers.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
   routes: [
@@ -781,7 +781,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
         just want to tell the <span class="inline-code">router</span> to set its state to a certain value from another area in your application.</p>
 
       <a id="command-handler-setState" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="cqrs">
             <div class="type"><span class="icon icon-communicate"></span> command</div>
@@ -795,7 +795,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
           </div>
         </div>
         <div class="description">Change the route to the specified URL and trigger any matching controllers.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
   routes: [ /* ... */ ]
@@ -820,7 +820,7 @@ mainRouter.command('setState', {
   </section>
 
   <a id="route-binding" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="route-binding">
+  <section data-name="route-binding">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">$route Binding</h2>
@@ -845,13 +845,13 @@ mainRouter.command('setState', {
       </ul>
 
       <a id="route-binding-def" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">$route <span>binding</span></div>
         </div>
         <div class="description">Binding which will connect an HTML DOM event to a route (eg: clicking a link).</div>
-      </h3>
+      </div>
 <pre><code class="html">&lt;!-- ... --&gt;
   &lt;!-- If the url is not explicitely provided, footwork will use the url attribute from the element instead. --&gt;
   &lt;a href="/about" data-bind="$route"&gt;About Page&lt;/a&gt;
@@ -899,7 +899,7 @@ var MainViewModel = fw.viewModel({
   </section>
 
   <a id="getting-state" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getting-state">
+  <section data-name="getting-state">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Getting the State</h2>
@@ -911,7 +911,7 @@ var MainViewModel = fw.viewModel({
         the <span class="inline-code">currentRoute</span> observable directly from the instance.</p>
 
       <a id="router-currentRoute" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.currentRoute<span>()</span></div>
@@ -921,7 +921,7 @@ var MainViewModel = fw.viewModel({
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> Current <span class="inline-code">route</span> details</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Instantiate the router, activate it and set the state
 var router = new MyRouter();
 router.activate().setState('/book/1234');
@@ -938,7 +938,7 @@ console.info(currentRoute.url); // === '/book/1234'
         <span class="inline-code">'currentRoute'</span> which returns the current <span class="inline-code">route</span> details.</p>
 
       <a id="request-handler-currentRoute" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="cqrs">
             <div class="type"><span class="icon icon-communicate"></span> request</div>
@@ -950,7 +950,7 @@ console.info(currentRoute.url); // === '/book/1234'
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> Current <span class="inline-code">route</span> details</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var MyRouter = fw.router({
   namespace: 'MyRouter', // note we will use this namespace to REQUEST the currentRoute
   // ...
@@ -972,7 +972,7 @@ console.info(currentRoute.url); // === '/book/1234'
   </section>
 
   <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="lifecycle-registration">
+  <section data-name="lifecycle-registration">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Lifecycle &amp; Registration</h1>
@@ -992,7 +992,7 @@ console.info(currentRoute.url); // === '/book/1234'
   </section>
 
   <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="lifecycle">
+  <section data-name="lifecycle">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Lifecycle</h2>
@@ -1024,7 +1024,7 @@ console.info(currentRoute.url); // === '/book/1234'
   </section>
 
   <a id="activation" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="activation">
+  <section data-name="activation">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Activation</h2>
@@ -1038,7 +1038,7 @@ console.info(currentRoute.url); // === '/book/1234'
         <span class="inline-code">COMMAND</span>.</p>
 
       <a id="router-activate" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.activate<span>()</span></div>
@@ -1048,7 +1048,7 @@ console.info(currentRoute.url); // === '/book/1234'
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> The <span class="inline-code">router</span> instance</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Configure the router with a single route
 var MainRouter = fw.router({
   routes: [
@@ -1075,7 +1075,7 @@ router.setState('/home');
 </code></pre>
 
       <a id="command-activate" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="cqrs">
             <div class="type"><span class="icon icon-communicate"></span> command</div>
@@ -1083,7 +1083,7 @@ router.setState('/home');
           </div>
         </div>
         <div class="description">Activate (turn on, start routing for) a <span class="inline-code">router</span> instance.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'MainRouter',
   routes: [ /* ... */ ]
@@ -1100,7 +1100,7 @@ mainRouter.command('activate');
   </section>
 
   <a id="binding" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="binding">
+  <section data-name="binding">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Binding</h2>
@@ -1111,13 +1111,13 @@ mainRouter.command('activate');
         plugins (such as jQuery).</p>
 
       <a id="afterBinding" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">afterBinding<span>()</span></div>
         </div>
         <div class="description">Callback triggered after binding to the DOM.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">var MainRouter = fw.router({
   namespace: 'MainRouter',
   routes: [ /* ... */ ],
@@ -1132,7 +1132,7 @@ mainRouter.command('activate');
   </section>
 
   <a id="disposal" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="disposal">
+  <section data-name="disposal">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Disposal</h2>
@@ -1143,13 +1143,13 @@ mainRouter.command('activate');
         point for external libraries or plugins (such as jQuery).</p>
 
       <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">onDispose<span>()</span></div>
         </div>
         <div class="description">Callback triggered after the parent bound element is removed from the DOM.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">var MainRouter = fw.router({
   namespace: 'MainRouter',
   initialize: function(params) {
@@ -1170,13 +1170,13 @@ mainRouter.command('activate');
         by calling <span class="inline-code">router.dispose()</span> directly.</p>
 
       <a id="router-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.dispose<span>()</span></div>
         </div>
         <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a router.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">var MyRouter = fw.router({ /* ... */ });
 var router = new MyRouter();
 // ...
@@ -1219,7 +1219,7 @@ var MyRouter = fw.router({
   </section>
 
   <a id="registration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="registration">
+  <section data-name="registration">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Registration</h2>
@@ -1281,7 +1281,7 @@ var MyRouter = fw.router({
   </section>
 
   <a id="module-resolution" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="module-resolution">
+  <section data-name="module-resolution">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Module Resolution</h2>
@@ -1311,13 +1311,13 @@ var MyRouter = fw.router({
         get initialized (and so forth until the end).</div>
 
       <a id="routers-register" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.register<span>( <span class="param">'moduleName'</span>, <span class="param">router</span> )</span></div>
         </div>
         <div class="description">Cache a router/module ahead of time.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// register a footwork router
 fw.routers.register('MainRouter', fw.router({ /* ... */ }));</code></pre>
       <div class="note">
@@ -1330,13 +1330,13 @@ fw.routers.register('MainRouter', fw.router({ /* ... */ }));</code></pre>
       </div>
 
       <a id="routers-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
         <div class="description">Register the location of a router/module so footwork can load and bind it for you when needed.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Load MainRouter from: /routers/MainRouter.js (based on router/module name, case sensitive)
 fw.routers.registerLocation('MainRouter', '/routers/');
 
@@ -1344,20 +1344,20 @@ fw.routers.registerLocation('MainRouter', '/routers/');
 fw.routers.registerLocation('MainRouter', '/routers/DifferentFileName.js');</code></pre>
 
       <a id="routers-defaultLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.defaultLocation<span>( <span class="param">'path/to/router/folder'</span> )</span></div>
         </div>
         <div class="description">Register the location of a router/module so footwork can load and bind it for you when needed.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Load all routers from /myrouters/[module-name].js (case sensitive)
 fw.routers.defaultLocation('/myRouters/');</code></pre>
     </div>
   </section>
 
   <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="module-formats">
+  <section data-name="module-formats">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Module Formats</h2>
@@ -1390,7 +1390,7 @@ fw.routers.defaultLocation('/myRouters/');</code></pre>
   </section>
 
   <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixins">
+  <section data-name="mixins">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Mixins</h1>
@@ -1430,7 +1430,7 @@ var myRouter = new MainRouter();</code></pre>
   </section>
 
   <a id="mixin-configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixin-configuration">
+  <section data-name="mixin-configuration">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Configuration</h2>
@@ -1487,7 +1487,7 @@ var mainRouterBehavior = {
   </section>
 
   <a id="mixin-usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixin-usage">
+  <section data-name="mixin-usage">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Example mixin usage</h2>
@@ -1518,7 +1518,7 @@ var router = new MainRouter();
   </section>
 
   <a id="utility-functions" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="utility-functions">
+  <section data-name="utility-functions">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Utility Functions</h1>
@@ -1527,7 +1527,7 @@ var router = new MainRouter();
       <p>Various useful methods and utility functions for miscellaneous and debugging purposes.</p>
 
       <a id="routers-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.getAll<span>()</span></div>
@@ -1539,11 +1539,11 @@ var router = new MainRouter();
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> or <span class="type">array[]</span> list of instances</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var routers = fw.routers.getAll(); // get all instantiated routers</code></pre>
 
       <a id="routers-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
@@ -1553,7 +1553,7 @@ var router = new MainRouter();
           <span class="label">Returns:</span>
           <span class="value"><span class="type">boolean</span> TRUE or FALSE depending on registration state of the module</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.routers.register('MainRouter', fw.router({
   namespace: 'MainRouter'
 }));
@@ -1562,7 +1562,7 @@ var router = new MainRouter();
 // fw.routers.isRegistered('ModuleThatIsLoadedByAMD') === false</code></pre>
 
       <a id="routers-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
@@ -1572,7 +1572,7 @@ var router = new MainRouter();
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> or <span class="type">function()</span> Returns whatever router is registered under that moduleName</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Explicit registration
 fw.routers.register('MainRouter', fw.router({ /* ... configuration object */ }));
 
@@ -1585,7 +1585,7 @@ var MainRouter = fw.router({
 // fw.routers.getRegistered('MainRouter') === MainRouter;</code></pre>
 
       <a id="routers-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
@@ -1595,12 +1595,12 @@ var MainRouter = fw.router({
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Path to the module</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.routers.registerLocation('MainRouter', '/path/to/router/folder');
 // fw.routers.getLocation('MainRouter') === '/path/to/router/folder'</code></pre>
 
       <a id="routers-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
@@ -1610,18 +1610,18 @@ var MainRouter = fw.router({
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Filename of the module</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var fileNameForSprocket = fw.routers.getFileName('MainRouter'); // === MainRouter.js</code></pre>
 
       <a id="routers-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
           <div class="func-def">fw.routers.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
         </div>
         <div class="description">Specify the extension to append to an AMD/RequireJS loaded router path when it does not have an extension specified (ie: full file name not specified).</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// explicitly set the extension
 fw.routers.fileExtensions('.jscript'); // append router module files with '.jscript'
 
@@ -1635,7 +1635,7 @@ fw.routers.fileExtensions(function(moduleName) {
 });</code></pre>
 
       <a id="routers-baseRoute" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.baseRoute<span>()</span></div>
@@ -1646,12 +1646,12 @@ fw.routers.fileExtensions(function(moduleName) {
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> baseRoute path</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">// fw.routers.baseRoute() === ''
 fw.routers.baseRoute('/home/directory'); // routers will ignore '/home/directory' at beginning of url</code></pre>
 
       <a id="routers-activeRouteClassName" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.activeRouteClassName<span>()</span></div>
@@ -1662,13 +1662,13 @@ fw.routers.baseRoute('/home/directory'); // routers will ignore '/home/directory
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> class name used when a $route binding is active</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">// fw.routers.activeRouteClassName() === 'active' // default === 'active'
 // active routes will now have 'currentlyActive' added to their className
 fw.routers.activeRouteClassName('currentlyActive');</code></pre>
 
       <a id="routers-disableHistory" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.disableHistory<span>()</span></div>
@@ -1679,12 +1679,12 @@ fw.routers.activeRouteClassName('currentlyActive');</code></pre>
           <span class="label">Returns:</span>
           <span class="value"><span class="type">boolean</span> flag indicating intent of the router when using HTML5 history</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">// fw.routers.disableHistory() === false (default)
 fw.routers.disableHistory(true); // history now disabled, but app still navigable</code></pre>
 
       <a id="routers-html5History" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.routers.html5History<span>()</span></div>
@@ -1694,7 +1694,7 @@ fw.routers.disableHistory(true); // history now disabled, but app still navigabl
           <span class="label">Returns:</span>
           <span class="value"><span class="type">boolean</span> current state of HTML5 history API usage in this router</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">// fw.routers.html5History() === true (when using chrome)
 fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
       <div class="note"><span class="label">NOTE:</span> You can force HTML4 (hash-based) routing by running this code before DOM onload: <span class="inline-code">window.History = { options: { html4Mode: true } };</span></div>
@@ -1702,7 +1702,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
   </section>
 
   <a id="instance-properties" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="instance-properties">
+  <section data-name="instance-properties">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Instance Properties</h1>
@@ -1711,7 +1711,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
       <p>After a <span class="inline-code">router</span> has been created, there are a few properties which are on the instantiated object.</p>
 
       <a id="router-namespace" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.$namespace</div>
@@ -1720,7 +1720,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
           <p>The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
           <p>This should be used to setup any handlers and subscriptions on the current namespace that a router might need.</p>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var MainPage = fw.router({
   namespace: 'MainPage',
   initialize: function() {
@@ -1731,7 +1731,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
 });</code></pre>
 
       <a id="router-rootNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.$rootNamespace</div>
@@ -1742,7 +1742,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
             an indexed namespace name, the <span class="inline-code">$rootNamespace</span> is the namespace channel provided which hooks into the
             non-indexed (root) namespace name.</p>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'SubRouters',
   initialize: function() {
@@ -1753,7 +1753,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
 });</code></pre>
 
       <a id="router-globalNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">router.$globalNamespace</div>
@@ -1761,7 +1761,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
         <div class="description">
           <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.router({
   namespace: 'SubRouters',
   initialize: function() {

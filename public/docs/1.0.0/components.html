@@ -1,7 +1,7 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
   <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="introduction">
+  <section data-name="introduction">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Introduction</h1>
@@ -47,7 +47,7 @@
   </section>
 
   <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="configuration">
+  <section data-name="configuration">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Configuration</h2>
@@ -91,7 +91,7 @@
   </section>
 
   <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="usage">
+  <section data-name="usage">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Usage</h2>
@@ -130,7 +130,7 @@
   </section>
 
   <a id="loading-registering" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="loading-registering">
+  <section data-name="loading-registering">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">AMD / Lazy Loading / Registering</h2>
@@ -242,7 +242,7 @@ fw.components.defaultLocation('/components/');
   </section>
 
   <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="module-formats">
+  <section data-name="module-formats">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Module Formats</h2>
@@ -299,7 +299,7 @@ define(["footwork"],
   </section>
 
   <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="lifecycle">
+  <section data-name="lifecycle">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Lifecycle</h2>
@@ -311,7 +311,7 @@ define(["footwork"],
   </section>
 
   <a id="misc" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="misc">
+  <section data-name="misc">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Utility / Misc</h1>
@@ -331,7 +331,7 @@ define(["footwork"],
   </section>
 
   <a id="isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="isRegistered">
+  <section data-name="isRegistered">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.components.isRegistered<span>( <span class="param">'componentName'</span> )</span></em></h3>
@@ -346,7 +346,7 @@ define(["footwork"],
   </section>
 
   <a id="getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getLocation">
+  <section data-name="getLocation">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.components.getLocation<span>( <span class="param">'componentName'</span> )</span></em></h3>
@@ -368,7 +368,7 @@ var sprocketLocation = fw.components.getLocation('Sprocket');
   </section>
 
   <a id="getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getFileName">
+  <section data-name="getFileName">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.components.getFileName<span>( <span class="param">'componentName'</span>, <span class="param">'[fileType]'</span> )</span></em></h3>
@@ -396,7 +396,7 @@ var fileNameForSprocket = fw.components.getFileName('sprocket', 'viewModel'); //
   </section>
 
   <a id="fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="fileExtensions">
+  <section data-name="fileExtensions">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.components.fileExtensions<span>( <span class="param">{ /* configuration object */ }</span> )</span></em></h3>
@@ -429,7 +429,7 @@ fw.components.fileExtensions(function(componentName) {
   </section>
 
   <a id="getNormalTagList" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getNormalTagList">
+  <section data-name="getNormalTagList">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.components.getNormalTagList<span>()</span></em></h3>
@@ -439,7 +439,7 @@ fw.components.fileExtensions(function(componentName) {
   </section>
 
   <a id="tagIsComponent" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="tagIsComponent">
+  <section data-name="tagIsComponent">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.components.tagIsComponent<span>( <span class="param">'tagName'</span>, <span class="param">isComponent</span> )</span></em></h3>

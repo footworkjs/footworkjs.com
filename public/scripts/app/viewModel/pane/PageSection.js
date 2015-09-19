@@ -15,7 +15,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
         var computeAnchorPos;
         var anchorComputeDelay = 100;
         var $anchor = $('#' + (_.isObject(pageSectionData) ? pageSectionData.anchor : ''));
-        var $anchorContainer = $('[name=' + pageSectionData.anchor + ']');
+        var $anchorContainer = $('[data-name=' + pageSectionData.anchor + ']');
         var anchorOffset = PageSectionsNamespace.request('anchorOffset');
         var PageSection = this;
 

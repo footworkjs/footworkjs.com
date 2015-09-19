@@ -1,7 +1,7 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
   <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="introduction">
+  <section data-name="introduction">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Introduction</h1>
@@ -24,7 +24,7 @@
   </section>
 
   <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="usage">
+  <section data-name="usage">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Usage</h1>
@@ -43,7 +43,7 @@
   </section>
 
   <a id="factory-method" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="factory-method">
+  <section data-name="factory-method">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Factory Method</h2>
@@ -59,7 +59,7 @@
         provide for all of the additional features the framework provides.</p>
 
       <a id="fw-viewModel" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModel<span>( <span class="param">configurationObject</span> )</span></div>
@@ -69,7 +69,7 @@
           <span class="label">Returns:</span>
           <span class="value"><span class="type">function()</span> <span class="inline-code">ViewModel</span> Constructor Function</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var ViewModelConstructor = fw.viewModel({
   /**
    * The namespace (communications channel) the viewModel uses. This is essentially used as
@@ -123,7 +123,7 @@
   </section>
 
   <a id="bind-manually" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="bind-manually">
+  <section data-name="bind-manually">
     <div class="highlight"></div>
     <header>
       <h2>Manual Instantiation and Binding:</h2>
@@ -159,7 +159,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   </section>
 
   <a id="viewModel-element" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="viewModel-element">
+  <section data-name="viewModel-element">
     <div class="highlight"></div>
     <header>
       <h2>Automatic initialization via <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in
@@ -197,7 +197,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   </section>
 
   <a id="inside-component" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="inside-component">
+  <section data-name="inside-component">
     <div class="highlight"></div>
     <header>
       <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
@@ -234,7 +234,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   </section>
 
   <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="lifecycle-registration">
+  <section data-name="lifecycle-registration">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Lifecycle &amp; Registration</h1>
@@ -251,7 +251,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   </section>
 
   <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="lifecycle">
+  <section data-name="lifecycle">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Lifecycle</h2>
@@ -275,7 +275,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   </section>
 
   <a id="binding" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="binding">
+  <section data-name="binding">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Binding</h2>
@@ -286,13 +286,13 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
         plugins (such as jQuery).</p>
 
       <a id="afterBinding" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">afterBinding<span>()</span></div>
         </div>
         <div class="description">Callback triggered after binding to the DOM.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">var Person = fw.viewModel({
   namespace: 'Person',
   afterBinding: function(domElement) {
@@ -310,7 +310,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   </section>
 
   <a id="disposal" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="disposal">
+  <section data-name="disposal">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Disposal</h2>
@@ -321,13 +321,13 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
         point for external libraries or plugins (such as jQuery).</p>
 
       <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">onDispose<span>()</span></div>
         </div>
         <div class="description">Callback triggered after the parent bound element is removed from the DOM.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">var Person = fw.viewModel({
   namespace: 'Person',
   afterBinding: function(domElement) {
@@ -350,7 +350,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
         by calling <span class="inline-code">viewModel.dispose()</span> directly.</p>
 
       <a id="viewModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">viewModel.dispose<span>()</span></div>
@@ -360,7 +360,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> the viewModel instance</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var MyViewModel = fw.viewModel({ /* ... */ });
 var viewModel = new MyViewModel();
 // ...
@@ -402,7 +402,7 @@ var MyViewModel = fw.viewModel({
   </section>
 
   <a id="registration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="registration">
+  <section data-name="registration">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Registration</h2>
@@ -464,7 +464,7 @@ var MyViewModel = fw.viewModel({
   </section>
 
   <a id="module-resolution" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="module-resolution">
+  <section data-name="module-resolution">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Module Resolution</h2>
@@ -494,13 +494,13 @@ var MyViewModel = fw.viewModel({
         get initialized (and so forth until the end).</div>
 
       <a id="viewModels-register" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">viewModel</span> )</span></div>
         </div>
         <div class="description">Cache a viewModel/module ahead of time.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// register a footwork viewModel
 fw.viewModels.register('Sprocket', fw.viewModel({
   initialize: function() {
@@ -540,13 +540,13 @@ fw.viewModels.register('Sprocket', {
       </div>
 
       <a id="viewModels-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
         <div class="description">Register the location of a viewModel/module so footwork can load and bind it for you when needed.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Load Sprocket from: /viewModels/parts/Sprocket.js (based on viewModel/module name, case sensitive)
 fw.viewModels.registerLocation('Sprocket', '/viewModels/parts/');
 
@@ -557,20 +557,20 @@ fw.viewModels.registerLocation('Sprocket', '/viewModels/parts/DifferentFileName.
 fw.viewModels.registerLocation(['Body', 'Navigation', 'Footer'], '/viewModels/pageAreas/');</code></pre>
 
       <a id="viewModels-defaultLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.defaultLocation<span>( <span class="param">'path/to/viewModel/folder'</span> )</span></div>
         </div>
         <div class="description">Register the default location of viewModels so footwork can load and bind them for you when needed.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Load all viewModels from /myViewModels/[module-name].js (case sensitive)
 fw.viewModels.defaultLocation('/myViewModels/');</code></pre>
     </div>
   </section>
 
   <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="module-formats">
+  <section data-name="module-formats">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Module Formats</h2>
@@ -603,7 +603,7 @@ fw.viewModels.defaultLocation('/myViewModels/');</code></pre>
   </section>
 
   <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixins">
+  <section data-name="mixins">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Mixins</h1>
@@ -646,7 +646,7 @@ var mySprocket = new Sprocket({ type: 'awesome' });</code></pre>
   </section>
 
   <a id="mixin-configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixin-configuration">
+  <section data-name="mixin-configuration">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Configuration</h2>
@@ -703,7 +703,7 @@ var bigSprocket = {
   </section>
 
   <a id="mixin-usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixin-usage">
+  <section data-name="mixin-usage">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Example mixin usage</h2>
@@ -745,7 +745,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
   </section>
 
   <a id="utility-functions" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="utility-functions">
+  <section data-name="utility-functions">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Utility Functions</h1>
@@ -754,7 +754,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
       <p>Various useful methods and utility functions for miscellaneous and debugging purposes.</p>
 
       <a id="viewModels-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.getAll<span>()</span></div>
@@ -766,7 +766,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> or <span class="type">array[]</span> list of instances</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">var Bike = fw.viewModel({
   namespace: 'Bike',
   initialize: function() {
@@ -802,7 +802,7 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
 </code></pre>
 
       <a id="viewModels-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
@@ -812,7 +812,7 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
           <span class="label">Returns:</span>
           <span class="value"><span class="type">boolean</span> TRUE or FALSE depending on registration state of the module</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.viewModels.register('Bike', fw.viewModel({
   namespace: 'Bike',
   initialize: function() {
@@ -824,7 +824,7 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
 // fw.viewModels.isRegistered('ModuleThatIsLoadedByAMD') === false</code></pre>
 
       <a id="viewModels-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
@@ -834,7 +834,7 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
           <span class="label">Returns:</span>
           <span class="value"><span class="type">object{}</span> or <span class="type">function()</span> Returns whatever viewModel is registered under that moduleName</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">// Explicit registration
 var Bike = fw.viewModel({ /* ... configuration object */ });
 fw.viewModels.register('Bike', Bike);
@@ -849,7 +849,7 @@ var Sprocket = fw.viewModel({
 // fw.viewModels.getRegistered('Sprocket') === Sprocket;</code></pre>
 
       <a id="viewModels-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
@@ -859,12 +859,12 @@ var Sprocket = fw.viewModel({
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Path to the module</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.viewModels.registerLocation('Sprocket', '/path/to/viewModel/folder/');
 // fw.viewModels.getLocation('Sprocket') === '/path/to/viewModel/folder/'</code></pre>
 
       <a id="viewModels-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
@@ -874,7 +874,7 @@ var Sprocket = fw.viewModel({
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Filename of the module</span>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.viewModels.registerLocation('Sprocket', '/path/to/viewModel/folder/');
 var fileNameForSprocket = fw.viewModels.getFileName('Sprocket'); // === Sprocket.js
 
@@ -887,14 +887,14 @@ var fileNameForSprocket = fw.viewModels.getFileName('Sprocket'); // === null
 </code></pre>
 
       <a id="viewModels-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">fw.viewModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
           <div class="func-def">fw.viewModels.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
         </div>
         <div class="description">Specify the extension to append to an AMD/RequireJS loaded viewModel path when it does not have an extension specified (ie: full file name not specified).</div>
-      </h3>
+      </div>
 <pre><code class="javascript">// explicitly set the extension
 fw.viewModels.fileExtensions('.jscript'); // append viewModel module files with '.jscript'
 
@@ -910,7 +910,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
   </section>
 
   <a id="instance-properties" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="instance-properties">
+  <section data-name="instance-properties">
     <div class="highlight"></div>
     <header>
       <h1 class="title">Instance Properties</h1>
@@ -919,14 +919,14 @@ fw.viewModels.fileExtensions(function(moduleName) {
       <p>After a <span class="inline-code">viewModel</span> has been created, there are a few properties which are on the instantiated object.</p>
 
       <a id="viewModel-namespace" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">viewModel.$namespace</div>
         </div>
         <div class="description">The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
         to setup any handlers and subscriptions on the current namespace that a viewModel might need.</div>
-      </h3>
+      </div>
 <pre><code class="javascript">var Navigation = fw.viewModel({
   namespace: 'Navigation',
   initialize: function() {
@@ -937,7 +937,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
 });</code></pre>
 
       <a id="viewModel-rootNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">viewModel.$rootNamespace</div>
@@ -948,7 +948,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
             an indexed namespace name, the <span class="inline-code">$rootNamespace</span> is the namespace channel provided which hooks into the
             non-indexed (root) namespace name.</p>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.viewModel({
   namespace: 'Sprocket',
   initialize: function() {
@@ -959,7 +959,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
 });</code></pre>
 
       <a id="viewModel-globalNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
+      <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def">viewModel.$globalNamespace</div>
@@ -967,7 +967,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
         <div class="description">
           <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>
         </div>
-      </h3>
+      </div>
 <pre><code class="javascript">fw.viewModel({
   namespace: 'Sprocket',
   initialize: function() {

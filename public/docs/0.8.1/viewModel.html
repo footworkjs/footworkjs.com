@@ -1,7 +1,7 @@
 <article>
   <div class="version-display" data-bind="text: versionDisplay"></div>
   <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="introduction">
+  <section data-name="introduction">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Introduction</h1>
@@ -37,7 +37,7 @@
   </section>
 
   <a id="configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="configuration">
+  <section data-name="configuration">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Configuration</h2>
@@ -104,7 +104,7 @@
   </section>
 
   <a id="initialization" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="initialization">
+  <section data-name="initialization">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Initialization / Usage</h2>
@@ -182,7 +182,7 @@ fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'))
   </section>
 
   <a id="loading-registering" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="loading-registering">
+  <section data-name="loading-registering">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">AMD / Lazy Loading / Registering</h2>
@@ -329,7 +329,7 @@ fw.viewModels.defaultLocation('/myViewModels/');</code></pre>
   </section>
 
   <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="module-formats">
+  <section data-name="module-formats">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Module Formats</h2>
@@ -361,7 +361,7 @@ define(["footwork"],
   </section>
 
   <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="lifecycle">
+  <section data-name="lifecycle">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Lifecycle</h2>
@@ -421,7 +421,7 @@ viewModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned 
   </section>
 
   <a id="properties" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="properties">
+  <section data-name="properties">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Properties</h2>
@@ -462,7 +462,7 @@ navNamespace.trigger('userLoggedIn', 'Jonathan'); // console prints: Welcome Jon
   </section>
 
   <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixins">
+  <section data-name="mixins">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Mixins</h1>
@@ -505,7 +505,7 @@ var mySprocket = new Sprocket({ type: 'awesome' });</code></pre>
   </section>
 
   <a id="mixin-configuration" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixin-configuration">
+  <section data-name="mixin-configuration">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Configuration</h2>
@@ -563,7 +563,7 @@ var bigSprocket = {
   </section>
 
   <a id="mixin-usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="mixin-usage">
+  <section data-name="mixin-usage">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Example mixin usage</h2>
@@ -605,7 +605,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
   </section>
 
   <a id="misc" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="misc">
+  <section data-name="misc">
     <div class="highlight"></div>
     <header>
       <h1 class="sub title">Utility / Misc</h1>
@@ -630,7 +630,7 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
   </section>
 
   <a id="getAll" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getAll">
+  <section data-name="getAll">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.viewModels.getAll<span>()</span></em></h3>
@@ -673,7 +673,7 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
   </section>
 
   <a id="isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="isRegistered">
+  <section data-name="isRegistered">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.viewModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -692,7 +692,7 @@ fw.viewModels.register('Bike', Bike);
   </section>
 
   <a id="getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getRegistered">
+  <section data-name="getRegistered">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.viewModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -712,7 +712,7 @@ var Sprocket = fw.viewModel({
   </section>
 
   <a id="getResourceLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getResourceLocation">
+  <section data-name="getResourceLocation">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.viewModels.getResourceLocation<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -723,7 +723,7 @@ var Sprocket = fw.viewModel({
   </section>
 
   <a id="getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="getFileName">
+  <section data-name="getFileName">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.viewModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></em></h3>
@@ -741,7 +741,7 @@ var fileNameForSprocket = fw.viewModels.getFileName('sprocket'); // === null
   </section>
 
   <a id="fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="fileExtensions">
+  <section data-name="fileExtensions">
     <div class="highlight"></div>
     <div class="content">
       <h3 class="top"><em class="func-def">fw.viewModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></em></h3>
