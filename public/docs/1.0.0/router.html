@@ -380,42 +380,6 @@ unknownRoute: { /* ... */ }
     ]);
   }
 });</code></pre>
-
-      <a id="router-currentRoute" class="section-anchor" data-bind="sectionAnchor"></a>
-      <h3 class="ref-block">
-        <div class="title">
-          <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.currentRoute<span>()</span></div>
-        </div>
-        <div class="description">Get the current route details.</div>
-        <div class="return-value">
-          <span class="label">Returns:</span>
-          <span class="value"><span class="type">object{}</span> the current route details</span>
-        </div>
-      </h3>
-<pre><code class="javascript">// Browser currently pointed to 'http://application.com/book/22'
-fw.router({
-  namespace: 'MainRouter',
-  routes: [
-    {
-      title: 'Index Page',
-      route: '/',
-      controller: function() { /* ... */ }
-    },
-    {
-      title: 'Book Page',
-      route: '/book/:isbn',
-      controller: function(isbn) { /* ... */ }
-    }
-  ],
-  initialize: function() {
-    var currentRoute = this.currentRoute();
-    // currentRoute.segment === '/book/22' (this specific route segment/path)
-    // currentRoute.url === '/book/22' (full url, includes parent and children segments)
-    // currentRoute.namedParams.isbn === '22'
-    // currentRoute.title === 'Book Page'
-  }
-});</code></pre>
     </div>
   </section>
 
