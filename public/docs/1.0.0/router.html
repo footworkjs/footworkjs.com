@@ -1012,11 +1012,15 @@ console.info(currentRoute.url); // === '/book/1234'
     </header>
     <div class="content">
       <p>Each <span class="inline-code">router</span> instantiated and bound to the DOM will receive lifecycle events.</p>
-      <p>These events can be used for any code you need to run when the instance is initially setup on or removed from the page. A common example
+
+      <p>These events can be used for any logic you need to incorporate when the instance is initially setup/bound onto or removed from the page. A common example
         would be the setup and teardown of a jQuery plugin, or events.</p>
 
       <p>Registration of a <span class="inline-code">router</span> is referring to telling footwork (in one way or another) where your
         <span class="inline-code">router</span> is so that it can be used when needed.</p>
+
+      <div class="note"><span class="label">NOTE:</span> No routing will occur until a <span class="inline-code">router</span> is activated, see
+        <a data-bind="$route" href="#activation">Activation</a>.</div>
     </div>
   </section>
 
@@ -1061,7 +1065,7 @@ console.info(currentRoute.url); // === '/book/1234'
       <p>A <span class="inline-code">router</span> is first instantiated and then activated. No routing will occur (the controller methods will not be
         activated/called) until a <span class="inline-code">router</span> is activated.</p>
 
-      <p>This activation can occur automatically when you bind it to the DOM or explicitly when calling
+      <p>This activation can (will) occur automatically when you bind it to the DOM or explicitly when calling
         <span class="inline-code">router.activate()</span> directly on the instance.</p>
 
       <a id="router-activate" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -1135,17 +1139,18 @@ router.setState('/home');
     </div>
   </section>
 
-  <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section name="onDispose">
+  <a id="disposal" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section name="disposal">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">onDispose()</h2>
+      <h2 class="sub title">Disposal</h2>
     </header>
     <div class="content">
       <p>If provided, the <span class="inline-code">router</span> configuration <span class="inline-code">onDispose()</span> method will be called
         just after the element a <span class="inline-code">router</span> is bound to is removed from the DOM. This provides a handy integration
         point for external libraries or plugins (such as jQuery).</p>
 
+      <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
@@ -1229,10 +1234,10 @@ var MyRouter = fw.router({
     </header>
     <div class="content">
       <p>In order for footwork to know what to do when it encounters a <span class="inline-code">&lt;router&gt;</span> it must be registered in some
-        way.</p>
+        way (it needs to know where it is).</p>
 
-      <p>Footwork supports both explicitly registering your <span class="inline-code">router</span> ahead of time (caching it directly) or
-        automatically/lazily loading via AMD/RequireJS.</p>
+      <p>Footwork supports both explicitly registering your <span class="inline-code">router</span> ahead of time (caching its constructor function
+        or instance directly) or by telling it where it can be downloaded (automatically/lazy loading via AMD/RequireJS).</p>
 
       <p>That is done with one of the following methods:</p>
 
