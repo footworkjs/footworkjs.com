@@ -1002,8 +1002,9 @@ console.info(currentRoute.url); // === '/book/1234'
         <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> but with one crucial exception. A
         <span class="inline-code">router</span> will not trigger any of its routes (and thus, controllers) until it is activated.</p>
 
-      <p>This activation can/will occur automatically when you bind it to the DOM, or you can trigger it explicitly by calling
-        <span class="inline-code">router.activate()</span> directly on the instance.</p>
+      <p>This activation can/will occur automatically when you bind it to the DOM, explicitly by calling
+        <span class="inline-code">router.activate()</span> directly on the instance, or by using the <span class="inline-code">'activate'</span>
+        <span class="inline-code">COMMAND</span>.</p>
 
       <p>A <span class="inline-code">router</span> is instantiated, then bound to the DOM and used, or just used independent of the DOM. Depending on
         what you choose to do with a <span class="inline-code">router</span> determines its exact lifecycle.</p>
@@ -1032,8 +1033,9 @@ console.info(currentRoute.url); // === '/book/1234'
       <p>A <span class="inline-code">router</span> is first instantiated and then activated. No routing will occur (the controller methods will not be
         activated/called) until a <span class="inline-code">router</span> is activated.</p>
 
-      <p>This activation can (will) occur automatically when you bind it to the DOM or explicitly when calling
-        <span class="inline-code">router.activate()</span> directly on the instance.</p>
+      <p>This activation can/will occur automatically when you bind it to the DOM, explicitly by calling
+        <span class="inline-code">router.activate()</span> directly on the instance, or by using the <span class="inline-code">'activate'</span>
+        <span class="inline-code">COMMAND</span>.</p>
 
       <a id="router-activate" class="section-anchor" data-bind="sectionAnchor"></a>
       <h3 class="ref-block">
@@ -1070,6 +1072,29 @@ router.activate();
 router.setState('/home');
 
 // Console prints 'Went to home page'
+</code></pre>
+
+      <a id="command-activate" class="section-anchor" data-bind="sectionAnchor"></a>
+      <h3 class="ref-block">
+        <div class="title">
+          <div class="cqrs">
+            <div class="type"><span class="icon icon-communicate"></span> command</div>
+            <div class="match">activate</div>
+          </div>
+        </div>
+        <div class="description">Activate (turn on, start routing for) a <span class="inline-code">router</span> instance.</div>
+      </h3>
+<pre><code class="javascript">fw.router({
+  namespace: 'MainRouter',
+  routes: [ /* ... */ ]
+});
+
+// ...
+
+var mainRouter = fw.namespace('MainRouter');
+
+// activate the router
+mainRouter.command('activate');
 </code></pre>
     </div>
   </section>
@@ -1960,6 +1985,10 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
             { "anchor": "command-handler-setState",
               "title": "setState",
               "description": "Change the route to the specified URL and trigger any matching controllers.",
+              "keywords": [ "cqrs", "command", "handler" ] },
+            { "anchor": "command-activate",
+              "title": "activate",
+              "description": "Activate the router.",
               "keywords": [ "cqrs", "command" ] }
           ]
         },
