@@ -20,6 +20,10 @@
 
 @noteBackground: @body-text;
 @noteForeground: mix(@body-bg-color, @body-text);
+@labelColor: contrast(@noteBackground);
+@labelColor: #47C2E8;
+@noteSpacing: 10px;
+
 main {
   position: relative;
   padding: 0px 10px 0px 10px;
@@ -92,9 +96,6 @@ main {
       }
 
       .note {
-        @labelColor: contrast(@noteBackground);
-        @labelColor: #47C2E8;
-        @noteSpacing: 10px;
 
         background: @noteBackground;
         color: @noteForeground;

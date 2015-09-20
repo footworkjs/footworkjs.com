@@ -438,6 +438,7 @@
       window.releaseList = {!! $releaseList !!};
     </script>
 
+    <script src="/bower_components/ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     @if (App::isLocal() && !Input::has('compiled'))
       <script src="/scripts/require-config.js"></script>
     	<script src="/bower_components/requirejs/require.js" data-main="/scripts/app/main"></script>

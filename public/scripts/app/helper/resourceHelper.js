@@ -29,6 +29,10 @@ define(["footwork"],
         viewModel: locations.viewModels.config + 'Configuration.js',
         template: locations.templates.config + 'configuration.html'
       });
+      fw.components.registerLocation('code-demo', {
+        viewModel: locations.viewModels.root + 'code-demo.js',
+        template: locations.templates.root + 'code-demo.html'
+      });
       fw.components.registerLocation('layoutcontrol', {
         viewModel: locations.viewModels.config + 'LayoutControl.js',
         template: locations.templates.config + 'layoutcontrol.html'
