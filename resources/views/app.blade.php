@@ -295,7 +295,7 @@
                 <input type="checkbox" class="hidden" id="no-js-hidden">
                 <div class="no-js notice">
                   <div class="icon icon-warning-sign"></div>
-                  <p> It is recommended you enable javascript execution. I promise, nothing bad will happen...</p>
+                  <p> For this website to work you will need to enable javascript execution. I promise, nothing bad will happen...</p>
                   <label for="no-js-hidden" class="button">Ok</label>
                 </div>
 

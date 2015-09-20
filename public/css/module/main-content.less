@@ -100,13 +100,74 @@ main {
         margin: 10px 0;
         line-height: 20px;
 
+        em {
+          color: contrast(@noteBackground);
+        }
+
+        .box {
+          @boxSpacing: 10px;
+
+          margin-top: 15px;
+          .border-radius(3px);
+          background: darken(@noteBackground, 10%);
+
+          & > .title {
+            font-size: 15px;
+            color: contrast(@noteBackground);
+            padding: @boxSpacing;
+            border-bottom: 1px solid darken(@noteBackground, 20%);
+            font-weight: bold;
+          }
+
+          & > .content {
+            padding: @boxSpacing;
+          }
+        }
+
         ul {
           margin: 0;
         }
 
         .label {
-          color: contrast(@noteBackground);
+          @labelColor: contrast(@noteBackground);
+          @labelColor: #47C2E8;
+
+          color: @labelColor;
           padding-right: 5px;
+
+          &:before {
+            font-family: "footwork";
+            font-style: normal;
+            font-weight: normal;
+            speak: none;
+
+            display: inline-block;
+            text-decoration: inherit;
+            width: 1em;
+            margin-right: .2em;
+            text-align: center;
+            /* opacity: .8; */
+
+            /* For safety - reset parent styles, that can break glyph codes*/
+            font-variant: normal;
+            text-transform: none;
+
+            /* you can be more comfortable with increased icons size */
+            /* font-size: 120%; */
+
+            /* Font smoothing. That was taken from TWBS */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+
+            content: '\e81a';
+            margin-left: -5px;
+            margin-top: -5px;
+
+            font-size: 20px;
+            color: @labelColor;
+            position: relative;
+            top: 2px;
+          }
         }
 
         a {

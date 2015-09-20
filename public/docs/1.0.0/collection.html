@@ -7,16 +7,43 @@
       <h1 class="sub title">Introduction</h1>
     </header>
     <div class="content">
-      <p>Footwork provides collections as an easy to use abstraction by which you can leverage the RESTful persistence and modeling features of a
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> to create an easily managed list of them.</p>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> If the list of items (collection) you wish to represent does not have a RESTful endpoint, or is just some
+        arbitrary list of data (like an array of strings or dates) then you probably are looking to use the Knockout
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
+        instead (which are usable/available from within footwork via <span class="inline-code">fw.observableArray()</span>).</p>
+
+        <p>A <span class="inline-code">collection</span> (in footwork terms) is specifically aimed at helping you manage a list of
+          <span class="inline-code">dataModel</span> instances.</p>
+
+        <div class="box">
+          <div class="title">Example Use-Case:</div>
+          <div class="content">
+            <p>I have a user profile and attached to it I have a list of contact phone numbers. Each phone number would be represented
+              in my application via a <span class="inline-code">dataModel</span> (which would have its REST endpoint used for CRUD operations, say at
+              <span class="inline-code">/user/phone-number/123</span> for the record with id 123).</p>
+            <p>I would then also have a (for example) <span class="inline-code">/user/phone-numbers</span> endpoint which would return a JSON list of
+              phone numbers attached to my profile. This list/endpoint is what would be managed by the <span class="inline-code">collection</span> from
+              within the application.</p>
+            <p>If represented by a <span class="inline-code">collection</span>, I could then (as an example) <span class="inline-code">$fetch</span> the
+              list from the server and have my list of <span class="inline-code">dataModel</span> instances created for me and injected into the
+              <span class="inline-code">collection</span>.</p>
+          </div>
+        </div>
+      </div>
+
+      <p>Footwork provides collections as an easy to use abstraction which you can leverage to manage/persist lists of
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances/records (a collection of things with
+        REST endpoints).</p>
 
       <p>Typically you will have a discrete <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> which will
         represent an individual item in a <span class="inline-code">collection</span> which you might want to manage in your application. An example
-        of this might be a list of contact numbers, or notes attached to a record.</p>
+        of this might be a list of contact numbers, or notes attached to an account.</p>
 
       <p>Knockout.js provides an
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> type
-        which is used to manage arbitrary lists of data while still enabling all of the awesome observable design pattern features that allows
+        which is used to manage arbitrary lists of data while enabling all of the awesome observable design pattern features that allows
         complex dependency chains, automatic resolution of computed values, automatic UI binding, and much more.</p>
 
       <p>Footwork builds upon the
@@ -26,18 +53,14 @@
 
       <p><em>What does this mean exactly?</em></p>
 
-      <p>It means that you can (in addition to the features notated below) treat a footwork
-        <span class="inline-code">collection</span> just as if it was an
+      <p>It means that you can treat a footwork <span class="inline-code">collection</span> just as if it was an
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
-        (because it is). You can bind your UI to it, subscribe to updates, <span class="inline-code">push()</span>,
+        (because it is). You can bind your UI to it, subscribe to updates, make computed (dependent observables) based on them, <span class="inline-code">push()</span>,
         <span class="inline-code">pop()</span>, <span class="inline-code">reverse()</span>, <span class="inline-code">sort()</span>,
-        <a href="http://knockoutjs.com/documentation/observableArrays.html#indexof" target="_blank">and much more</a>.</p>
-
-      <p>In addition to all of the standard
+        <a href="http://knockoutjs.com/documentation/observableArrays.html#indexof" target="_blank">and much more</a>. Additionally to all of the standard
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
-        features, footwork integrates additional functionality to help manage a list of
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances, create new ones, retrieve all data from
-        them, etc.</p>
+        features, footwork integrates functionality to help manage a list of them on a server/REST endpoint (<span class="inline-code">fetch</span>,
+        <span class="inline-code">get</span>, <span class="inline-code">set</span>, etc).</p>
     </div>
   </section>
 
@@ -105,13 +128,12 @@
 });</code></pre>
 
       <h3>Basic usage:</h3>
-<pre><code class="javascript">// Create the dataModel we will use in our collection
-/**
+<pre><code class="javascript">/**
  * Create the collection constructor, giving it the REST endpoint and dataModel
  * to use (which can also have its own REST endpoint)
  */
-//
 var GroupOfPeople = fw.collection({
+  namespace: "GroupOfPeople",
   url: '/people',
   dataModel: fw.dataModel({
     namespace: "Person",
@@ -122,19 +144,25 @@ var GroupOfPeople = fw.collection({
   })
 });
 
-// instantiate a new group of people (with an empty list, no people)
-var group = GroupOfPeople();
+// Instantiate a new group of people (with an empty list, no people)
+var group1 = GroupOfPeople();
+
+// Grab the list of people from its endpoint
+group1.fetch().done(function() {
+  var people = group1();
+  // people[0].name() === 'John Smith'
+});
 
 /**
  * Instantiate a new group of people (this time with a list of people).
  * NOTE: Each item in the following array is passed to a new instantiation of the Person dataModel
  */
-var group = GroupOfPeople([
+var group2 = GroupOfPeople([
   { name: 'John Smith' },
   { name: 'Jane Doe' },
 ]);
 
-var people = group();
+var people = group2();
 var person1 = people[0];
 var person2 = people[1];
 // person1.name() === 'John Smith'</code></pre>
