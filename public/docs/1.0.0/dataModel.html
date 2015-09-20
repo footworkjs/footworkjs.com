@@ -86,6 +86,13 @@
   url: function() { return '/path/to/endpoint'; },
 
   /**
+   * Attribute to use as the primary key (id) of the model.
+   * This idAttribute will be automatically created/instantiated on your dataModel as an
+   * observable, its value will also be used for AJAX requests.
+   */
+  idAttribute: 'id', // default === 'id'
+
+  /**
    * Flag telling footwork whether or not to include the primary key in the URL when
    * performing REST operations.
    * IE: Use of '/path/to/endpoint/1' vs '/path/to/endpoint'
@@ -96,8 +103,8 @@
    * Parse function called whenever a models data is returned by the server from either a
    * save() or fetch().
    * This method is passed the response object and should return the attributes hash to be
-   * $set() on the dataModel. By default this method simply returns the responseObject back
-   * to be used in the $set() call.
+   * set() on the dataModel. By default this method simply returns the responseObject back
+   * to be used in the set() call.
    */
   parse: function(responseObject) { return { /* ... */ }; },
 
@@ -338,7 +345,7 @@ fw.components.register('Person', {
 });
 var person = new Person();
 
-person.$set({
+person.set({
   firstName: 'Kevin',
   lastName: 'Flynn',
   attributes: {
@@ -349,7 +356,8 @@ person.$set({
 
 /**
  * person.inTheMachine() === true
- * person.$get() === {
+ * person.get() === {
+ *   id: 1,
  *   firstName: 'Kevin',
  *   lastName: 'Flynn',
  *   attributes: {
@@ -361,8 +369,8 @@ person.$set({
 </code></pre>
 
       <div class="note">
-        <span class="label">NOTE:</span> <span class="inline-code"><a data-bind="$route" href="#dataModel-get">dataModel.$get()</a></span> and
-        <span class="inline-code"><a data-bind="$route" href="#dataModel-set">dataModel.$set()</a></span> are documented further down the page.
+        <span class="label">NOTE:</span> <span class="inline-code"><a data-bind="$route" href="#dataModel-get">dataModel.get()</a></span> and
+        <span class="inline-code"><a data-bind="$route" href="#dataModel-set">dataModel.set()</a></span> are documented further down the page.
       </div>
     </div>
   </section>
@@ -383,9 +391,9 @@ person.$set({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">dataModel.$get<span>()</span></div>
-          <div class="func-def">dataModel.$get<span>( <span class="param">'mapped.variable'</span> )</span></div>
-          <div class="func-def">dataModel.$get<span>( [ <span class="param">'mapped.variable'</span>, <span class="param">'other.variable'</span> ] )</span></div>
+          <div class="func-def"><span>dataModel</span>.get<span>()</span></div>
+          <div class="func-def"><span>dataModel</span>.get<span>( <span class="param">'mapped.variable'</span> )</span></div>
+          <div class="func-def"><span>dataModel</span>.get<span>( [ <span class="param">'mapped.variable'</span>, <span class="param">'other.variable'</span> ] )</span></div>
         </div>
         <div class="description">Convert a <span class="inline-code">dataModel</span> or specified mapped value into its hash-mapped plain-javascript-object version.</div>
         <div class="return-value">
@@ -407,12 +415,13 @@ var person = new Person({
 });
 
 /**
- * person.$get() === {
+ * person.get() === {
+ *   id: 1,
  *   firstName: 'Gary',
  *   lastName: 'Busey'
  * }
  *
- * person.$get('firstName') === 'Gary'
+ * person.get('firstName') === 'Gary'
  */
 </code></pre>
     </div>
@@ -458,15 +467,15 @@ person.kill();
         data using the mappings you have setup. Otherwise you will have to manually map and write that data to each underlying observable, which may or
         may not be a direct 1-to-1 mapping and requires a lot more boilerplate.</p>
 
-      <p>Footwork provides a <span class="inline-code">dataModel.$set()</span> method which will take the (plain object) data you pass it, map it
+      <p>Footwork provides a <span class="inline-code">dataModel.set()</span> method which will take the (plain object) data you pass it, map it
         to the variables in your <span class="inline-code">dataModel</span> and write to them as appropriate.</p>
 
       <a id="dataModel-set" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">dataModel.$set<span>( <span class="param">'mapped.variable'</span>, <span class="param">value</span> )</span></div>
-          <div class="func-def">dataModel.$set<span>( <span class="param">object</span> )</span></div>
+          <div class="func-def"><span>dataModel</span>.set<span>( <span class="param">'mapped.variable'</span>, <span class="param">value</span> )</span></div>
+          <div class="func-def"><span>dataModel</span>.set<span>( <span class="param">object</span> )</span></div>
         </div>
         <div class="description">Write a POJO (object) model to a <span class="inline-code">dataModel</span> using the internal mapping.</div>
       </div>
@@ -482,7 +491,7 @@ person.kill();
 var person = new Person();
 // person.isDead() === false
 
-person.$set({
+person.set({
   firstName: 'Gary',
   lastName: 'Busey',
   attr: {
@@ -492,8 +501,8 @@ person.$set({
 // person.firstName() === 'Gary'
 // person.isDead() === true
 
-// ...and you can also just pass a single value to $set
-person.$set('firstName', 'Jake');
+// ...and you can also just pass a single value to set
+person.set('firstName', 'Jake');
 // person.firstName() === 'Jake'
 </code></pre>
     </div>
@@ -528,7 +537,7 @@ person.$set('firstName', 'Jake');
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">dataModel.fetch<span>( <span class="param">ajaxOptions</span> )</span></div>
+          <div class="func-def"><span>dataModel</span>.fetch<span>( <span class="param">ajaxOptions</span> )</span></div>
         </div>
         <div class="description">Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</div>
         <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
@@ -781,7 +790,7 @@ person.destroy().done(function() {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">dataModel.dispose<span>()</span></div>
+          <div class="func-def"><span>dataModel</span>.dispose<span>()</span></div>
         </div>
         <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel.</div>
         <div class="return-value">
@@ -925,7 +934,7 @@ var MyDataModel = fw.dataModel({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></div>
         </div>
         <div class="description">Cache a dataModel/module ahead of time.</div>
       </div>
@@ -969,7 +978,7 @@ fw.dataModels.register('Person', {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
         <div class="description">Register the location of a dataModel/module so footwork can load and bind it for you when needed.</div>
       </div>
@@ -986,7 +995,7 @@ fw.dataModels.registerLocation(['Reservations', 'Invoices', 'Notes'], '/dataMode
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.defaultLocation<span>( <span class="param">'path/to/dataModel/folder'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.defaultLocation<span>( <span class="param">'path/to/dataModel/folder'</span> )</span></div>
         </div>
         <div class="description">Register the default location of dataModels so footwork can load and bind them for you when needed.</div>
       </div>
@@ -1183,9 +1192,9 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.getAll<span>()</span></div>
-          <div class="func-def">fw.dataModels.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
-          <div class="func-def">fw.dataModels.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.getAll<span>()</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
         </div>
         <div class="description">Get list of currently instantiated dataModels grouped/indexed by namespace.</div>
         <div class="return-value">
@@ -1231,7 +1240,7 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return true or false based on whether or not there is a dataModel that has been registered under 'moduleName'.</div>
         <div class="return-value">
@@ -1253,7 +1262,7 @@ var dataModels = fw.dataModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return dataModel that has been registered under 'moduleName'.</div>
         <div class="return-value">
@@ -1278,7 +1287,7 @@ var Person = fw.dataModel({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
         <div class="return-value">
@@ -1293,7 +1302,7 @@ var Person = fw.dataModel({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the file name that footwork will appended to the path when downloading the dataModel.</div>
         <div class="return-value">
@@ -1315,8 +1324,8 @@ var fileNameForPerson = fw.dataModels.getFileName('Person'); // === null
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
-          <div class="func-def">fw.dataModels.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModels</span>.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
         </div>
         <div class="description">Specify the extension to append to an AMD/RequireJS loaded dataModel path when it does not have an extension specified (ie: full file name not specified).</div>
       </div>
@@ -1347,7 +1356,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">dataModel.$namespace</div>
+          <div class="func-def"><span>dataModel</span>.$namespace</div>
         </div>
         <div class="description">The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
         to setup any handlers and subscriptions on the current namespace that a dataModel might need.</div>
@@ -1365,7 +1374,7 @@ fw.dataModels.fileExtensions(function(moduleName) {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">dataModel.cid</div>
+          <div class="func-def"><span>dataModel</span>.cid</div>
         </div>
         <div class="description">Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">dataModel</span> when
         they are first created.</div>

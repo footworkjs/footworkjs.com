@@ -353,7 +353,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">viewModel.dispose<span>()</span></div>
+          <div class="func-def"><span>viewModel</span>.dispose<span>()</span></div>
         </div>
         <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a viewModel.</div>
         <div class="return-value">
@@ -497,7 +497,7 @@ var MyViewModel = fw.viewModel({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.register<span>( <span class="param">'moduleName'</span>, <span class="param">viewModel</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.register<span>( <span class="param">'moduleName'</span>, <span class="param">viewModel</span> )</span></div>
         </div>
         <div class="description">Cache a viewModel/module ahead of time.</div>
       </div>
@@ -543,7 +543,7 @@ fw.viewModels.register('Sprocket', {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
         <div class="description">Register the location of a viewModel/module so footwork can load and bind it for you when needed.</div>
       </div>
@@ -560,7 +560,7 @@ fw.viewModels.registerLocation(['Body', 'Navigation', 'Footer'], '/viewModels/pa
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.defaultLocation<span>( <span class="param">'path/to/viewModel/folder'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.defaultLocation<span>( <span class="param">'path/to/viewModel/folder'</span> )</span></div>
         </div>
         <div class="description">Register the default location of viewModels so footwork can load and bind them for you when needed.</div>
       </div>
@@ -757,9 +757,9 @@ var mySprocket = new BigSprocket({ type: 'awesome' });
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.getAll<span>()</span></div>
-          <div class="func-def">fw.viewModels.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
-          <div class="func-def">fw.viewModels.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.getAll<span>()</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
         </div>
         <div class="description">Get list of currently instantiated viewModels grouped/indexed by namespace.</div>
         <div class="return-value">
@@ -805,7 +805,7 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return true or false based on whether or not there is a viewModel that has been registered under 'moduleName'.</div>
         <div class="return-value">
@@ -827,7 +827,7 @@ var viewModels = fw.viewModels.getAll(['Bike', 'Wheel']); // get all 'Bike' and 
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return viewModel that has been registered under 'moduleName'.</div>
         <div class="return-value">
@@ -852,7 +852,7 @@ var Sprocket = fw.viewModel({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
         <div class="return-value">
@@ -867,7 +867,7 @@ var Sprocket = fw.viewModel({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the file name that footwork will appended to the path when downloading the viewModel.</div>
         <div class="return-value">
@@ -890,8 +890,8 @@ var fileNameForSprocket = fw.viewModels.getFileName('Sprocket'); // === null
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.viewModels.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
-          <div class="func-def">fw.viewModels.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModels</span>.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
         </div>
         <div class="description">Specify the extension to append to an AMD/RequireJS loaded viewModel path when it does not have an extension specified (ie: full file name not specified).</div>
       </div>
@@ -922,7 +922,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">viewModel.$namespace</div>
+          <div class="func-def"><span>viewModel</span>.$namespace</div>
         </div>
         <div class="description">The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
         to setup any handlers and subscriptions on the current namespace that a viewModel might need.</div>
@@ -940,7 +940,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">viewModel.$rootNamespace</div>
+          <div class="func-def"><span>viewModel</span>.$rootNamespace</div>
         </div>
         <div class="description">
           <p>The root (non-indexed) namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
@@ -962,7 +962,7 @@ fw.viewModels.fileExtensions(function(moduleName) {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">viewModel.$globalNamespace</div>
+          <div class="func-def"><span>viewModel</span>.$globalNamespace</div>
         </div>
         <div class="description">
           <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>

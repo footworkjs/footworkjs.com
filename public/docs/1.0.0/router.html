@@ -325,7 +325,7 @@ unknownRoute: { /* ... */ }
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.addRoutes<span>( <span class="param">[ /* routes */ ]</span> )</span></div>
+          <div class="func-def"><span>router</span>.addRoutes<span>( <span class="param">[ /* routes */ ]</span> )</span></div>
         </div>
         <div class="description">Add route(s) to the <span class="inline-code">router</span>.</div>
         <div class="return-value">
@@ -355,7 +355,7 @@ unknownRoute: { /* ... */ }
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.setRoutes<span>( <span class="param">[ /* routes */ ]</span> )</span></div>
+          <div class="func-def"><span>router</span>.setRoutes<span>( <span class="param">[ /* routes */ ]</span> )</span></div>
         </div>
         <div class="description">(clear out and) Set the routes for a <span class="inline-code">router</span>.</div>
         <div class="return-value">
@@ -476,7 +476,7 @@ unknownRoute: { /* ... */ }
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.matchesRoute<span>( <span class="param">'routeName'</span>, <span class="param">'/route/to/match'</span> )</span></div>
+          <div class="func-def"><span>router</span>.matchesRoute<span>( <span class="param">'routeName'</span>, <span class="param">'/route/to/match'</span> )</span></div>
         </div>
         <div class="description">Determine whether or not a <span class="inline-code">'/route/string'</span> matches a named <span class="inline-code">route</span>.</div>
         <div class="return-value">
@@ -586,7 +586,7 @@ unknownRoute: { /* ... */ }
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.outlets.registerView<span>( <span class="param">'viewName'</span>, <span class="param">'&lt;!-- template HTML --&gt;'</span> )</span></div>
+          <div class="func-def"><span>fw.outlets</span>.registerView<span>( <span class="param">'viewName'</span>, <span class="param">'&lt;!-- template HTML --&gt;'</span> )</span></div>
         </div>
         <div class="description">Register/cache a view for later use.</div>
       </div>
@@ -607,8 +607,8 @@ fw.outlets.registerView('calendar-page', 'Calendar: &lt;calendar&gt;&lt;/calenda
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.outlets.registerViewLocation<span>( <span class="param">'viewName'</span>, <span class="param">'/path/to/template'</span> )</span></div>
-          <div class="func-def">fw.outlets.registerViewLocation<span>( <span class="param">[ 'viewName', 'viewName2', ... ]</span>, <span class="param">'/path/to/template/'</span> )</span></div>
+          <div class="func-def"><span>fw.outlets</span>.registerViewLocation<span>( <span class="param">'viewName'</span>, <span class="param">'/path/to/template'</span> )</span></div>
+          <div class="func-def"><span>fw.outlets</span>.registerViewLocation<span>( <span class="param">[ 'viewName', 'viewName2', ... ]</span>, <span class="param">'/path/to/template/'</span> )</span></div>
         </div>
         <div class="description">Tell footwork where it can download a view via AMD/RequireJS.</div>
       </div>
@@ -642,8 +642,8 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.outlet( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(</span>containingElement<span class="param">) )</span></div>
-          <div class="func-def">router.outlet( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, { <span class="param">onComplete</span>: function(containingElement), <span class="param">onFailure</span>: function(error), <span class="param">params</span>: {} } )</div>
+          <div class="func-def"><span>router</span>.outlet( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, <span class="param">onComplete(</span>containingElement<span class="param">) )</span></div>
+          <div class="func-def"><span>router</span>.outlet( <span class="param">'outletName'</span>, <span class="param">'viewName'</span>, { <span class="param">onComplete</span>: function(containingElement), <span class="param">onFailure</span>: function(error), <span class="param">params</span>: {} } )</div>
         </div>
         <div class="description">Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel.</div>
         <div class="return-value">
@@ -698,7 +698,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.outlets<span>{}</span></div>
+          <div class="func-def"><span>router</span>.outlets<span>{}</span></div>
         </div>
         <div class="description">List/Collection of registered outlets.</div>
       </div>
@@ -740,8 +740,8 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.setState<span>( <span class="param">'/path/to/route/to'</span> )</span></div>
-          <div class="func-def">router.setState<span>( <span class="param">'namedRoute'</span>, <span class="param">paramsObject</span> )</span></div>
+          <div class="func-def"><span>router</span>.setState<span>( <span class="param">'/path/to/route/to'</span> )</span></div>
+          <div class="func-def"><span>router</span>.setState<span>( <span class="param">'namedRoute'</span>, <span class="param">paramsObject</span> )</span></div>
         </div>
         <div class="description">Change the route to the specified URL and trigger any matching controllers.</div>
       </div>
@@ -918,7 +918,7 @@ var MainViewModel = fw.viewModel({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.currentRoute<span>()</span></div>
+          <div class="func-def"><span>router</span>.currentRoute<span>()</span></div>
         </div>
         <div class="description">Get the current route details.</div>
         <div class="return-value">
@@ -1053,7 +1053,7 @@ console.info(currentRoute.url); // === '/book/1234'
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.activate<span>()</span></div>
+          <div class="func-def"><span>router</span>.activate<span>()</span></div>
         </div>
         <div class="description">Activate (turn on, start routing for) a <span class="inline-code">router</span> instance.</div>
         <div class="return-value">
@@ -1186,7 +1186,7 @@ mainRouter.command('activate');
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.dispose<span>()</span></div>
+          <div class="func-def"><span>router</span>.dispose<span>()</span></div>
         </div>
         <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a router.</div>
       </div>
@@ -1327,7 +1327,7 @@ var MyRouter = fw.router({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.register<span>( <span class="param">'moduleName'</span>, <span class="param">router</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.register<span>( <span class="param">'moduleName'</span>, <span class="param">router</span> )</span></div>
         </div>
         <div class="description">Cache a router/module ahead of time.</div>
       </div>
@@ -1346,7 +1346,7 @@ fw.routers.register('MainRouter', fw.router({ /* ... */ }));</code></pre>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
         <div class="description">Register the location of a router/module so footwork can load and bind it for you when needed.</div>
       </div>
@@ -1360,7 +1360,7 @@ fw.routers.registerLocation('MainRouter', '/routers/DifferentFileName.js');</cod
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.defaultLocation<span>( <span class="param">'path/to/router/folder'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.defaultLocation<span>( <span class="param">'path/to/router/folder'</span> )</span></div>
         </div>
         <div class="description">Register the location of a router/module so footwork can load and bind it for you when needed.</div>
       </div>
@@ -1543,9 +1543,9 @@ var router = new MainRouter();
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.getAll<span>()</span></div>
-          <div class="func-def">fw.routers.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
-          <div class="func-def">fw.routers.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.getAll<span>()</span></div>
+          <div class="func-def"><span>fw.routers</span>.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
         </div>
         <div class="description">Get list of currently instantiated routers grouped/indexed by namespace.</div>
         <div class="return-value">
@@ -1559,7 +1559,7 @@ var router = new MainRouter();
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return true or false based on whether or not there is a router that has been registered under 'moduleName'.</div>
         <div class="return-value">
@@ -1578,7 +1578,7 @@ var router = new MainRouter();
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Return router that has been registered under 'moduleName'.</div>
         <div class="return-value">
@@ -1601,7 +1601,7 @@ var MainRouter = fw.router({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
         <div class="return-value">
@@ -1616,7 +1616,7 @@ var MainRouter = fw.router({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
         <div class="description">Get the file name that footwork will appended to the path when downloading the router.</div>
         <div class="return-value">
@@ -1630,8 +1630,8 @@ var MainRouter = fw.router({
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
-          <div class="func-def">fw.routers.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
         </div>
         <div class="description">Specify the extension to append to an AMD/RequireJS loaded router path when it does not have an extension specified (ie: full file name not specified).</div>
       </div>
@@ -1651,8 +1651,8 @@ fw.routers.fileExtensions(function(moduleName) {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.baseRoute<span>()</span></div>
-          <div class="func-def">fw.routers.baseRoute<span>( <span class="param">'/path/to/ignore'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.baseRoute<span>()</span></div>
+          <div class="func-def"><span>fw.routers</span>.baseRoute<span>( <span class="param">'/path/to/ignore'</span> )</span></div>
         </div>
         <div class="description">Get or set the beginning portion of a route to ignore for the given path.</div>
         <div class="return-value">
@@ -1667,8 +1667,8 @@ fw.routers.baseRoute('/home/directory'); // routers will ignore '/home/directory
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.activeRouteClassName<span>()</span></div>
-          <div class="func-def">fw.routers.activeRouteClassName<span>( <span class="param">'className'</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.activeRouteClassName<span>()</span></div>
+          <div class="func-def"><span>fw.routers</span>.activeRouteClassName<span>( <span class="param">'className'</span> )</span></div>
         </div>
         <div class="description">Get or set the default class which is added to an active <span class="inline-code">$route</span> bound element.</div>
         <div class="return-value">
@@ -1684,8 +1684,8 @@ fw.routers.activeRouteClassName('currentlyActive');</code></pre>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.disableHistory<span>()</span></div>
-          <div class="func-def">fw.routers.disableHistory<span>( <span class="param">isDisabled</span> )</span></div>
+          <div class="func-def"><span>fw.routers</span>.disableHistory<span>()</span></div>
+          <div class="func-def"><span>fw.routers</span>.disableHistory<span>( <span class="param">isDisabled</span> )</span></div>
         </div>
         <div class="description">Enable or disable history (or get the current setting).</div>
         <div class="return-value">
@@ -1700,7 +1700,7 @@ fw.routers.disableHistory(true); // history now disabled, but app still navigabl
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.routers.html5History<span>()</span></div>
+          <div class="func-def"><span>fw.routers</span>.html5History<span>()</span></div>
         </div>
         <div class="description">Get a boolean flag indicating whether or not footwork is using the HTML5 history API.</div>
         <div class="return-value">
@@ -1727,7 +1727,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.$namespace</div>
+          <div class="func-def"><span>router</span>.$namespace</div>
         </div>
         <div class="description">
           <p>The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
@@ -1747,7 +1747,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.$rootNamespace</div>
+          <div class="func-def"><span>router</span>.$rootNamespace</div>
         </div>
         <div class="description">
           <p>The root (non-indexed) namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
@@ -1769,7 +1769,7 @@ fw.routers.html5History(); // === false when using &lt;=IE8</code></pre>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">router.$globalNamespace</div>
+          <div class="func-def"><span>router</span>.$globalNamespace</div>
         </div>
         <div class="description">
           <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>
