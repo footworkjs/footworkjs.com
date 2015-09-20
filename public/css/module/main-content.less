@@ -92,9 +92,13 @@ main {
       }
 
       .note {
+        @labelColor: contrast(@noteBackground);
+        @labelColor: #47C2E8;
+        @noteSpacing: 10px;
+
         background: @noteBackground;
         color: @noteForeground;
-        padding: 10px;
+        padding: @noteSpacing;
         font-size: 13px;
         .border-radius(3px);
         margin: 10px 0;
@@ -105,23 +109,22 @@ main {
         }
 
         .box {
-          @boxSpacing: 10px;
-
           margin-top: 15px;
           .border-radius(3px);
           background: darken(@noteBackground, 10%);
 
           & > .title {
-            font-size: 15px;
-            color: contrast(@noteBackground);
-            padding: @boxSpacing;
-            border-bottom: 1px solid darken(@noteBackground, 20%);
-            font-weight: bold;
+            color: @labelColor;
+            padding: @noteSpacing @noteSpacing 0 @noteSpacing;
           }
 
           & > .content {
-            padding: @boxSpacing;
+            padding: 0 @noteSpacing @noteSpacing @noteSpacing;
           }
+        }
+
+        .box + .box {
+          margin-top: @noteSpacing;
         }
 
         ul {
@@ -129,8 +132,6 @@ main {
         }
 
         .label {
-          @labelColor: contrast(@noteBackground);
-          @labelColor: #47C2E8;
 
           color: @labelColor;
           padding-right: 5px;

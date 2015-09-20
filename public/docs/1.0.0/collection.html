@@ -9,13 +9,13 @@
     <div class="content">
 
       <div class="note">
-        <p><span class="label">NOTE:</span> If the list of items (collection) you wish to represent does not have a RESTful endpoint, or is just some
-        arbitrary list of data (like an array of strings or dates) then you probably are looking to use the Knockout
+        <p><span class="label">NOTE:</span> If the collection of data you wish to represent does not have a RESTful endpoint, or is
+        just some arbitrary list of data (like an array of strings or dates, or plain objects) then you probably want to use a Knockout
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
         instead (which are usable/available from within footwork via <span class="inline-code">fw.observableArray()</span>).</p>
 
-        <p>A <span class="inline-code">collection</span> (in footwork terms) is specifically aimed at helping you manage a list of
-          <span class="inline-code">dataModel</span> instances.</p>
+        <p>A <span class="inline-code">collection</span> (from a footwork.js perspective) is specifically aimed at helping you manage a list of
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances.</p>
 
         <div class="box">
           <div class="title">Example Use-Case:</div>
@@ -27,8 +27,8 @@
               phone numbers attached to my profile. This list/endpoint is what would be managed by the <span class="inline-code">collection</span> from
               within the application.</p>
             <p>If represented by a <span class="inline-code">collection</span>, I could then (as an example) <span class="inline-code">$fetch</span> the
-              list from the server and have my list of <span class="inline-code">dataModel</span> instances created for me and injected into the
-              <span class="inline-code">collection</span>.</p>
+              list from the server and have my list of <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>
+              instances created for me and injected into the <span class="inline-code">collection</span>.</p>
           </div>
         </div>
       </div>
@@ -55,8 +55,9 @@
 
       <p>It means that you can treat a footwork <span class="inline-code">collection</span> just as if it was an
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
-        (because it is). You can bind your UI to it, subscribe to updates, make computed (dependent observables) based on them, <span class="inline-code">push()</span>,
-        <span class="inline-code">pop()</span>, <span class="inline-code">reverse()</span>, <span class="inline-code">sort()</span>,
+        (because thats what it is). You can bind your UI to it, subscribe to updates, make computed (dependent observables) based on them,
+        <span class="inline-code">push()</span>, <span class="inline-code">pop()</span>, <span class="inline-code">reverse()</span>,
+        <span class="inline-code">sort()</span>,
         <a href="http://knockoutjs.com/documentation/observableArrays.html#indexof" target="_blank">and much more</a>. Additionally to all of the standard
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
         features, footwork integrates functionality to help manage a list of them on a server/REST endpoint (<span class="inline-code">fetch</span>,
@@ -77,7 +78,7 @@
 
       <p>Common uses might include binding to a list of them in your markup to create an automatically populated and managed list of contacts. Or
         another might be a list of todo items one might have to do. It can be anything...it's really just a way to manage a list of
-        <span class="inline-code">dataModel</span> instances (and a <span class="inline-code">dataModel</span> can essentially contain anything).</p>
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances (and a <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> can essentially contain anything).</p>
     </div>
   </section>
 
@@ -98,7 +99,7 @@
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">fw.collection<span>( <span class="param">configurationObject</span> )</span></div>
+          <div class="func-def"><span>fw</span>.collection<span>( <span class="param">configurationObject</span> )</span></div>
         </div>
         <div class="description">Create a <span class="inline-code">collection</span> constructor function.</div>
         <div class="return-value">
@@ -135,6 +136,7 @@
 var GroupOfPeople = fw.collection({
   namespace: "GroupOfPeople",
   url: '/people',
+  // It is recommended you store the dataModel in a separate file, this example shows it inline
   dataModel: fw.dataModel({
     namespace: "Person",
     url: '/person',
@@ -180,17 +182,45 @@ var person2 = people[1];
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> under
         the covers you can bind to them from your UI just as you would with knockoutjs.</p>
 
-<pre><code class="javascript">var peopleDisplay = fw.viewModel({
+      <p>In this example we first must create the collection constructor <span class="inline-code">GroupOfPeople</span>. Note that it has a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span></p>
+<pre><code class="javascript">// Create the GroupOfPeople collection constructor
+var GroupOfPeople = fw.collection({
+  namespace: "GroupOfPeople",
+  url: '/people',
+  // It is recommended you store the dataModel in a separate file, this example shows it inline
+  dataModel: fw.dataModel({
+    namespace: "Person",
+    url: '/person',
+    initialize: function(personData) {
+      this.name = fw.observable(personData.name);
+    }
+  })
+});
+
+// Create the PeopleDisplay viewModel which has a GroupOfPeople
+var PeopleDisply = fw.viewModel({
+  namespace: 'PeopleDisplay',
   initialize: function() {
     this.people = GroupOfPeople([
       { name: 'John Smith' },
       { name: 'Jane Doe' },
+      { name: 'Jack Black' }
     ]);
   }
 });
 
-// And then bind that viewModel to the UI somehow
+// Instantiate and bind it to the DOM (HTML shown in next example)
+var people = new PeopleDisply();
+fw.applyBindings(people, document.getElementById('people-container'));
 </code></pre>
+
+    <h3>Example using the code from above to render the list of people:</h3>
+<pre><code class="html">&lt;div id="people-container" data-bind="foreach: people"&gt;
+  &lt;div class="person"&gt;
+    &lt;span data-bind="text: name"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
 
     </div>
   </section>
