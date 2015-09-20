@@ -830,12 +830,16 @@ mainRouter.command('setState', {
         binding.</p>
 
       <p>The <span class="inline-code">$route</span> binding is simply a <a href="http://knockoutjs.com/documentation/custom-bindings.html" target="_blank">custom knockout binding</a>
-        which is created by footwork. This binding allows footwork to correctly connect your DOM element event (click, by default) to a router action.</p>
+        which is created by footwork. This binding allows footwork to correctly connect your DOM element event (click, by default) to a <span class="inline-code">router</span> action.</p>
 
       <p>Whenever footwork encounters the <span class="inline-code">$route</span> binding it will traverse up the DOM node path searching for the nearest parent router. Whenever
         the designated event occurs on that element it will trigger the state change as described on that router.</p>
 
-      <p>The <span class="inline-code">$route</span> binding has a few optional parameters.</p>
+      <p>A common use for the <span class="inline-code">$route</span> binding is with no options (as the first example below shows), and in this mode
+        of operation it will bind to the <span class="inline-code">click</span> event and (if it is an anchor tag) look at the element
+        <span class="inline-code">href=""</span> attribute for the destination URL. All of this (and more) can be overridden with the following
+        optional parameters:</p>
+
       <ul>
         <li><span class="inline-code">url:</span> <span class="inline-code">'string' / callback() / observable</span> The route to send the application to.</li>
         <li><span class="inline-code">on:</span> <span class="inline-code">'string' / callback() / observable</span> The event to trigger the action on (click, by default).</li>
@@ -961,10 +965,10 @@ var router = new MyRouter();
 router.activate().setState('/book/1234');
 
 // Create the namespace channel we will use to request the currentRoute
-var MyRouter = fw.namespace('MyRouter');
+var MyRouterNS = fw.namespace('MyRouter');
 
 // Request the currentRoute
-var currentRoute = MyRouter.request('currentRoute');
+var currentRoute = MyRouterNS.request('currentRoute');
 
 console.info(currentRoute.url); // === '/book/1234'
 </code></pre>
@@ -1002,12 +1006,16 @@ console.info(currentRoute.url); // === '/book/1234'
         <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> but with one crucial exception. A
         <span class="inline-code">router</span> will not trigger any of its routes (and thus, controllers) until it is activated.</p>
 
-      <p>This activation can/will occur automatically when you bind it to the DOM, explicitly by calling
-        <span class="inline-code">router.activate()</span> directly on the instance, or by using the <span class="inline-code">'activate'</span>
-        <span class="inline-code">COMMAND</span>.</p>
+      <p>This activation can occur under 3 different circumstances.</p>
+      <ul>
+        <li>Automatically when you bind it to the DOM.</li>
+        <li>Explicitly by calling <span class="inline-code">router.activate()</span> directly on the instance.</li>
+        <li>Explicitly by issuing the <span class="inline-code">'activate'</span> <span class="inline-code">COMMAND</span> via its <span class="inline-code">namespace</span>.</li>
+      </ul>
 
-      <p>A <span class="inline-code">router</span> is instantiated, then bound to the DOM and used, or just used independent of the DOM. Depending on
-        what you choose to do with a <span class="inline-code">router</span> determines its exact lifecycle.</p>
+      <p>A <span class="inline-code">router</span> is first instantiated (either automatically via a declarative <span class="inline-code">&lt;router&gt;</span>
+        in your markup or explicitly), then bound to the DOM and used, or just used independent of the DOM. Depending on what you choose to do with a
+        <span class="inline-code">router</span> determines its exact lifecycle.</p>
 
       <p>Lifecycle events are automatically triggered for you when using a <span class="inline-code">router</span> via one of the three main methods:</p>
 
@@ -1033,10 +1041,14 @@ console.info(currentRoute.url); // === '/book/1234'
       <p>A <span class="inline-code">router</span> is first instantiated and then activated. No routing will occur (the controller methods will not be
         activated/called) until a <span class="inline-code">router</span> is activated.</p>
 
-      <p>This activation can/will occur automatically when you bind it to the DOM, explicitly by calling
-        <span class="inline-code">router.activate()</span> directly on the instance, or by using the <span class="inline-code">'activate'</span>
-        <span class="inline-code">COMMAND</span>.</p>
+      <p>This activation can occur under 3 different circumstances.</p>
+      <ul>
+        <li>Automatically when you bind it to the DOM (declarative <span class="inline-code">&lt;router&gt;</span> in your markup).</li>
+        <li>Explicitly by calling <span class="inline-code">router.activate()</span> directly on the instance.</li>
+        <li>Explicitly by issuing the <span class="inline-code">'activate'</span> <span class="inline-code">COMMAND</span> via its <span class="inline-code">namespace</span>.</li>
+      </ul>
 
+      <h3>Explicit activation via calling of <span class="inline-code">router.activate()</span> directly on the instance:</h3>
       <a id="router-activate" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
@@ -1074,6 +1086,7 @@ router.setState('/home');
 // Console prints 'Went to home page'
 </code></pre>
 
+      <h3>Explicitly by issuing the <span class="inline-code">'activate'</span> <span class="inline-code">COMMAND</span> via its <span class="inline-code">namespace</span>:</h3>
       <a id="command-activate" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
