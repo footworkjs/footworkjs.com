@@ -10,7 +10,7 @@
     <div class="bootstrap tab" data-bind="click: chooseTab">Bootstrap</div>
   </div>
 
-  <div class="builds content">
+  <div class="builds content" data-bind="limitScroll">
     <div class="section">
       <div class="selector-tool">
         <div class="build-label">Version:</div>
@@ -52,7 +52,7 @@
     </div>
   </div>
 
-  <div class="bower content">
+  <div class="bower content" data-bind="limitScroll">
     <p><em>Install via bower.json:</em></p>
 
     <p>If you are totally new to bower (or do not have it installed), it is recommended that you head over to the
@@ -75,7 +75,7 @@ bower install</code></pre>
     <pre><code class="bash">bower install footwork</code></pre>
   </div>
 
-  <div class="bootstrap content">
+  <div class="bootstrap content" data-bind="limitScroll">
     <p><em>Coming soon... pre-configured bootstrapped base-applications!</em></p>
   </div>
 </div>

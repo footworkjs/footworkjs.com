@@ -88,7 +88,7 @@
               <header class="main-header desktop-only" data-bind="css: { navReflowing: navReflowing }, transform: closedTransform,
                                                                 style: { height: visibleHeight, top: topOffset, borderBottomWidth: borderWidth }">
                 <div class="source-link has-trans" data-bind="css: { visible: sourceLinkVisible, forceHidden: sourceLinkHidden }">
-                  <a class="button" target="_blank" href="https://github.com/reflectiveSingleton/footwork">
+                  <a class="button" target="_blank" href="https://github.com/footworkjs/footwork">
                     <span>View on Github</span>
                   </a>
                 </div>
