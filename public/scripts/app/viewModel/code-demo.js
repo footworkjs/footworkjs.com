@@ -4,16 +4,18 @@ define([ "footwork", "lodash", "jquery" ],
 
     fw.bindingHandlers['demoCodeEditor'] = {
       init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-        var syntax = element.getAttribute('data-syntax') || 'javascript';
         var demoCodeEditor = fw.namespace('demoCodeEditor');
         var $element = $(element);
         var params = valueAccessor();
         var name = params.name;
         var parentNS = params.parentNS;
+        var source = params.source || '';
+        var syntax = params.type || element.getAttribute('data-syntax') || 'javascript';
 
         var editor = ace.edit(element);
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/" + syntax);
+        editor.setValue(source);
 
         var showSub = parentNS.subscribe('show', function(editorName) {
           if(editorName === name) {
@@ -41,8 +43,8 @@ define([ "footwork", "lodash", "jquery" ],
 
         require([demoSrc + '/run.js'], function(demo) {
           var resourceDefs = _.extend({
-            mainJS: { type: 'script', location: demoSrc + '/main.js' },
-            mainHTML: { type: 'template', location: demoSrc + '/main.html' }
+            mainJS: { type: 'javascript', location: demoSrc + '/main.js' },
+            mainHTML: { type: 'html', location: demoSrc + '/main.html' }
           }, demo.resources);
 
           // Turn our resource definition list into a require deps array (and generate the dependencyList to re-map later on)
@@ -59,7 +61,7 @@ define([ "footwork", "lodash", "jquery" ],
 
             // create hash-map of the resolved dependencies using the dependencyList
             _.each(dependencyList, function(dep, indexNum) {
-              deps[dep.name] = { label: dep.label, content: resolvedDependencies[indexNum] };
+              deps[dep.name] = { label: dep.label, type: dep.type, content: resolvedDependencies[indexNum] };
             });
 
             // inject the deps list into the resources view editors
@@ -70,6 +72,7 @@ define([ "footwork", "lodash", "jquery" ],
               var resource = {
                 name: depName,
                 label: depResource.label,
+                type: depResource.type,
                 source: depResource.content,
                 parentNS: codeDemo.$namespace,
                 selectResource: function() {
