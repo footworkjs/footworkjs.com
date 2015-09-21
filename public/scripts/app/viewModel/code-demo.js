@@ -57,6 +57,7 @@ define([ "footwork", "lodash", "jquery" ],
 
         require([demoSrc + '/run.js'], function(demo) {
           codeDemo.demoTitle(demo.title || 'Code Demo');
+          codeDemo.explanation(demo.explanation);
 
           var resourceDefs = _.extend({
             mainJS: { type: 'javascript', location: demoSrc + '/main.js' },
@@ -139,6 +140,7 @@ define([ "footwork", "lodash", "jquery" ],
 
         this.hasError = fw.observable(false);
         this.demoTitle = fw.observable('Loading ...');
+        this.explanation = fw.observable();
         this.changed = fw.observable(false);
         this.resources = fw.observableArray();
         this.orderedResources = fw.computed(function() {

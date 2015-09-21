@@ -4,6 +4,7 @@ define([ "footwork", "lodash", "jquery" ],
 
     return {
       title: 'Introductory Demo',
+      explanation: 'Play around with the demo code below to get a quick feel for how footwork operates...',
       resources: {
         mainHTML: {
           index: 1,

@@ -5,8 +5,9 @@
   @background: #444;
   @foreground: contrast(@background);
   @labelColor: #47C2E8;
+  @titleRowHeight: 30px;
 
-  background: @background;
+  background: @editorBackground;
   color: @foreground;
   .border-radius(3px);
   .clearblock;
@@ -41,7 +42,18 @@
     line-height: 30px;
   }
 
+  .explanation {
+    background: @editorBackground;
+    padding: 0 10px;
+    font-size: 13px;
+    color: mix(@editorBackground, @foreground);
+    margin-bottom: 10px;
+  }
+
   .output {
+    .box-sizing(border-box);
+    height: @demoHeight + @titleRowHeight;
+
     & > .title {
       padding: 0 10px;
       font-size: 13px;
@@ -98,15 +110,21 @@
   .resource-titles {
     float: left;
     width: @editorWidth;
-    .clearblock;
+    height: @titleRowHeight;
     font-size: 13px;
     background: @editorBackground;
+    .clearblock;
+    .box-sizing(border-box);
+    padding-left: 41px;
 
     .resource {
       float: left;
       padding: 0 10px;
       cursor: pointer;
       color: mix(@editorBackground, @foreground, 30%);
+      background: darken(@editorBackground, 8%);
+      position: relative;
+      top: 3px;
 
       &:before {
         .icon-mixin;
@@ -118,8 +136,12 @@
         background: darken(@editorBackground, 5%);
       }
 
+      &.active {
+        top: 0;
+      }
+
       &.active, &:active {
-        background: darken(@editorBackground, 8%);
+        background: 1px solid #272822;
         color: @foreground;
       }
     }

@@ -1,15 +1,17 @@
 <div class="code-demo">
   <div class="title" data-bind="text: demoTitle"></div>
-  <div class="explanation"></div>
+  <!-- ko if: explanation -->
+    <div class="explanation" data-bind="text: explanation"></div>
+  <!-- /ko -->
 
   <div class="output">
     <div class="title">
-      Output
+      Result / Output:
       <!-- ko if: changed -->
         <button class="refresh small button" data-bind="click: runDemo">Refresh</button>
       <!-- /ko -->
       <!-- ko if: hasError -->
-        <div class="error">There appears to be an error in your input, please check it and click reload again.</div>
+        <div class="error">There appears to be an error in your input, please check it and click refresh again.</div>
       <!-- /ko -->
     </div>
     <div class="content"></div>
