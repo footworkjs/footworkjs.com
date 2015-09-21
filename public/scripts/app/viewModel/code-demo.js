@@ -1,21 +1,38 @@
 define([ "footwork", "lodash", "jquery" ],
   function( fw, _, $ ) {
+    var demoCodeEditorNS = fw.namespace('demoCodeEditor');
+
     fw.bindingHandlers['demoCodeEditor'] = {
       init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         var syntax = element.getAttribute('data-syntax') || 'javascript';
+        var demoCodeEditor = fw.namespace('demoCodeEditor');
+        var $element = $(element);
+        var params = valueAccessor();
+        var name = params.name;
+        var parentNS = params.parentNS;
 
         var editor = ace.edit(element);
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/" + syntax);
 
+        var showSub = parentNS.subscribe('show', function(editorName) {
+          if(editorName === name) {
+            $element.addClass('active');
+          } else {
+            $element.removeClass('active');
+          }
+        })
+
         fw.utils.domNodeDisposal.addDisposeCallback(element, function() {
           editor.destroy();
+          parentNS.unsubscribe(showSub);
         });
       }
     };
 
     return fw.viewModel({
       namespace: 'codeDemo',
+      autoIncrement: true,
       afterBinding: function(element) {
         var codeDemo = this;
         var demoSrc = element.getAttribute('src');
@@ -45,6 +62,31 @@ define([ "footwork", "lodash", "jquery" ],
               deps[dep.name] = resolvedDependencies[indexNum];
             });
 
+            // inject the deps list into the resources view editors
+            _.each(deps, function(depText, depName) {
+              codeDemo.$namespace.subscribe('show', function(depName) {
+                resource.active(false);
+              });
+              var resource = {
+                name: depName,
+                source: depText,
+                parentNS: codeDemo.$namespace,
+                selectResource: function() {
+                  codeDemo.$namespace.publish('show', depName);
+                  this.active(true);
+                },
+                active: fw.observable(false)
+              };
+
+              codeDemo.resources.push(resource);
+            });
+
+            // pre-select/show the first resource if available
+            var firstResource = codeDemo.resources()[0];
+            if(firstResource && _.isFunction(firstResource.selectResource)) {
+              firstResource.selectResource();
+            }
+
             (codeDemo.runDemo = function() {
               // first we need to clean out the container
               fw.cleanNode(outputContainer);
@@ -61,9 +103,12 @@ define([ "footwork", "lodash", "jquery" ],
         })
       },
       initialize: function(params) {
+        var codeDemo = this;
+
         this.runDemo = function noop() {};
 
         this.demoTitle = fw.observable('Demo');
+        this.resources = fw.observableArray();
       }
     });
   }

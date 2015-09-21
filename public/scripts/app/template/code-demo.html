@@ -8,9 +8,13 @@
     <div class="content"></div>
   </div>
 
-  <div class="resources"></div>
-  <div class="editor" data-bind="demoCodeEditor" data-syntax="javascript">
-    <div class="ace"></div>
+  <div class="resource-titles" data-bind="foreach: resources">
+    <div class="resource" data-bind="text: name, css: { active: active }, click: selectResource"></div>
+  </div>
+  <div class="resource-editors" data-bind="foreach: resources">
+    <div class="editor" data-bind="demoCodeEditor: { name: name, parentNS: parentNS }" data-syntax="javascript">
+      <div class="ace"></div>
+    </div>
   </div>
 
 </div>

@@ -2,10 +2,11 @@
   @demoHeight: 400px;
   @editorWidth: 66%;
   @background: #444;
+  @foreground: contrast(@background);
   @labelColor: #47C2E8;
 
   background: @background;
-  color: contrast(@background);
+  color: @foreground;
   .border-radius(3px);
   .clearblock;
 
@@ -59,11 +60,46 @@
     height: @demoHeight;
   }
 
+  .output > .title, .resource-titles {
+    line-height: 30px;
+  }
+
   .output {
     & > .title {
       padding: 0 5px;
       font-size: 13px;
       text-align: right;
+      font-weight: bold;
+    }
+  }
+
+  .resource-titles {
+    float: left;
+    .clearblock;
+    font-size: 13px;
+
+    .resource {
+      float: left;
+      padding: 0 5px;
+      cursor: pointer;
+
+      &:hover {
+        background: darken(@background, 5%);
+      }
+
+      &.active, &:active {
+        background: contrast(@foreground);
+      }
+    }
+  }
+
+  .resource-editors {
+    .editor {
+      display: none;
+
+      &.active {
+        display: block;
+      }
     }
   }
 
