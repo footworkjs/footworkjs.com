@@ -1,12 +1,19 @@
-<viewModel module="PersonViewModel">
-  <div class="welcome">
-    Welcome back <span data-bind="text: name"></span>
-  </div>
-  <button data-bind="click: sayHello">Say Hello</button>
+<viewModel module="Person">
+  <form data-bind="submit: addMessage">
+    <label>
+      First Name:
+      <input type="text" data-bind="value: firstName">
+    </label>
+
+    <label>
+      Last Name:
+      <input type="text" data-bind="value: lastName">
+    </label>
+
+    <textarea data-bind="value: message"></textarea>
+
+    <button>Send Message</button>
+  </form>
 </viewModel>
 
-<viewModel module="MessagesViewModel" class="messages">
-  <div data-bind="foreach: messages">
-    <div class="message" data-bind="text: $data"></div>
-  </div>
-</viewModel>
+<message-list></message-list>

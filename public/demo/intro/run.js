@@ -16,23 +16,35 @@ define([ "footwork", "lodash", "jquery" ],
         mainJS: {
           index: 2,
           type: 'javascript',
-          label: 'PersonViewModel.js',
+          label: 'Person.js',
           location: baseDir + '/main.js'
         },
-        messagesVM: {
+        messageListHTML: {
           index: 3,
+          type: 'html',
+          label: 'message-list.html',
+          location: baseDir + '/message-list.html'
+        },
+        messageListVM: {
+          index: 4,
           type: 'javascript',
-          label: 'MessagesViewModel.js',
-          location: baseDir + '/MessagesViewModel.js'
+          label: 'message-list.js',
+          location: baseDir + '/message-list.js'
         }
       },
       runDemo: function(container, resources) {
-        var messagesVM; eval('messagesVM = ' + resources.messagesVM);
-        var MainVM; eval('MainVM = ' + resources.mainJS);
-        var MainHTML = resources.mainHTML;
+        var personVM; eval('personVM = ' + resources.mainJS);
+        var messageListVM; eval('messageListVM = ' + resources.messageListVM);
 
-        container.innerHTML = MainHTML;
-        fw.applyBindings(new MainVM(), container);
+        fw.viewModels.register('Person', personVM);
+
+        fw.components.register('message-list', {
+          viewModel: messageListVM,
+          template: resources.messageListHTML
+        });
+
+        container.innerHTML = resources.mainHTML;
+        fw.start(container);
       }
     };
   }
