@@ -1,4 +1,6 @@
+<!-- This <viewModel> wraps an instance of Person around the markup -->
 <viewModel module="Person">
+  <!-- Bind the addMessage callback to the submit event -->
   <form data-bind="submit: addMessage">
     <label>
       First Name:
@@ -12,8 +14,12 @@
 
     <textarea data-bind="value: message"></textarea>
 
+    <!-- Button will also trigger the submit event -->
     <button>Send Message</button>
   </form>
-</viewModel>
 
-<message-list></message-list>
+  <div class="messages" data-bind="foreach: messages">
+    <!-- message component, one created/instantiated for each message -->
+    <message params="message: $data"></message>
+  </div>
+</viewModel>

@@ -1,6 +1,6 @@
 .code-demo {
   @demoHeight: 400px;
-  @editorWidth: 75%;
+  @editorWidth: 70%;
   @editorBackground: #2f3129;
   @background: #444;
   @foreground: contrast(@background);
@@ -58,34 +58,36 @@
     .box-sizing(border-box);
     height: @demoHeight + @titleRowHeight;
     max-height: @demoHeight + @titleRowHeight;
-    overflow: auto;
+    position: relative;
+    z-index: 100;
+    @outputSpacing: 5px;
 
     & > .title {
-      padding: 0 10px;
       font-size: 13px;
       font-weight: bold;
       position: relative;
       width: 100%;
-      .box-sizing(border-box);
+      padding-right: @outputSpacing;
       background: @editorBackground;
+      height: @titleRowHeight;
+      .box-sizing(border-box);
+      .clearblock;
 
-      @buttonHeight: 20px;
+      @buttonHeight: 25px;
       button {
         &:before {
           .icon-mixin;
           content: '\e81e';
           padding-right: 5px;
         }
-        padding-left: 5px;
 
-        position: absolute;
-        right: -35px;
-        top: 0;
+        display: block;
+        float: right;
+        padding: 0 5px;
         line-height: @buttonHeight - 2px;
         height: @buttonHeight;
-        top: 50%;
-        margin-top: -(@buttonHeight / 2) - 1px;
         .button-color(darken(@labelColor, 20%));
+        min-width: 0;
       }
 
       .error {
@@ -108,7 +110,7 @@
     }
 
     & > .content {
-      padding: 5px;
+      padding: 0 @outputSpacing @outputSpacing @outputSpacing;
       font-size: 13px;
     }
   }
@@ -173,7 +175,7 @@
     height: @demoHeight;
     position: relative;
     float: left;
-    font-size: 14px;
+    font-size: 12px;
 
     & > .ace {
       position: absolute;
@@ -197,6 +199,7 @@
 
     label {
       .clearblock;
+      margin-bottom: 5px;
     }
 
     input {
@@ -213,7 +216,6 @@
       line-height: 25px;
       padding: 0 5px;
       .border-radius(3px);
-      margin-top: 5px;
       .box-sizing(border-box);
     }
 
@@ -222,6 +224,7 @@
       max-width: 100%;
       margin-top: 5px;
       min-height: 50px;
+      line-height: 15px;
     }
 
     button {
@@ -230,18 +233,73 @@
   }
 
   .intro.output {
-    .message {
+    message {
       @messageBackground: @labelColor;
+      @messageForeground: darken(@messageBackground, 50%);
+      @iconWidth: 30px;
 
-      background: @messageBackground;
-      border: 1px solid lighten(@messageBackground, 10%);
-      color: white;
-      text-shadow: 0 1px 1px black;
-      font-weight: bold;
-      .border-radius(3px);
-      float: right;
-      padding: 0 5px;
-      margin-top: 5px;
+      color: @messageForeground;
+      display: block;
+      line-height: 20px;
+      position: relative;
+
+      .remove {
+        &:hover:before {
+          color: @messageForeground;
+        }
+
+        &:before {
+          .icon-mixin;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          content: '\e806';
+          cursor: pointer;
+          color: mix(@messageBackground, @messageForeground);
+          line-height: 15px;
+        }
+      }
+
+      & > div {
+        &:before {
+          .icon-mixin;
+          position: absolute;
+          left: 0;
+          top: 3px;
+          z-index: 1;
+          font-size: 20px;
+          width: @iconWidth;
+          content: '\e81f';
+        }
+
+        &:hover {
+          .transition(none);
+          background: @messageBackground;
+        }
+
+        background: darken(@messageBackground, 15%);
+        border: 1px solid lighten(@messageBackground, 10%);
+        font-weight: bold;
+        .border-radius(3px);
+        padding: 0 5px;
+        margin-top: 5px;
+        .box-shadow(0 1px 3px -1px black);
+        padding-left: @iconWidth;
+      }
+
+      .from {
+        font-size: 12px;
+        line-height: 15px;
+        text-shadow: none;
+        font-weight: normal;
+        text-align: right;
+        color: darken(@messageBackground, 30%);
+
+        span {
+          font-style: italic;
+          font-weight: bold;
+        }
+      }
     }
   }
 }

@@ -4,8 +4,8 @@ define([ "footwork", "lodash", "jquery" ],
 
     return {
       className: 'intro',
-      title: 'Introductory Demo',
-      explanation: 'Play around with the demo code below to get a quick feel for how footwork operates...',
+      title: 'Footwork.js at a glance...',
+      explanation: 'Please take a moment to play around with the demo code below and get a quick feel for a few of footworks features. Remember though this barely scratches the surface, there are a lot of useful and novel features in footwork...check it out!',
       resources: {
         mainHTML: {
           index: 1,
@@ -19,31 +19,34 @@ define([ "footwork", "lodash", "jquery" ],
           label: 'Person.js',
           location: baseDir + '/main.js'
         },
-        messageListHTML: {
+        messageHTML: {
           index: 3,
           type: 'html',
-          label: 'message-list.html',
-          location: baseDir + '/message-list.html'
+          label: 'message.html',
+          location: baseDir + '/message.html'
         },
-        messageListVM: {
+        messageVM: {
           index: 4,
           type: 'javascript',
-          label: 'message-list.js',
-          location: baseDir + '/message-list.js'
-        }
+          label: 'message.js',
+          location: baseDir + '/message.js'
+        },
       },
       runDemo: function(container, resources) {
+        var mainHTML = resources.mainHTML;
         var personVM; eval('personVM = ' + resources.mainJS);
-        var messageListVM; eval('messageListVM = ' + resources.messageListVM);
+        var messageVM; eval('messageVM = ' + resources.messageVM);
+        var messageHTML = resources.messageHTML;
 
         fw.viewModels.register('Person', personVM);
 
-        fw.components.register('message-list', {
-          viewModel: messageListVM,
-          template: resources.messageListHTML
+        fw.components.unregister('message');
+        fw.components.register('message', {
+          viewModel: messageVM,
+          template: messageHTML
         });
 
-        container.innerHTML = resources.mainHTML;
+        container.innerHTML = mainHTML;
         fw.start(container);
       }
     };
