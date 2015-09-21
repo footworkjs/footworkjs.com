@@ -56,6 +56,8 @@ define([ "footwork", "lodash", "jquery" ],
         });
 
         require([demoSrc + '/run.js'], function(demo) {
+          codeDemo.demoTitle(demo.title || 'Code Demo');
+
           var resourceDefs = _.extend({
             mainJS: { type: 'javascript', location: demoSrc + '/main.js' },
             mainHTML: { type: 'html', location: demoSrc + '/main.html' }
@@ -66,7 +68,7 @@ define([ "footwork", "lodash", "jquery" ],
           var dependencies = _.reduce(resourceDefs || {}, function(resourceList, resourceDef, resourceName) {
             var prefix = 'text!';
             resourceList.push(prefix + resourceDef.location);
-            dependencyList.push({ name: resourceName, label: resourceDef.label || resourceName, type: resourceDef.type });
+            dependencyList.push({ name: resourceName, label: resourceDef.label || resourceName, index: resourceDef.index, type: resourceDef.type });
             return resourceList;
           }, []);
 
@@ -75,7 +77,7 @@ define([ "footwork", "lodash", "jquery" ],
 
             // create hash-map of the resolved dependencies using the dependencyList
             _.each(dependencyList, function(dep, indexNum) {
-              deps[dep.name] = { label: dep.label, type: dep.type, content: resolvedDependencies[indexNum] };
+              deps[dep.name] = { label: dep.label, type: dep.type, index: dep.index, content: resolvedDependencies[indexNum] };
             });
 
             // inject the deps list into the resources view editors
@@ -88,6 +90,7 @@ define([ "footwork", "lodash", "jquery" ],
                 label: depResource.label,
                 type: depResource.type,
                 source: depResource.content,
+                index: depResource.index,
                 parentNS: codeDemo.$namespace,
                 selectResource: function() {
                   codeDemo.$namespace.publish('show', depName);
@@ -135,9 +138,14 @@ define([ "footwork", "lodash", "jquery" ],
         this.runDemo = function noop() {};
 
         this.hasError = fw.observable(false);
-        this.demoTitle = fw.observable('Demo');
+        this.demoTitle = fw.observable('Loading ...');
         this.changed = fw.observable(false);
         this.resources = fw.observableArray();
+        this.orderedResources = fw.computed(function() {
+          return this.resources().sort(function(a, b) {
+            return a.index > b.index ? 1 : -1;
+          });
+        }, this);
       }
     });
   }
