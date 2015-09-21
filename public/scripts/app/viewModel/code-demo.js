@@ -58,6 +58,7 @@ define([ "footwork", "lodash", "jquery" ],
         require([demoSrc + '/run.js'], function(demo) {
           codeDemo.demoTitle(demo.title || 'Code Demo');
           codeDemo.explanation(demo.explanation);
+          codeDemo.className(demo.className);
 
           var resourceDefs = _.extend({
             mainJS: { type: 'javascript', location: demoSrc + '/main.js' },
@@ -133,11 +134,12 @@ define([ "footwork", "lodash", "jquery" ],
           });
         })
       },
-      initialize: function(params) {
+      initialize: function() {
         var codeDemo = this;
 
         this.runDemo = function noop() {};
 
+        this.className = fw.observable();
         this.hasError = fw.observable(false);
         this.demoTitle = fw.observable('Loading ...');
         this.explanation = fw.observable();

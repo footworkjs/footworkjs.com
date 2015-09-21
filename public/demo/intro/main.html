@@ -1,3 +1,12 @@
-<viewModel module="MainViewModel">
-  <div data-bind="text: value"></div>
+<viewModel module="PersonViewModel" class="person">
+  <div class="welcome">
+    Welcome back <span data-bind="text: name"></span>
+  </div>
+  <button data-bind="click: sayHello">Say Hello</button>
+</viewModel>
+
+<viewModel module="MessagesViewModel" class="messages">
+  <div data-bind="foreach: messages">
+    <div class="message" data-bind="text: $data"></div>
+  </div>
 </viewModel>
