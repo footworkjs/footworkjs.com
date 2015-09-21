@@ -50,7 +50,7 @@ define([ "footwork", "lodash", "jquery" ],
           var dependencies = _.reduce(resourceDefs || {}, function(resourceList, resourceDef, resourceName) {
             var prefix = 'text!';
             resourceList.push(prefix + resourceDef.location);
-            dependencyList.push({ name: resourceName, type: resourceDef.type });
+            dependencyList.push({ name: resourceName, label: resourceDef.label || resourceName, type: resourceDef.type });
             return resourceList;
           }, []);
 
@@ -59,17 +59,18 @@ define([ "footwork", "lodash", "jquery" ],
 
             // create hash-map of the resolved dependencies using the dependencyList
             _.each(dependencyList, function(dep, indexNum) {
-              deps[dep.name] = resolvedDependencies[indexNum];
+              deps[dep.name] = { label: dep.label, content: resolvedDependencies[indexNum] };
             });
 
             // inject the deps list into the resources view editors
-            _.each(deps, function(depText, depName) {
+            _.each(deps, function(depResource, depName) {
               codeDemo.$namespace.subscribe('show', function(depName) {
                 resource.active(false);
               });
               var resource = {
                 name: depName,
-                source: depText,
+                label: depResource.label,
+                source: depResource.content,
                 parentNS: codeDemo.$namespace,
                 selectResource: function() {
                   codeDemo.$namespace.publish('show', depName);
@@ -95,7 +96,10 @@ define([ "footwork", "lodash", "jquery" ],
               }
 
               // now run the demo code
-              demo.runDemo.apply(codeDemo, [outputContainer].concat(deps));
+              demo.runDemo.apply(codeDemo, [outputContainer].concat(_.reduce(deps, function(depsHash, dep, depName) {
+                depsHash[depName] = dep.content;
+                return depsHash;
+              }, {})));
             })();
             // demo.runDemo.bind(codeDemo, element.querySelector('.output > .content'), deps);
           });

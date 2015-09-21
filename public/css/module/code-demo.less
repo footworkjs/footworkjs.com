@@ -1,6 +1,7 @@
 .code-demo {
   @demoHeight: 400px;
   @editorWidth: 66%;
+  @editorBackground: #2f3129;
   @background: #444;
   @foreground: contrast(@background);
   @labelColor: #47C2E8;
@@ -75,8 +76,10 @@
 
   .resource-titles {
     float: left;
+    width: @editorWidth;
     .clearblock;
     font-size: 13px;
+    background: @editorBackground;
 
     .resource {
       float: left;
@@ -84,11 +87,11 @@
       cursor: pointer;
 
       &:hover {
-        background: darken(@background, 5%);
+        background: darken(@editorBackground, 5%);
       }
 
       &.active, &:active {
-        background: contrast(@foreground);
+        background: darken(@editorBackground, 8%);
       }
     }
   }

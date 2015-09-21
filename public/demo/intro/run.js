@@ -6,6 +6,7 @@ define([ "footwork", "lodash", "jquery" ],
       resources: {
         contactListVM: {
           type: 'script',
+          label: 'contactsList.js',
           location: baseDir + '/contactList.js'
         }
       },
