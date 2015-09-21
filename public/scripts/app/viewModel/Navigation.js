@@ -110,9 +110,9 @@ define([ "jquery", "lodash", "footwork", "LoadState" ],
 
         this.dropInfoText = fw.computed(function() {
           if( this.headerOpen() ) {
-            return 'Click to <strong>collapse</strong> the header. <span class="shortcut">ctrl + x</span>';
+            return 'Click to <strong>collapse</strong> the header.';
           }
-          return 'Click to <strong>expand</strong> the header. <span class="shortcut">ctrl + x</span>';
+          return 'Click to <strong>expand</strong> the header.';
         }, this);
       }
     });

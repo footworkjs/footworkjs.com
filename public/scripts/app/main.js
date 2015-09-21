@@ -75,16 +75,17 @@ require([
 
     _.each({
       'alt+r': function() { viewPortLayoutMode() !== 'mobile' && configurationNamespace.publish('reset'); },
-      'ctrl+x': function() {
-        if(!apiSearchFocused()) {
-          navigationNamespace.publish('toggleHeader');
-        }
-      },
-      'ctrl+z': function() {
-        if(!apiSearchFocused()) {
-          layoutNamespace.publish('togglePane');
-        }
-      },
+      // Shortcuts disabled because of live ace-editors conflicting
+      // 'ctrl+x': function() {
+      //   if(!apiSearchFocused()) {
+      //     navigationNamespace.publish('toggleHeader');
+      //   }
+      // },
+      // 'ctrl+z': function() {
+      //   if(!apiSearchFocused()) {
+      //     layoutNamespace.publish('togglePane');
+      //   }
+      // },
       'esc': function() { globalNamespace.publish('clear'); configVisible( false ); }
     }, function(handler, keyCombo) {
       jwerty.key( keyCombo, handler );

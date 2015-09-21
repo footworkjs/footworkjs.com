@@ -15,6 +15,10 @@ define([ "footwork", "lodash", "jquery" ],
         var editor = ace.edit(element);
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/" + syntax);
+        editor.getSession().setOptions({
+          tabSize: 2,
+          useSoftTabs: true
+        });
         editor.setValue(source);
         editor.gotoLine(1);
         editor.on('change', function() {

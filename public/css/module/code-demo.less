@@ -6,6 +6,7 @@
   @foreground: contrast(@background);
   @labelColor: #47C2E8;
   @titleRowHeight: 30px;
+  @aceGutterMin: 49px;
 
   background: @editorBackground;
   color: @foreground;
@@ -30,6 +31,14 @@
       width: 30px;
       text-align: center;
     }
+  }
+
+  .ace_gutter {
+    min-width: @aceGutterMin;
+  }
+
+  .ace_layer {
+    width: auto !important;
   }
 
   .output, .editor {
@@ -115,7 +124,7 @@
     background: @editorBackground;
     .clearblock;
     .box-sizing(border-box);
-    padding-left: 41px;
+    padding-left: @aceGutterMin;
 
     .resource {
       float: left;
@@ -182,7 +191,7 @@
 
   .intro.output {
     .person {
-
+      .welcome {}
     }
   }
 }
