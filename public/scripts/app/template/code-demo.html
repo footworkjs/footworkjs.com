@@ -3,8 +3,15 @@
   <div class="explanation"></div>
 
   <div class="output">
-    <div class="title">Output</div>
-    <button class="refresh" data-bind="click: runDemo">Refresh</button>
+    <div class="title">
+      Output
+      <!-- ko if: changed -->
+        <button class="refresh small button" data-bind="click: runDemo">Refresh</button>
+      <!-- /ko -->
+      <!-- ko if: hasError -->
+        <div class="error">There appears to be an error in your input, please check it and click reload again.</div>
+      <!-- /ko -->
+    </div>
     <div class="content"></div>
   </div>
 

@@ -16,6 +16,13 @@ define([ "footwork", "lodash", "jquery" ],
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/" + syntax);
         editor.setValue(source);
+        editor.gotoLine(1);
+        editor.on('change', function() {
+          parentNS.publish('change', {
+            name: name,
+            value: editor.getValue()
+          });
+        })
 
         var showSub = parentNS.subscribe('show', function(editorName) {
           if(editorName === name) {
@@ -40,6 +47,13 @@ define([ "footwork", "lodash", "jquery" ],
         var demoSrc = element.getAttribute('src');
         var outputContainer = element.querySelector('.output > .content');
         var deps = {};
+
+        this.$namespace.subscribe('change', function(changeDef) {
+          var resourceName = changeDef.name;
+          var resourceValue = changeDef.value;
+          deps[resourceName].content = resourceValue;
+          codeDemo.changed(true);
+        });
 
         require([demoSrc + '/run.js'], function(demo) {
           var resourceDefs = _.extend({
@@ -99,14 +113,20 @@ define([ "footwork", "lodash", "jquery" ],
               }
 
               // now run the demo code
-              demo.runDemo.apply(codeDemo, [outputContainer].concat(_.reduce(deps, function(depsHash, dep, depName) {
-                depsHash[depName] = dep.content;
-                return depsHash;
-              }, {})));
+              codeDemo.hasError(false);
+              try {
+                demo.runDemo.apply(codeDemo, [outputContainer].concat(_.reduce(deps, function(depsHash, dep, depName) {
+                  depsHash[depName] = dep.content;
+                  return depsHash;
+                }, {})));
+              } catch(error) {
+                codeDemo.hasError(true);
+                console.error(error);
+              }
+
+              codeDemo.changed(false);
             })();
-            // demo.runDemo.bind(codeDemo, element.querySelector('.output > .content'), deps);
           });
-          console.info('dependencies', dependencies);
         })
       },
       initialize: function(params) {
@@ -114,7 +134,9 @@ define([ "footwork", "lodash", "jquery" ],
 
         this.runDemo = function noop() {};
 
+        this.hasError = fw.observable(false);
         this.demoTitle = fw.observable('Demo');
+        this.changed = fw.observable(false);
         this.resources = fw.observableArray();
       }
     });

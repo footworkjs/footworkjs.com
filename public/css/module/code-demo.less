@@ -13,39 +13,15 @@
 
   & > .title {
     font-size: 15px;
-    padding: 0 5px;
-    border-bottom: 1px solid darken(@background, 10%);
+    border-bottom: 1px solid darken(@background, 15%);
     color: @labelColor;
     line-height: 35px;
     background: darken(@background, 5%);
     .border-radius(3px 3px 0 0);
 
     &:before {
-      font-family: "footwork";
-      font-style: normal;
-      font-weight: normal;
-      speak: none;
-
-      display: inline-block;
-      text-decoration: inherit;
-      width: 1em;
-      text-align: center;
-      /* opacity: .8; */
-
-      /* For safety - reset parent styles, that can break glyph codes*/
-      font-variant: normal;
-      text-transform: none;
-
-      /* you can be more comfortable with increased icons size */
-      /* font-size: 120%; */
-
-      /* Font smoothing. That was taken from TWBS */
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-
+      .icon-mixin;
       content: '\e81c';
-      margin-left: -5px;
-      margin-top: -5px;
 
       font-size: 20px;
       position: relative;
@@ -67,10 +43,55 @@
 
   .output {
     & > .title {
-      padding: 0 5px;
+      padding: 0 10px;
       font-size: 13px;
-      text-align: right;
       font-weight: bold;
+      position: relative;
+      width: 100%;
+      .box-sizing(border-box);
+      background: @editorBackground;
+
+      @buttonHeight: 20px;
+      button {
+        &:before {
+          .icon-mixin;
+          content: '\e81e';
+          padding-right: 5px;
+        }
+        padding-left: 5px;
+
+        position: absolute;
+        right: 5px;
+        top: 0;
+        line-height: @buttonHeight - 2px;
+        height: @buttonHeight;
+        top: 50%;
+        margin-top: -(@buttonHeight / 2) - 1px;
+        .button-color(darken(@labelColor, 20%));
+      }
+
+      .error {
+        @errorBackground: crimson;
+        @errorForeground: contrast(crimson);
+
+        position: absolute;
+        top: 100%;
+        left: 5px;
+        width: 90%;
+        margin-top: 5px;
+        padding: 5px;
+        background: @errorBackground;
+        color: @errorForeground;
+        line-height: 25px;
+        font-weight: normal;
+        .box-shadow(0 1px 3px -1px black);
+        .border-radius(3px);
+      }
+    }
+
+    & > .content {
+      padding: 5px;
+      font-size: 13px;
     }
   }
 
@@ -83,8 +104,15 @@
 
     .resource {
       float: left;
-      padding: 0 5px;
+      padding: 0 10px;
       cursor: pointer;
+      color: mix(@editorBackground, @foreground, 30%);
+
+      &:before {
+        .icon-mixin;
+        content: '\e81d';
+        margin-right: 5px;
+      }
 
       &:hover {
         background: darken(@editorBackground, 5%);
@@ -92,6 +120,7 @@
 
       &.active, &:active {
         background: darken(@editorBackground, 8%);
+        color: @foreground;
       }
     }
   }
@@ -111,6 +140,7 @@
     height: @demoHeight;
     position: relative;
     float: left;
+    font-size: 14px;
 
     & > .ace {
       position: absolute;

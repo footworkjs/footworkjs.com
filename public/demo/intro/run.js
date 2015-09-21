@@ -4,10 +4,15 @@ define([ "footwork", "lodash", "jquery" ],
 
     return {
       resources: {
-        contactListVM: {
+        mainJS: {
           type: 'javascript',
-          label: 'contactsList.js',
-          location: baseDir + '/contactList.js'
+          label: 'main.js',
+          location: baseDir + '/main.js'
+        },
+        mainHTML: {
+          type: 'html',
+          label: 'main.html',
+          location: baseDir + '/main.html'
         }
       },
       runDemo: function(container, resources) {
@@ -15,7 +20,6 @@ define([ "footwork", "lodash", "jquery" ],
         var MainHTML = resources.mainHTML;
         var contactListVM; eval('contactListVM = ' + resources.contactListVM);
 
-        console.info('RunDemo!', container, MainVM, contactListVM, MainHTML);
         container.innerHTML = MainHTML;
         var main = new MainVM();
         fw.applyBindings(main, container);
