@@ -10,7 +10,7 @@
     <div class="explanation" data-bind="text: explanation"></div>
   <!-- /ko -->
 
-  <div class="output" data-bind="class: className">
+  <div class="output" data-bind="class: className, stopProp">
     <div class="title">
       <button class="refresh small button" data-bind="click: runDemo">Re-Run Code</button>
       <!-- ko if: hasError -->
