@@ -138,6 +138,12 @@
         font-weight: normal;
         .box-shadow(0 1px 3px -1px black);
         .border-radius(3px);
+
+        button {
+          clear: both;
+          margin-top: 5px;
+          .button-color(darken(@errorBackground, 10%));
+        }
       }
     }
 
@@ -289,20 +295,25 @@
 
       .remove {
         .no-select;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        line-height: 15px;
+        cursor: pointer;
+        color: mix(@messageBackground, @messageForeground);
+        font-size: 12px;
 
-        &:hover:before {
+        &:hover {
           color: @messageForeground;
+        }
+
+        &:active {
+          color: mix(@messageBackground, @messageForeground);
         }
 
         &:before {
           .icon-mixin;
-          position: absolute;
-          left: 0;
-          bottom: 0;
           content: '\e806';
-          cursor: pointer;
-          color: mix(@messageBackground, @messageForeground);
-          line-height: 15px;
         }
       }
 
