@@ -200,6 +200,12 @@
     label {
       .clearblock;
       margin-bottom: 5px;
+      cursor: pointer;
+      color: mix(@foreground, @background);
+
+      &:hover, &:active, &:focus {
+        color: @foreground;
+      }
     }
 
     input {
@@ -217,6 +223,11 @@
       padding: 0 5px;
       .border-radius(3px);
       .box-sizing(border-box);
+      background: mix(@foreground, @background, 80%);
+
+      &:active, &:focus {
+        background: @foreground;
+      }
     }
 
     textarea {
