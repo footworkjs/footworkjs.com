@@ -2,6 +2,7 @@
   @demoHeight: 400px;
   @editorWidth: 70%;
   @editorBackground: #2f3129;
+  @aceEditorBackground: #1d1f21;
   @background: #444;
   @foreground: contrast(@background);
   @titleRowHeight: 30px;
@@ -86,6 +87,10 @@
     margin-bottom: 10px;
   }
 
+  &.changed .output > .title button {
+    .button-color(@button-background);
+  }
+
   .output {
     .box-sizing(border-box);
     height: @demoHeight + @titleRowHeight;
@@ -113,12 +118,13 @@
           padding-right: 5px;
         }
 
+        .button;
+        .button-color(darken(@editorBackground, 10%));
         display: block;
         float: right;
         padding: 0 5px;
         line-height: @buttonHeight - 2px;
         height: @buttonHeight;
-        .button-color(darken(@labelColor, 20%));
         min-width: 0;
       }
 
@@ -164,14 +170,15 @@
     padding-left: @aceGutterMin;
 
     .resource {
+      @tabForeground: mix(@aceEditorBackground, @foreground, 30%);
+
       float: left;
       padding: 0 5px;
       cursor: pointer;
-      color: mix(@editorBackground, @foreground, 30%);
-      background: darken(@editorBackground, 8%);
+      color: @tabForeground;
+      background: darken(@aceEditorBackground, 8%);
       position: relative;
       top: 3px;
-      max-width: 130px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -183,17 +190,25 @@
       }
 
       &:hover {
-        background: darken(@editorBackground, 5%);
+        background: darken(@aceEditorBackground, 5%);
       }
 
-      &.active, &:active {
+      &.active {
         top: 0;
-        max-width: none;
-        background: 1px solid #272822;
         color: @foreground;
+        background: @aceEditorBackground;
 
         &:before {
           content: '\e821';
+        }
+      }
+
+      &:active {
+        background: @aceEditorBackground;
+        color: @foreground;
+
+        &:before {
+          color: @tabForeground;
         }
       }
     }
@@ -215,6 +230,7 @@
     position: relative;
     float: left;
     font-size: 12px;
+    .border-radius(0 0 3px 0);
 
     & > .ace {
       position: absolute;

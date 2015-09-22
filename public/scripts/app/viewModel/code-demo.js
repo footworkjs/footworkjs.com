@@ -44,10 +44,10 @@ define([ "footwork", "lodash", "jquery" ],
     };
 
     return fw.viewModel({
-      namespace: 'codeDemo',
+      namespace: 'CodeDemo',
       autoIncrement: true,
       afterBinding: function(element) {
-        var codeDemo = this;
+        var CodeDemo = this;
         var demoSrc = element.getAttribute('src');
         var outputContainer = element.querySelector('.output > .content');
         var deps = {};
@@ -56,13 +56,13 @@ define([ "footwork", "lodash", "jquery" ],
           var resourceName = changeDef.name;
           var resourceValue = changeDef.value;
           deps[resourceName].content = resourceValue;
-          codeDemo.changed(true);
+          CodeDemo.changed(true);
         });
 
         require([demoSrc + '/run.js'], function(demo) {
-          codeDemo.demoTitle(demo.title || 'Code Demo');
-          codeDemo.explanation(demo.explanation);
-          codeDemo.className(demo.className);
+          CodeDemo.demoTitle(demo.title || 'Code Demo');
+          CodeDemo.explanation(demo.explanation);
+          CodeDemo.className(demo.className);
 
           var resourceDefs = _.extend({
             mainJS: { type: 'javascript', location: demoSrc + '/main.js' },
@@ -88,7 +88,7 @@ define([ "footwork", "lodash", "jquery" ],
 
             // inject the deps list into the resources view editors
             _.each(deps, function(depResource, depName) {
-              codeDemo.$namespace.subscribe('show', function(depName) {
+              CodeDemo.$namespace.subscribe('show', function(depName) {
                 resource.active(false);
               });
               var resource = {
@@ -97,24 +97,26 @@ define([ "footwork", "lodash", "jquery" ],
                 type: depResource.type,
                 source: depResource.content,
                 index: depResource.index,
-                parentNS: codeDemo.$namespace,
+                parentNS: CodeDemo.$namespace,
                 selectResource: function() {
-                  codeDemo.$namespace.publish('show', depName);
+                  CodeDemo.$namespace.publish('show', depName);
                   this.active(true);
                 },
                 active: fw.observable(false)
               };
 
-              codeDemo.resources.push(resource);
+              CodeDemo.resources.push(resource);
             });
 
             // pre-select/show the first resource if available
-            var firstResource = codeDemo.resources()[0];
+            var firstResource = CodeDemo.resources()[0];
             if(firstResource && _.isFunction(firstResource.selectResource)) {
               firstResource.selectResource();
             }
 
-            (codeDemo.runDemo = function() {
+            (CodeDemo.runDemo = function() {
+              CodeDemo.consoleLog.removeAll();
+
               // first we need to clean out the container
               fw.cleanNode(outputContainer);
               while (outputContainer.firstChild) {
@@ -122,18 +124,18 @@ define([ "footwork", "lodash", "jquery" ],
               }
 
               // now run the demo code
-              codeDemo.hasError(false);
+              CodeDemo.hasError(false);
               try {
-                demo.runDemo.apply(codeDemo, [outputContainer].concat(_.reduce(deps, function(depsHash, dep, depName) {
+                demo.runDemo.apply(CodeDemo, [outputContainer].concat(_.reduce(deps, function(depsHash, dep, depName) {
                   depsHash[depName] = dep.content;
                   return depsHash;
                 }, {})));
               } catch(error) {
-                codeDemo.hasError(true);
+                CodeDemo.hasError(true);
                 console.error(error);
               }
 
-              codeDemo.changed(false);
+              CodeDemo.changed(false);
             })();
           });
         })
@@ -153,12 +155,15 @@ define([ "footwork", "lodash", "jquery" ],
         this.demoTitle = fw.observable('Loading ...');
         this.explanation = fw.observable();
         this.changed = fw.observable(false);
+
         this.resources = fw.observableArray();
         this.orderedResources = fw.computed(function() {
           return this.resources().sort(function(a, b) {
             return a.index > b.index ? 1 : -1;
           });
         }, this);
+
+        this.consoleLog = fw.observableArray();
       }
     });
   }

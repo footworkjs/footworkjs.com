@@ -170,11 +170,11 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
         <span class="inline-code">&lt;viewModel&gt;</span> declarative wrapper element. Using the <span class="inline-code">module=""</span> attribute
         you can specify which <span class="inline-code">viewModel</span> should be instantiated and bound by footwork.</p>
 <pre><code class="html">&lt;viewModel module="Sprocket"&gt;
-      Type: &lt;span data-bind="text: type"&gt;&lt;/span&gt;
-      &lt;!-- ko if: isExpensive --&gt;
-        &lt;span class="warning"&gt;This is expensive!&lt;/span&gt;
-      &lt;!-- /ko --&gt;
-    &lt;/viewModel&gt;</code></pre>
+  Type: &lt;span data-bind="text: type"&gt;&lt;/span&gt;
+  &lt;!-- ko if: isExpensive --&gt;
+    &lt;span class="warning"&gt;This is expensive!&lt;/span&gt;
+  &lt;!-- /ko --&gt;
+&lt;/viewModel&gt;</code></pre>
 
           <p>... and as an example, this <span class="inline-code">viewModel</span> was registered directly:</p>
 <pre><code class="javascript">fw.viewModels.register('Sprocket', fw.viewModel({

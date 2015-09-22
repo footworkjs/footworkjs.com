@@ -33,6 +33,11 @@ define([ "footwork", "lodash", "jquery" ],
         },
       },
       runDemo: function(container, resources) {
+        var CodeDemo = this;
+        var showDemoMessage = function(message) {
+          CodeDemo.consoleLog.push(message);
+        };
+
         var mainHTML = resources.mainHTML;
         var personVM; eval('personVM = ' + resources.mainJS);
         var messageVM; eval('messageVM = ' + resources.messageVM);

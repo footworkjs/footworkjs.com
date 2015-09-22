@@ -1,8 +1,8 @@
-<div class="code-demo" data-bind="css: { collapsed: collapsed }">
+<div class="code-demo" data-bind="css: { collapsed: collapsed, changed: changed }, click: openEditor">
   <div class="title">
     <span data-bind="text: demoTitle"></span>
     <!-- ko if: collapsed -->
-      <div class="expand" data-bind="click: openEditor">Open Live Editor</div>
+      <div class="expand">Open Live Editor</div>
     <!-- /ko -->
   </div>
 
@@ -16,6 +16,9 @@
       <!-- ko if: hasError -->
         <div class="error">There appears to be an error in your input, please correct it and then <button class="refresh small button" data-bind="click: runDemo">Re-Run the Code</button></div>
       <!-- /ko -->
+    </div>
+    <div class="console" data-bind="foreach: consoleLog">
+      <div class="log" data-bind="text: $data"></div>
     </div>
     <div class="content"></div>
   </div>
