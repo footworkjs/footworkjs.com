@@ -34,7 +34,7 @@ define([ "footwork", "lodash", "jquery" ],
       },
       runDemo: function(container, resources) {
         var CodeDemo = this;
-        var showDemoMessage = function(message) {
+        var demoLog = function(message) {
           CodeDemo.consoleLog.push(message);
         };
 

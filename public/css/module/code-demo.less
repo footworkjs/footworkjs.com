@@ -8,6 +8,10 @@
   @titleRowHeight: 30px;
   @aceGutterMin: 49px;
 
+  @messageBackground: @labelColor;
+  @messageForeground: darken(@messageBackground, 50%);
+  @iconWidth: 30px;
+
   background: @editorBackground;
   color: @foreground;
   .border-radius(3px);
@@ -56,6 +60,8 @@
   }
 
   &.collapsed {
+    cursor: pointer;
+
     & > .title {
       .border-radius(3px);
     }
@@ -150,6 +156,33 @@
           margin-top: 5px;
           .button-color(darken(@errorBackground, 10%));
         }
+      }
+    }
+
+    & > .console {
+      .clearblock;
+
+      .log {
+        position: relative;
+
+        &:before {
+          .icon-mixin;
+          position: absolute;
+          left: 0;
+          z-index: 1;
+          font-size: 20px;
+          width: @iconWidth;
+          content: '\e81d';
+          line-height: 25px;
+        }
+
+        line-height: 25px;
+        padding: 0 5px;
+        font-size: 13px;
+        margin: 5px;
+        padding-left: @iconWidth;
+        border: 1px solid lighten(@background, 10%);
+        .border-radius(3px);
       }
     }
 
@@ -254,13 +287,16 @@
 
     label {
       .clearblock;
-      margin-bottom: 5px;
       cursor: pointer;
       color: mix(@foreground, @background);
 
       &:hover, &:active, &:focus {
         color: @foreground;
       }
+    }
+
+    label + label {
+      margin-top: 5px;
     }
 
     input {
@@ -300,10 +336,6 @@
 
   .intro.output {
     message {
-      @messageBackground: @labelColor;
-      @messageForeground: darken(@messageBackground, 50%);
-      @iconWidth: 30px;
-
       color: @messageForeground;
       display: block;
       line-height: 20px;
