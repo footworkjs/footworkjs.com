@@ -13,7 +13,7 @@ define([ "footwork", "lodash", "jquery" ],
         var syntax = params.type || element.getAttribute('data-syntax') || 'javascript';
 
         var editor = ace.edit(element);
-        editor.setTheme("ace/theme/monokai");
+        editor.setTheme("ace/theme/tomorrow_night");
         editor.getSession().setMode("ace/mode/" + syntax);
         editor.getSession().setOptions({
           tabSize: 2,
@@ -138,11 +138,12 @@ define([ "footwork", "lodash", "jquery" ],
           });
         })
       },
-      initialize: function() {
+      initialize: function(params) {
         var codeDemo = this;
 
         this.runDemo = function noop() {};
 
+        this.collapsed = fw.observable(params.collaped || false);
         this.className = fw.observable();
         this.hasError = fw.observable(false);
         this.demoTitle = fw.observable('Loading ...');

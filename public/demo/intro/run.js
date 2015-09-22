@@ -5,7 +5,7 @@ define([ "footwork", "lodash", "jquery" ],
     return {
       className: 'intro',
       title: 'Footwork.js at a glance...',
-      explanation: 'Please take a moment to play around with the demo code below and get a quick feel for a few of footworks features. Remember though this barely scratches the surface, there are a lot of useful and novel features in footwork...check it out!',
+      explanation: 'Please take a moment to play around with the demo below and get a quick feel for a few of footworks features. Remember though this barely scratches the surface, there are a lot of useful and novel features in footwork...check it out!',
       resources: {
         mainHTML: {
           index: 1,

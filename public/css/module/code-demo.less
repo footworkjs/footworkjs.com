@@ -140,7 +140,7 @@
 
       &:before {
         .icon-mixin;
-        content: '\e81d';
+        content: '\e820';
         margin-right: 3px;
       }
 
@@ -148,14 +148,15 @@
         background: darken(@editorBackground, 5%);
       }
 
-      &.active {
+      &.active, &:active {
         top: 0;
         max-width: none;
-      }
-
-      &.active, &:active {
         background: 1px solid #272822;
         color: @foreground;
+
+        &:before {
+          content: '\e821';
+        }
       }
     }
   }
@@ -255,6 +256,8 @@
       position: relative;
 
       .remove {
+        .no-select;
+
         &:hover:before {
           color: @messageForeground;
         }
