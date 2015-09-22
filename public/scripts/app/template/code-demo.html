@@ -1,5 +1,11 @@
-<div class="code-demo">
-  <div class="title" data-bind="text: demoTitle"></div>
+<div class="code-demo" data-bind="css: { collapsed: collapsed }">
+  <div class="title">
+    <span data-bind="text: demoTitle"></span>
+    <!-- ko if: collapsed -->
+      <div class="expand" data-bind="click: openEditor">Open Live Editor</div>
+    <!-- /ko -->
+  </div>
+
   <!-- ko if: explanation -->
     <div class="explanation" data-bind="text: explanation"></div>
   <!-- /ko -->

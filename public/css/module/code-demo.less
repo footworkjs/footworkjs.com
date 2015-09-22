@@ -20,6 +20,28 @@
     background: darken(@background, 5%);
     .border-radius(3px 3px 0 0);
 
+    .expand {
+      float: right;
+      padding-right: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: mix(@labelColor, @background);
+      .no-select;
+
+      &:hover {
+        color: @labelColor;
+      }
+      &:active {
+        color: mix(@labelColor, @background);
+      }
+
+      &:before {
+        .icon-mixin;
+        content: '\e80d';
+        padding-right: 5px;
+      }
+    }
+
     &:before {
       .icon-mixin;
       content: '\e81c';
@@ -29,6 +51,16 @@
       top: 2px;
       width: 30px;
       text-align: center;
+    }
+  }
+
+  &.collapsed {
+    & > .title {
+      .border-radius(3px);
+    }
+
+    .explanation, .output, .resource-titles, .resource-editors {
+      display: none !important;
     }
   }
 

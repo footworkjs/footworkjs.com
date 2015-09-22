@@ -1,5 +1,5 @@
 define([ "footwork", "lodash", "jquery" ],
-  function( fw, _, $ ) {
+  function(fw, _, $) {
     var demoCodeEditorNS = fw.namespace('demoCodeEditor');
 
     fw.bindingHandlers['demoCodeEditor'] = {
@@ -143,7 +143,11 @@ define([ "footwork", "lodash", "jquery" ],
 
         this.runDemo = function noop() {};
 
-        this.collapsed = fw.observable(params.collaped || false);
+        this.collapsed = fw.observable(params.collapsed || false);
+        this.openEditor = function() {
+          this.collapsed(false);
+        };
+
         this.className = fw.observable();
         this.hasError = fw.observable(false);
         this.demoTitle = fw.observable('Loading ...');
