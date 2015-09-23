@@ -18,8 +18,8 @@
     <button>Send Message</button>
   </form>
 
-  <div class="messages" data-bind="foreach: messages">
-    <!-- message component, one created/instantiated for each message -->
+  <div data-bind="foreach: messages">
+    <!-- Custom message component, one created for each message -->
     <message params="message: $data"></message>
   </div>
 </viewModel>

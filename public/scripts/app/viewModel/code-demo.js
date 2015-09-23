@@ -124,11 +124,12 @@ define([ "footwork", "lodash", "jquery" ],
               CodeDemo.hasError(false);
               try {
                 CodeDemo.runningCode(true);
-                demo.runDemo.call(CodeDemo, outputContainer, _.reduce(deps, function(depsHash, dep, depName) {
+                demo.runDemo.call(CodeDemo, outputContainer,
+                  _.reduce(deps, function(depsHash, dep, depName) {
                     depsHash[depName] = dep.content;
                     return depsHash;
                   }, {}),
-                  function() {
+                  function demoLog() {
                     var messageText = '';
                     _.each(arguments, function(message) {
                       if(message) {
