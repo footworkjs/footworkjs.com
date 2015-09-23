@@ -60,21 +60,17 @@ define([ "footwork", "lodash", "jquery" ],
         });
 
         require([demoSrc + '/run.js'], function(demo) {
-          CodeDemo.demoTitle(demo.title || 'Code Demo');
-          CodeDemo.explanation(demo.explanation);
+          !CodeDemo.explanation() && CodeDemo.explanation(demo.explanation);
           CodeDemo.className(demo.className);
 
-          var resourceDefs = _.extend({
-            mainJS: { type: 'javascript', location: demoSrc + '/main.js' },
-            mainHTML: { type: 'html', location: demoSrc + '/main.html' }
-          }, demo.resources);
+          var resourceDefs = _.extend({}, demo.resources);
 
           // Turn our resource definition list into a require deps array (and generate the dependencyList to re-map later on)
           var dependencyList = [];
           var dependencies = _.reduce(resourceDefs || {}, function(resourceList, resourceDef, resourceName) {
             var prefix = 'text!';
-            resourceList.push(prefix + resourceDef.location);
-            dependencyList.push({ name: resourceName, label: resourceDef.label || resourceName, index: resourceDef.index, type: resourceDef.type });
+            resourceList.push(prefix + demoSrc + '/' + resourceDef.file);
+            dependencyList.push({ name: resourceName, label: resourceDef.label || resourceDef.file, index: resourceDef.index, type: resourceDef.type });
             return resourceList;
           }, []);
 
@@ -91,6 +87,7 @@ define([ "footwork", "lodash", "jquery" ],
               CodeDemo.$namespace.subscribe('show', function(depName) {
                 resource.active(false);
               });
+
               var resource = {
                 name: depName,
                 label: depResource.label,
@@ -126,10 +123,14 @@ define([ "footwork", "lodash", "jquery" ],
               // now run the demo code
               CodeDemo.hasError(false);
               try {
-                demo.runDemo.apply(CodeDemo, [outputContainer].concat(_.reduce(deps, function(depsHash, dep, depName) {
-                  depsHash[depName] = dep.content;
-                  return depsHash;
-                }, {})));
+                CodeDemo.runningCode(true);
+                demo.runDemo.call(CodeDemo, outputContainer, _.reduce(deps, function(depsHash, dep, depName) {
+                    depsHash[depName] = dep.content;
+                    return depsHash;
+                  }, {}),
+                  function(message) {
+                    CodeDemo.consoleLog.push(message);
+                  });
               } catch(error) {
                 CodeDemo.hasError(true);
                 console.error(error);
@@ -150,18 +151,14 @@ define([ "footwork", "lodash", "jquery" ],
           this.collapsed(false);
         };
 
+        this.runningCode = fw.observable().extend({ autoDisable: 50 });
         this.className = fw.observable();
         this.hasError = fw.observable(false);
-        this.demoTitle = fw.observable('Loading ...');
-        this.explanation = fw.observable();
+        this.demoTitle = fw.observable(params.title || 'Example');
+        this.explanation = fw.observable(params.explanation);
         this.changed = fw.observable(false);
 
         this.resources = fw.observableArray();
-        this.orderedResources = fw.computed(function() {
-          return this.resources().sort(function(a, b) {
-            return a.index > b.index ? 1 : -1;
-          });
-        }, this);
 
         this.consoleLog = fw.observableArray();
       }

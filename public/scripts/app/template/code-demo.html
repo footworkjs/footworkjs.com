@@ -1,4 +1,4 @@
-<div class="code-demo" data-bind="css: { collapsed: collapsed, changed: changed }, click: openEditor">
+<div class="code-demo" data-bind="css: { collapsed: collapsed, changed: changed, runningCode: runningCode }, click: openEditor">
   <div class="title">
     <span data-bind="text: demoTitle"></span>
     <!-- ko if: collapsed -->
@@ -23,11 +23,11 @@
     <div class="content"></div>
   </div>
 
-  <div class="resource-titles" data-bind="foreach: orderedResources">
+  <div class="resource-titles" data-bind="foreach: resources">
     <div class="resource" data-bind="text: label, css: { active: active }, click: selectResource"></div>
   </div>
 
-  <div class="resource-editors" data-bind="foreach: orderedResources">
+  <div class="resource-editors" data-bind="foreach: resources">
     <div class="editor" data-bind="demoCodeEditor: { name: name, parentNS: parentNS, source: source, type: type }">
       <div class="ace"></div>
     </div>

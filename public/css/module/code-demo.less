@@ -14,6 +14,7 @@
 
   background: @editorBackground;
   color: @foreground;
+  margin-top: 10px;
   .border-radius(3px);
   .clearblock;
 
@@ -24,6 +25,7 @@
     line-height: 35px;
     background: darken(@background, 5%);
     .border-radius(3px 3px 0 0);
+    margin-bottom: 5px;
 
     .expand {
       float: right;
@@ -62,8 +64,20 @@
   &.collapsed {
     cursor: pointer;
 
+    &:hover {
+      & > .title {
+        color: @labelColor;
+
+        .expand {
+          color: @labelColor;
+        }
+      }
+    }
+
     & > .title {
       .border-radius(3px);
+      margin-bottom: 0;
+      color: mix(@labelColor, @background);
     }
 
     .explanation, .output, .resource-titles, .resource-editors {
@@ -90,6 +104,7 @@
     padding: 0 10px;
     font-size: 13px;
     color: mix(@editorBackground, @foreground);
+    margin-top: -10px;
     margin-bottom: 10px;
   }
 
@@ -97,6 +112,12 @@
     .button-color(@button-background);
   }
 
+  &.runningCode .output {
+    & > .console, & > .content {
+      opacity: 0;
+      .transition(none);
+    }
+  }
   .output {
     .box-sizing(border-box);
     height: @demoHeight + @titleRowHeight;
@@ -104,6 +125,11 @@
     position: relative;
     z-index: 100;
     @outputSpacing: 5px;
+
+    & > .console, & > .content {
+      opacity: 1;
+      .transition(opacity 0.3s ease);
+    }
 
     & > .title {
       font-size: 13px;
@@ -215,6 +241,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      .no-select;
 
       &:before {
         .icon-mixin;

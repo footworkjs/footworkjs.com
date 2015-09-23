@@ -1,35 +1,24 @@
 define([ "footwork", "lodash", "jquery" ],
   function( fw, _, $ ) {
-    var baseDir = '/demo/intro';
-
     return {
       className: 'intro',
-      title: 'Footwork.js at a glance...',
       explanation: 'Please take a moment to play around with the demo below and get a quick feel for a few of footworks features. Remember though this barely scratches the surface, there are a lot of useful and novel features in footwork...check it out!',
       resources: {
-        mainHTML: {
-          index: 1,
+        indexHTML: {
           type: 'html',
-          label: 'index.html',
-          location: baseDir + '/main.html'
+          file: 'index.html'
         },
-        mainJS: {
-          index: 2,
+        personVM: {
           type: 'javascript',
-          label: 'Person.js',
-          location: baseDir + '/main.js'
+          file: 'Person.js'
         },
         messageHTML: {
-          index: 3,
           type: 'html',
-          label: 'message.html',
-          location: baseDir + '/message.html'
+          file: 'message.html'
         },
         messageVM: {
-          index: 4,
           type: 'javascript',
-          label: 'message.js',
-          location: baseDir + '/message.js'
+          file: 'message.js'
         },
       },
       runDemo: function(container, resources) {
@@ -38,8 +27,8 @@ define([ "footwork", "lodash", "jquery" ],
           CodeDemo.consoleLog.push(message);
         };
 
-        var mainHTML = resources.mainHTML;
-        var personVM; eval('personVM = ' + resources.mainJS);
+        var indexHTML = resources.indexHTML;
+        var personVM; eval('personVM = ' + resources.personVM);
         var messageVM; eval('messageVM = ' + resources.messageVM);
         var messageHTML = resources.messageHTML;
 
@@ -51,7 +40,7 @@ define([ "footwork", "lodash", "jquery" ],
           template: messageHTML
         });
 
-        container.innerHTML = mainHTML;
+        container.innerHTML = indexHTML;
         fw.start(container);
       }
     };
