@@ -108,16 +108,10 @@
         </div>
       </div>
 <pre><code class="javascript">var Collection = fw.collection({
-  /**
-   * The namespace (communications channel) the collection uses. This is essentially used as
-   * the 'key' for CQRS separation between modules. If no namespace is provided a unique one
-   * will be automatically assigned.
-   */
-  namespace: 'Collection', // example namespace name, any alpha-numeric is valid
+  // The namespace (communications channel) the collection uses.
+  namespace: 'MyCollection', // example namespace name, any alpha-numeric is valid
 
-  /**
-   * The URL which will/can be used to GET the collection from the server
-   */
+  // (optional) URL which will/can be used to GET the collection from the server
   url: function() {},
   url: '',
 
@@ -128,48 +122,7 @@
   dataModel: DataModelConstructor
 });</code></pre>
 
-      <code-demo params="collapsed: true, title: 'View Collection Example'" src="/demo/collectionBasic"></code-demo>
-
-      <h3>Basic usage:</h3>
-<pre><code class="javascript">/**
- * Create the collection constructor, giving it the REST endpoint and dataModel
- * to use (which can also have its own REST endpoint)
- */
-var GroupOfPeople = fw.collection({
-  namespace: "GroupOfPeople",
-  url: '/people',
-  // It is recommended you store the dataModel in a separate file, this example shows it inline
-  dataModel: fw.dataModel({
-    namespace: "Person",
-    url: '/person',
-    initialize: function(personData) {
-      this.name = fw.observable(personData.name);
-    }
-  })
-});
-
-// Instantiate a new group of people (with an empty list, no people)
-var group1 = GroupOfPeople();
-
-// Grab the list of people from its endpoint
-group1.fetch().done(function() {
-  var people = group1();
-  // people[0].name() === 'John Smith'
-});
-
-/**
- * Instantiate a new group of people (this time with a list of people).
- * NOTE: Each item in the following array is passed to a new instantiation of the Person dataModel
- */
-var group2 = GroupOfPeople([
-  { name: 'John Smith' },
-  { name: 'Jane Doe' },
-]);
-
-var people = group2();
-var person1 = people[0];
-var person2 = people[1];
-// person1.name() === 'John Smith'</code></pre>
+      <code-demo params="collapsed: true" src="/demo/collectionBasic"></code-demo>
     </div>
   </section>
 
@@ -183,47 +136,6 @@ var person2 = people[1];
       <p>Since a <span class="inline-code">collection</span> is an
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> under
         the covers you can bind to them from your UI just as you would with knockoutjs.</p>
-
-      <p>In this example we first must create the collection constructor <span class="inline-code">GroupOfPeople</span>. Note that it has a
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span></p>
-<pre><code class="javascript">// Create the GroupOfPeople collection constructor
-var GroupOfPeople = fw.collection({
-  namespace: "GroupOfPeople",
-  url: '/people',
-  // It is recommended you store the dataModel in a separate file, this example shows it inline
-  dataModel: fw.dataModel({
-    namespace: "Person",
-    url: '/person',
-    initialize: function(personData) {
-      this.name = fw.observable(personData.name);
-    }
-  })
-});
-
-// Create the PeopleDisplay viewModel which has a GroupOfPeople
-var PeopleDisply = fw.viewModel({
-  namespace: 'PeopleDisplay',
-  initialize: function() {
-    this.people = GroupOfPeople([
-      { name: 'John Smith' },
-      { name: 'Jane Doe' },
-      { name: 'Jack Black' }
-    ]);
-  }
-});
-
-// Instantiate and bind it to the DOM (HTML shown in next example)
-var people = new PeopleDisply();
-fw.applyBindings(people, document.getElementById('people-container'));
-</code></pre>
-
-    <h3>Example using the code from above to render the list of people:</h3>
-<pre><code class="html">&lt;div id="people-container" data-bind="foreach: people"&gt;
-  &lt;div class="person"&gt;
-    &lt;span data-bind="text: name"&gt;&lt;/span&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-
     </div>
   </section>
 </article>

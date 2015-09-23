@@ -21,9 +21,9 @@ var group = GroupOfPeople([
   { name: 'Jane Doe' },
 ]);
 
-// get() the JSON version of the data
+// get() the JSON output of the data
 var people = group.get();
 
-// Display the names in the log output
+// Display the names in the output area
 demoLog( 'Name:', people[0].name );
 demoLog( 'Name:', people[1].name );

@@ -111,7 +111,7 @@ define([ "footwork", "lodash", "jquery" ],
               firstResource.selectResource();
             }
 
-            (CodeDemo.runDemo = function() {
+            CodeDemo.runDemo = function() {
               CodeDemo.consoleLog.removeAll();
 
               // first we need to clean out the container
@@ -143,29 +143,43 @@ define([ "footwork", "lodash", "jquery" ],
               }
 
               CodeDemo.changed(false);
-            })();
+            };
+
+            if(!CodeDemo.collapsed()) {
+              CodeDemo.runDemo();
+            }
           });
         })
       },
       initialize: function(params) {
-        var codeDemo = this;
+        var CodeDemo = this;
+        function noop() {};
 
-        this.runDemo = function noop() {};
+        this.runDemo = noop;
 
         this.collapsed = fw.observable(params.collapsed || false);
         this.openEditor = function() {
           this.collapsed(false);
         };
+        this.collapsed.subscribe(function(isCollapsed) {
+          if(!isCollapsed) {
+            CodeDemo.runDemo();
+          }
+        });
 
         this.runningCode = fw.observable().extend({ autoDisable: 50 });
         this.className = fw.observable();
         this.hasError = fw.observable(false);
-        this.demoTitle = fw.observable(params.title || 'Example');
         this.explanation = fw.observable(params.explanation);
         this.changed = fw.observable(false);
 
         this.resources = fw.observableArray();
 
+        if(_.isUndefined(params.demoTitle)) {
+          params.demoTitle = 'Output Area';
+        }
+
+        this.demoTitle = fw.observable(params.demoTitle);
         this.consoleLog = fw.observableArray();
       }
     });

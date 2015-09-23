@@ -118,6 +118,7 @@
       .transition(none);
     }
   }
+
   .output {
     .box-sizing(border-box);
     height: @demoHeight + @titleRowHeight;
@@ -183,6 +184,13 @@
           .button-color(darken(@errorBackground, 10%));
         }
       }
+    }
+
+    .output-title {
+      text-align: right;
+      padding-right: 5px;
+      font-size: 12px;
+      font-weight: bold;
     }
 
     & > .console {
