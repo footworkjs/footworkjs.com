@@ -2,7 +2,7 @@ define([ "footwork", "lodash", "jquery" ],
   function( fw, _, $ ) {
     return {
       className: 'intro',
-      explanation: 'Please take a moment to play around with the demo below and get a quick feel for a few of footworks features. Remember though this barely scratches the surface, there are a lot of useful and novel features in footwork...check it out!',
+      explanation: 'Please take a moment to play around with the demo below and get a quick feel for a few of footworks features. Remember though this barely scratches the surface, there is a wide variety of useful and novel features in footwork...check it out!',
       resources: {
         indexHTML: {
           type: 'html',
@@ -21,26 +21,21 @@ define([ "footwork", "lodash", "jquery" ],
           file: 'message.js'
         },
       },
-      runDemo: function(container, resources) {
+      runDemo: function(container, resources, demoLog) {
         var CodeDemo = this;
-        var demoLog = function(message) {
-          CodeDemo.consoleLog.push(message);
-        };
 
-        var indexHTML = resources.indexHTML;
         var personVM; eval('personVM = ' + resources.personVM);
         var messageVM; eval('messageVM = ' + resources.messageVM);
-        var messageHTML = resources.messageHTML;
 
         fw.viewModels.register('Person', personVM);
 
         fw.components.unregister('message');
         fw.components.register('message', {
           viewModel: messageVM,
-          template: messageHTML
+          template: resources.messageHTML
         });
 
-        container.innerHTML = indexHTML;
+        container.innerHTML = resources.indexHTML;
         fw.start(container);
       }
     };

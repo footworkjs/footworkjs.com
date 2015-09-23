@@ -168,6 +168,7 @@ define([ "footwork", "lodash", "jquery" ],
           }
         });
 
+        this.demoTitle = fw.observable(params.title);
         this.runningCode = fw.observable().extend({ autoDisable: 50 });
         this.className = fw.observable();
         this.hasError = fw.observable(false);
@@ -177,10 +178,10 @@ define([ "footwork", "lodash", "jquery" ],
         this.resources = fw.observableArray();
 
         if(_.isUndefined(params.demoTitle)) {
-          params.demoTitle = 'Output Area';
+          params.outputTitle = 'Output Area';
         }
 
-        this.demoTitle = fw.observable(params.demoTitle);
+        this.outputTitle = fw.observable(params.outputTitle);
         this.consoleLog = fw.observableArray();
       }
     });
