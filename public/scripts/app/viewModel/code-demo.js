@@ -128,8 +128,14 @@ define([ "footwork", "lodash", "jquery" ],
                     depsHash[depName] = dep.content;
                     return depsHash;
                   }, {}),
-                  function(message) {
-                    CodeDemo.consoleLog.push(message);
+                  function() {
+                    var messageText = '';
+                    _.each(arguments, function(message) {
+                      if(message) {
+                        messageText = messageText + (messageText.length ? ' ' : '') + message;
+                      }
+                    });
+                    messageText.length && CodeDemo.consoleLog.push(messageText);
                   });
               } catch(error) {
                 CodeDemo.hasError(true);
