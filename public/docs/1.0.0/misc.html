@@ -31,12 +31,12 @@ fw.start(document.getElementById('appContainer'));</code></pre>
       <div class="note">
         <p>
           <span class="label">NOTE:</span> This is very similar to calling <span class="inline-code">fw.applyBindings()</span>. In fact they are identical except
-          <span class="inline-code">fw.start()</span> is a simplified version which does not accept a <span class="inline-code">viewModel</span> to bind, it simply causes footwork
+          <span class="inline-code">fw.start()</span> is a simplified version which does not accept a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind, it simply causes footwork
           to begin processing the DOM (and thus it will initialize any viewModel/router/component/etc definitions it finds in the markup).
         </p>
         <p>
           <span class="inline-code">fw.applyBindings()</span> will also cause footwork to begin processing the DOM, but it also requires that you supply a
-          <span class="inline-code">viewModel</span> to bind with the root node.</div>
+          <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind with the root node.</div>
         </p>
     </div>
   </section>

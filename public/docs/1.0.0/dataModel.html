@@ -226,7 +226,7 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
       <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
     </header>
     <div class="content">
-      <p>You can supply a <span class="inline-code">dataModel</span> in place of a <span class="inline-code">viewModel</span> inside of a component
+      <p>You can supply a <span class="inline-code">dataModel</span> in place of a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> inside of a component
         registration (or location registration). By doing that the component will bind the <span class="inline-code">dataModel</span> against your
         markup.</p>
 <pre><code class="html">&lt;html&gt;

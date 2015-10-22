@@ -377,12 +377,12 @@ fw.router({
       <p>To instantiate and use a <span class="inline-code">router</span> you have to tell footwork what part of your DOM to bind it with. This is done with a
         <span class="inline-code">&lt;router module=""&gt;</span> declaration in your markup.</p>
 
-      <p>Just as a <span class="inline-code">viewModel</span> 'wraps' a section of your HTML providing the binding points (behavior) for that portion of your application. In a
+      <p>Just as a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> 'wraps' a section of your HTML providing the binding points (behavior) for that portion of your application. In a
         similar sense, a router also 'wraps' and provides all routing logic for that portion of your application.</p>
 
       <p>It works in essentially the same way as a <span class="inline-code">&lt;viewModel module=""&gt;</span> declaration would (which you can
         <a data-bind="$route: docLink('viewModel#initialization')">read about here</a>). However instead of controlling bindings within it (like a
-        <span class="inline-code">viewModel</span>), the <span class="inline-code">router</span> controls any number of <span class="inline-code">&lt;outlet&gt;</span>
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>), the <span class="inline-code">router</span> controls any number of <span class="inline-code">&lt;outlet&gt;</span>
         declarations found within its scope, and conversly any <span class="inline-code">$route</span> bound elements found trigger on that parent
         <span class="inline-code">router</span>.</p>
 

@@ -24,7 +24,7 @@
           <div class="title">Example Use-Case:</div>
           <div class="content">
             <p>An app has a user profile and attached to it a list of contact phone numbers. Each phone number would be represented
-              in via a <span class="inline-code">dataModel</span> (which would have its REST endpoint used for CRUD operations, say at
+              in via a <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> (which would have its REST endpoint used for CRUD operations, say at
               <span class="inline-code">/user/phone-number/123</span> for the record with id 123).</p>
             <p>There would be a (for example) <span class="inline-code">/user/phone-numbers</span> endpoint which would return a JSON list of
               phone numbers attached to my profile. This list/endpoint is what would be managed by the <span class="inline-code">collection</span> from
@@ -133,10 +133,10 @@
     </header>
     <div class="content">
       <p>The following example shows the creation of a simple <span class="inline-code">collection</span> consisting of <span class="inline-code">Person</span>
-        <span class="inline-code">dataModel</span> instances.</p>
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances.</p>
       <p>Using an instance of that <span class="inline-code">collection</span> we then call <span class="inline-code">get()</span> to retrieve
         the pure javascript object (POJO) output of the <span class="inline-code">collection</span> which is computed from the
-        <span class="inline-code">dataModel</span> instances in the <span class="inline-code">collection</span> at call-time.</p>
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances in the <span class="inline-code">collection</span> at call-time.</p>
 
       <h3>Creation of constructor:</h3>
 <pre><code class="javascript">var GroupOfPeople = fw.collection({
@@ -151,7 +151,7 @@
   })
 });</code></pre>
 
-      <h3>Instantiate a new <span class="inline-code">collection</span> and retrieve its data:</h3>
+      <h3>Instantiate a new <span class="inline-code">collection</span> and retrieve its (local, in-memory) data:</h3>
 <pre><code class="javascript">var group = GroupOfPeople([
   { name: 'John Smith' },
   { name: 'Jane Doe' },
@@ -177,11 +177,34 @@ var people = group.get();
       <h2 class="sub title">UI Binding</h2>
     </header>
     <div class="content">
-      <p>Since a <span class="inline-code">collection</span> is an
+      <p>Since a <span class="inline-code">collection</span> is actually an
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> under
-        the covers you can bind to them from your UI just as you would with Knockoutjs.</p>
+        the covers, you can bind to them from your UI just as you would with Knockoutjs.</p>
 
+      <p>Using the <span class="inline-code">GroupOfPeople</span> <span class="inline-code">collection</span> from above, we instantiate a list of people
+      inside of the <span class="inline-code">PeopleView</span> <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</p>
 
+      <h3>Markup used to bind with the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (which contains the collection):</h3>
+<pre><code class="html">&lt;div id="people-view" data-bind="foreach: persons"&gt;
+  &lt;div class="person"&gt;
+    Name: &lt;span data-bind="text: name"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <h3>Instantiate a new <span class="inline-code">collection</span> inside of the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</h3>
+<pre><code class="javascript">var PeopleView = fw.viewModel({
+  namespace: 'PeopleView',
+  initialize: function() {
+    this.persons = GroupOfPeople([
+      { name: 'John Smith' },
+      { name: 'Jane Doe' },
+    ]);
+  };
+});
+
+// Bind (and render) the viewModel and its collection to the UI
+fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
+</code></pre>
     </div>
   </section>
 </article>

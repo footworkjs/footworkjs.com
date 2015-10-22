@@ -248,8 +248,8 @@ this.loggedInUserAlsoSam = fw.observable()
     </header>
     <div class="content">
       <p>If you are using or referring to a <span class="inline-code">broadcastable</span> or <span class="inline-code">receivable</span> in conjunction with a
-        <span class="inline-code">viewModel</span> then the lifecycle will be automatically handled for you. However if you are using them independently of a
-        <span class="inline-code">viewModel</span> (or in a way that footwork does not track) then you will need to handle the disposal yourself.</p>
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> then the lifecycle will be automatically handled for you. However if you are using them independently of a
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (or in a way that footwork does not track) then you will need to handle the disposal yourself.</p>
 
       <p>This is essentially because the underlying mechanism behind <span class="inline-code">broadcastable</span> and <span class="inline-code">receivable</span> is based on
         subscriptions to messages. These subscriptions must be detatched/removed before the garbage handler in your browser can clean their references up.</p>

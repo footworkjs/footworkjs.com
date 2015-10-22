@@ -29,9 +29,9 @@ fw.start();
 // start application on #appContainer element
 fw.start(document.getElementById('appContainer'));</code></pre>
       <div class="note"><span class="label">NOTE:</span> This is very similar to calling <span class="inline-code">ko.applyBindings()</span>. In fact they are identical except
-        <span class="inline-code">fw.start()</span> is a simplified version which does not accept a <span class="inline-code">viewModel</span> to bind, it simply causes footwork
+        <span class="inline-code">fw.start()</span> is a simplified version which does not accept a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind, it simply causes footwork
         to begin binding (and thus it will initialize any viewModel/router/component/etc definitions it finds in the markup). <span class="inline-code">ko.applyBindings()</span>
-        does the same, but also requires that you supply a <span class="inline-code">viewModel</span> to bind.</div>
+        does the same, but also requires that you supply a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind.</div>
     </div>
   </section>
 
