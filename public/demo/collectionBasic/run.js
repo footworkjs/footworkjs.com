@@ -1,5 +1,5 @@
-define([ "footwork", "lodash", "jquery" ],
-  function( fw, _, $ ) {
+define(["footwork"],
+  function(fw) {
     return {
       resources: {
         collectionExample: {
@@ -7,7 +7,7 @@ define([ "footwork", "lodash", "jquery" ],
           file: 'collection-example.js'
         },
       },
-      runDemo: function(container, resources, demoLog) {
+      runDemo: function(outputContainer, resources, demoLog) {
         eval(resources.collectionExample);
       }
     };

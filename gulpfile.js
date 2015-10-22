@@ -4,8 +4,9 @@ var jeditor = require('gulp-json-editor');
 var args   = require('yargs').argv;
 var _ = require('lodash');
 var pkg = require('./package.json');
+var less = require('gulp-less');
 
-gulp.task('default', ['bump'], function() {
+gulp.task('default', ['bump', 'less'], function() {
   return rjs.optimize(_.extend( require( __dirname + '/public/scripts/require-config.js' ), {
     include: [ 'requireLib', 'text', 'storage', 'router', 'LoadState', 'highlight', 'jquery.pulse', 'Layout' ],
     baseUrl: 'public/scripts/',
@@ -31,4 +32,10 @@ gulp.task('bump', function() {
   return gulp.src('./package.json')
     .pipe(jeditor(pkg))
     .pipe(gulp.dest('./'));
+});
+
+gulp.task('less', function() {
+  return gulp.src('./public/css/app.less')
+    .pipe(less())
+    .pipe(gulp.dest('./public/css'));
 });

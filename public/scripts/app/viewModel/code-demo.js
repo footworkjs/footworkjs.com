@@ -168,7 +168,7 @@ define([ "footwork", "lodash", "jquery" ],
           }
         });
 
-        this.demoTitle = fw.observable(params.title);
+        this.demoTitle = fw.observable(params.title || 'Live Demo');
         this.runningCode = fw.observable().extend({ autoDisable: 50 });
         this.className = fw.observable();
         this.hasError = fw.observable(false);

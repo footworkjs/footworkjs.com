@@ -1,5 +1,5 @@
-define([ "footwork", "lodash", "jquery" ],
-  function( fw, _, $ ) {
+define(["footwork"],
+  function(fw) {
     return {
       className: 'intro',
       explanation: 'Please take a moment to play around with the demo below and get a quick feel for a few of footworks features. Remember though this barely scratches the surface, there is a wide variety of useful and novel features in footwork...check it out!',
@@ -21,7 +21,7 @@ define([ "footwork", "lodash", "jquery" ],
           file: 'message.js'
         },
       },
-      runDemo: function(container, resources, demoLog) {
+      runDemo: function(outputContainer, resources, demoLog) {
         var CodeDemo = this;
 
         var personVM; eval('personVM = ' + resources.personVM);
@@ -35,8 +35,8 @@ define([ "footwork", "lodash", "jquery" ],
           template: resources.messageHTML
         });
 
-        container.innerHTML = resources.indexHTML;
-        fw.start(container);
+        outputContainer.innerHTML = resources.indexHTML;
+        fw.start(outputContainer);
       }
     };
   }

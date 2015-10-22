@@ -5,3 +5,4 @@
 /public/scripts/main-build.js
 composer.phar
 .env
+/public/css/app.css

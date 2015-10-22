@@ -21,7 +21,7 @@ var group = GroupOfPeople([
   { name: 'Jane Doe' },
 ]);
 
-// get() the JSON output of the data
+// get() the javascript object (hash-map) output of the data
 var people = group.get();
 
 // Display the names in the output area
