@@ -68,9 +68,20 @@ And thats it...the application will use this folder to lookup and provide the av
 ```bash
 # This allows laravel to create its cache/etc
 chmod -R a+rw storage
+
+6) **Compile the LESS into CSS**
+
+Typically its expected you will have some sort of background process which will compile the LESS for you, but there is a ```gulp``` task which will do it as well:
+
+```bash
+# Compile the LESS into CSS
+gulp less
+
+# The default task will also build the css (in addition to the javascript)
+gulp
 ```
 
-6) **Run the site**
+7) **Run the site**
 
 This final step is necessary if you do not have your own HTTP server setup locally.
 
