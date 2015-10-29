@@ -4,7 +4,7 @@
   <section data-name="introduction">
     <div class="highlight"></div>
     <header>
-      <h1 class="sub title">Introduction</h1>
+      <h1 class="title">Introduction</h1>
     </header>
     <div class="content">
       <p>A viewModel can be thought of as a container object that houses all of the logic and data with which your template/HTML/DOM binds to. They
@@ -126,7 +126,7 @@
   <section data-name="bind-manually">
     <div class="highlight"></div>
     <header>
-      <h2>Manual Instantiation and Binding:</h2>
+      <h2 class="sub title">Manual Instantiation and Binding:</h2>
     </header>
     <div class="content">
       <p>Manually instantiating a <span class="inline-code">viewModel</span> is done by calling <span class="inline-code">new ConstructorFunc()</span>.
@@ -162,8 +162,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   <section data-name="viewModel-element">
     <div class="highlight"></div>
     <header>
-      <h2>Automatic initialization via <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in
-        the DOM:</h2>
+      <h2 class="sub title">&lt;viewModel&gt;</h2>
     </header>
     <div class="content">
       <p>A <span class="inline-code">viewModel</span> can be instantiated and bound automatically when using a
@@ -200,7 +199,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   <section data-name="inside-component">
     <div class="highlight"></div>
     <header>
-      <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
+      <h2 class="sub title">&lt;component&gt;</h2>
     </header>
     <div class="content">
       <p>You can supply a <span class="inline-code">viewModel</span> inside of a component registration (or location registration). By doing that the
@@ -254,7 +253,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   <section data-name="lifecycle">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Lifecycle</h2>
+      <h1 class="sub title">Lifecycle</h1>
     </header>
     <div class="content">
       <p>A <span class="inline-code">viewModel</span> is instantiated, then bound to the DOM and used, or just used independent of the DOM. Depending on
@@ -405,7 +404,7 @@ var MyViewModel = fw.viewModel({
   <section data-name="registration">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Registration</h2>
+      <h1 class="sub title">Registration</h1>
     </header>
     <div class="content">
       <p>In order for footwork to know what to do when it encounters a <span class="inline-code">&lt;viewModel&gt;</span> it must be registered in some
@@ -706,7 +705,7 @@ var bigSprocket = {
   <section data-name="mixin-usage">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Example mixin usage</h2>
+      <h2 class="sub title">Usage</h2>
     </header>
     <div class="content">
       <p>Each mixin behavior is added to each new instance of the <span class="inline-code">viewModel</span> that is created. This goes for ones

@@ -4,7 +4,7 @@
   <section data-name="introduction">
     <div class="highlight"></div>
     <header>
-      <h1 class="sub title">Introduction</h1>
+      <h1 class="title">Introduction</h1>
     </header>
     <div class="content">
       <p>A Footwork <span class="inline-code">collection</span> is an abstraction used to manage/persist lists of
@@ -29,7 +29,7 @@
             <p>There would be a (for example) <span class="inline-code">/user/phone-numbers</span> endpoint which would return a JSON list of
               phone numbers attached to my profile. This list/endpoint is what would be managed by the <span class="inline-code">collection</span> from
               within the application.</p>
-            <p>If represented by a <span class="inline-code">collection</span>, you could then (as an example) <span class="inline-code">$fetch</span> the
+            <p>If represented by a <span class="inline-code">collection</span>, you could then (as an example) <span class="inline-code">fetch()</span> the
               list from the server and have the list of <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>
               instances created for me and injected into the <span class="inline-code">collection</span>.</p>
           </div>
@@ -184,7 +184,52 @@ var people = group.get();
       <p>Using the <span class="inline-code">GroupOfPeople</span> <span class="inline-code">collection</span> from above, we instantiate a list of people
       inside of the <span class="inline-code">PeopleView</span> <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</p>
 
-      <h3>Markup used to bind with the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (which contains the collection):</h3>
+      <h3>Example markup used to bind with the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (which contains the collection):</h3>
+<pre><code class="html">&lt;div id="people-view" data-bind="foreach: persons"&gt;
+  &lt;div class="person"&gt;
+    Name: &lt;span data-bind="text: name"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <h3>Instantiate a new <span class="inline-code">collection</span> inside of the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</h3>
+<pre><code class="javascript">var PeopleView = fw.viewModel({
+  namespace: 'PeopleView',
+  initialize: function() {
+    this.persons = GroupOfPeople([
+      { name: 'John Smith' },
+      { name: 'Jane Doe' },
+    ]);
+  };
+});
+
+// Bind (and render) the viewModel and its collection to the UI
+fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
+</code></pre>
+    </div>
+  </section>
+
+  <a id="local-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="local-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Local Data</h2>
+    </header>
+    <div class="content">
+      <p>Footwork provides a few handy ways of directly manipulating the current/in-memory list.</p>
+
+      <ul>
+        <li><span class="inline-code">collection.set()</span> - Perform a <em>smart</em> update of the collection.</li>
+        <li><span class="inline-code">collection.reset()</span> - Replace a collection with a new list of models (or attribute hashes).</li>
+        <li><span class="inline-code"></span></li>
+        <li><span class="inline-code"></span></li>
+        <li><span class="inline-code"></span></li>
+        <li><span class="inline-code"></span></li>
+      </ul>
+
+      <p>Using the <span class="inline-code">GroupOfPeople</span> <span class="inline-code">collection</span> from above, we instantiate a list of people
+      inside of the <span class="inline-code">PeopleView</span> <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</p>
+
+      <h3>Example markup used to bind with the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (which contains the collection):</h3>
 <pre><code class="html">&lt;div id="people-view" data-bind="foreach: persons"&gt;
   &lt;div class="person"&gt;
     Name: &lt;span data-bind="text: name"&gt;&lt;/span&gt;
@@ -210,7 +255,6 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
 </article>
 
 <div id="metaData">
-
 {
   "title": "Collection",
   "description": "RESTful handling of dataModels with handy utilities when managing a collection of them.",
@@ -226,9 +270,15 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
             { "anchor": "initialization-and-basic",
               "title": "Initialization and Basic Usage" },
             { "anchor": "ui-binding",
-              "title": "UI Binding" },
-            { "anchor": "adding-removing",
-              "title": "Adding / Removing items" }
+              "title": "UI Binding" }
+          ] },
+        { "anchor": "data-management",
+          "title": "Data Management",
+          "subSections": [
+            { "anchor": "getting-setting-data",
+              "title": "Getting / Setting Data" },
+            { "anchor": "rest-operations",
+              "title": "Rest / AJAX Operations" }
           ] }
       ] },
     { "subSections": [
