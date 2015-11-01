@@ -68,6 +68,7 @@ And thats it...the application will use this folder to lookup and provide the av
 ```bash
 # This allows laravel to create its cache/etc
 chmod -R a+rw storage
+```
 
 6) **Compile the LESS into CSS**
 

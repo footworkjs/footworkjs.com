@@ -7,8 +7,8 @@
       <h1 class="title">Introduction</h1>
     </header>
     <div class="content">
-      <p>A Footwork <span class="inline-code">collection</span> is an abstraction used to manage lists of <span class="inline-code">objects</span>.
-        Collections are an extension built on top of Knockout.js
+      <p>A Footwork <span class="inline-code">collection</span> is used to manage lists of <span class="inline-code">objects</span>. Collections are
+        an extension built on top of Knockout.js
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArrays</a></span> and
         thus can be used just like they can, such as:</p>
 
@@ -57,14 +57,18 @@
       <h1 class="title">Usage</h1>
     </header>
     <div class="content">
-      <p>At its core a <span class="inline-code">collection</span> is a Knockout
-        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>.
-        Considering this fact, you can use them in exactly the same way.</p>
+      <p>Creating and using a <span class="inline-code">collection</span> is relatively simple. To start with, a <span class="inline-code">collection</span>
+        constructor must be created. This constructor is configured with several parameters some of which include the RESTful endpoint and
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> to be used.</p>
 
-      <p>Common uses might include binding to a list of them in your markup to create an automatically populated and managed list of contacts. Or
-        another might be a list of todo items one might have to do. It can be anything...it's really just a way to manage a list of
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances (and a
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> can essentially contain anything).</p>
+      <p>Once you have the constructor created it can be used to instantiate a <span class="inline-code">collection</span>. At that point the usage
+        of a <span class="inline-code">collection</span> varies depending on your needs. It can be used to manage/search/retrieve a list of objects, it
+        can be used along with a <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> for a more CRUD-like
+        operation in which individual items are tied to a form, or anything in-between.</p>
+
+      <p>Essentially, at the core of it you are managing a list of
+        <span class="inline-code">objects</span> which may or may not have RESTful (persistent) features attached to them. With this list you can also
+        bind your UI, create <span class="inline-code">computed</span> values, subscribe to changes, etc.</p>
     </div>
   </section>
 
