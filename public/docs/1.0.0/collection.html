@@ -7,61 +7,46 @@
       <h1 class="title">Introduction</h1>
     </header>
     <div class="content">
-      <p>A Footwork <span class="inline-code">collection</span> is an abstraction used to manage/persist lists of
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances/records (a collection of things with
-        REST endpoints).</p>
+      <p>A Footwork <span class="inline-code">collection</span> is an abstraction used to manage lists of <span class="inline-code">objects</span>.
+        Collections are an extension built on top of Knockout.js
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArrays</a></span> and
+        thus can be used just like they can, such as:</p>
+
+      <ul>
+        <li>Binding your UI to them.</li>
+        <li>Creating a <span class="inline-code">computed</span> value based on it (such as a filtered, or sorted version of a list).</li>
+        <li>Manipulating them like normal
+          <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArrays</a></span>
+          using <span class="inline-code">push</span>, <span class="inline-code">pop</span>, <span class="inline-code">splice</span>, etc...</li>
+      </ul>
+
+      <p>Using the
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> type,
+        Footwork builds upon them to integrate various features such as:</p>
+
+      <ul>
+        <li>Searching the list to find an <span class="inline-code">object</span> or
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> (or list of them) which matches a set of attributes or id.</li>
+        <li>Retrieving a list of items from the server and (if specified) instantiate each of the results using a
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>.</li>
+        <li>Creating a new record of the specified <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> on the
+          server and inserting it into the <span class="inline-code">collection</span> when completed.</li>
+        <li>Easy methods for adding new items to or removing items from the <span class="inline-code">collection</span>.</li>
+      </ul>
 
       <div class="note">
-        <p><span class="label">NOTE:</span> If the collection of data you wish to represent does not have a RESTful endpoint, or is
-        just some arbitrary list of data (like an array of strings or dates, or plain objects) then you probably want to use a Knockout
-        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
-        instead (which are usable/available from within footwork via <span class="inline-code">fw.observableArray()</span>).</p>
-
-        <p>A <span class="inline-code">collection</span> (from a footwork.js perspective) is specifically aimed at helping you manage a list of
-          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances.</p>
-
-        <div class="box">
-          <div class="title">Example Use-Case:</div>
-          <div class="content">
-            <p>An app has a user profile and attached to it a list of contact phone numbers. Each phone number would be represented
-              in via a <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> (which would have its REST endpoint used for CRUD operations, say at
-              <span class="inline-code">/user/phone-number/123</span> for the record with id 123).</p>
-            <p>There would be a (for example) <span class="inline-code">/user/phone-numbers</span> endpoint which would return a JSON list of
-              phone numbers attached to my profile. This list/endpoint is what would be managed by the <span class="inline-code">collection</span> from
-              within the application.</p>
-            <p>If represented by a <span class="inline-code">collection</span>, you could then (as an example) <span class="inline-code">fetch()</span> the
-              list from the server and have the list of <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>
-              instances created for me and injected into the <span class="inline-code">collection</span>.</p>
-          </div>
-        </div>
+        <p><span class="label">Example Use-Case:</span> An app has a user profile and attached to it a list of contact phone numbers. Each phone number
+          would be represented in via a <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> (which would have
+          its REST endpoint used for CRUD operations, say at <span class="inline-code">/user/phone-number/123</span> for the record with id 123).</p>
+        <p>There would be a (for example) <span class="inline-code">/user/phone-numbers</span> endpoint which would return a JSON list of
+          phone numbers attached to my profile. This list/endpoint is what would be managed by the <span class="inline-code">collection</span> from
+          within the application.</p>
+        <p>If represented by a <span class="inline-code">collection</span>, you could then (as an example) <span class="inline-code">fetch()</span> the
+          list from the server and have the list of <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>
+          instances created for you and injected into the <span class="inline-code">collection</span>. You could also <span class="inline-code">create()</span>
+          a new <span class="inline-code">phone-number</span> which would be saved to the server via the
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> and its RESTful configuration.</p>
       </div>
-
-      <p>Knockout.js provides (and by proxy, Footwork also has) an
-        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> type
-        which is used to manage arbitrary lists of data while enabling all of the awesome observable design pattern features that allows
-        complex dependency chains, automatic resolution of computed values, UI binding, and much more.</p>
-
-      <p>Footwork builds upon the
-        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> type
-        to integrate a <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> and provide many handy features for
-        managing lists of them.</p>
-
-      <p><em>What does this mean exactly?</em></p>
-
-      <p>It means that you can treat a Footwork <span class="inline-code">collection</span> just as if it was an
-        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
-        (because thats what it is). You can bind your UI to it, subscribe to updates, make computed (dependent observables) based on them,
-        <span class="inline-code">push()</span>, <span class="inline-code">pop()</span>, <span class="inline-code">reverse()</span>,
-        <span class="inline-code">sort()</span>,
-        <a href="http://knockoutjs.com/documentation/observableArrays.html#indexof" target="_blank">and much more</a>.</p>
-
-      <p>Additionally to all of the standard
-        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
-        features, Footwork integrates functionality to help manage a list of them on a server/REST endpoint (via methods <span class="inline-code">fetch</span>,
-        <span class="inline-code">get</span>, <span class="inline-code">set</span>, etc).</p>
-
-      <p>As an example, this means you could bind your UI to a <span class="inline-code">collection</span> which you then call
-        <span class="inline-code">collection.fetch()</span> on, resulting in the list of items being fetched, automatically initialized, and rendered for you.</p>
     </div>
   </section>
 
@@ -208,6 +193,23 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
     </div>
   </section>
 
+  <a id="data-management" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="data-management">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Data Management</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">collection</span> has various features taylored around handling the data within:</p>
+
+      <ul>
+        <li>A collection can read/fetch/create data from/on the server.</li>
+        <li>A collection can search for data within the <span class="inline-code">collection</span></li>
+        <li>A collection can perform various basic operations on its data (push, pop, splice, etc)</li>
+      </ul>
+    </div>
+  </section>
+
   <a id="local-data" class="section-anchor" data-bind="sectionAnchor"></a>
   <section data-name="local-data">
     <div class="highlight"></div>
@@ -275,10 +277,14 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
         { "anchor": "data-management",
           "title": "Data Management",
           "subSections": [
-            { "anchor": "getting-setting-data",
-              "title": "Getting / Setting Data" },
-            { "anchor": "rest-operations",
-              "title": "Rest / AJAX Operations" }
+            { "anchor": "loading-data",
+              "title": "Loading Data" },
+            { "anchor": "finding-reading-data",
+              "title": "Finding and Reading Data" },
+            { "anchor": "saving-creating-fetching",
+              "title": "Saving / Creating / Fetching Data" },
+            { "anchor": "basic-operations",
+              "title": "Basic Operations" }
           ] }
       ] },
     { "subSections": [

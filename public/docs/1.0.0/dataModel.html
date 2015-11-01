@@ -156,7 +156,7 @@
   <section data-name="bind-manually">
     <div class="highlight"></div>
     <header>
-      <h2>Manual Instantiation and Binding:</h2>
+      <h2 class="sub title">Manual Instantiation and Binding:</h2>
     </header>
     <div class="content">
       <p>Manually instantiating a <span class="inline-code">dataModel</span> is done by calling <span class="inline-code">new ConstructorFunc()</span>.
@@ -188,7 +188,7 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
   <section data-name="dataModel-element">
     <div class="highlight"></div>
     <header>
-      <h2>Automatic initialization via <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM:</h2>
+      <h2 class="sub title">&lt;viewModel&gt;</h2>
     </header>
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> can be instantiated and bound automatically when using a
@@ -223,7 +223,7 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
   <section data-name="inside-component">
     <div class="highlight"></div>
     <header>
-      <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
+      <h2 class="sub title">&lt;component&gt;</h2>
     </header>
     <div class="content">
       <p>You can supply a <span class="inline-code">dataModel</span> in place of a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> inside of a component
@@ -275,7 +275,7 @@ fw.components.register('Person', {
       <p>This includes functionality for:</p>
 
       <ul>
-        <li>Telling the framework where the data and how it maps to the other side.</li>
+        <li>Telling the framework where the data is and how it maps to the other side.</li>
         <li>How to read the data from your <span class="inline-code">dataModel</span>.</li>
         <li>How to set that data in your <span class="inline-code">dataModel</span>.</li>
         <li>How to fetch the data from its REST endpoint.</li>
@@ -289,7 +289,7 @@ fw.components.register('Person', {
   <section data-name="mapping-getting-setting-data">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Mapping / Getting / Setting Data</h2>
+      <h1 class="sub title">Mapping / Getting / Setting Data</h1>
     </header>
     <div class="content">
       <p>In order to perform REST operations you will need to be able to map, get, and set the data on your <span class="inline-code">dataModel</span>.</p>
@@ -512,7 +512,7 @@ person.set('firstName', 'Jake');
   <section data-name="rest-operations">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">REST / AJAX Operations</h2>
+      <h1 class="sub title">REST / AJAX Operations</h1>
     </header>
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> is often times used to communicate or transfer state to/from a RESTful endpoint.</p>
@@ -693,7 +693,7 @@ person.destroy().done(function() {
   <section data-name="lifecycle">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Lifecycle</h2>
+      <h1 class="sub title">Lifecycle</h1>
     </header>
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> is instantiated, then bound to the DOM and used, or just used independent of the DOM. Depending on
@@ -842,7 +842,7 @@ var MyDataModel = fw.dataModel({
   <section data-name="registration">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Registration</h2>
+      <h1 class="sub title">Registration</h1>
     </header>
     <div class="content">
       <p>In order for footwork to know what to do when it encounters a <span class="inline-code">&lt;dataModel&gt;</span> it must be registered in some
@@ -1141,7 +1141,7 @@ var bigSprocket = {
   <section data-name="mixin-usage">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Example mixin usage</h2>
+      <h2 class="sub title">Usage</h2>
     </header>
     <div class="content">
       <p>Each mixin behavior is added to each new instance of the <span class="inline-code">dataModel</span> that is created. This goes for ones
