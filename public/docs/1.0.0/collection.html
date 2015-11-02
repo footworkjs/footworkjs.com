@@ -57,8 +57,8 @@
       <h1 class="title">Usage</h1>
     </header>
     <div class="content">
-      <p>Creating and using a <span class="inline-code">collection</span> is relatively simple. To start with, a <span class="inline-code">collection</span>
-        constructor must be created. This constructor is configured with several parameters some of which include the RESTful endpoint and
+      <p>To create/use a <span class="inline-code">collection</span> a constructor must first be created. This constructor is configured with several
+        parameters which define certain behaviors of the <span class="inline-code">collection</span>, these include (among others) the RESTful endpoint and
         <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> to be used.</p>
 
       <p>Once you have the constructor created it can be used to instantiate a <span class="inline-code">collection</span>. At that point the usage
@@ -79,11 +79,11 @@
       <h2 class="sub title">Factory Method</h2>
     </header>
     <div class="content">
-      <p>Each different type of <span class="inline-code">collection</span> you wish to have must have a new constructor function made for it.</p>
+      <p>Each different type of <span class="inline-code">collection</span> you wish to have must have a new constructor function made for it.
+        Collection constructor functions are created by calling the factory method <span class="inline-code">fw.collection()</span> and passing it a
+        configuration object.</p>
 
-      <p>Collection constructor functions are created by calling the factory method <span class="inline-code">fw.collection()</span> and passing it a configuration object.</p>
-
-      <p>The resulting constructor function can then be used to instantiate new instances of that <span class="inline-code">collection</span>.</p>
+      <p>The resulting constructor function can then be used to create new instances of that <span class="inline-code">collection</span>.</p>
 
       <a id="fw-collection" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
@@ -98,18 +98,27 @@
         </div>
       </div>
 <pre><code class="javascript">var Collection = fw.collection({
-  // The namespace (communications channel) the collection uses.
+  // (optional) The namespace (communications channel) the collection uses.
   namespace: 'MyCollection', // example namespace name, any alpha-numeric is valid
 
   // (optional) URL which will/can be used to GET the collection from the server
   url: function() {},
   url: '',
 
+  // (optional) dataModel constructor used to create each new instance.
+  dataModel: DataModelConstructor,
+
   /**
-   * A collection is a list of dataModel instances, new data will be fed into a dataModel for each record.
-   * The reference provided here is the constructor used to create each new instance.
+   * (optional) The idAttribute to use internally within each dataModel/object
+   * Note: This overrides the dataModel idAttribute
    */
-  dataModel: DataModelConstructor
+  idAttribute: '',
+
+  /**
+   * Flag telling footwork if it should call .dispose() when a dataModel is removed from
+   * the list. Default: true.
+   */
+  disposeOnRemove: true
 });</code></pre>
     </div>
   </section>
@@ -121,11 +130,13 @@
       <h2 class="sub title">Initialization and Basic Usage</h2>
     </header>
     <div class="content">
-      <p>The following example shows the creation of a simple <span class="inline-code">collection</span> consisting of <span class="inline-code">Person</span>
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances.</p>
+      <p>The following example shows the creation of a simple <span class="inline-code">collection</span> consisting of
+        <span class="inline-code">Person</span> <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances.</p>
+
       <p>Using an instance of that <span class="inline-code">collection</span> we then call <span class="inline-code">get()</span> to retrieve
         the pure javascript object (POJO) output of the <span class="inline-code">collection</span> which is computed from the
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances in the <span class="inline-code">collection</span> at call-time.</p>
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances in the
+        <span class="inline-code">collection</span> at call-time.</p>
 
       <h3>Creation of constructor:</h3>
 <pre><code class="javascript">var GroupOfPeople = fw.collection({
@@ -146,8 +157,8 @@
   { name: 'Jane Doe' },
 ]);
 
-// get() the javascript object (hash-map) output of the data
-var people = group.get();
+// Get the javascript data object (raw data)
+var people = group.getData();
 
 /**
  * people === [
@@ -168,12 +179,13 @@ var people = group.get();
     <div class="content">
       <p>Since a <span class="inline-code">collection</span> is actually an
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> under
-        the covers, you can bind to them from your UI just as you would with Knockoutjs.</p>
+        the covers, you can bind to them from your UI just as you would with KnockoutJS.</p>
 
       <p>Using the <span class="inline-code">GroupOfPeople</span> <span class="inline-code">collection</span> from above, we instantiate a list of people
       inside of the <span class="inline-code">PeopleView</span> <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</p>
 
-      <h3>Example markup used to bind with the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (which contains the collection):</h3>
+      <h3>Example markup used to bind with the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (which contains
+        the collection):</h3>
 <pre><code class="html">&lt;div id="people-view" data-bind="foreach: persons"&gt;
   &lt;div class="person"&gt;
     Name: &lt;span data-bind="text: name"&gt;&lt;/span&gt;
@@ -204,18 +216,15 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
       <h1 class="title">Data Management</h1>
     </header>
     <div class="content">
-      <p>A <span class="inline-code">collection</span> has various features taylored around handling the data within:</p>
+      <p>A <span class="inline-code">collection</span> can manage any list of arbitrary <span class="inline-code">objects</span> or
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModels</a></span>.</p>
 
-      <ul>
-        <li>A collection can read/fetch/create data from/on the server.</li>
-        <li>A collection can search for data within the <span class="inline-code">collection</span></li>
-        <li>A collection can perform various basic operations on its data (push, pop, splice, etc)</li>
-      </ul>
+      <p>If the appropriate options are supplied a <span class="inline-code">collection</span> can also retrieve and even create individual records on the server.</p>
     </div>
   </section>
 
-  <a id="local-data" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="local-data">
+  <a id="loading-finding-reading" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="loading-finding-reading">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">Local Data</h2>
@@ -281,12 +290,10 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
         { "anchor": "data-management",
           "title": "Data Management",
           "subSections": [
-            { "anchor": "loading-data",
-              "title": "Loading Data" },
-            { "anchor": "finding-reading-data",
-              "title": "Finding and Reading Data" },
+            { "anchor": "loading-finding-reading",
+              "title": "Loading, Finding, and Reading" },
             { "anchor": "saving-creating-fetching",
-              "title": "Saving / Creating / Fetching Data" },
+              "title": "Fetching and Creating" },
             { "anchor": "basic-operations",
               "title": "Basic Operations" }
           ] }
