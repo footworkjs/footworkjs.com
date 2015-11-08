@@ -166,6 +166,20 @@ article, .docco {
       margin: 5px 0 5px 20px;
       color: mix(@handlerBackground, @handlerForeground);
 
+      ul {
+        li {
+          margin-left: 0;
+        }
+
+        li + li {
+          margin-top: 5px;
+        }
+      }
+
+      em {
+        color: @handlerForeground;
+      }
+
       p + p {
         margin-top: 5px;
       }
