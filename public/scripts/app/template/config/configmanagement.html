@@ -35,6 +35,14 @@
           </div>
         </div>
 
+        <div class="row">
+          <label data-bind="click: toggleAutoSelectSearch">Auto-Select Search Field</label>
+          <div class="checkbox" data-bind="class: autoSelectSearchState, click: toggleAutoSelectSearch">
+            <div class="checked icon-checkbox-checked icon"></div>
+            <div class="unchecked icon-checkbox-unchecked icon"></div>
+          </div>
+        </div>
+
         <div class="bottom row">
           <button class="button" data-bind="click: toggleConfiguration"><span>Done</span></button>
 

@@ -70,6 +70,16 @@ define(["jquery", "lodash", "footwork", "postal" ],
       }
     };
 
+    fw.bindingHandlers['autoSelect'] = fw.bindingHandlers['autoFocus'] = {
+      update: function( element, valueAccessor ) {
+        var shouldFocus = fw.unwrap(valueAccessor());
+        if(shouldFocus) {
+          console.info('should autofocus', shouldFocus);
+          $(element).focus();
+        }
+      }
+    };
+
     fw.bindingHandlers['hoverTrack'] = {
       init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
         var $element = $(element);

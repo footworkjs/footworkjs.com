@@ -6,6 +6,7 @@ define([ "footwork", "lodash" ],
         var Configuration = fw.namespace('Configuration');
 
         this.transitionsEnabled = fw.observable().receiveFrom('Configuration', 'transitionsEnabled');
+        this.autoSelectSearch = fw.observable().receiveFrom('Configuration', 'autoSelectSearch');
         this.helpDialog = fw.observable({}).receiveFrom('Configuration', 'helpDialog');
         this.noticeDialog = fw.observable({}).receiveFrom('Configuration', 'noticeDialog');
         this.autoHideHeader = fw.observable(false).receiveFrom('Configuration', 'autoHideHeader');
@@ -52,24 +53,32 @@ define([ "footwork", "lodash" ],
           return this.transitionsEnabled() ? 'checked' : 'unchecked';
         }, this);
 
+        this.autoSelectSearchState = fw.computed(function() {
+          return this.autoSelectSearch() ? 'checked' : 'unchecked';
+        }, this);
+
         this.saveSessionState = fw.computed(function() {
           return this.saveSession() === true ? 'partial' : 'unchecked';
         }, this);
 
         this.togglePane = function() {
-          this.paneCollapsed( !this.paneCollapsed() );
+          this.paneCollapsed(!this.paneCollapsed());
         };
 
         this.toggleTransitions = function() {
-          this.transitionsEnabled( !this.transitionsEnabled() );
+          this.transitionsEnabled(!this.transitionsEnabled());
+        };
+
+        this.toggleAutoSelectSearch = function() {
+          this.autoSelectSearch(!this.autoSelectSearch());
         };
 
         this.toggleConfiguration = function() {
-          this.configVisible( !this.configVisible() );
+          this.configVisible(!this.configVisible());
         }.bind( this );
 
         this.toggleSaveSession = function() {
-          this.saveSession( !this.saveSession() );
+          this.saveSession(!this.saveSession());
         }.bind( this );
 
         this.toggleAutoHideHeader = function() {
@@ -78,7 +87,7 @@ define([ "footwork", "lodash" ],
           } else if( this.pastHeaderClosePoint() ) {
             this.headerClosed(true);
           }
-          this.autoHideHeader( !this.autoHideHeader() );
+          this.autoHideHeader(!this.autoHideHeader());
         };
 
         this.reset = function() {

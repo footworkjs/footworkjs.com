@@ -138,7 +138,7 @@
 
       <p>The resulting constructor function can then be used to create new instances of that type of <span class="inline-code">collection</span>.</p>
 
-      <a id="fw-collection" class="section-anchor" data-bind="sectionAnchor"></a>
+      <a id="fw-collection-create" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
@@ -294,7 +294,9 @@ peopleVM.peopleList.add({ name: 'Richard Jones', company: 'OCP' });
     <div class="content">
       <p>Since a <span class="inline-code">collection</span> is actually an
         <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> under
-        the covers, you can bind to them from your UI just as you would with KnockoutJS.</p>
+        the covers, you can bind to them from your UI just as you would with an
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> with
+        KnockoutJS.</p>
 
       <p>Using the <span class="inline-code">GroupOfPeople</span> <span class="inline-code">collection</span> from above, we instantiate a list of people
       inside of the <span class="inline-code">PeopleView</span> <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</p>
@@ -432,7 +434,10 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
           "references": [
             { "anchor": "fw-collection",
               "title": "fw.collection()",
-              "description": "Creates a new collection constructor function." }
+              "description": "Create a collection composed of the supplied data." },
+            { "anchor": "fw-collection-create",
+              "title": "fw.collection.create()",
+              "description": "Create a new collection constructor function. This is used to create a new type of collection." }
           ]
         }
       ]

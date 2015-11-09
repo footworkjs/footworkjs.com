@@ -84,6 +84,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
         this.queryString = fw.observable();
         this.searchData = fw.observable().receiveFrom('apiSearchModule', 'searchData');
         this.userTyping = fw.observable(true);
+        this.autoSelectSearch = fw.observable().receiveFrom('Configuration', 'autoSelectSearch')();
 
         this.touch = function(hasFocus) {
           hasFocus && searchTouched(true);

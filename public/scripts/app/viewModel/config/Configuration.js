@@ -32,7 +32,8 @@ define([ "jquery", "lodash", "footwork", "storage" ],
             help: true,
             notice: true
           },
-          transitions: true
+          transitions: true,
+          autoSelectSearch: true
         });
 
         this.scrollPosition = fw.observable(0).receiveFrom('ViewPort', 'scrollPosition');
@@ -84,6 +85,14 @@ define([ "jquery", "lodash", "footwork", "storage" ],
             setConfig({ transitions: transitionState });
           }
         }, this ).broadcastAs('transitionsEnabled', true);
+        this.autoSelectSearch = fw.computed({
+          read: function() {
+            return this.config().autoSelectSearch;
+          },
+          write: function( autoSelectSearch ) {
+            setConfig({ autoSelectSearch: autoSelectSearch });
+          }
+        }, this ).broadcastAs('autoSelectSearch', true);
         this.headerMinHeight = fw.computed({
           read: function() {
             return this.config().header.min.height;
@@ -233,7 +242,7 @@ define([ "jquery", "lodash", "footwork", "storage" ],
             return false;
           }
           this.headerClosed(false);
-          
+
           var defaultPaneMaxWidth = this.defaultPaneMaxWidth();
           var paneAbsoluteMaxWidth = this.paneAbsoluteMaxWidth();
           var paneMaxWidth = ( this.paneCollapsed() === false ? this.paneMaxWidth() : 0 );
@@ -297,7 +306,7 @@ define([ "jquery", "lodash", "footwork", "storage" ],
             this.updateSession();
           }
         }, this);
-        
+
         if( this.isMobile() === true || this.viewPortSmall() === true) {
           this.paneCollapsed(true);
         }

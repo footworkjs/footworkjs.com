@@ -2,7 +2,7 @@
   <div class="container">
     <label data-bind="css: { hasFocus: hasFocus, hasQuery: hasQuery }">
       <span class="label" data-bind="click: selectAll">API<span class="icon-search"></span></span>
-      <input name="search" type="text" data-bind="value: query, hasFocus: hasFocus, valueUpdate: 'keyup'" autofocus>
+      <input name="search" type="text" data-bind="value: query, valueUpdate: 'keyup', autoFocus: autoSelectSearch">
       <span class="search-shortcut">ctrl+s</span>
     </label>
     <div class="results has-trans">
