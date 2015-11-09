@@ -127,43 +127,30 @@
       <h2 class="sub title">Factory Method</h2>
     </header>
     <div class="content">
-      <p>To create/use a <span class="inline-code">collection</span> a constructor must first be created. This constructor is configured with several
-        parameters which define certain behaviors of the <span class="inline-code">collection</span>, these include (among others) the RESTful endpoint and
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> to be used.</p>
+      <p>If each item in your <span class="inline-code">collection</span> has a RESTful endpoint (ex: a list of notes) then you will want to create
+        a <em>new</em> type of <span class="inline-code">collection</span> which is configured to handle them utilizing a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>.</p>
 
-      <p>Once you have the constructor created it can be used to instantiate a <span class="inline-code">collection</span>. At that point the usage
-        of a <span class="inline-code">collection</span> varies depending on your needs. It can be used to manage/search/retrieve a list of objects, it
-        can be used along with a <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> for a more CRUD-like
-        operation in which individual items are tied to a form, or anything in-between.</p>
+      <p>By doing this you can more easily fetch, save, retrieve, and search the data.</p>
 
-      <p>Each different type of <span class="inline-code">collection</span> you wish to have must have a new constructor function made for it.
-        Collection constructor functions are created by calling the factory method <span class="inline-code">fw.collection()</span> and passing it a
-        configuration object.</p>
+      <p>To create and use a new type of <span class="inline-code">collection</span> we begin by creating a new constructor function and configuring it
+        as desired. This is done with <span class="inline-code">fw.collection.create()</span>.</p>
 
-      <p>The resulting constructor function can then be used to create new instances of that <span class="inline-code">collection</span>.</p>
+      <p>The resulting constructor function can then be used to create new instances of that type of <span class="inline-code">collection</span>.</p>
 
       <a id="fw-collection" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>fw</span>.collection<span>( <span class="param">configurationObject</span> )</span></div>
-          <div class="func-def"><span>fw</span>.collection<span>( [ <span class="param">collectionData</span>, <span class="param">...</span> ] )</span></div>
-          <div class="func-def"><span>fw</span>.collection<span>( [ <span class="param">collectionData</span>, <span class="param">...</span> ], <span class="param">configurationObject</span> )</span></div>
+          <div class="func-def"><span>fw</span>.collection.create<span>( <span class="param">configurationObject</span> )</span></div>
         </div>
-        <div class="description">
-          <ul>
-            <li>If <span class="inline-code">collectionData</span> is <em>NOT</em> provided: Create a <span class="inline-code">collection</span>
-              constructor using the supplied <span class="inline-code">configurationObject</span>.</li>
-            <li>If <span class="inline-code">collectionData</span> is provided: Create a <span class="inline-code">collection</span> using the settings
-              supplied in the optional <span class="inline-code">configurationObject</span>.</li>
-          </ul>
-        </div>
+        <div class="description">Create a new collection constructor function. This is used to create a new type of collection.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">function()</span> <span class="inline-code">Collection</span> Constructor Function</span>
         </div>
       </div>
-<pre><code class="javascript">var CollectionConstructor = fw.collection([ ... ], {
+<pre><code class="javascript">var CollectionConstructor = fw.collection.create({
   // (optional) The namespace (communications channel) the collection uses.
   namespace: 'MyCollection', // example namespace name, any alpha-numeric is valid
 
@@ -196,34 +183,36 @@
         also have RESTful endpoints. An example of this might be a list of contact numbers or email addresses listed on a user profile.</p>
 
       <h3>Creation and use of a <span class="inline-code">collection</span> constructor to create a <span class="inline-code">collection</span> (group) of people:</h3>
-<pre><code class="javascript">// Create the GroupOfPeople collection constructor
-var GroupOfPeople = fw.collection({
-  namespace: "GroupOfPeople",
+<pre><code class="javascript">// Create the ContactList collection constructor
+var ContactList = fw.collection.create({
+  namespace: "ContactList",
+  url: '/list-contacts',
   // It is recommended you store the dataModel in a separate file.
   // This example shows it inline.
   dataModel: fw.dataModel({
-    namespace: "Person",
-    initialize: function(personData) {
-      this.name = fw.observable(personData.name).mapTo('name');
-      this.company = fw.observable(personData.company).mapTo('company');
+    namespace: "Contact",
+    url: '/contact',
+    initialize: function(contactData) {
+      this.email = fw.observable(contactData.email).mapTo('email');
+      this.number = fw.observable(contactData.number).mapTo('number');
     }
   })
 });
 
-// Instantiate a new GroupOfPeople collection using the constructor
-var group = GroupOfPeople([
-  { name: 'John Smith', company: 'Acme Brick' },
-  { name: 'Jane Doe', company: 'Acme Brick' }
+// Instantiate a new ContactList collection using the constructor
+var myNumbers = ContactList([
+  { number: '555-555-5555', email: 'batman@wayneindustries.com' },
+  { number: '555-555-5556', email: 'robin@wayneindustries.com' }
 ]);
 
-// Each entry is an instance of the Person dataModel
-// group() === [ Person, Person ]
+// Each entry is an instance of the Contact dataModel
+// myNumbers() === [ Contact, Contact ]
 
 /**
- * The raw data can be retrieved using the helper .getData()
- * group.getData() === [
- *   { "name": "John Smith", company: "Acme Brick"  },
- *   { "name": "Jane Doe", company: "Acme Brick"  }
+ * The raw mapped data can be retrieved using the helper .getData()
+ * myNumbers.getData() === [
+ *   { number: '555-555-5555', email: 'batman@wayneindustries.com' },
+ *   { number: '555-555-5556', email: 'robin@wayneindustries.com' }
  * ]
  */
 </code></pre>
