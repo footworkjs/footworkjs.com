@@ -89,7 +89,7 @@
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>fw</span>.collection<span>( [ <span class="param">item</span>, <span class="param">...</span> ] )</span></div>
+          <div class="func-def"><span>fw</span>.collection<span>( [ <span class="param">item1</span>, <span class="param">item2</span>, <span class="param">...</span> ] )</span></div>
         </div>
         <div class="description">Create a <span class="inline-code">collection</span> composed of the supplied data.</div>
         <div class="return-value">
@@ -129,14 +129,12 @@
     <div class="content">
       <p>If each item in your <span class="inline-code">collection</span> has a RESTful endpoint (ex: a list of notes) then you will want to create
         a <em>new</em> type of <span class="inline-code">collection</span> which is configured to handle them utilizing a
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>.</p>
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>. By doing this you can more easily fetch, save,
+        retrieve, and search the data.</p>
 
-      <p>By doing this you can more easily fetch, save, retrieve, and search the data.</p>
-
-      <p>To create and use a new type of <span class="inline-code">collection</span> we begin by creating a new constructor function and configuring it
-        as desired. This is done with <span class="inline-code">fw.collection.create()</span>.</p>
-
-      <p>The resulting constructor function can then be used to create new instances of that type of <span class="inline-code">collection</span>.</p>
+      <p>To create and use a new type of <span class="inline-code">collection</span> we begin by creating a new constructor function, configuring it
+        as desired. This is done with the factory method <span class="inline-code">fw.collection.create()</span>. The constructor function returned
+        can then be used to create new instances of that type of <span class="inline-code">collection</span>.</p>
 
       <a id="fw-collection-create" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
@@ -231,14 +229,10 @@ var myNumbers = ContactList([
         <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values
         based on it.</p>
 
-      <p>Another important note is that you can use various <span class="inline-code">collection</span> methods (<span class="inline-code">findWhere()</span>,
+      <p>Another important note is that you can also use various <span class="inline-code">collection</span> methods (<span class="inline-code">findWhere()</span>,
         <span class="inline-code">where()</span>, and <span class="inline-code">getData()</span>) to create
         <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values
         derived from them.</p>
-
-      <p>Using some of the built in methods the following example shows how we can create
-        <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values which
-        filter and sort themselves.</p>
 
       <h3>Create a <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span>
         value based on a <span class="inline-code">collection</span>:</h3>
@@ -247,6 +241,19 @@ var PeopleViewModel = fw.viewModel({
   initialize: function(peopleList) {
     this.peopleList = fw.collection(peopleList);
 
+    /**
+     * A computed based on peopleList which determines whether or not the
+     * list is empty
+     */
+    this.hasPeopleInList = fw.computed(function() {
+      return this.peopleList().length > 0;
+    }, this);
+
+    /**
+     * This creates a computed value based on the peopleList
+     * filtered to include only entries where()
+     * company === 'OCP', sorted by the name
+     */
     this.omniCorpPeople = fw.computed(function() {
       return this.peopleList
         .where({ company: 'OCP' }, { getData: true })
@@ -272,8 +279,9 @@ var peopleVM = new PeopleViewModel([
 peopleVM.peopleList.add({ name: 'Richard Jones', company: 'OCP' });
 /**
  * Since omniCorpPeople is a computed value it is automatically updated when
- * the new entry is added. Hence we see it returned (in the sorted order as
- * defined/returned by the evaluator function) when we retrieve the value again:
+ * the new entry is added to peopleList. Hence we see it returned (in the sorted
+ * order as defined/returned by the evaluator function) when we retrieve the
+ * value again:
  *
  * peopleVM.omniCorpPeople() === [
  *   { name: 'Robert Morton', company: 'OCP' },
@@ -315,7 +323,7 @@ peopleVM.peopleList.add({ name: 'Richard Jones', company: 'OCP' });
   initialize: function() {
     this.persons = fw.collection([
       { name: 'John Smith' },
-      { name: 'Jane Doe' },
+      { name: 'Jane Doe' }
     ]);
   };
 });
@@ -409,10 +417,10 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
         { "anchor": "data-management",
           "title": "Data Management",
           "subSections": [
-            { "anchor": "loading-finding-reading",
-              "title": "Loading, Finding, and Reading" },
-            { "anchor": "saving-creating-fetching",
-              "title": "Fetching and Creating" },
+            { "anchor": "loading-creating",
+              "title": "Loading and Creating" },
+            { "anchor": "Fetching-finding-reading",
+              "title": "Fetching, Finding/Searching, and Reading" },
             { "anchor": "basic-operations",
               "title": "Basic Operations" }
           ] }
