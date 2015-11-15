@@ -234,11 +234,12 @@ var myNumbers = ContactList([
         <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values
         derived from them.</p>
 
-      <h3>Create a <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span>
-        value based on a <span class="inline-code">collection</span>:</h3>
+      <h3>Create <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span>
+        values based on a <span class="inline-code">collection</span>:</h3>
 <pre><code class="javascript">// Shown in a viewModel which is a more likely usage scenario
 var PeopleViewModel = fw.viewModel({
   initialize: function(peopleList) {
+    // The main collection of people
     this.peopleList = fw.collection(peopleList);
 
     /**
@@ -263,8 +264,17 @@ var PeopleViewModel = fw.viewModel({
     }, this);
   }
 });
+</code></pre>
 
-var peopleVM = new PeopleViewModel([
+      <p>The above example shows the creation of a <span class="inline-code">PeopleViewModel</span> which is fed a
+        <span class="inline-code">peopleList</span>. Upon initialization it then creates a <span class="inline-code">peopleList</span>
+        <span class="inline-code">collection</span> using the supplied data. Two <span class="inline-code">computed</span> values are created based
+        on the list, one which returns a boolean value indicating whether or not there are people in the list
+        (<span class="inline-code">hasPeopleInList</span>) and <span class="inline-code">omniCorpPeople</span> which is a filtered list containing
+        OCP employees sorted by their name.</p>
+
+      <h3>Example usage of the above <span class="inline-code">computed</span> values:</h3>
+<pre><code class="javascript">var peopleVM = new PeopleViewModel([
   { name: 'Peter Weller', company: 'Detroit PD' },
   { name: 'Robert Morton', company: 'OCP' },
   { name: 'Donald Johnson', company: 'OCP' }
@@ -341,54 +351,61 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
       <h1 class="title">Data Management</h1>
     </header>
     <div class="content">
-      <p>A <span class="inline-code">collection</span> can manage any list of arbitrary <span class="inline-code">objects</span> or
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModels</a></span>.</p>
+      <p>There are various operations which you can perform on a <span class="inline-code">collection</span>. Most methods, such as <span class="inline-code">find</span>,
+        <span class="inline-code">findWhere</span>, <span class="inline-code">set</span>, etc do not depend on there being a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> or endpoint
+        (<span class="inline-code">url</span>) specified/configured. This means that you can use them to operate on arbitrary objects as well (ie: a
+        <em>plain collection</em>).</p>
 
-      <p>If the appropriate options are supplied a <span class="inline-code">collection</span> can also retrieve and even create individual records on the server.</p>
+        <p>An example use of this would be using <span class="inline-code">find</span> to search through a list of objects
+        to find ones with certain values (like if you wanted to generate a search result operated on some static/inline data).</p>
     </div>
   </section>
 
-  <a id="loading-finding-reading" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="loading-finding-reading">
+  <a id="loading-creating" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="loading-creating">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Local Data</h2>
+      <h2 class="sub title">Loading and Creating</h2>
     </header>
     <div class="content">
-      <p>Footwork provides a few handy ways of directly manipulating the current/in-memory list.</p>
+      <p>Loading data into a <span class="inline-code">collection</span> is done via the following methods:</p>
 
-      <ul>
-        <li><span class="inline-code">collection.set()</span> - Perform a <em>smart</em> update of the collection.</li>
-        <li><span class="inline-code">collection.reset()</span> - Replace a collection with a new list of models (or attribute hashes).</li>
-        <li><span class="inline-code"></span></li>
-        <li><span class="inline-code"></span></li>
-        <li><span class="inline-code"></span></li>
-        <li><span class="inline-code"></span></li>
-      </ul>
+      <a id="collection-set" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.set<span>( [ <span class="param">item1</span>, <span class="param">item2</span>, <span class="param">...</span> ] )</span></div>
+        </div>
+        <div class="description">Create a new collection constructor function. This is used to create a new type of collection.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">function()</span> <span class="inline-code">Collection</span> Constructor Function</span>
+        </div>
+      </div>
+<pre><code class="javascript">var CollectionConstructor = fw.collection.create({
+  // (optional) The namespace (communications channel) the collection uses.
+  namespace: 'MyCollection', // example namespace name, any alpha-numeric is valid
 
-      <p>Using the <span class="inline-code">GroupOfPeople</span> <span class="inline-code">collection</span> from above, we instantiate a list of people
-      inside of the <span class="inline-code">PeopleView</span> <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</p>
+  // (optional) URL which will/can be used to GET the collection from the server
+  url: function() {},
+  url: '',
 
-      <h3>Example markup used to bind with the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (which contains the collection):</h3>
-<pre><code class="html">&lt;div id="people-view" data-bind="foreach: persons"&gt;
-  &lt;div class="person"&gt;
-    Name: &lt;span data-bind="text: name"&gt;&lt;/span&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+  // (optional) dataModel constructor used to create each new instance.
+  dataModel: DataModelConstructor,
 
-      <h3>Instantiate a new <span class="inline-code">collection</span> inside of the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</h3>
-<pre><code class="javascript">var PeopleView = fw.viewModel({
-  namespace: 'PeopleView',
-  initialize: function() {
-    this.persons = GroupOfPeople([
-      { name: 'John Smith' },
-      { name: 'Jane Doe' },
-    ]);
-  };
+  /**
+   * (optional) The idAttribute to use internally within each dataModel/object
+   * Note: This overrides the dataModel idAttribute
+   */
+  idAttribute: '',
+
+  /**
+   * Flag telling footwork if it should call .dispose() when a dataModel is removed from
+   * the list. Default: true.
+   */
+  disposeOnRemove: true
 });
-
-// Bind (and render) the viewModel and its collection to the UI
-fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
 </code></pre>
     </div>
   </section>
