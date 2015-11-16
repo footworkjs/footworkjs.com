@@ -372,7 +372,9 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
       <h2 class="sub title">Loading and Creating</h2>
     </header>
     <div class="content">
-      <p>Loading data into a <span class="inline-code">collection</span> is done via the following methods:</p>
+      <p>The following methods are used to load data into a <span class="inline-code">collection</span> locally. You might invoke one of the following
+        if you wanted to manually load some data into a <span class="inline-code">collection</span>, such as if you retrieved the models/data via some
+        means other than the included <span class="inline-code">fetch</span> method.</p>
 
       <a id="collection-set" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
@@ -401,6 +403,42 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
       </div>
 <pre><code class="javascript">var people = fw.collection();
 people.set([
+  {
+    "id": 1,
+    "firstName": "Bruce",
+    "lastName": "Wayne"
+  }, {
+    "id": 2,
+    "firstName": "Barbara",
+    "lastName": "Gordon"
+  }, {
+    "id": 3,
+    "firstName": "Ethan",
+    "lastName": "Bennett"
+  }
+]);
+</code></pre>
+
+      <a id="collection-reset" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.reset<span>( [ <span class="param">item1</span>, <span class="param">item2</span>, <span class="param">...</span> ] )</span></div>
+        </div>
+        <div class="description">
+          <p>Replace a collection with a new list of models (or attribute hashes). This will trigger a single <span class="inline-code">_.reset</span>
+            event afterwards.</p>
+
+          <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">_.reset</span> event triggered will be passed an object
+            (<span class="inline-code">{ newModels: {}, oldModels: {} }</span>) containing the relevant data at runtime.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Array</span> The entries/dataModels</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection();
+people.reset([
   {
     "id": 1,
     "firstName": "Bruce",
@@ -472,6 +510,17 @@ people.set([
             { "anchor": "fw-collection-create",
               "title": "fw.collection.create()",
               "description": "Create a new collection constructor function. This is used to create a new type of collection." }
+          ]
+        },
+        {
+          "label": "Data Management",
+          "references": [
+            { "anchor": "collection-set",
+              "title": "collection.set()",
+              "description": "Perform a smart update of the collection with the passed list of models." },
+            { "anchor": "collection-reset",
+              "title": "collection.reset()",
+              "description": "Replace a collection with a new list of models." }
           ]
         }
       ]
