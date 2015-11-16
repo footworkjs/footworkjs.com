@@ -375,37 +375,42 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>collection</span>.set<span>( [ <span class="param">item1</span>, <span class="param">item2</span>, <span class="param">...</span> ] )</span></div>
+          <div class="func-def"><span>collection</span>.set<span>( [ <span class="param">item1</span>, <span class="param">item2</span>, <span class="param">...</span> ], <span class="param">options</span> )</span></div>
         </div>
-        <div class="description">Create a new collection constructor function. This is used to create a new type of collection.</div>
+        <div class="description">
+          <p>Perform a <em>smart</em> update of the <span class="inline-code">collection</span> with the passed list of models.</p>
+          <p>If a supplied model isn't yet in the <span class="inline-code">collection</span> it will be added; if the it is already in the
+            <span class="inline-code">collection</span> then its data will be merged; and if the supplied data contains
+            any models that aren't present in the <span class="inline-code">collection</span>, they will be removed.</p>
+
+          <div class="note">
+            <p>You can provide the following <span class="inline-code">options</span> to customize the behavior:
+              <span class="inline-code">{ add: false }</span>,
+              <span class="inline-code">{ remove: false }</span>, or
+              <span class="inline-code">{ merge: false }</span>.</p>
+          </div>
+        </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">function()</span> <span class="inline-code">Collection</span> Constructor Function</span>
+          <span class="value"><span class="type">Array</span> The affected entries</span>
         </div>
       </div>
-<pre><code class="javascript">var CollectionConstructor = fw.collection.create({
-  // (optional) The namespace (communications channel) the collection uses.
-  namespace: 'MyCollection', // example namespace name, any alpha-numeric is valid
-
-  // (optional) URL which will/can be used to GET the collection from the server
-  url: function() {},
-  url: '',
-
-  // (optional) dataModel constructor used to create each new instance.
-  dataModel: DataModelConstructor,
-
-  /**
-   * (optional) The idAttribute to use internally within each dataModel/object
-   * Note: This overrides the dataModel idAttribute
-   */
-  idAttribute: '',
-
-  /**
-   * Flag telling footwork if it should call .dispose() when a dataModel is removed from
-   * the list. Default: true.
-   */
-  disposeOnRemove: true
-});
+<pre><code class="javascript">var people = fw.collection();
+people.set([
+  {
+    "id": 1,
+    "firstName": "Bruce",
+    "lastName": "Wayne"
+  }, {
+    "id": 2,
+    "firstName": "Barbara",
+    "lastName": "Gordon"
+  }, {
+    "id": 3,
+    "firstName": "Ethan",
+    "lastName": "Bennett"
+  }
+]);
 </code></pre>
     </div>
   </section>

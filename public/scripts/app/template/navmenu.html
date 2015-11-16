@@ -2,9 +2,6 @@
   <div class="pane-component NavMenu initialized" data-bind="css: { visible: visible }">
     <div class="content" data-bind="style: { height: paneContentMaxHeight }">
       <nav data-bind="style: { width: mobileWidth }, foreach: entries">
-        <!-- ko if: type === 'component' -->
-          <div class="title" data-bind="style: { lineHeight: $parent.headerContentHeight }, component: componentName"></div>
-        <!-- /ko -->
         <!-- ko if: type === 'menuItem' -->
           <a data-bind="css: { visible: visible }, attr: { title: labelText, target: target }, $route: { url: url, handler: clickHandler }, text: labelText"></a>
         <!-- /ko -->

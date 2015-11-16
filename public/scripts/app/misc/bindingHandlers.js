@@ -74,8 +74,9 @@ define(["jquery", "lodash", "footwork", "postal" ],
       update: function( element, valueAccessor ) {
         var shouldFocus = fw.unwrap(valueAccessor());
         if(shouldFocus) {
-          console.info('should autofocus', shouldFocus);
-          $(element).focus();
+          setTimeout(function() {
+            $(element).focus();
+          }, 100);
         }
       }
     };

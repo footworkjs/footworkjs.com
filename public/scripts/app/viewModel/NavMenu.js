@@ -12,6 +12,8 @@ define([ "jquery", "lodash", "footwork" ],
         this.url = fw.observable( entryData.url );
         this.options = entryData || {};
         this.subMenuItems = entryData.subMenu;
+        this.inHeader = entryData.inHeader;
+        this.showInHeader = _.isUndefined(entryData.showInHeader) || entryData.showInHeader;
         this.hasSubMenu = (_.isArray(entryData.subMenu) && !!entryData.subMenu.length);
         this.hasDocsMenu = entryData.label === 'Docs';
         this.target = entryData.target;
@@ -102,10 +104,10 @@ define([ "jquery", "lodash", "footwork" ],
         }, this);
         this.visible = fw.observable(false);
         this.entries = fw.observableArray([
-          new Entry({ label: 'Docs', url: '/docs/list' }),
-          new Entry({ label: 'Tutorials', url: '/tutorials' }),
-          new Entry({ component: 'api-search' }),
-          new Entry({ label: 'About', url: '/about', aside: true })
+          new Entry({ label: 'Docs', url: '/docs/list', inHeader: this.inHeader }),
+          new Entry({ label: 'Tutorials', url: '/tutorials', inHeader: this.inHeader }),
+          new Entry({ component: 'api-search', showInHeader: true, inHeader: this.inHeader }),
+          new Entry({ label: 'About', url: '/about', aside: true, inHeader: this.inHeader })
         ]);
 
         this.checkSelection = function(newSelection) {
