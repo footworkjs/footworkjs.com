@@ -351,14 +351,17 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
       <h1 class="title">Data Management</h1>
     </header>
     <div class="content">
-      <p>There are various operations which you can perform on a <span class="inline-code">collection</span>. Most methods, such as <span class="inline-code">find</span>,
+      <p>There are various operations which you can perform on a <span class="inline-code">collection</span>.</p>
+
+      <p>Most methods, such as <span class="inline-code">find</span>,
         <span class="inline-code">findWhere</span>, <span class="inline-code">set</span>, etc do not depend on there being a
         <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> or endpoint
         (<span class="inline-code">url</span>) specified/configured. This means that you can use them to operate on arbitrary objects as well (ie: a
         <em>plain collection</em>).</p>
 
-        <p>An example use of this would be using <span class="inline-code">find</span> to search through a list of objects
-        to find ones with certain values (like if you wanted to generate a search result operated on some static/inline data).</p>
+      <p>Some methods such as <span class="inline-code">fetch</span> and <span class="inline-code">create</span> require that a RESTful endpoint and/or
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> be specified when a new
+        <span class="inline-code">collection</span> constructor is created.</p>
     </div>
   </section>
 
@@ -379,20 +382,21 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
         </div>
         <div class="description">
           <p>Perform a <em>smart</em> update of the <span class="inline-code">collection</span> with the passed list of models.</p>
-          <p>If a supplied model isn't yet in the <span class="inline-code">collection</span> it will be added; if the it is already in the
+          <p>If a supplied model is not yet in the <span class="inline-code">collection</span> it will be added; if the it is already in the
             <span class="inline-code">collection</span> then its data will be merged; and if the supplied data contains
-            any models that aren't present in the <span class="inline-code">collection</span>, they will be removed.</p>
+            any models that are not present in the <span class="inline-code">collection</span>, they will be removed.</p>
 
-          <div class="note">
-            <p>You can provide the following <span class="inline-code">options</span> to customize the behavior:
-              <span class="inline-code">{ add: false }</span>,
-              <span class="inline-code">{ remove: false }</span>, or
-              <span class="inline-code">{ merge: false }</span>.</p>
-          </div>
+          <p>You can provide the following <span class="inline-code">options</span> to customize the behavior:
+            <span class="inline-code">{ add: false }</span>,
+            <span class="inline-code">{ remove: false }</span>, or
+            <span class="inline-code">{ merge: false }</span>.</p>
+
+          <div class="note"><span class="label">NOTE:</span> All of the <span class="inline-code">_.add</span>,
+            <span class="inline-code">_.remove</span>, and <span class="inline-code">_.change</span> events are fired as appropriate.</div>
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array</span> The affected entries</span>
+          <span class="value"><span class="type">Array</span> The affected entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection();
