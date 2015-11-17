@@ -52,6 +52,7 @@ define([ "footwork", "lodash", "jquery" ],
           this.anchorPositions.valueHasMutated();
         }.bind(this));
 
+        this.apiNavHeight = fw.observable(400).broadcastAs('apiNavHeight');
         this.mouseOver = fw.observable().broadcastAs('mouseOver', true);
         this.currentAPISection = fw.observable().broadcastAs('currentAPISection');
         this.inAPISection = fw.computed(function() {

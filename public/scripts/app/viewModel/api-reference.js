@@ -14,7 +14,7 @@ define([ "footwork", "lodash", "jquery" ],
         this.apiNavNamespace = fw.namespace('apiNav');
         this.currentAPISection = fw.observable().receiveFrom('apiNav', 'currentAPISection');
         this.apiScrollPosition = fw.observable().receiveFrom('apiNav', 'apiScrollPosition');
-        this.apiWindowHeight = 400;
+        this.apiNavHeight = fw.observable().receiveFrom('apiNav', 'apiNavHeight');
         this.$anchor = $('#' + this.anchor);
 
         this.hasSubDescriptions = this.subDescriptions.length;
@@ -27,8 +27,8 @@ define([ "footwork", "lodash", "jquery" ],
         var updatePopupPositionNow = function(scrollTop) {
           if(!_.isUndefined(this.$refElement)) {
             scrollTop = scrollTop || 0;
-            var apiWindowHeight = this.apiWindowHeight;
-            var windowBottom = scrollTop + apiWindowHeight;
+            var apiNavHeight = this.apiNavHeight();
+            var windowBottom = scrollTop + apiNavHeight;
             var breakPoint = (windowBottom - scrollTop) / 2;
             var showOnTop = this.$refElement.position().top > breakPoint;
             this.popupOnTop(showOnTop);

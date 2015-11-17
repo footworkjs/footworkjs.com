@@ -89,7 +89,7 @@
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>fw</span>.collection<span>( [ <span class="param">item1</span>, <span class="param">item2</span>, <span class="param">...</span> ] )</span></div>
+          <div class="func-def"><span>fw</span>.collection<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ] )</span></div>
         </div>
         <div class="description">Create a <span class="inline-code">collection</span> composed of the supplied data.</div>
         <div class="return-value">
@@ -152,7 +152,7 @@
   // (optional) The namespace (communications channel) the collection uses.
   namespace: 'MyCollection', // example namespace name, any alpha-numeric is valid
 
-  // (optional) URL which will/can be used to GET the collection from the server
+  // (optional) URL which will/can be used to GET/fetch the collection from the server
   url: function() {},
   url: '',
 
@@ -365,11 +365,11 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
     </div>
   </section>
 
-  <a id="loading-creating" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="loading-creating">
+  <a id="loading-fetching-creating" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="loading-fetching-creating">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Loading and Creating</h2>
+      <h2 class="sub title">Loading, Fetching and Creating</h2>
     </header>
     <div class="content">
       <p>The following methods are used to load data into a <span class="inline-code">collection</span> locally. You might invoke one of the following
@@ -380,7 +380,7 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>collection</span>.set<span>( [ <span class="param">item1</span>, <span class="param">item2</span>, <span class="param">...</span> ], <span class="param">options</span> )</span></div>
+          <div class="func-def"><span>collection</span>.set<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ], <span class="param">options</span> )</span></div>
         </div>
         <div class="description">
           <p>Perform a <em>smart</em> update of the <span class="inline-code">collection</span> with the passed list of models.</p>
@@ -423,10 +423,10 @@ people.set([
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>collection</span>.reset<span>( [ <span class="param">item1</span>, <span class="param">item2</span>, <span class="param">...</span> ] )</span></div>
+          <div class="func-def"><span>collection</span>.reset<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ] )</span></div>
         </div>
         <div class="description">
-          <p>Replace a collection with a new list of models (or attribute hashes). This will trigger a single <span class="inline-code">_.reset</span>
+          <p>Replace a collection with a new list of models. This will trigger a single <span class="inline-code">_.reset</span>
             event afterwards.</p>
 
           <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">_.reset</span> event triggered will be passed an object
@@ -454,6 +454,92 @@ people.reset([
   }
 ]);
 </code></pre>
+
+      <p>If you are using a <span class="inline-code">collection</span> that has been configured with a RESTful endpoint (<span class="inline-code">url</span>)
+        then you can also <span class="inline-code">fetch</span> the <span class="inline-code">collection</span> from the server.</p>
+
+      <a id="collection-fetch" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.fetch<span>( <span class="param">options</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Merges the model with data fetched from the server by delegating to <span class="inline-code">fw.sync()</span>. This is useful if
+            the model has never been populated with data, or if you would like to ensure that you have the latest state from the server. Triggers
+            a <span class="inline-code">_.change</span> event if the server's data differs from the current entry.</p>
+
+          <div class="note"><span class="label">NOTE:</span> You can specify that the data not be merged. To reset the data pass
+            <span class="inline-code">{ reset: true }</span> to the <span class="inline-code">options</span>.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Promise</span> The request promise</span>
+        </div>
+      </div>
+<pre><code class="javascript">var PeopleList = fw.collection.create({
+  url: '/people/list'
+});
+
+var people = PeopleList();
+
+people.fetch().done(function(peopleList) {
+  console.info('People listed:', peopleList);
+});
+</code></pre>
+
+      <p>For convenience, Footwork also provides a <span class="inline-code">collection.create()</span> method which when called is equivalent to instantiating a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> with the supplied data, saving it to the server, and
+        adding it to the set (before or after being successfully created).</p>
+
+      <a id="collection-create" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.create<span>( <span class="param">modelData</span>, <span class="param">options</span>)</span></div>
+        </div>
+        <div class="description">
+          <p>Convenience to create a new instance of a model within a collection.</p>
+
+          <p>If the <span class="inline-code">collection</span> is configured with a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then each new instance will be saved to the
+            server.</p>
+
+          <div class="note"><span class="label">NOTE:</span> By default the new item will be added to the <span class="inline-code">collection</span>
+            right away. You can tell Footwork not to add it until/when the server returns with a <span class="inline-code">HTTP 200</span> (success)
+            response by passing <span class="inline-code">{ wait: true }</span> to the <span class="inline-code">options</span>.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Promise</span> The request promise</span>
+        </div>
+      </div>
+<pre><code class="javascript">// Configure a new collection with the requisite dataModel/etc
+var PeopleCollection = fw.collection.create({
+  namespace: 'People',
+  url: '/people',
+  dataModel: fw.dataModel({
+    namespace: 'Person',
+    url: '/person',
+    initialize: function(person) {
+      this.firstName = fw.observable(person.firstName || null).mapTo('firstName');
+      this.lastName = fw.observable(person.lastName || null).mapTo('lastName');
+    }
+  })
+});
+
+// Instantiate a new instance of the PeopleCollection
+var people = new PeopleCollection();
+
+// Tell the collection to create a new Person
+people.create({
+  "firstName": "Thomas",
+  "lastName": "Anderson"
+}, { wait: true }).done(function(response) {
+  console.info('Person created!');
+});
+</code></pre>
+
     </div>
   </section>
 </article>
@@ -481,10 +567,10 @@ people.reset([
         { "anchor": "data-management",
           "title": "Data Management",
           "subSections": [
-            { "anchor": "loading-creating",
-              "title": "Loading and Creating" },
-            { "anchor": "Fetching-finding-reading",
-              "title": "Fetching, Finding/Searching, and Reading" },
+            { "anchor": "loading-fetching-creating",
+              "title": "Loading, Fetching and Creating" },
+            { "anchor": "finding-reading",
+              "title": "Finding/Searching, and Reading" },
             { "anchor": "basic-operations",
               "title": "Basic Operations" }
           ] }
@@ -520,7 +606,13 @@ people.reset([
               "description": "Perform a smart update of the collection with the passed list of models." },
             { "anchor": "collection-reset",
               "title": "collection.reset()",
-              "description": "Replace a collection with a new list of models." }
+              "description": "Replace a collection with a new list of models." },
+            { "anchor": "collection-fetch",
+              "title": "collection.fetch()",
+              "description": "Merges the model with data fetched from the server by delegating to fw.sync()." },
+            { "anchor": "collection-create",
+              "title": "collection.create()",
+              "description": "Create and insert a new collection(s). This also issues the RESTful calls to create them on the server." }
           ]
         }
       ]
