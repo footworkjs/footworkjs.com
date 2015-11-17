@@ -365,16 +365,28 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
     </div>
   </section>
 
-  <a id="loading-fetching-creating" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="loading-fetching-creating">
+  <a id="local-operations" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="local-operations">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Loading, Fetching and Creating</h2>
+      <h1 class="sub title">Local Operations</h1>
     </header>
     <div class="content">
-      <p>The following methods are used to load data into a <span class="inline-code">collection</span> locally. You might invoke one of the following
+      <p>Many operations performed on a <span class="inline-code">collection</span> are local-only. This means that you can use them on a
+        <em>plain collection</em> of objects because they do not depend on any RESTful configuration.</p>
+    </div>
+  </section>
+
+  <a id="set-reset" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="set-reset">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Set, Reset</h2>
+    </header>
+    <div class="content">
+      <p>The following methods are used to load data into a <span class="inline-code">collection</span>. You might invoke one of the following
         if you wanted to manually load some data into a <span class="inline-code">collection</span>, such as if you retrieved the models/data via some
-        means other than the included <span class="inline-code">fetch</span> method.</p>
+        means other than the included RESTful <span class="inline-code">fetch</span> method.</p>
 
       <a id="collection-set" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
@@ -454,6 +466,16 @@ people.reset([
   }
 ]);
 </code></pre>
+    </div>
+  </section>
+
+  <a id="fetch-create" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="fetch-create">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Fetch and Create</h2>
+    </header>
+    <div class="content">
 
       <p>If you are using a <span class="inline-code">collection</span> that has been configured with a RESTful endpoint (<span class="inline-code">url</span>)
         then you can also <span class="inline-code">fetch</span> the <span class="inline-code">collection</span> from the server.</p>
@@ -488,9 +510,11 @@ people.fetch().done(function(peopleList) {
 });
 </code></pre>
 
-      <p>For convenience, Footwork also provides a <span class="inline-code">collection.create()</span> method which when called is equivalent to instantiating a
+      <p>If you are using a <span class="inline-code">collection</span> configured with a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then you can also use the
+        <span class="inline-code">collection.create()</span> method which when called is equivalent to instantiating the
         <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> with the supplied data, saving it to the server, and
-        adding it to the set (before or after being successfully created).</p>
+        adding it to the <span class="inline-code">collection</span> (before or after being successfully created).</p>
 
       <a id="collection-create" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
@@ -499,7 +523,7 @@ people.fetch().done(function(peopleList) {
           <div class="func-def"><span>collection</span>.create<span>( <span class="param">modelData</span>, <span class="param">options</span>)</span></div>
         </div>
         <div class="description">
-          <p>Convenience to create a new instance of a model within a collection.</p>
+          <p>Convenience method used to create a new instance of a model within a collection.</p>
 
           <p>If the <span class="inline-code">collection</span> is configured with a
             <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then each new instance will be saved to the
@@ -514,16 +538,14 @@ people.fetch().done(function(peopleList) {
           <span class="value"><span class="type">Promise</span> The request promise</span>
         </div>
       </div>
-<pre><code class="javascript">// Configure a new collection with the requisite dataModel/etc
+<pre><code class="javascript">// Create a new type of collection with the requisite dataModel (that has a REST url)
 var PeopleCollection = fw.collection.create({
-  namespace: 'People',
-  url: '/people',
   dataModel: fw.dataModel({
     namespace: 'Person',
     url: '/person',
     initialize: function(person) {
-      this.firstName = fw.observable(person.firstName || null).mapTo('firstName');
-      this.lastName = fw.observable(person.lastName || null).mapTo('lastName');
+      this.firstName = fw.observable(person.firstName).mapTo('firstName');
+      this.lastName = fw.observable(person.lastName).mapTo('lastName');
     }
   })
 });
@@ -567,12 +589,24 @@ people.create({
         { "anchor": "data-management",
           "title": "Data Management",
           "subSections": [
-            { "anchor": "loading-fetching-creating",
-              "title": "Loading, Fetching and Creating" },
-            { "anchor": "finding-reading",
-              "title": "Finding/Searching, and Reading" },
-            { "anchor": "basic-operations",
-              "title": "Basic Operations" }
+            { "anchor": "local-operations",
+              "title": "Local Operations",
+              "description": "Features of a collection which do not require any RESTful configuration.",
+              "subSections": [
+                { "anchor": "set-reset",
+                  "title": "Set, Reset" },
+                { "anchor": "add-remove",
+                  "title": "Add and Remove" },
+                { "anchor": "find-get",
+                  "title": "Find and Get" }
+              ] },
+            { "anchor": "restful",
+              "title": "RESTful Operations",
+              "description": "Features of a collection which interact with the server via a RESTful interface.",
+              "subSections": [
+                { "anchor": "fetch-create",
+                  "title": "Fetch and Create" }
+              ] }
           ] }
       ] },
     { "subSections": [
