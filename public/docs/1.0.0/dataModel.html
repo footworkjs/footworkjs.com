@@ -47,14 +47,14 @@
     </header>
     <div class="content">
       <p>Each different type of <span class="inline-code">dataModel</span> you wish to have must have a new constructor function created for it. These
-        constructor functions are then used (either by you directly or by footwork) to instantiate new <span class="inline-code">dataModel</span>
+        constructor functions are then used (either by you directly or by Footwork) to instantiate new <span class="inline-code">dataModel</span>
         instances per your definition (which are then used and/or bound to your UI).</p>
 
       <p><span class="inline-code">dataModel</span> constructor functions are created by calling the factory method
         <span class="inline-code">fw.dataModel.create()</span> and passing it a configuration object.</p>
 
       <p>The resulting constructor function can then be used to instantiate new instances of that <span class="inline-code">dataModel</span>. These
-        constructor functions are essentially specialized wrappers which enable footwork to hook into your dataModel/module to provide for all of the
+        constructor functions are essentially specialized wrappers which enable Footwork to hook into your dataModel/module to provide for all of the
         features a <span class="inline-code">dataModel</span> provides.</p>
 
       <a id="fw-dataModel-create" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -93,7 +93,7 @@
   idAttribute: 'id', // default === 'id'
 
   /**
-   * Flag telling footwork whether or not to include the primary key in the URL when
+   * Flag telling Footwork whether or not to include the primary key in the URL when
    * performing REST operations.
    * IE: Use of '/path/to/endpoint/1' vs '/path/to/endpoint'
    */
@@ -109,10 +109,10 @@
   parse: function(responseObject) { return { /* ... */ }; },
 
   /**
-   * If true, footwork will register the dataModel under its namespace name. This means
+   * If true, Footwork will register the dataModel under its namespace name. This means
    * that when this fw.dataModel.create() call is made it will automatically call
    * fw.dataModel.register('Person', ThisdataModelConstructor)
-   * This is a (handy) way of telling footwork how to find your dataModel when it needs it.
+   * This is a (handy) way of telling Footwork how to find your dataModel when it needs it.
    */
   autoRegister: false, // default === false
 
@@ -193,7 +193,7 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> can be instantiated and bound automatically when using a
         <span class="inline-code">&lt;dataModel&gt;</span> declarative wrapper element. Using the <span class="inline-code">module=""</span> attribute
-        you can specify which <span class="inline-code">dataModel</span> should be instantiated and bound by footwork.</p>
+        you can specify which <span class="inline-code">dataModel</span> should be instantiated and bound by Footwork.</p>
 <pre><code class="html">&lt;dataModel module="Person"&gt;
   &lt;form&gt;
     &lt;label&gt;First Name: &lt;input type="text" data-bind="value: firstName"&gt;&lt;/label&gt;
@@ -214,7 +214,7 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">dataModel</span> automatically downloaded for you when needed.</p>
         <p>See <a data-bind="$route" href="#registration">dataModel registration</a>
-          for information on how to tell footwork where to find your <span class="inline-code">dataModel</span> module.</p>
+          for information on how to tell Footwork where to find your <span class="inline-code">dataModel</span> module.</p>
       </div>
     </div>
   </section>
@@ -257,7 +257,7 @@ fw.components.register('Person', {
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">component</span> automatically downloaded for you when needed.</p>
         <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
-          for information on how to tell footwork where to find your component assets.</p>
+          for information on how to tell Footwork where to find your component assets.</p>
       </div>
     </div>
   </section>
@@ -269,7 +269,7 @@ fw.components.register('Person', {
       <h1 class="title">Data Management</h1>
     </header>
     <div class="content">
-      <p>A <span class="inline-code">dataModel</span> is a construct provided by footwork which enables easy management of data which maps to a RESTful
+      <p>A <span class="inline-code">dataModel</span> is a construct provided by Footwork which enables easy management of data which maps to a RESTful
         endpoint.</p>
 
       <p>This includes functionality for:</p>
@@ -304,7 +304,7 @@ fw.components.register('Person', {
       <h2 class="sub title">Mapping Data</h2>
     </header>
     <div class="content">
-      <p>When sending to or retreiving from from the server footwork needs to know how to transpose that data to and from your
+      <p>When sending to or retreiving from from the server Footwork needs to know how to transpose that data to and from your
         <span class="inline-code">dataModel</span>. Using <span class="inline-code">observable.mapTo()</span> we can define how our data maps to the
         representation the server expects.</p>
 
@@ -516,7 +516,7 @@ person.set('firstName', 'Jake');
     </header>
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> is often times used to communicate or transfer state to/from a RESTful endpoint.</p>
-      <p>To aid in performing those operations, footwork provides a number of useful methods/features.</p>
+      <p>To aid in performing those operations, Footwork provides a number of useful methods/features.</p>
     </div>
   </section>
 
@@ -684,7 +684,7 @@ person.destroy().done(function() {
       <p>These events can be used for any logic you need to incorporate when the instance is initially setup/bound onto or removed from the page. A common example
         would be the setup and teardown of a jQuery plugin, or events.</p>
 
-      <p>Registration of a <span class="inline-code">dataModel</span> is referring to telling footwork (in one way or another) where your
+      <p>Registration of a <span class="inline-code">dataModel</span> is referring to telling Footwork (in one way or another) where your
         <span class="inline-code">dataModel</span> is so that it can be used when needed.</p>
     </div>
   </section>
@@ -845,7 +845,7 @@ var MyDataModel = fw.dataModel.create({
       <h1 class="sub title">Registration</h1>
     </header>
     <div class="content">
-      <p>In order for footwork to know what to do when it encounters a <span class="inline-code">&lt;dataModel&gt;</span> it must be registered in some
+      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;dataModel&gt;</span> it must be registered in some
         way (it needs to know where it is).</p>
 
       <p>Footwork supports both explicitly registering your <span class="inline-code">dataModel</span> ahead of time (caching its constructor function
@@ -907,7 +907,7 @@ var MyDataModel = fw.dataModel.create({
       <h2 class="sub title">Module Resolution</h2>
     </header>
     <div class="content">
-      <p>There are 3 ways footwork will try to resolve your <span class="inline-code">dataModel</span> when it encounters the declarative
+      <p>There are 3 ways Footwork will try to resolve your <span class="inline-code">dataModel</span> when it encounters the declarative
         <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> element you place in the DOM.</p>
 
       <p>Here they are in order of priority:</p>
@@ -922,7 +922,7 @@ var MyDataModel = fw.dataModel.create({
         <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declarations encountered will be processed with no delay
         (the dataModel is 'cached' when registered).</p>
 
-      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell footwork where it can
+      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell Footwork where it can
         download your dataModel module (in the event you do not explicitly register it). In any case your markup will wait until the dataModel is resolved prior
         to being initialized.</p>
 
@@ -938,7 +938,7 @@ var MyDataModel = fw.dataModel.create({
         </div>
         <div class="description">Cache a dataModel/module ahead of time.</div>
       </div>
-<pre><code class="javascript">// register a footwork dataModel
+<pre><code class="javascript">// register a Footwork dataModel
 fw.dataModel.register('Person', fw.dataModel.create({
   this.isCool = fw.observable(false);
 }));
@@ -980,7 +980,7 @@ fw.dataModel.register('Person', {
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.dataModel</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
-        <div class="description">Register the location of a dataModel/module so footwork can load and bind it for you when needed.</div>
+        <div class="description">Register the location of a dataModel/module so Footwork can load and bind it for you when needed.</div>
       </div>
 <pre><code class="javascript">// Load Person from: /dataModels/Person.js (based on dataModel/module name, case sensitive)
 fw.dataModel.registerLocation('Person', '/dataModels/');
@@ -997,7 +997,7 @@ fw.dataModel.registerLocation(['Reservations', 'Invoices', 'Notes'], '/dataModel
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.dataModel</span>.defaultLocation<span>( <span class="param">'path/to/dataModel/folder'</span> )</span></div>
         </div>
-        <div class="description">Register the default location of dataModels so footwork can load and bind them for you when needed.</div>
+        <div class="description">Register the default location of dataModels so Footwork can load and bind them for you when needed.</div>
       </div>
 <pre><code class="javascript">// Load all dataModels from /mydataModels/[module-name].js (case sensitive)
 fw.dataModel.defaultLocation('/myDataModels/');</code></pre>
@@ -1011,14 +1011,14 @@ fw.dataModel.defaultLocation('/myDataModels/');</code></pre>
       <h2 class="sub title">Module Formats</h2>
     </header>
     <div class="content">
-      <p>Loading your <span class="inline-code">dataModel</span> in so that footwork can use it is done via a script loader.</p>
+      <p>Loading your <span class="inline-code">dataModel</span> in so that Footwork can use it is done via a script loader.</p>
 
       <p>Both <a href="http://requirejs.org">AMD/RequireJS</a> and <a href="http://browserify.org" target="_blank">Browserify</a> are supported. However RequireJS is
-        preferred as it will enable footwork to resolve your dataModels/etc (and their dependencies) automatically at runtime as needed.</p>
+        preferred as it will enable Footwork to resolve your dataModels/etc (and their dependencies) automatically at runtime as needed.</p>
 
       <h3>The following example shows the RequireJS/AMD flavored version:</h3>
 <div class="file-location">/dataModel/Person.js</div>
-<pre><code class="javascript">define(["footwork"],
+<pre><code class="javascript">define(["Footwork"],
   function(fw) {
     // return the constructor created by fw.dataModel.create()
     return fw.dataModel.create({
@@ -1032,7 +1032,7 @@ fw.dataModel.defaultLocation('/myDataModels/');</code></pre>
 
       <div class="note">
         <span class="label">NOTE:</span> You can return any normal constructor function or plain object from your <span class="inline-code">dataModel</span>
-        modules (you don't have to return a footwork <span class="inline-code">dataModel</span> constructor as shown).
+        modules (you don't have to return a Footwork <span class="inline-code">dataModel</span> constructor as shown).
       </div>
     </div>
   </section>
@@ -1046,7 +1046,7 @@ fw.dataModel.defaultLocation('/myDataModels/');</code></pre>
     <div class="content">
       <p>Mixins are about reusing behavior, functionality, and code whenever possible. They allow you to write various behaviors/logic and then later on combine
       and compose them as you want at runtime.</p>
-      <p>The mixin functionality in footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
+      <p>The mixin functionality in Footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
       All <span class="inline-code">fw.dataModel.create()</span> based constructor functions are riveter constructor functions. Above and beyond the
       functionality outlined here, each object has various methods extended from riveter which can enable you to extend dataModels in
       various ways, it is recommended you to also <a href="https://github.com/a2labs/riveter" target="_blank">look at its documentation</a>.</p>
@@ -1289,7 +1289,7 @@ var Person = fw.dataModel.create({
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.dataModel</span>.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
-        <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
+        <div class="description">Get the path Footwork will attempt to load for the given 'moduleName'.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Path to the module</span>
@@ -1304,7 +1304,7 @@ var Person = fw.dataModel.create({
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.dataModel</span>.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
-        <div class="description">Get the file name that footwork will appended to the path when downloading the dataModel.</div>
+        <div class="description">Get the file name that Footwork will appended to the path when downloading the dataModel.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Filename of the module</span>
@@ -1420,7 +1420,7 @@ fw.dataModel.fileExtensions(function(moduleName) {
               "subSections": [
                 { "anchor": "mapping-data",
                   "title": "Mapping Data",
-                  "description": "How to map data in your dataModel, informing footwork how to transpose it to/from its RESTful endpoint." },
+                  "description": "How to map data in your dataModel, informing Footwork how to transpose it to/from its RESTful endpoint." },
                 { "anchor": "getting-data",
                   "title": "Getting / Reading",
                   "description": "Reading the mapped data from a dataModel." },
@@ -1465,7 +1465,7 @@ fw.dataModel.fileExtensions(function(moduleName) {
               "subSections": [
                 { "anchor": "module-resolution",
                   "title": "Module Resolution",
-                  "description": "How footwork loads/resolves your dataModel prior to instantiation." },
+                  "description": "How Footwork loads/resolves your dataModel prior to instantiation." },
                 { "anchor": "module-formats",
                   "title": "Module Formats",
                   "description": "What formats a valid for a dataModel module." }
@@ -1510,7 +1510,7 @@ fw.dataModel.fileExtensions(function(moduleName) {
           "references": [
             { "anchor": "observable-mapTo",
               "title": "observable.mapTo()",
-              "description": "Tell footwork how data maps to/from the server side.",
+              "description": "Tell Footwork how data maps to/from the server side.",
               "keywords": [ "ajax", "REST", "async" ] }
           ]
         }
@@ -1536,10 +1536,10 @@ fw.dataModel.fileExtensions(function(moduleName) {
               "description": "Return the dataModel registered under a specified name." },
             { "anchor": "dataModel-getLocation",
               "title": "fw.dataModel.getLocation()",
-              "description": "Get the location footwork will attempt to download a dataModel from when it is needed." },
+              "description": "Get the location Footwork will attempt to download a dataModel from when it is needed." },
             { "anchor": "dataModel-getFileName",
               "title": "fw.dataModel.getFileName()",
-              "description": "Get the filename footwork will use when downloading a dataModel.",
+              "description": "Get the filename Footwork will use when downloading a dataModel.",
               "subDescriptions": [
                 "This is appended onto the location/path when downloading."
               ] }

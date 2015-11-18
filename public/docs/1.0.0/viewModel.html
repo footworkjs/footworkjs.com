@@ -7,19 +7,25 @@
       <h1 class="title">Introduction</h1>
     </header>
     <div class="content">
-      <p>A viewModel can be thought of as a container object that houses all of the logic and data with which your template/HTML/DOM binds to. They
-        are used to 'wrap' your HTML/markup, applying the bindings (behavior) you declare in the HTML while also initializing and binding any nested
-        components and viewModels.</p>
+      <p>A <span class="inline-code">viewModel</span> can be thought of as a container object that houses all of the logic and data with which your
+        template/HTML/DOM binds to. They are used to 'wrap' your HTML/markup, applying the bindings (behavior) you declare in the HTML.</p>
 
-      <p>In knockout.js you typically need to manually wrap and bind (<span class="inline-code">ko.applyBindings()</span>) your DOM with instances of
-        your viewModels, this has many disadvantages/issues (primarily, it requires a lot of legwork by you). Footwork.js can handle the
-        initialization, wrapping, and binding for you automatically based on the HTML/DOM (<em>it can also autoload them via AMD/RequireJS as needed</em>).</p>
+      <p>In <a href="http://knockoutjs.com/" target="_blank">KnockoutJS</a> you need to manually wrap and bind
+        (<span class="inline-code">ko.applyBindings()</span>) your DOM with instances of your <span class="inline-code">viewModel</span>, this has many
+        disadvantages/issues (primarily, it requires a lot of legwork and boilerplate by you). Footwork.js can handle the initialization, wrapping, and
+        binding for you automatically based on the HTML/DOM (<em>it can also autoload them via AMD/RequireJS as needed</em>).</p>
 
-      <p>In addition, they can contain any number of nested viewModels, components, and any other markup...making them extremely powerful (especially
-        when integrated into a <a data-bind="$route: docLink('components')">component</a>).</p>
+      <p>When initialized, if the markup they are bound against contain any nested <span class="inline-code">&lt;viewModel&gt;</span>,
+        <span class="inline-code"><a data-bind="$route: docLink('components')">&lt;component&gt;</a></span>,
+        <span class="inline-code"><a data-bind="$route: docLink('router')">&lt;router&gt;</a></span>, or
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">&lt;dataModel&gt;</a></span>
+        declarations they will be initialized as well.</p>
 
-      <p>There are a number of ways to create viewModels, but a simple plain old javascript object (just as in normal knockout.js) at its most basic
-        level is all that is needed to bind to the DOM.</p>
+      <div class="note">
+        <p><span class="label">NOTE:</span> It is important to remember that just as with <a href="http://knockoutjs.com/" target="_blank">KnockoutJS</a>
+          you can use any object as a <span class="inline-code">viewModel</span> to bind against the DOM. This page describes a Footwork variant of a
+          <span class="inline-code">viewModel</span> which grants it extra capabilities.</p>
+      </div>
     </div>
   </section>
 
@@ -31,8 +37,9 @@
     </header>
     <div class="content">
       <p>A <span class="inline-code">viewModel</span> can be used in 3 different ways:</p>
+
       <ul>
-        <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
+        <li>Manually initialized (standard Knockout methodology), and optionally bound to the DOM.</li>
 
         <li>Automatically via a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM.</li>
 
@@ -55,8 +62,9 @@
         <span class="inline-code">fw.viewModel.create()</span> and passing it a configuration object.</p>
 
       <p>The resulting constructor function can then be used to instantiate new instances of that <span class="inline-code">viewModel</span>.
-        These constructor functions are essentially specialized wrappers which enable footwork to hook into both knockout and your viewModel/module to
-        provide for all of the additional features the framework provides.</p>
+        These constructor functions are essentially specialized wrappers which enable Footwork to hook into both
+        <a href="http://knockoutjs.com/" target="_blank">KnockoutJS</a> and your <span class="inline-code">viewModel</span> to provide for all of the
+        additional features the framework provides.</p>
 
       <a id="fw-viewModel-create" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
@@ -79,10 +87,10 @@
   namespace: 'Sprocket', // example namespace name, any alpha-numeric is valid
 
   /**
-   * If true, footwork will register the viewModel under its namespace name. This means
+   * If true, Footwork will register the viewModel under its namespace name. This means
    * that when this fw.viewModel.create() call is made it will automatically call
    * fw.viewModel.register('Sprocket', ThisViewModelConstructor)
-   * This is a (handy) way of telling footwork how to find your viewModel when it needs it.
+   * This is a (handy) way of telling Footwork how to find your viewModel when it needs it.
    */
   autoRegister: false, // default === false
 
@@ -153,7 +161,9 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
 // awesomeSprocket.isExpensive() === false
 </code></pre>
 
-      <p>Now, if we wish, we can bind the <span class="inline-code">Sprocket</span> instance (<span class="inline-code">awesomeSprocket</span>) to the DOM:</p>
+      <p>Now, if we wish, we can bind the <span class="inline-code">Sprocket</span> instance (<span class="inline-code">awesomeSprocket</span>) to the
+      DOM. You would also typically expect the markup we are binding against to contain bindings relevent to the
+      <span class="inline-code">viewModel</span>:</p>
 <pre><code class="javascript">fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'));</code></pre>
     </div>
   </section>
@@ -167,7 +177,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
     <div class="content">
       <p>A <span class="inline-code">viewModel</span> can be instantiated and bound automatically when using a
         <span class="inline-code">&lt;viewModel&gt;</span> declarative wrapper element. Using the <span class="inline-code">module=""</span> attribute
-        you can specify which <span class="inline-code">viewModel</span> should be instantiated and bound by footwork.</p>
+        you can specify which <span class="inline-code">viewModel</span> should be instantiated and bound by Footwork.</p>
 <pre><code class="html">&lt;viewModel module="Sprocket"&gt;
   Type: &lt;span data-bind="text: type"&gt;&lt;/span&gt;
   &lt;!-- ko if: isExpensive --&gt;
@@ -190,7 +200,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">viewModel</span> automatically downloaded for you when needed.</p>
         <p>See <a data-bind="$route" href="#registration">viewModel registration</a>
-          for information on how to tell footwork where to find your <span class="inline-code">viewModel</span> module.</p>
+          for information on how to tell Footwork where to find your <span class="inline-code">viewModel</span> module.</p>
       </div>
     </div>
   </section>
@@ -227,7 +237,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">component</span> automatically downloaded for you when needed.</p>
         <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
-          for information on how to tell footwork where to find your component assets.</p>
+          for information on how to tell Footwork where to find your component assets.</p>
       </div>
     </div>
   </section>
@@ -244,7 +254,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       <p>These events can be used for any logic you need to incorporate when the instance is initially setup/bound onto or removed from the page. A common example
         would be the setup and teardown of a jQuery plugin, or events.</p>
 
-      <p>Registration of a <span class="inline-code">viewModel</span> is referring to telling footwork (in one way or another) where your
+      <p>Registration of a <span class="inline-code">viewModel</span> is referring to telling Footwork (in one way or another) where your
         <span class="inline-code">viewModel</span> is so that it can be used when needed.</p>
     </div>
   </section>
@@ -407,7 +417,7 @@ var MyViewModel = fw.viewModel.create({
       <h1 class="sub title">Registration</h1>
     </header>
     <div class="content">
-      <p>In order for footwork to know what to do when it encounters a <span class="inline-code">&lt;viewModel&gt;</span> it must be registered in some
+      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;viewModel&gt;</span> it must be registered in some
         way (it needs to know where it is).</p>
 
       <p>Footwork supports both explicitly registering your <span class="inline-code">viewModel</span> ahead of time (caching its constructor function
@@ -469,7 +479,7 @@ var MyViewModel = fw.viewModel.create({
       <h2 class="sub title">Module Resolution</h2>
     </header>
     <div class="content">
-      <p>There are 3 ways footwork will try to resolve your <span class="inline-code">viewModel</span> when it encounters the declarative
+      <p>There are 3 ways Footwork will try to resolve your <span class="inline-code">viewModel</span> when it encounters the declarative
         <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> element you place in the DOM.</p>
 
       <p>Here they are in order of priority:</p>
@@ -484,7 +494,7 @@ var MyViewModel = fw.viewModel.create({
         <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declarations encountered will be processed with no delay
         (the viewModel is 'cached' when registered).</p>
 
-      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell footwork where it can
+      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell Footwork where it can
         download your viewModel module (in the event you do not explicitly register it). In any case your markup will wait until the viewModel is resolved prior
         to being initialized.</p>
 
@@ -500,7 +510,7 @@ var MyViewModel = fw.viewModel.create({
         </div>
         <div class="description">Cache a viewModel/module ahead of time.</div>
       </div>
-<pre><code class="javascript">// register a footwork viewModel
+<pre><code class="javascript">// register a Footwork viewModel
 fw.viewModel.register('Sprocket', fw.viewModel.create({
   initialize: function() {
     this.isUsed = fw.observable(false);
@@ -544,7 +554,7 @@ fw.viewModel.register('Sprocket', {
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.viewModel</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
-        <div class="description">Register the location of a viewModel/module so footwork can load and bind it for you when needed.</div>
+        <div class="description">Register the location of a viewModel/module so Footwork can load and bind it for you when needed.</div>
       </div>
 <pre><code class="javascript">// Load Sprocket from: /viewModels/parts/Sprocket.js (based on viewModel/module name, case sensitive)
 fw.viewModel.registerLocation('Sprocket', '/viewModels/parts/');
@@ -561,7 +571,7 @@ fw.viewModel.registerLocation(['Body', 'Navigation', 'Footer'], '/viewModels/pag
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.viewModel</span>.defaultLocation<span>( <span class="param">'path/to/viewModel/folder'</span> )</span></div>
         </div>
-        <div class="description">Register the default location of viewModels so footwork can load and bind them for you when needed.</div>
+        <div class="description">Register the default location of viewModels so Footwork can load and bind them for you when needed.</div>
       </div>
 <pre><code class="javascript">// Load all viewModels from /myViewModels/[module-name].js (case sensitive)
 fw.viewModel.defaultLocation('/myViewModels/');</code></pre>
@@ -575,14 +585,14 @@ fw.viewModel.defaultLocation('/myViewModels/');</code></pre>
       <h2 class="sub title">Module Formats</h2>
     </header>
     <div class="content">
-      <p>Loading your <span class="inline-code">viewModel</span> in so that footwork can use it is done via a script loader.</p>
+      <p>Loading your <span class="inline-code">viewModel</span> in so that Footwork can use it is done via a script loader.</p>
 
       <p>Both <a href="http://requirejs.org">AMD/RequireJS</a> and <a href="http://browserify.org" target="_blank">Browserify</a> are supported. However RequireJS is
-        preferred as it will enable footwork to resolve your viewModels/etc (and their dependencies) automatically at runtime as needed.</p>
+        preferred as it will enable Footwork to resolve your viewModels/etc (and their dependencies) automatically at runtime as needed.</p>
 
       <h3>The following example shows the RequireJS/AMD flavored version:</h3>
 <div class="file-location">/viewModel/Sprocket.js</div>
-<pre><code class="javascript">define(["footwork"],
+<pre><code class="javascript">define(["Footwork"],
   function(fw) {
     // return the constructor created by fw.viewModel.create()
     return fw.viewModel.create({
@@ -596,7 +606,7 @@ fw.viewModel.defaultLocation('/myViewModels/');</code></pre>
 
       <div class="note">
         <span class="label">NOTE:</span> You can return any normal constructor function or plain object from your <span class="inline-code">viewModel</span>
-        modules (you don't have to return a footwork <span class="inline-code">viewModel</span> constructor as shown).
+        modules (you don't have to return a Footwork <span class="inline-code">viewModel</span> constructor as shown).
       </div>
     </div>
   </section>
@@ -610,7 +620,7 @@ fw.viewModel.defaultLocation('/myViewModels/');</code></pre>
     <div class="content">
       <p>Mixins are about reusing behavior, functionality, and code whenever possible. They allow you to write various behaviors/logic and then later on combine
       and compose them as you want at runtime.</p>
-      <p>The mixin functionality in footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
+      <p>The mixin functionality in Footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
       All <span class="inline-code">fw.viewModel.create()</span> based constructor functions are riveter constructor functions. Above and beyond the
       functionality outlined here, each object has various methods extended from riveter which can enable you to extend viewModels in
       various ways, it is recommended you to also <a href="https://github.com/a2labs/riveter" target="_blank">look at its documentation</a>.</p>
@@ -853,7 +863,7 @@ var Sprocket = fw.viewModel.create({
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.viewModel</span>.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
-        <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
+        <div class="description">Get the path Footwork will attempt to load for the given 'moduleName'.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Path to the module</span>
@@ -868,7 +878,7 @@ var Sprocket = fw.viewModel.create({
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.viewModel</span>.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
-        <div class="description">Get the file name that footwork will appended to the path when downloading the viewModel.</div>
+        <div class="description">Get the file name that Footwork will appended to the path when downloading the viewModel.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Filename of the module</span>
@@ -1023,7 +1033,7 @@ fw.viewModel.fileExtensions(function(moduleName) {
               "subSections": [
                 { "anchor": "module-resolution",
                   "title": "Module Resolution",
-                  "description": "How footwork loads/resolves your viewModel prior to instantiation." },
+                  "description": "How Footwork loads/resolves your viewModel prior to instantiation." },
                 { "anchor": "module-formats",
                   "title": "Module Formats",
                   "description": "What formats a valid for a viewModel module." }
@@ -1082,10 +1092,10 @@ fw.viewModel.fileExtensions(function(moduleName) {
               "description": "Return the viewModel registered under a specified name." },
             { "anchor": "viewModel-getLocation",
               "title": "fw.viewModel.getLocation()",
-              "description": "Get the location footwork will attempt to download a viewModel from when it is needed." },
+              "description": "Get the location Footwork will attempt to download a viewModel from when it is needed." },
             { "anchor": "viewModel-getFileName",
               "title": "fw.viewModel.getFileName()",
-              "description": "Get the filename footwork will use when downloading a viewModel.",
+              "description": "Get the filename Footwork will use when downloading a viewModel.",
               "subDescriptions": [
                 "This is appended onto the location/path when downloading."
               ] }

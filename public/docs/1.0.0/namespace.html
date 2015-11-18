@@ -7,7 +7,7 @@
       <h1 class="title">Introduction</h1>
     </header>
     <div class="content">
-      <p>Namespaces in footwork can be thought of as communication 'channels'. They are the information highways your application uses to shuffle data and state from one area to
+      <p>Namespaces in Footwork can be thought of as communication 'channels'. They are the information highways your application uses to shuffle data and state from one area to
         another.</p>
 
       <p>Organizing your modules and keeping them decoupled is extremely important in more complex javascript applications. Without a standardized way of coordinating information,
@@ -20,7 +20,7 @@
 
       <h3>All of this essentially means is that the communication between your modules/viewModels/components/<em>whatever</em> will be both expressive and easily managed.</h3>
 
-      <div class="note"><span class="label">NOTE:</span> At its core namespaces in footwork are enhanced
+      <div class="note"><span class="label">NOTE:</span> At its core namespaces in Footwork are enhanced
         <a href="https://github.com/postaljs/postal.js" target="_blank">postal.js</a> pub/sub channels. If you need to enhance or alter how communication is handled then you likely
         want to take a look at the postal documentation.</div>
     </div>
@@ -91,11 +91,11 @@ alsoMyNamespace.publish('hello', 'Jonathan'); // console prints: 'Greetings Jona
     </header>
     <div class="content">
       <p>Anytime you place a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> or
-        <span class="inline-code">&lt;component&gt;&lt;/component&gt;</span> in your markup footwork is essentially wrapping that section of HTML with a viewModel. That viewModel
+        <span class="inline-code">&lt;component&gt;&lt;/component&gt;</span> in your markup Footwork is essentially wrapping that section of HTML with a viewModel. That viewModel
         has a namespace attached to/associated with it (based on the <span class="inline-code">namespace:</span> viewModel configuration attribute, see
         <a data-bind="$route: docLink('viewModel#factory-method')">viewModel configuration</a>).</p>
 
-      <p>When footwork sets up the new instance of your viewModel it automatically creates a namespace channel and assigns it to <span class="inline-code">this.$namespace</span>.
+      <p>When Footwork sets up the new instance of your viewModel it automatically creates a namespace channel and assigns it to <span class="inline-code">this.$namespace</span>.
         This namespace will have its lifecycle handled automatically, and any subscriptions made on it will be cleaned up when the viewModel is destroyed.</p>
 
       <p>The following shows an example of using a declarative <span class="inline-code">&lt;viewModel&gt; ... &lt;/viewModel&gt;</span>, however it works exactly the same with a
@@ -115,7 +115,7 @@ alsoMyNamespace.publish('hello', 'Jonathan'); // console prints: 'Greetings Jona
 &lt;/html&gt;</code></pre>
 
 <pre><code class="javascript">// File: /viewModel/Sprocket.js
-define(["footwork"],
+define(["Footwork"],
   function(fw) {
     return fw.viewModel.create({
       namespace: 'Sprocket',
@@ -300,7 +300,7 @@ foundWaldo.unsubscribe(); // also works</code></pre>
 // myNamespace.request('waldoLocation') === 'I have no idea.'
 
 /**
- * By passing 'true' as the third argument to .request(), footwork will
+ * By passing 'true' as the third argument to .request(), Footwork will
  * return an array of responses received. By default only the first is returned
  * otherwise.
  */

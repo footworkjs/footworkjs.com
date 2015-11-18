@@ -11,7 +11,7 @@
         API in order to retain normal browser navigation while not forcing a complete refresh of the page on every state/url change. Footwork includes a router which
         provides this functionality.</p>
 
-      <p>The router included with footwork has a several key features:</p>
+      <p>The router included with Footwork has a several key features:</p>
 
       <ul>
         <li>Unlimited nesting of routers (relative and non-relative).</li>
@@ -33,7 +33,7 @@
         <li><a data-bind="$route" href="#configuration">configuration object</a>: A router configuration used to generate the constructor function. It defines
           the router, its routes, controllers, and their actions.</li>
 
-        <li><a data-bind="$route" href="#usage">&lt;router&gt; declaration</a>: A <span class="inline-code">&lt;router&gt;</span> declaration tells footwork what
+        <li><a data-bind="$route" href="#usage">&lt;router&gt; declaration</a>: A <span class="inline-code">&lt;router&gt;</span> declaration tells Footwork what
           portion of the DOM a <span class="inline-code">router</span> is responsible for.</li>
 
         <li><a data-bind="$route" href="#outlets">outlets</a>: Any number of <span class="inline-code">&lt;outlet&gt;&lt;/outlet&gt;</span> declarations in your
@@ -77,7 +77,7 @@
         <span class="inline-code">fw.router.create()</span> and passing it a configuration object.</p>
 
       <p>The resulting constructor function can then be used to instantiate new instances of that <span class="inline-code">router</span>.
-        These constructor functions are essentially specialized wrappers which enable footwork to hook into both knockout and your router/module to
+        These constructor functions are essentially specialized wrappers which enable Footwork to hook into both knockout and your router/module to
         provide for all of the additional features the framework provides.</p>
 
       <a id="fw-router-create" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -97,10 +97,10 @@
   namespace: 'namespaceName', // (this is not usually needed)
 
   /**
-   * If true, footwork will register the router under its namespace name. This means
+   * If true, Footwork will register the router under its namespace name. This means
    * that when this fw.router.create() call is made it will automatically call
    * fw.router.register('RouterName', ThisRouterConstructor)
-   * This is one (handy) way of telling footwork how to find your router when it needs it.
+   * This is one (handy) way of telling Footwork how to find your router when it needs it.
    */
   autoRegister: false, // default === false
 
@@ -204,7 +204,7 @@ var router = new AppRouter();
     <div class="content">
       <p>A <span class="inline-code">router</span> can be instantiated and bound automatically when using a
         <span class="inline-code">&lt;router&gt;</span> declarative wrapper element. Using the <span class="inline-code">module=""</span> attribute
-        you can specify which <span class="inline-code">router</span> should be instantiated and bound by footwork.</p>
+        you can specify which <span class="inline-code">router</span> should be instantiated and bound by Footwork.</p>
 <pre><code class="html">&lt;router module="AppRouter"&gt;
   Router Current Path: &lt;span data-bind="text: path"&gt;&lt;/span&gt;
   &lt;outlet name="MainArea"&gt;&lt;/outlet&gt;
@@ -220,7 +220,7 @@ var router = new AppRouter();
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">router</span> automatically downloaded for you when needed.</p>
         <p>See <a data-bind="$route" href="#registration">router registration</a>
-          for information on how to tell footwork where to find your <span class="inline-code">router</span> module.</p>
+          for information on how to tell Footwork where to find your <span class="inline-code">router</span> module.</p>
       </div>
     </div>
   </section>
@@ -255,7 +255,7 @@ var router = new AppRouter();
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">component</span> automatically downloaded for you when needed.</p>
         <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
-          for information on how to tell footwork where to find your component assets.</p>
+          for information on how to tell Footwork where to find your component assets.</p>
       </div>
     </div>
   </section>
@@ -405,7 +405,7 @@ unknownRoute: { /* ... */ }
         <li><span class="inline-code">title:</span> - (<em>optional</em>) A string or callback function used to set the title of the page when the route is chosen. Any parameters
           defined by the <span class="inline-code">route:</span> will be passed in.</li>
 
-        <li><span class="inline-code">filter:</span> - (<em>optional</em>) A predicate function used to tell footwork if it should consider a route. Any parameters defined by the
+        <li><span class="inline-code">filter:</span> - (<em>optional</em>) A predicate function used to tell Footwork if it should consider a route. Any parameters defined by the
           <span class="inline-code">route:</span> will be passed in.</li>
       </ul>
 
@@ -537,7 +537,7 @@ unknownRoute: { /* ... */ }
 &lt;/html&gt;</code></pre>
 
       <p>When you tell an outlet what to show, you are telling it to load a component. Thus for each 'page' or view you want
-      to display for an <span class="inline-code">outlet</span>, footwork will need one of the three following things:</p>
+      to display for an <span class="inline-code">outlet</span>, Footwork will need one of the three following things:</p>
 
       <ul>
         <li>A corresponding view registered (cached/preloaded) via <span class="inline-code">fw.outlets.registerView()</span> or
@@ -569,13 +569,13 @@ unknownRoute: { /* ... */ }
     </header>
     <div class="content">
       <p>Because most things you might want to show in an outlet (pages/views) consist of only template/html code (they have no corresponding
-        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>), footwork provides two shortcut methods for registering a template-only outlet view (ie: a
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>), Footwork provides two shortcut methods for registering a template-only outlet view (ie: a
         page/view/template you can show in an <span class="inline-code">&lt;outlet&gt;&lt;/outlet&gt;</span>).</p>
 
       <ul>
         <li><span class="inline-code">fw.outlets.registerView()</span> - Cache a view/template for later use (available instantly, no download time).</li>
 
-        <li><span class="inline-code">fw.outlets.registerViewLocation()</span> - Tell footwork where it can download it via AMD/RequireJS (dynamically/lazy loaded for you when
+        <li><span class="inline-code">fw.outlets.registerViewLocation()</span> - Tell Footwork where it can download it via AMD/RequireJS (dynamically/lazy loaded for you when
           requested). Since outlet views are just viewModel-less components, they are resolved just like any other
           <a data-bind="$route: docLink('components#loading-registering')">AMD/RequireJS loaded component</a>.</li>
       </ul>
@@ -591,7 +591,7 @@ unknownRoute: { /* ... */ }
         <div class="description">Register/cache a view for later use.</div>
       </div>
 <pre><code class="javascript">// Register the 'index-page' template view
-fw.outlets.registerView('index-page', '&lt;p&gt;Welcome to footwork.js&lt;/p&gt;');
+fw.outlets.registerView('index-page', '&lt;p&gt;Welcome to Footwork.js&lt;/p&gt;');
 
 // Register a different view that has a nested component
 fw.outlets.registerView('calendar-page', 'Calendar: &lt;calendar&gt;&lt;/calendar&gt;');
@@ -610,7 +610,7 @@ fw.outlets.registerView('calendar-page', 'Calendar: &lt;calendar&gt;&lt;/calenda
           <div class="func-def"><span>fw.outlets</span>.registerViewLocation<span>( <span class="param">'viewName'</span>, <span class="param">'/path/to/template'</span> )</span></div>
           <div class="func-def"><span>fw.outlets</span>.registerViewLocation<span>( <span class="param">[ 'viewName', 'viewName2', ... ]</span>, <span class="param">'/path/to/template/'</span> )</span></div>
         </div>
-        <div class="description">Tell footwork where it can download a view via AMD/RequireJS.</div>
+        <div class="description">Tell Footwork where it can download a view via AMD/RequireJS.</div>
       </div>
 <pre><code class="javascript">// Register location of the 'index-page' template view
 fw.outlets.registerViewLocation('index-page', '/pages/index-page.html');
@@ -634,7 +634,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <h2 class="sub title">&lt;outlet&gt;</h2>
     </header>
     <div class="content">
-      <p>Once footwork knows how to resolve your outlet view it can be used in your application. From that point you need only place whatever
+      <p>Once Footwork knows how to resolve your outlet view it can be used in your application. From that point you need only place whatever
         <span class="inline-code">&lt;outlet name=""&gt;&lt;/outlet&gt;</span> declarations you want in the HTML and then change/set them via the
         <span class="inline-code">router.outlet()</span> method.</p>
 
@@ -692,7 +692,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
 
       <div class="note"><span class="label">NOTE:</span> Remember that in addition to passing arguments directly from a route, you can also leverage the
       powerful <a data-bind="$route: docLink('namespace')">namespace</a> or <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable/receivable</a>
-      features of footwork to facilitate communication/initialization of your view component.</div>
+      features of Footwork to facilitate communication/initialization of your view component.</div>
 
       <a id="router-outlets" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
@@ -777,7 +777,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       <div class="note"><span class="label">NOTE:</span> If you want to use a <span class="inline-code">named</span> route then you must pass a params
         object to <span class="inline-code">setState()</span> even if it is just an empty object.</div>
 
-      <p>For the second, footwork also sets up a default command handler (<span class="inline-code">setState</span>) that you can use/call in case you
+      <p>For the second, Footwork also sets up a default command handler (<span class="inline-code">setState</span>) that you can use/call in case you
         just want to tell the <span class="inline-code">router</span> to set its state to a certain value from another area in your application.</p>
 
       <a id="command-handler-setState" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -826,13 +826,13 @@ mainRouter.command('setState', {
       <h2 class="sub title">$route Binding</h2>
     </header>
     <div class="content">
-      <p>In order to make your links and other elements work with the router, footwork needs to know about them. This is done with the <span class="inline-code">$route</span>
+      <p>In order to make your links and other elements work with the router, Footwork needs to know about them. This is done with the <span class="inline-code">$route</span>
         binding.</p>
 
       <p>The <span class="inline-code">$route</span> binding is simply a <a href="http://knockoutjs.com/documentation/custom-bindings.html" target="_blank">custom knockout binding</a>
-        which is created by footwork. This binding allows footwork to correctly connect your DOM element event (click, by default) to a <span class="inline-code">router</span> action.</p>
+        which is created by Footwork. This binding allows Footwork to correctly connect your DOM element event (click, by default) to a <span class="inline-code">router</span> action.</p>
 
-      <p>Whenever footwork encounters the <span class="inline-code">$route</span> binding it will traverse up the DOM node path searching for the nearest parent router. Whenever
+      <p>Whenever Footwork encounters the <span class="inline-code">$route</span> binding it will traverse up the DOM node path searching for the nearest parent router. Whenever
         the designated event occurs on that element it will trigger the state change as described on that router.</p>
 
       <p>A common use for the <span class="inline-code">$route</span> binding is with no options (as the first example below shows), and in this mode
@@ -857,7 +857,7 @@ mainRouter.command('setState', {
         <div class="description">Binding which will connect an HTML DOM event to a route (eg: clicking a link).</div>
       </div>
 <pre><code class="html">&lt;!-- ... --&gt;
-  &lt;!-- If the url is not explicitely provided, footwork will use the url attribute from the element instead. --&gt;
+  &lt;!-- If the url is not explicitely provided, Footwork will use the url attribute from the element instead. --&gt;
   &lt;a href="/about" data-bind="$route"&gt;About Page&lt;/a&gt;
 &lt;!-- ... --&gt;
 
@@ -890,7 +890,7 @@ var MainViewModel = fw.viewModel.create({
       // must prevent the default action on an &lt;a&gt; tag (otherwise it will reload the page)
       event.preventDefault();
 
-      // tell footwork to route to the url (false === do not route)
+      // tell Footwork to route to the url (false === do not route)
       return true;
     }
   }
@@ -987,7 +987,7 @@ console.info(currentRoute.url); // === '/book/1234'
       <p>These events can be used for any logic you need to incorporate when the instance is initially setup/bound onto or removed from the page. A common example
         would be the setup and teardown of a jQuery plugin, or events.</p>
 
-      <p>Registration of a <span class="inline-code">router</span> is referring to telling footwork (in one way or another) where your
+      <p>Registration of a <span class="inline-code">router</span> is referring to telling Footwork (in one way or another) where your
         <span class="inline-code">router</span> is so that it can be used when needed.</p>
 
       <div class="note"><span class="label">NOTE:</span> No routing will occur until a <span class="inline-code">router</span> is activated, see
@@ -1238,7 +1238,7 @@ var MyRouter = fw.router.create({
       <h1 class="sub title">Registration</h1>
     </header>
     <div class="content">
-      <p>In order for footwork to know what to do when it encounters a <span class="inline-code">&lt;router&gt;</span> it must be registered in some
+      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;router&gt;</span> it must be registered in some
         way (it needs to know where it is).</p>
 
       <p>Footwork supports both explicitly registering your <span class="inline-code">router</span> ahead of time (caching its constructor function
@@ -1300,7 +1300,7 @@ var MyRouter = fw.router.create({
       <h2 class="sub title">Module Resolution</h2>
     </header>
     <div class="content">
-      <p>There are 3 ways footwork will try to resolve your <span class="inline-code">router</span> when it encounters the declarative
+      <p>There are 3 ways Footwork will try to resolve your <span class="inline-code">router</span> when it encounters the declarative
         <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> element you place in the DOM.</p>
 
       <p>Here they are in order of priority:</p>
@@ -1315,7 +1315,7 @@ var MyRouter = fw.router.create({
         <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> declarations encountered will be processed with no delay
         (the router is 'cached' when registered).</p>
 
-      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell footwork where it can
+      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell Footwork where it can
         download your router module (in the event you do not explicitly register it). In any case your markup will wait until the router is resolved prior
         to being initialized.</p>
 
@@ -1331,7 +1331,7 @@ var MyRouter = fw.router.create({
         </div>
         <div class="description">Cache a router/module ahead of time.</div>
       </div>
-<pre><code class="javascript">// register a footwork router
+<pre><code class="javascript">// register a Footwork router
 fw.router.register('MainRouter', fw.router.create({ /* ... */ }));</code></pre>
       <div class="note">
         <p><span class="label">NOTE:</span> Are you using a fw.router.create() constructor and simply want to register it using the namespace name (recommended)?</p>
@@ -1348,7 +1348,7 @@ fw.router.register('MainRouter', fw.router.create({ /* ... */ }));</code></pre>
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.router</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
-        <div class="description">Register the location of a router/module so footwork can load and bind it for you when needed.</div>
+        <div class="description">Register the location of a router/module so Footwork can load and bind it for you when needed.</div>
       </div>
 <pre><code class="javascript">// Load MainRouter from: /routers/MainRouter.js (based on router/module name, case sensitive)
 fw.router.registerLocation('MainRouter', '/routers/');
@@ -1362,7 +1362,7 @@ fw.router.registerLocation('MainRouter', '/routers/DifferentFileName.js');</code
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.router</span>.defaultLocation<span>( <span class="param">'path/to/router/folder'</span> )</span></div>
         </div>
-        <div class="description">Register the location of a router/module so footwork can load and bind it for you when needed.</div>
+        <div class="description">Register the location of a router/module so Footwork can load and bind it for you when needed.</div>
       </div>
 <pre><code class="javascript">// Load all routers from /myrouters/[module-name].js (case sensitive)
 fw.router.defaultLocation('/myRouters/');</code></pre>
@@ -1376,14 +1376,14 @@ fw.router.defaultLocation('/myRouters/');</code></pre>
       <h2 class="sub title">Module Formats</h2>
     </header>
     <div class="content">
-      <p>Loading your <span class="inline-code">router</span> in so that footwork can use it is done via a script loader.</p>
+      <p>Loading your <span class="inline-code">router</span> in so that Footwork can use it is done via a script loader.</p>
 
       <p>Both <a href="http://requirejs.org">AMD/RequireJS</a> and <a href="http://browserify.org" target="_blank">Browserify</a> are supported. However RequireJS is
-        preferred as it will enable footwork to resolve your routers/etc (and their dependencies) automatically at runtime as needed.</p>
+        preferred as it will enable Footwork to resolve your routers/etc (and their dependencies) automatically at runtime as needed.</p>
 
       <h3>The following example shows the RequireJS/AMD flavored version:</h3>
 <div class="file-location">/router/MainRouter.js</div>
-<pre><code class="javascript">define(["footwork"],
+<pre><code class="javascript">define(["Footwork"],
   function(fw) {
     // return the constructor created by fw.router.create()
     return fw.router.create({
@@ -1397,7 +1397,7 @@ fw.router.defaultLocation('/myRouters/');</code></pre>
 
       <div class="note">
         <span class="label">NOTE:</span> You can return any normal constructor function or plain object from your <span class="inline-code">router</span>
-        modules (you don't have to return a footwork <span class="inline-code">router</span> constructor as shown).
+        modules (you don't have to return a Footwork <span class="inline-code">router</span> constructor as shown).
       </div>
     </div>
   </section>
@@ -1411,7 +1411,7 @@ fw.router.defaultLocation('/myRouters/');</code></pre>
     <div class="content">
       <p>Mixins are about reusing behavior, functionality, and code whenever possible. They allow you to write various behaviors/logic and then later on combine
       and compose them as you want at runtime.</p>
-      <p>The mixin functionality in footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
+      <p>The mixin functionality in Footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
       All <span class="inline-code">fw.router.create()</span> based constructor functions are riveter constructor functions. Above and beyond the
       functionality outlined here, each object has various methods extended from riveter which can enable you to extend routers in
       various ways, it is recommended you to also <a href="https://github.com/a2labs/riveter" target="_blank">look at its documentation</a>.</p>
@@ -1603,7 +1603,7 @@ var MainRouter = fw.router.create({
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.router</span>.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
-        <div class="description">Get the path footwork will attempt to load for the given 'moduleName'.</div>
+        <div class="description">Get the path Footwork will attempt to load for the given 'moduleName'.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Path to the module</span>
@@ -1618,7 +1618,7 @@ var MainRouter = fw.router.create({
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.router</span>.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
         </div>
-        <div class="description">Get the file name that footwork will appended to the path when downloading the router.</div>
+        <div class="description">Get the file name that Footwork will appended to the path when downloading the router.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">'string'</span> Filename of the module</span>
@@ -1702,7 +1702,7 @@ fw.router.disableHistory(true); // history now disabled, but app still navigable
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.router</span>.html5History<span>()</span></div>
         </div>
-        <div class="description">Get a boolean flag indicating whether or not footwork is using the HTML5 history API.</div>
+        <div class="description">Get a boolean flag indicating whether or not Footwork is using the HTML5 history API.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">boolean</span> current state of HTML5 history API usage in this router</span>
@@ -1828,7 +1828,7 @@ fw.router.html5History(); // === false when using &lt;=IE8</code></pre>
               "subSections": [
                 { "anchor": "registering-views",
                   "title": "Registering Views",
-                  "description": "How to register a view/component so footwork knows where to find it." },
+                  "description": "How to register a view/component so Footwork knows where to find it." },
                 { "anchor": "outlet-element",
                   "title": "&lt;outlet&gt;",
                   "description": "How to create and use outlets your application can load views/templates into." }
@@ -1873,7 +1873,7 @@ fw.router.html5History(); // === false when using &lt;=IE8</code></pre>
               "subSections": [
                 { "anchor": "module-resolution",
                   "title": "Module Resolution",
-                  "description": "How footwork loads/resolves your router prior to instantiation." },
+                  "description": "How Footwork loads/resolves your router prior to instantiation." },
                 { "anchor": "module-formats",
                   "title": "Module Formats",
                   "description": "What formats a valid for a router module." }
@@ -1935,7 +1935,7 @@ fw.router.html5History(); // === false when using &lt;=IE8</code></pre>
               "description": "Enable or disable history (or get the current setting)." },
             { "anchor": "router-html5History",
               "title": "fw.router.html5History()",
-              "description": "Get a boolean flag indicating whether or not footwork is using the HTML5 history API." }
+              "description": "Get a boolean flag indicating whether or not Footwork is using the HTML5 history API." }
           ]
         },
         {
@@ -2045,13 +2045,13 @@ fw.router.html5History(); // === false when using &lt;=IE8</code></pre>
               "description": "Return the router registered under a specified name." },
             { "anchor": "router-defaultLocation",
               "title": "fw.router.defaultLocation()",
-              "description": "Register the location of a router/module so footwork can load and bind it for you when needed." },
+              "description": "Register the location of a router/module so Footwork can load and bind it for you when needed." },
             { "anchor": "router-getLocation",
               "title": "fw.router.getLocation()",
-              "description": "Get the location footwork will attempt to download a router from when it is needed." },
+              "description": "Get the location Footwork will attempt to download a router from when it is needed." },
             { "anchor": "router-getFileName",
               "title": "fw.router.getFileName()",
-              "description": "Get the filename footwork will use when downloading a router.",
+              "description": "Get the filename Footwork will use when downloading a router.",
               "subDescriptions": [
                 "This is appended onto the location/path when downloading."
               ] },
@@ -2068,7 +2068,7 @@ fw.router.html5History(); // === false when using &lt;=IE8</code></pre>
               "description": "Register/cache a view for later use." },
             { "anchor": "outlets-registerViewLocation",
               "title": "fw.outlets.registerViewLocation()",
-              "description": "Tell footwork where it can download a view via AMD/RequireJS." }
+              "description": "Tell Footwork where it can download a view via AMD/RequireJS." }
           ]
         }
       ]

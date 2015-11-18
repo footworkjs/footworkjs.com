@@ -10,7 +10,7 @@
       <p>Utility functions / methods.</p>
 
       <ul>
-        <li><a data-bind="$route" href="#start">fw.start()</a> - Start footwork / initialize application</li>
+        <li><a data-bind="$route" href="#start">fw.start()</a> - Start Footwork / initialize application</li>
         <li><a data-bind="$route" href="#guid">fw.guid()</a> - Generate a random GUID.</li>
       </ul>
     </div>
@@ -22,14 +22,14 @@
     <div class="content">
       <h3 class="top"><em class="func-def">fw.start<span>()</span></em></h3>
       <h3 class="top"><em class="func-def">fw.start<span>( <span class="param">targetElement</span> )</span></em></h3>
-      <h3>Initialize / start footwork (optionally on the specified node/element):</h3>
+      <h3>Initialize / start Footwork (optionally on the specified node/element):</h3>
 <pre><code class="javascript">// start application (defaults to body element)
 fw.start();
 
 // start application on #appContainer element
 fw.start(document.getElementById('appContainer'));</code></pre>
       <div class="note"><span class="label">NOTE:</span> This is very similar to calling <span class="inline-code">ko.applyBindings()</span>. In fact they are identical except
-        <span class="inline-code">fw.start()</span> is a simplified version which does not accept a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind, it simply causes footwork
+        <span class="inline-code">fw.start()</span> is a simplified version which does not accept a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind, it simply causes Footwork
         to begin binding (and thus it will initialize any viewModel/router/component/etc definitions it finds in the markup). <span class="inline-code">ko.applyBindings()</span>
         does the same, but also requires that you supply a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind.</div>
     </div>

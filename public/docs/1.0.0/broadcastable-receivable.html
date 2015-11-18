@@ -13,11 +13,11 @@
         of this functionality your application and modules are able to expressively share state and data while being kept as loosely coupled (and testable) as
         possible.</p>
 
-      <p>Broadcastables and receivables are extended/special knockout observables which hook into the namespacing provided by footwork to either send data to (broadcastable) or
+      <p>Broadcastables and receivables are extended/special knockout observables which hook into the namespacing provided by Footwork to either send data to (broadcastable) or
         receive data from (receivable) other namespaces/modules. They can be used just like any other knockout observable as they extend from the base
         <span class="inline-code">ko.subscribable</span> type.</p>
 
-      <div class="note"><span class="label">NOTE:</span> Broadcastables and receivables are integrated with (and make most sense when used with) footwork
+      <div class="note"><span class="label">NOTE:</span> Broadcastables and receivables are integrated with (and make most sense when used with) Footwork
         <a data-bind="$route: docLink('viewModel')">viewModels</a> or <a data-bind="$route: docLink('dataModel')">dataModels</a> but they can also be used independently.</div>
     </div>
   </section>
@@ -249,7 +249,7 @@ this.loggedInUserAlsoSam = fw.observable()
     <div class="content">
       <p>If you are using or referring to a <span class="inline-code">broadcastable</span> or <span class="inline-code">receivable</span> in conjunction with a
         <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> then the lifecycle will be automatically handled for you. However if you are using them independently of a
-        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (or in a way that footwork does not track) then you will need to handle the disposal yourself.</p>
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (or in a way that Footwork does not track) then you will need to handle the disposal yourself.</p>
 
       <p>This is essentially because the underlying mechanism behind <span class="inline-code">broadcastable</span> and <span class="inline-code">receivable</span> is based on
         subscriptions to messages. These subscriptions must be detatched/removed before the garbage handler in your browser can clean their references up.</p>
