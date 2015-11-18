@@ -478,12 +478,12 @@ people.reset([
     <div class="content">
       <p>The following methods are used to add and remove items from a <span class="inline-code">collection</span>.</p>
 
-      <a id="collection-add" class="section-anchor" data-bind="sectionAnchor"></a>
+      <a id="collection-addModel" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>collection</span>.add<span>( <span class="param">model</span>, <span class="param">options</span> )</span></div>
-          <div class="func-def"><span>collection</span>.add<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ], <span class="param">options</span> )</span></div>
+          <div class="func-def"><span>collection</span>.addModel<span>( <span class="param">model</span>, <span class="param">options</span> )</span></div>
+          <div class="func-def"><span>collection</span>.addModel<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ], <span class="param">options</span> )</span></div>
         </div>
         <div class="description">
           <p>Add a model (or an array of models) to the <span class="inline-code">collection</span>, firing an <span class="inline-code">_.add</span>
@@ -526,11 +526,11 @@ people.add([
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>collection</span>.removeModel<span>( <span class="param">attributesToMatch</span> )</span></div>
+          <div class="func-def"><span>collection</span>.removeModel<span>( <span class="param">model</span> )</span></div>
           <div class="func-def"><span>collection</span>.removeModel<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ] )</span></div>
         </div>
         <div class="description">
-          <p>Remove a model (or an array of models) from the collection, and return them. Each model can be a Model instance, a JS object (whose
+          <p>Remove a model (or an array of models) from the collection. Each model can be a Model instance, a JS object (whose
             properties will be matched against), or a JS regex-attribute object. Fires a <span class="inline-code">_.remove</span> event for each model.</p>
 
           <div class="note"><span class="label">NOTE:</span> You can supply a <span class="inline-code">RegExp</span> pattern inside of an attribute hash
@@ -565,7 +565,7 @@ var removedPeople = people.removeModel({ id: 2 });
 var removedPeople = people.removeModel({ id: /^(1|3)$/ });
 /**
  * removedPeople === [ { id: 1, firstName: "Bruce", lastName: "Wayne" },
- *                     { id: 3, Ethan: "Bruce", lastName: "Bennett" } ]
+ *                     { id: 3, firstName: "Ethan", lastName: "Bennett" } ]
  */
 </code></pre>
     </div>
@@ -762,9 +762,12 @@ people.create({
             { "anchor": "collection-create",
               "title": "collection.create()",
               "description": "Create and insert a new collection(s). This also issues the RESTful calls to create them on the server." },
+            { "anchor": "collection-addModel",
+              "title": "collection.addModel()",
+              "description": "Add a model (or an array of models) to the collection." },
             { "anchor": "collection-removeModel",
               "title": "collection.removeModel()",
-              "description": "Remove a model (or an array of models) from the collection, and return them." }
+              "description": "Remove a model (or an array of models) from the collection." }
           ]
         }
       ]
