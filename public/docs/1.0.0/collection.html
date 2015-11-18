@@ -187,7 +187,7 @@ var ContactList = fw.collection.create({
   url: '/list-contacts',
   // It is recommended you store the dataModel in a separate file.
   // This example shows it inline.
-  dataModel: fw.dataModel({
+  dataModel: fw.dataModel.create({
     namespace: "Contact",
     url: '/contact',
     initialize: function(contactData) {
@@ -237,7 +237,7 @@ var myNumbers = ContactList([
       <h3>Create <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span>
         values based on a <span class="inline-code">collection</span>:</h3>
 <pre><code class="javascript">// Shown in a viewModel which is a more likely usage scenario
-var PeopleViewModel = fw.viewModel({
+var PeopleViewModel = fw.viewModel.create({
   initialize: function(peopleList) {
     // The main collection of people
     this.peopleList = fw.collection(peopleList);
@@ -328,7 +328,7 @@ peopleVM.peopleList.add({ name: 'Richard Jones', company: 'OCP' });
 &lt;/div&gt;</code></pre>
 
       <h3>Instantiate a new <span class="inline-code">collection</span> inside of the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</h3>
-<pre><code class="javascript">var PeopleView = fw.viewModel({
+<pre><code class="javascript">var PeopleView = fw.viewModel.create({
   namespace: 'PeopleView',
   initialize: function() {
     this.persons = fw.collection([
@@ -655,7 +655,7 @@ people.fetch().done(function(peopleList) {
       </div>
 <pre><code class="javascript">// Create a new type of collection with the requisite dataModel (that has a REST url)
 var PeopleCollection = fw.collection.create({
-  dataModel: fw.dataModel({
+  dataModel: fw.dataModel.create({
     namespace: 'Person',
     url: '/person',
     initialize: function(person) {

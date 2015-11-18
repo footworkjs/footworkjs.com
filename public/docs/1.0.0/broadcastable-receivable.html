@@ -61,7 +61,7 @@
       <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).receiveFrom<span>( <span class="param">'namespaceName'</span>, <span class="param">'variableName'</span> )</span></em></h3>
       <h3 class="top"><em class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).receiveFrom<span>( <span class="param">namespace</span>, <span class="param">'variableName'</span> )</span></em></h3>
       <h3>Factory method which will create and return a receivable from an existing observable (observable, computed, or observableArray):</h3>
-<pre><code class="javascript">var Navigation = fw.viewModel({
+<pre><code class="javascript">var Navigation = fw.viewModel.create({
   namespace: 'Navigation',
   initialize: function() {
     // initial value provided to the observable is the default, before any data is received from a broadcastable
@@ -82,7 +82,7 @@
 /**
  * Note: See the next section for details on broadcastables
  */
-var User = fw.viewModel({
+var User = fw.viewModel.create({
   namespace: 'User',
   initialize: function() {
     this.loggedIn = fw.observable(false).broadcastAs('isLoggedIn');
@@ -141,7 +141,7 @@ user.login('Sam', '12345');
       </div>
 
       <h3 class="top">Read-only Examples:</h3>
-<pre><code class="javascript">var User = fw.viewModel({
+<pre><code class="javascript">var User = fw.viewModel.create({
   namespace: 'User',
   initialize: function(username) {
     // broadcastAs() will use the namespace of the viewModel by default.
@@ -172,7 +172,7 @@ var user = new User('Jonathan');
       </div>
 
       <h3>Writable example:</h3>
-<pre><code class="javascript">var User = fw.viewModel({
+<pre><code class="javascript">var User = fw.viewModel.create({
   namespace: 'User',
   initialize: function() {
     // Writable broadcastable, can be written to by a receivable

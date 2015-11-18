@@ -117,7 +117,7 @@ alsoMyNamespace.publish('hello', 'Jonathan'); // console prints: 'Greetings Jona
 <pre><code class="javascript">// File: /viewModel/Sprocket.js
 define(["footwork"],
   function(fw) {
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'Sprocket',
       initialize: function() {
         // this.$namespace.getName() === 'Sprocket'

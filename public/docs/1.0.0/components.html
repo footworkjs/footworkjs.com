@@ -25,7 +25,7 @@
         <li>Automatic viewModel initialization and binding.</li>
         <li>Lifecycle events.</li>
         <li>Routing integration (easily manage components and state, see: <a data-bind="$route: docLink('router')">router</a>)</li>
-        <li><span class="inline-code">fw.viewModel()</span> integration (see: <a data-bind="$route: docLink('viewModel')">viewModel</a>).</li>
+        <li><span class="inline-code">fw.viewModel.create()</span> integration (see: <a data-bind="$route: docLink('viewModel')">viewModel</a>).</li>
       </ul>
       <p>Another great thing about footwork is that it fully supports any knockout.js component (<em>including markup/bindings</em>)...this means that you don't need to do any
         refactoring if you already have components you've written. You can organically add the additional features from footwork as you see fit.</p>
@@ -161,7 +161,7 @@
       <h3>Register (cache) a component under a specified 'name' for later use:</h3>
 <pre><code class="javascript">// Using a footwork viewModel
 fw.components.register('sprocket', {
-  viewModel: fw.viewModel({ /* ... configuration object ... */ }),
+  viewModel: fw.viewModel.create({ /* ... configuration object ... */ }),
   template: '&lt;div data-bind="text: numberOfCogs"&gt;&lt;/div&gt;'
 });
 
@@ -261,7 +261,7 @@ fw.components.defaultLocation('/components/');
 <pre><code class="javascript">// viewModel module file located in: /viewModel/sprocket.js
 define(["footwork"],
   function(fw) {
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'sprocket'
       // ...
     });
@@ -284,7 +284,7 @@ define(["footwork"],
 define(["footwork"],
   function(fw) {
     return fw.component({
-      viewModel: fw.viewModel({
+      viewModel: fw.viewModel.create({
         namespace: 'sprocket'
         // ...
       }),
@@ -337,7 +337,7 @@ define(["footwork"],
       <h3 class="top"><em class="func-def">fw.components.isRegistered<span>( <span class="param">'componentName'</span> )</span></em></h3>
       <h3>Return true or false based on whether or not there is a component that has been registered under 'componentName':</h3>
 <pre><code class="javascript">fw.components.register('Sprocket', {
-  viewModel: fw.viewModel({ /* ... configuration object ... */ }),
+  viewModel: fw.viewModel.create({ /* ... configuration object ... */ }),
   template: '&lt;div&gt;&lt;-- template HTML --&gt;&lt;/div&gt;'
 });
 // fw.components.isRegistered('Sprocket') === true
@@ -387,7 +387,7 @@ var fileNameForSprocket = fw.components.getFileName('sprocket', 'combined'); // 
  * fileType because the file name will never be used.
  */
 fw.components.register('sprocket', {
-  viewModel: fw.viewModel({ /* ... configuration object ... */ }),
+  viewModel: fw.viewModel.create({ /* ... configuration object ... */ }),
   template: '&lt;div&gt;&lt;!-- template HTML --&gt;&lt;/div&gt;'
 });
 var fileNameForSprocket = fw.components.getFileName('sprocket', 'viewModel'); // === null
@@ -403,7 +403,7 @@ var fileNameForSprocket = fw.components.getFileName('sprocket', 'viewModel'); //
       <h3 class="top"><em class="func-def">fw.components.fileExtensions<span>( <span class="param">function(componentName) { ... }</span> )</span></em></h3>
       <h3>Specify the extension to append to AMD/RequireJS loaded component resources when it does not have an extension specified (ie: full file name not specified):</h3>
 <pre><code class="javascript">// explicitly set the extensions on the various file/module types
-fw.viewModels.fileExtensions({
+fw.viewModel.fileExtensions({
   combined: '.js', // append combined component files with '.js'
   viewModel: '.js', // append viewModel module files with '.js'
   template: '.html' // append template files with '.html'
