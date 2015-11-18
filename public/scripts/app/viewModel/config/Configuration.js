@@ -1,6 +1,6 @@
 define([ "jquery", "lodash", "footwork", "storage" ],
   function( $, _, fw, storage ) {
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'Configuration',
       initialize: function() {
         var headerOverallMin = 35;

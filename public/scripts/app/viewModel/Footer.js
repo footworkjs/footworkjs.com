@@ -1,6 +1,6 @@
 define([ "footwork", "lodash" ],
   function( fw, _ ) {
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'Footer',
       initialize: function() {
         this.viewPortDim = fw.observable().receiveFrom('ViewPort', 'dimensions');

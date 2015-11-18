@@ -28,7 +28,7 @@ define(['footwork', 'jquery', 'lodash'],
       }
     }
 
-    var DocLink = fw.viewModel({
+    var DocLink = fw.viewModel.create({
       namespace: 'DocLink',
       initialize: function(linkDesc) {
         _.extend(this, linkDesc);
@@ -60,7 +60,7 @@ define(['footwork', 'jquery', 'lodash'],
       }
     });
 
-    var DocVersionOption = fw.viewModel({
+    var DocVersionOption = fw.viewModel.create({
       namespace: 'DocVersionOption',
       initialize: function(version) {
         this.selectedDocsVersion = fw.observable().receiveFrom('navData', 'selectedDocsVersion');
@@ -75,7 +75,7 @@ define(['footwork', 'jquery', 'lodash'],
       }
     });
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'DocumentationNav',
       initialize: function() {
         this.navData = fw.observable().receiveFrom('navData', 'navData');

@@ -41,7 +41,7 @@ define([ "footwork", "lodash", "jquery" ],
       }
     };
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'apiNav',
       initialize: function(params) {
         this.viewPortScrollPos = fw.observable().receiveFrom('ViewPort', 'scrollPosition');

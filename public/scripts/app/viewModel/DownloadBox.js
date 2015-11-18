@@ -10,7 +10,7 @@ define(['footwork', 'jquery', 'lodash'],
       'bare-reqwest': 'Bare (reqwest)'
     };
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'DownloadBox',
       afterBinding: function(container) {
         $(container).find('pre code').each(function(i, block) {

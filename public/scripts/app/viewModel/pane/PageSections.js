@@ -39,7 +39,7 @@ define([ "jquery", "lodash", "footwork" ],
     this.widthSub = paneWidth.subscribe( computeAnchorPos );
     this.collapsedSub = paneCollapsed.subscribe( computeAnchorPos );
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'PageSections',
       afterBinding: function() {
         this.checkSelection();

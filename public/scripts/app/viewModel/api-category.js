@@ -1,6 +1,6 @@
 define([ "footwork", "lodash" ],
   function( fw, _ ) {
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'apiCategory',
       initialize: function(params) {
         _.extend(this, { label: '' }, fw.unwrap(params.categoryData));

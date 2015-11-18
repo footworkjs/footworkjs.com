@@ -43,7 +43,7 @@ define([ "footwork", "lodash", "jquery" ],
       }
     };
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'CodeDemo',
       autoIncrement: true,
       afterBinding: function(element) {

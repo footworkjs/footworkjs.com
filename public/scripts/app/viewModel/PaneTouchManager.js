@@ -40,13 +40,13 @@ define([ "jquery", "lodash", "footwork" ],
     function getVelocity(p1, p2) {
       return getDistance(p1, p2) / getDuration(p1, p2);
     }
-            
+
     function sameDirectionAs(thisDragPoint) {
       return function(thatDragPoint) {
         return thisDragPoint.direction === thatDragPoint.direction;
       }
     }
-    
+
     function touchEventHandler(eventName, target, event) {
       if( this.paneMoving() === true ) {
         return false;
@@ -146,7 +146,7 @@ define([ "jquery", "lodash", "footwork" ],
       }
     }
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'PaneTouchManager',
       initialize: function() {
         this.$paneNamespace = fw.namespace('Pane');

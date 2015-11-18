@@ -7,7 +7,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
     var paneIsOverlapping = fw.observable().receiveFrom('Layout', 'overlapPane');
     var chosenSection = fw.observable().receiveFrom('PageSections', 'chosenSection');
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'PageSubSection',
       initialize: function(params) {
         var subSectionData = params.sectionData;

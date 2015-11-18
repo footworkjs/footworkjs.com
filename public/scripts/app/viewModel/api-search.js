@@ -67,7 +67,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
       selectedDocsVersion: selectedDocsVersion
     });
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'apiSearch',
       afterBinding: function(element) {
         var $element = this.$element = $(element);

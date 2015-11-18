@@ -1,6 +1,6 @@
 define([ "jquery", "lodash", "footwork", "LoadState" ],
   function( $, _, fw, LoadState ) {
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'Navigation',
       initialize: function() {
         this.viewPortLayoutMode = fw.observable().receiveFrom('ViewPort', 'layoutMode');

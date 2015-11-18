@@ -8,7 +8,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
       $searchResult.command('goToResult');
     });
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'SearchResult',
       afterBinding: function(element) {
         this.$link = $(element).children('.api-search-result');

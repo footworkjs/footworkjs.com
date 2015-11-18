@@ -1,6 +1,6 @@
 define([ "footwork", "lodash" ],
   function( fw, _ ) {
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'ConfigManagement',
       initialize: function() {
         var Configuration = fw.namespace('Configuration');

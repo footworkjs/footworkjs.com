@@ -7,7 +7,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
     var paneCollapsed = fw.observable().receiveFrom('Configuration', 'paneCollapsed').extend({ debounce: 200 });
     var chosenSection = fw.observable().receiveFrom('PageSections', 'chosenSection');
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'PageSection',
       initialize: function(params) {
         var pageSectionData = params.sectionData || {};

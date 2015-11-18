@@ -79,7 +79,7 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
       return docVersion + '-' + page;
     }
 
-    return fw.router({
+    return fw.router.create({
       namespace: 'MainRouter',
       relativeToParent: false,
       initialize: function() {

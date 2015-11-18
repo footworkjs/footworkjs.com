@@ -1,6 +1,6 @@
 define([ "footwork", "lodash", "jquery" ],
   function( fw, _, $ ) {
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'PaneLinks',
       initialize: function(params) {
         var paneElementsNamespace = fw.namespace('PaneElements');

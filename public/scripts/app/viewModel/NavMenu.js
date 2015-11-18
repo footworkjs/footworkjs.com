@@ -2,7 +2,7 @@ define([ "jquery", "lodash", "footwork" ],
   function( $, _, fw ) {
     var viewPortIsMobile = fw.observable().receiveFrom('ViewPort', 'isMobile');
 
-    var Entry = fw.viewModel({
+    var Entry = fw.viewModel.create({
       namespace: 'PaneElements',
       initialize: function(entryData) {
         this.headerContentHeight = fw.observable().receiveFrom('Header', 'contentHeight');
@@ -80,7 +80,7 @@ define([ "jquery", "lodash", "footwork" ],
       }
     });
 
-    return fw.viewModel({
+    return fw.viewModel.create({
       namespace: 'NavMenu',
       initialize: function(params) {
         this.visible = fw.observable(false);
