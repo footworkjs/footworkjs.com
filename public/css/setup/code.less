@@ -83,6 +83,10 @@ article, .docco {
     font-size: 13px;
     margin-top: 10px;
 
+    a {
+      color: lighten(@link-color, 10%);
+    }
+
     .title {
       .clearblock;
       line-height: 20px;
@@ -173,6 +177,14 @@ article, .docco {
 
         li + li {
           margin-top: 5px;
+        }
+      }
+
+      .note {
+        ul {
+          li {
+            margin-left: 20px;
+          }
         }
       }
 

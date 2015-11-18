@@ -6,7 +6,7 @@
   "author": "Jonathan Newman <jonathan@staticty.pe>",
   "dependencies": {},
   "devDependencies": {
-    "knockoutjs": "3.3.0",
+    "knockoutjs": "3.4.0",
     "lodash": "3.3.1",
     "footwork": "https://github.com/footworkjs/footwork.git#99fc5265fd0475811d591c3ec79e9522008841fe",
     "ace": "https://github.com/ajaxorg/ace-builds.git#1.2.0",
