@@ -1,4 +1,4 @@
-fw.viewModel({
+fw.viewModel.create({
   namespace: 'Message',
   initialize: function(params) {
     // Create a reference for 'this' to use inside the viewModel

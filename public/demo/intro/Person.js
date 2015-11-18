@@ -1,4 +1,4 @@
-fw.viewModel({
+fw.viewModel.create({
   namespace: 'Person',
   initialize: function() {
     // Create a reference for 'this' to use inside the viewModel

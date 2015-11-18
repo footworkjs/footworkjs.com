@@ -27,7 +27,7 @@ define(["footwork"],
         var personVM; eval('personVM = ' + resources.personVM);
         var messageVM; eval('messageVM = ' + resources.messageVM);
 
-        fw.viewModels.register('Person', personVM);
+        fw.viewModel.register('Person', personVM);
 
         fw.components.unregister('message');
         fw.components.register('message', {
