@@ -94,7 +94,7 @@
         <div class="description">Create a <span class="inline-code">collection</span> composed of the supplied data.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">collection</span> <span class="inline-code">collection</span> Collection instance (observableArray)</span>
+          <span class="value"><span class="type">collection</span> <span class="inline-code">collection</span> instance (observableArray)</span>
         </div>
       </div>
 <pre><code class="javascript">var collection = fw.collection([ { name: 'James Bond' }, { name: 'Eve Moneypenny' } ]);
@@ -663,6 +663,45 @@ var removedPeople = people.removeModel({ id: /^(1|3)$/ });
  * people.findWhere({ lastName: 'Wayne' }) === { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries" }
  */
 </code></pre>
+
+      <a id="collection-get" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.get<span>( <span class="param">cid</span> )</span></div>
+          <div class="func-def"><span>collection</span>.get<span>( <span class="param">id</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Get a model from a collection, specified by a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-cid')">dataModel.$cid</a> or
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-id')">dataModel.$id</a>.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Object{}</span> The matching entry/dataModel</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  {
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "employer": "Wayne Industries"
+  }, {
+    "firstName": "James",
+    "lastName": "Gordon",
+    "employer": "GCPD"
+  }, {
+    "firstName": "Alfred",
+    "lastName": "Creane",
+    "employer": "Wayne Industries"
+  }
+]);
+
+
+/**
+ * people.findWhere({ lastName: 'Wayne' }) === { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries" }
+ */
+</code></pre>
     </div>
   </section>
 
@@ -832,7 +871,7 @@ people.create({
       "label": "",
       "subCategories": [
         {
-          "label": "General",
+          "label": "Creation",
           "references": [
             { "anchor": "fw-collection",
               "title": "fw.collection()",
@@ -841,9 +880,13 @@ people.create({
               "title": "fw.collection.create()",
               "description": "Create a new collection constructor function. This is used to create a new type of collection." }
           ]
-        },
+        }
+      ]
+    }, {
+      "label": "Data",
+      "subCategories": [
         {
-          "label": "Data Management",
+          "label": "Management",
           "references": [
             { "anchor": "collection-set",
               "title": "collection.set()",
@@ -851,18 +894,35 @@ people.create({
             { "anchor": "collection-reset",
               "title": "collection.reset()",
               "description": "Replace a collection with a new list of models." },
-            { "anchor": "collection-fetch",
-              "title": "collection.fetch()",
-              "description": "Merges the model with data fetched from the server by delegating to fw.sync()." },
-            { "anchor": "collection-create",
-              "title": "collection.create()",
-              "description": "Create and insert a new collection(s). This also issues the RESTful calls to create them on the server." },
             { "anchor": "collection-addModel",
               "title": "collection.addModel()",
               "description": "Add a model (or an array of models) to the collection." },
             { "anchor": "collection-removeModel",
               "title": "collection.removeModel()",
               "description": "Remove a model (or an array of models) from the collection." }
+          ]
+        }, {
+          "label": "Searching / Retrieval",
+          "references": [
+            { "anchor": "collection-where",
+              "title": "collection.where()",
+              "description": "Return an array of all the models in a collection that match the passed attributes." },
+            { "anchor": "collection-findWhere",
+              "title": "collection.findWhere()",
+              "description": "Just like collection.where() but returns only the first entry in the collection that matches the passed attributes." },
+            { "anchor": "collection-get",
+              "title": "collection.get()",
+              "description": "Get a model from a collection, specified by a dataModel.$cid or dataModel.$id." }
+          ]
+        }, {
+          "label": "RESTful Operations",
+          "references": [
+            { "anchor": "collection-fetch",
+              "title": "collection.fetch()",
+              "description": "Merges the model with data fetched from the server by delegating to fw.sync()." },
+            { "anchor": "collection-create",
+              "title": "collection.create()",
+              "description": "Create and insert a new collection(s). This also issues the RESTful calls to create them on the server." }
           ]
         }
       ]

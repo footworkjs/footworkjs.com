@@ -1374,7 +1374,7 @@ fw.dataModel.fileExtensions(function(moduleName) {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>dataModel</span>.cid</div>
+          <div class="func-def"><span>dataModel</span>.$cid</div>
         </div>
         <div class="description">Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">dataModel</span> when
         they are first created.</div>
@@ -1382,7 +1382,29 @@ fw.dataModel.fileExtensions(function(moduleName) {
 <pre><code class="javascript">var Navigation = fw.dataModel.create({
   namespace: 'Navigation',
   initialize: function() {
-    // this.cid === 'ed53b42d-faa0-a251-29c1-e396d9f083bc'
+    // this.$cid === 'ed53b42d-faa0-a251-29c1-e396d9f083bc'
+  }
+});</code></pre>
+
+      <a id="dataModel-id" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$id()</div>
+        </div>
+        <div class="description">Observable which <em>always</em> maps to the <span class="inline-code">idAttribute</span> value of the
+          <span class="inline-code">dataModel</span>.</div>
+      </div>
+<pre><code class="javascript">var Navigation = fw.dataModel.create({
+  namespace: 'Navigation',
+  idAttribute: 'myId',
+  initialize: function() {
+    // idAttribute automatically instantiated and .mapTo()'d for you, here we assign it a value of 10
+    this.myId(10);
+
+    // this.myId() === 10
+    // this.$id() === 10
+    // this.myId === this.$id
   }
 });</code></pre>
     </div>
@@ -1627,8 +1649,11 @@ fw.dataModel.fileExtensions(function(moduleName) {
                 "Think of this as a broadcast channel everyone can talk on."
               ] },
             { "anchor": "dataModel-cid",
-              "title": "dataModel.cid",
-              "description": "A unique identifier automatically assigned to every dataModel when first created." }
+              "title": "dataModel.$cid",
+              "description": "A unique identifier automatically assigned to every dataModel when first created." },
+            { "anchor": "dataModel-id",
+              "title": "dataModel.$id",
+              "description": "Observable which always maps to the idAttribute value of the dataModel." }
           ]
         }
       ]
