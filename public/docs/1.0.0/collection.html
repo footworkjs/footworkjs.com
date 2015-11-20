@@ -94,7 +94,7 @@
         <div class="description">Create a <span class="inline-code">collection</span> composed of the supplied data.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">collection</span> <span class="inline-code">collection</span> instance (observableArray)</span>
+          <span class="value"><span class="type">collection</span> A new <span class="inline-code">collection</span> instance representing the data passed in.</span>
         </div>
       </div>
 <pre><code class="javascript">var collection = fw.collection([ { name: 'James Bond' }, { name: 'Eve Moneypenny' } ]);
@@ -156,14 +156,17 @@
   url: function() {},
   url: '',
 
-  // (optional) dataModel constructor used to create each new instance.
+  /**
+   * (optional) dataModel constructor used to create each new instance.
+   * If specified this will also be used to source the idAttribute field used for searching/matching
+   */
   dataModel: DataModelConstructor,
 
   /**
    * (optional) The idAttribute to use internally within each dataModel/object
-   * Note: This overrides the dataModel idAttribute
+   * Note: This overrides the dataModel idAttribute if specified
    */
-  idAttribute: '',
+  idAttribute: 'id', // default is 'id' (also used for plain collections)
 
   /**
    * Flag telling Footwork if it should call .dispose() when a dataModel is removed from
@@ -397,8 +400,9 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
         <div class="description">
           <p>Perform a <em>smart</em> update of the <span class="inline-code">collection</span> with the passed list of models.</p>
           <p>If a supplied model is not yet in the <span class="inline-code">collection</span> it will be added; if the it is already in the
-            <span class="inline-code">collection</span> then its data will be merged; and if the supplied data contains
-            any models that are not present in the <span class="inline-code">collection</span>, they will be removed.</p>
+            <span class="inline-code">collection</span> (matched via the <span class="inline-code">idAttribute</span> value) then its data will be
+            merged; and if the supplied data contains any models that are not present in the <span class="inline-code">collection</span>, they will
+            be removed.</p>
 
           <p>You can provide the following <span class="inline-code">options</span> to customize the behavior:
             <span class="inline-code">{ add: false }</span>,
@@ -496,7 +500,8 @@ people.reset([
           <div class="note">
             <span class="label">NOTE:</span> You may pass in <span class="inline-code">{ at: <em>integer</em> }</span> to the options to tell Footwork
             to insert the new items at a certain index. You may also pass <span class="inline-code">{ merge: false }</span> if you do not wish to have
-            any updated model data to be merged with what is currently in the <span class="inline-code">collection</span>.
+            any updated model data to be merged with what is currently in the <span class="inline-code">collection</span> (which is found via matching
+            against the <span class="inline-code">idAttribute</span> value).
           </div>
         </div>
         <div class="return-value">
@@ -762,7 +767,8 @@ people.fetch().done(function(peopleList) {
       <p>If you are using a <span class="inline-code">collection</span> configured with a
         <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then you can also use the
         <span class="inline-code">collection.create()</span> method which when called is equivalent to instantiating the
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> with the supplied data, saving it to the server, and
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> with the supplied data, saving it to the server
+        (calling <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-save')">dataModel.save()</a></span> after instantiation), and
         adding it to the <span class="inline-code">collection</span> (before or after being successfully created).</p>
 
       <a id="collection-create" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -775,11 +781,11 @@ people.fetch().done(function(peopleList) {
           <p>Convenience method used to create a new instance of a model within a collection.</p>
 
           <p>If the <span class="inline-code">collection</span> is configured with a
-            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then each new instance will be saved to the
-            server.</p>
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then the created instance will be saved to the
+            server (via <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-save')">dataModel.save()</a></span>).</p>
 
           <div class="note"><span class="label">NOTE:</span> By default the new item will be added to the <span class="inline-code">collection</span>
-            right away. You can tell Footwork not to add it until/when the server returns with a <span class="inline-code">HTTP 200</span> (success)
+            immediately. You can tell Footwork not to add it until/when the server returns with a <span class="inline-code">HTTP 200</span> (success)
             response by passing <span class="inline-code">{ wait: true }</span> to the <span class="inline-code">options</span>.</div>
         </div>
         <div class="return-value">
@@ -859,11 +865,11 @@ people.create({
           ] }
       ] },
     { "subSections": [
-        { "anchor": "utility-functions",
-          "title": "Utility Functions" },
+        { "anchor": "utility-methods",
+          "title": "Utility Methods" },
         { "anchor": "instance-properties",
           "title": "Instance Properties",
-          "description": "Properties that exist on an instantiated viewModel." }
+          "description": "Properties that exist on an instantiated collection." }
       ] }
   ],
   "apiReferences": [
