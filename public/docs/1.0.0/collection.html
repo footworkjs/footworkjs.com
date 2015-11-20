@@ -410,7 +410,7 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array</span> The affected entries/dataModels</span>
+          <span class="value"><span class="type">Array[]</span> The affected entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection();
@@ -446,7 +446,7 @@ people.set([
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array</span> The entries/dataModels</span>
+          <span class="value"><span class="type">Array[]</span> The entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection();
@@ -501,7 +501,7 @@ people.reset([
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array</span> The affected entries/dataModels</span>
+          <span class="value"><span class="type">Array[]</span> The affected entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection();
@@ -538,7 +538,7 @@ people.add([
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array</span> The removed entries/dataModels</span>
+          <span class="value"><span class="type">Array[]</span> The removed entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection([
@@ -566,6 +566,101 @@ var removedPeople = people.removeModel({ id: /^(1|3)$/ });
 /**
  * removedPeople === [ { id: 1, firstName: "Bruce", lastName: "Wayne" },
  *                     { id: 3, firstName: "Ethan", lastName: "Bennett" } ]
+ */
+</code></pre>
+    </div>
+  </section>
+
+  <a id="find-get" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="find-get">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Find and Get</h2>
+    </header>
+    <div class="content">
+      <p>The following methods are used to find and retrieve items from a <span class="inline-code">collection</span>.</p>
+
+      <a id="collection-where" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.where<span>( <span class="param">attributes</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Return an array of all the models in a <span class="inline-code">collection</span> that match the passed attributes.</p>
+
+          <div class="note"><span class="label">NOTE:</span> You can supply a <span class="inline-code">RegExp</span> pattern inside of an attribute hash
+            and Footwork will match against it when looking for matches.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Array[]</span> The matching entries/dataModels</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  {
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "employer": "Wayne Industries"
+  }, {
+    "firstName": "James",
+    "lastName": "Gordon",
+    "employer": "GCPD"
+  }, {
+    "firstName": "Alfred",
+    "lastName": "Creane",
+    "employer": "Wayne Industries"
+  }
+]);
+
+
+/**
+ * people.where({ lastName: 'Gordon' }) === [ { firstName: "James", lastName: "Gordon", employer: "GCPD" } ]
+ *
+ * people.where({ employer: 'Wayne Industries' }) === [
+ *   { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries" },
+ *   { firstName: "Alfred", lastName: "Creane", employer: "Wayne Industries" }
+ * ]
+ */
+</code></pre>
+
+      <a id="collection-findWhere" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.findWhere<span>( <span class="param">attributes</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Just like <span class="inline-code">collection.where()</span> but returns only the first entry in the
+            <span class="inline-code">collection</span> that matches the passed attributes.</p>
+
+          <div class="note"><span class="label">NOTE:</span> You can supply a <span class="inline-code">RegExp</span> pattern inside of an attribute hash
+            and Footwork will match against it when looking for a match.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Object{}</span> The matching entry/dataModel</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  {
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "employer": "Wayne Industries"
+  }, {
+    "firstName": "James",
+    "lastName": "Gordon",
+    "employer": "GCPD"
+  }, {
+    "firstName": "Alfred",
+    "lastName": "Creane",
+    "employer": "Wayne Industries"
+  }
+]);
+
+
+/**
+ * people.findWhere({ lastName: 'Wayne' }) === { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries" }
  */
 </code></pre>
     </div>
