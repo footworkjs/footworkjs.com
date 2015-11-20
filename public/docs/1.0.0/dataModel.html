@@ -1370,6 +1370,30 @@ fw.dataModel.fileExtensions(function(moduleName) {
   }
 });</code></pre>
 
+      <a id="dataModel-rootNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$rootNamespace</div>
+        </div>
+        <div class="description">
+          <p>The root (non-indexed) namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
+          <p>A <span class="inline-code">dataModel</span> <span class="inline-code">namespace</span> is automatically indexed by default (unless you
+            specify <span class="inline-code">autoIncrement: false</span> to its configuration).</p>
+          <p>If you do not provide that configuration option then each new <span class="inline-code">dataModel</span> instance will have an indexed
+            namespace name, the <span class="inline-code">$rootNamespace</span> is the namespace channel provided which hooks into the non-indexed
+            (root) namespace name.</p>
+        </div>
+      </div>
+<pre><code class="javascript">fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function() {
+    this.$rootNamespace.event.handler('wasFound', function() {
+      console.log('Person, not Person0 or Person1, received this event.');
+    });
+  }
+});</code></pre>
+
       <a id="dataModel-cid" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">

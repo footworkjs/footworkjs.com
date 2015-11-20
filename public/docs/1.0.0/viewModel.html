@@ -960,9 +960,10 @@ fw.viewModel.fileExtensions(function(moduleName) {
       </div>
 <pre><code class="javascript">fw.viewModel.create({
   namespace: 'Sprocket',
+  autoIncrement: true,
   initialize: function() {
-    this.$rootNamespace.event.handler('showData', function(data) {
-      console.log('All SubviewModels Received Event Data', data);
+    this.$rootNamespace.event.handler('wasThrownAway', function() {
+      console.log('Sprocket, not Sprocket0 or Sprocket1, received this event.');
     });
   }
 });</code></pre>

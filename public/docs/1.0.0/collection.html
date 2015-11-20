@@ -414,7 +414,7 @@ fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array[]</span> The affected entries/dataModels</span>
+          <span class="value"><span class="type">array[]</span> The affected entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection();
@@ -450,7 +450,7 @@ people.set([
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array[]</span> The entries/dataModels</span>
+          <span class="value"><span class="type">array[]</span> The entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection();
@@ -506,7 +506,7 @@ people.reset([
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array[]</span> The affected entries/dataModels</span>
+          <span class="value"><span class="type">array[]</span> The affected entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection();
@@ -543,7 +543,7 @@ people.add([
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array[]</span> The removed entries/dataModels</span>
+          <span class="value"><span class="type">array[]</span> The removed entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection([
@@ -599,7 +599,7 @@ var removedPeople = people.removeModel({ id: /^(1|3)$/ });
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Array[]</span> The matching entries/dataModels</span>
+          <span class="value"><span class="type">array[]</span> The matching entries/dataModels</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection([
@@ -628,6 +628,17 @@ var removedPeople = people.removeModel({ id: /^(1|3)$/ });
  */
 </code></pre>
 
+      <p>Here is a <span class="inline-code">where()</span> example demonstrating the use of a <span class="inline-code">RegExp</span> to search through the
+        <span class="inline-code">collection</span> (using the same <span class="inline-code">collection</span> instance from above):</p>
+<pre><code class="javascript">people.where({ employer: /.*Industries$/ }) === [
+  { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries" },
+  { firstName: "Alfred", lastName: "Creane", employer: "Wayne Industries" }
+]
+</code></pre>
+
+      <p>Sometimes all you want is the first (or only) result found in a <span class="inline-code">collection</span>, for that you would use
+        <span class="inline-code">findWhere()</span>.</p>
+
       <a id="collection-findWhere" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
@@ -643,7 +654,7 @@ var removedPeople = people.removeModel({ id: /^(1|3)$/ });
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Object{}</span> The matching entry/dataModel</span>
+          <span class="value"><span class="type">object{}</span> The matching entry/dataModel</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection([
@@ -663,7 +674,7 @@ var removedPeople = people.removeModel({ id: /^(1|3)$/ });
 ]);
 
 /**
- * people.findWhere({ lastName: 'Wayne' }) === {
+ * people.findWhere({ employer: 'Wayne Industries' }) === {
  *   firstName: "Bruce",
  *   lastName: "Wayne",
  *   employer: "Wayne Industries"
@@ -685,7 +696,7 @@ var removedPeople = people.removeModel({ id: /^(1|3)$/ });
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Object{}</span> The matching entry/dataModel</span>
+          <span class="value"><span class="type">object{}</span> The matching entry/dataModel</span>
         </div>
       </div>
 <pre><code class="javascript">var people = fw.collection([
