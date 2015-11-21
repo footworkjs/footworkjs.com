@@ -112,6 +112,16 @@
     viewModel.param1 = fw.observable(param1);
   },
 
+  /**
+   * Raw attributes/properties that are extended onto each newly instantiated viewModel
+   * NOTE: Only suitable for primitive values (strings, numbers, etc), do not put observables
+   *       or namespaces/etc here as they are shared across instances.
+   */
+  extend: {
+    prop1: 'value',
+    prop2: 123
+  }
+
   // Behavioral mixins to include with each new viewModel created
   mixins: [
     // See: 'Mixins' section on this page
