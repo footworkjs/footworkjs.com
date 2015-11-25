@@ -52,7 +52,7 @@
       <h1 class="title">Usage</h1>
     </header>
     <div class="content">
-      <p>A <span class="inline-code">router</span> can be used in 3 different ways:</p>
+      <p>A <span class="inline-code">router</span> can be instantiated and used in 3 different ways:</p>
       <ul>
         <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
 
@@ -137,14 +137,14 @@
   minTransitionPeriod: function(outletName, componentToShow) { return 300; }
 
   /**
-   * Raw attributes/properties that are extended onto each newly instantiated router
+   * Attributes/properties that are extended onto each newly instantiated router
    * NOTE: Only suitable for primitive values (strings, numbers, etc), do not put observables
    *       or namespaces/etc here as they are shared across instances.
    */
   extend: {
     prop1: 'value',
     prop2: 123
-  }
+  },
 
   // Behavioral mixins to include with each new router created
   mixins: [

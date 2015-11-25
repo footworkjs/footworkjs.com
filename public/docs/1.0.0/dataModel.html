@@ -27,7 +27,7 @@
       <h1 class="title">Usage</h1>
     </header>
     <div class="content">
-      <p>A <span class="inline-code">dataModel</span> can be used in 3 different ways:</p>
+      <p>A <span class="inline-code">dataModel</span> can be instantiated and used in 3 different ways:</p>
       <ul>
         <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
 
@@ -135,14 +135,14 @@
   },
 
   /**
-   * Raw attributes/properties that are extended onto each newly instantiated dataModel
+   * Attributes/properties that are extended onto each newly instantiated dataModel
    * NOTE: Only suitable for primitive values (strings, numbers, etc), do not put observables
    *       or namespaces/etc here as they are shared across instances.
    */
   extend: {
     prop1: 'value',
     prop2: 123
-  }
+  },
 
   // Behavioral mixins to include with each new dataModel created
   mixins: [

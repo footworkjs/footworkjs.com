@@ -424,13 +424,23 @@
           opacity: 1;
           display: block;
           // .transition(all 0s ease);
+
+          & > .title {
+            z-index: 1;
+            & > a {
+              z-index: 1;
+              background: @header-dropdown-bg;
+            }
+          }
         }
       }
 
 
       & > .title, .drop-down > .title {
-        & > a > .icon {
-          margin-right: 5px;
+        & > a {
+          & > .icon {
+            margin-right: 5px;
+          }
         }
       }
 
@@ -466,7 +476,8 @@
           min-width: 100%;
           color: @header-dropdown-fg;
           background: @header-dropdown-bg;
-          .box-shadow(0px 2px 3px -1px black);
+          margin-top: -1px;
+          .box-shadow(0 0px 12px -1px rgba(0,0,0,0.6));
           .border-radius(0 0 5px 5px);
 
           a {
