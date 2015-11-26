@@ -91,7 +91,7 @@
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw</span>.collection<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ] )</span></div>
         </div>
-        <div class="description">Create a <span class="inline-code">collection</span> composed of the supplied data.</div>
+        <div class="description">Instantiate a <span class="inline-code">collection</span> composed of the supplied data.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">collection</span> A new <span class="inline-code">collection</span> instance representing the data passed in.</span>
@@ -798,10 +798,10 @@ people.fetch().done(function(peopleList) {
           <div class="func-def"><span>collection</span>.create<span>( <span class="param">modelData</span>, <span class="param">options</span>)</span></div>
         </div>
         <div class="description">
-          <p>Convenience method used to create a new instance of a model within a collection.</p>
+          <p>Convenience method used to create a new instance of a model within a <span class="inline-code">collection</span> and save it to the server.</p>
 
           <p>If the <span class="inline-code">collection</span> is configured with a
-            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then the created instance will be saved to the
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then the new instance will be saved to the
             server (via <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-save')">dataModel.save()</a></span>).</p>
 
           <div class="note"><span class="label">NOTE:</span> By default the new item will be added to the <span class="inline-code">collection</span>
@@ -811,7 +811,7 @@ people.fetch().done(function(peopleList) {
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
-          <span class="value"><span class="type">Promise</span> The request promise</span>
+          <span class="value"><span class="type">Promise</span> The request promise returned from <span class="inline-code">dataModel.save()</span></span>
         </div>
       </div>
 <pre><code class="javascript">// Create a new type of collection with the requisite dataModel (that has a REST url)
@@ -1043,7 +1043,7 @@ people.unshift({ name: 'The Ladies Man' });
           "references": [
             { "anchor": "fw-collection",
               "title": "fw.collection()",
-              "description": "Create a collection composed of the supplied data." },
+              "description": "Instantiate a collection composed of the supplied data." },
             { "anchor": "fw-collection-create",
               "title": "fw.collection.create()",
               "description": "Create a new collection constructor function. This is used to create a new type of collection." }
@@ -1105,7 +1105,7 @@ people.unshift({ name: 'The Ladies Man' });
               "description": "Merges the model with data fetched from the server by delegating to fw.sync()." },
             { "anchor": "collection-create",
               "title": "collection.create()",
-              "description": "Create and insert a new collection(s). This also issues the RESTful calls to create them on the server." }
+              "description": "Convenience method used to create a new instance of a model within a collection and save it to the server." }
           ]
         }
       ]

@@ -26,7 +26,13 @@ article, .docco {
     .border-radius(3px);
   }
 
-  pre + pre, .worspace-setup + p {
+  li {
+    pre:last-child {
+      margin-bottom: @spacing;
+    }
+  }
+
+  pre + pre, pre + .file-location, .worspace-setup + p {
     margin-top: @spacing;
   }
 

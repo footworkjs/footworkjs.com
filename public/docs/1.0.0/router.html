@@ -8,8 +8,8 @@
     </header>
     <div class="content">
       <p>Routing in a web application is about managing state. Modern single-page web applications make use of the HTML5 <span class="inline-code">history</span>
-        API in order to retain normal browser navigation while not forcing a complete refresh of the page on every state/url change. Footwork includes a router which
-        provides this functionality.</p>
+        API in order to retain normal browser navigation while not forcing a complete refresh of the page on every state/url change. Footwork includes
+        a router which provides this functionality.</p>
 
       <p>The router included with Footwork has a several key features:</p>
 
@@ -20,6 +20,7 @@
         <li>Context based outlets.</li>
         <li>Parameterized routes (with optional or required parameters).</li>
         <li>Filtered/predicated routes.</li>
+        <li>Animated page loads.</li>
         <li>Integration with <a href="https://github.com/browserstate/history.js/" target="_blank">history.js</a> for cross-browser history API as well as hash-based
           routing support.</li>
       </ul>
@@ -54,9 +55,48 @@
     <div class="content">
       <p>A <span class="inline-code">router</span> can be instantiated and used in 3 different ways:</p>
       <ul>
-        <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
+        <li>
+          <p>Manually initialized (standard KnockoutJS methodology), and optionally bound to the DOM.</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;div id="main-router"&gt;
+  Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
+  &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
+&lt;/div&gt;</code></pre>
 
-        <li>Automatically via a <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> declaration in the DOM.</li>
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">var router = fw.router.create({
+  initialize: function() {
+    this.hello = 'world';
+  },
+  routes: [ /* ... */ ]
+})(); // &lt;--- note we are creating an instance of it (using the extra parens), not just the constructor
+
+fw.applyBindings(router, document.getElementById('main-router'));
+</code></pre>
+        </li>
+
+        <li>
+          <p>Automatically via a <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> declaration in the DOM.</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;router module="MainRouter"&gt;
+  Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
+  &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
+&lt;/viewModel&gt;</code></pre>
+
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">fw.router.register('MainRouter', fw.router.create({
+  initialize: function() {
+    this.hello = 'world';
+  },
+  routes: [ /* ... */ ]
+}));
+</code></pre>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> There are many ways to register, load, and instantiate a <span class="inline-code">router</span>. See:
+          <a data-bind="$route" href="#registration">router registration</a>.</p>
+      </div>
+        </li>
 
         <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
           <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>

@@ -29,9 +29,50 @@
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> can be instantiated and used in 3 different ways:</p>
       <ul>
-        <li>Manually initialized (standard knockout methodology), and optionally bound to the DOM.</li>
+        <li>
+          <p>Manually initialized (standard KnockoutJS methodology), and optionally bound to the DOM.</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;form id="person" data-bind="submit: save"&gt;
+  Name: &lt;input type="text" data-bind="value: name"&gt;
+  &lt;button&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
 
-        <li>Automatically via a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM.</li>
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">var dataModel = fw.dataModel.create({
+  url: '/person',
+  initialize: function() {
+    this.name = fw.observable();
+  }
+})(); // &lt;--- note we are creating an instance of it (using the extra parens), not just the constructor
+
+fw.applyBindings(dataModel, document.getElementById('person'));
+</code></pre>
+        </li>
+
+        <li>
+          <p>Automatically via a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM.</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;dataModel module="Person"&gt;
+  &lt;form id="person" data-bind="submit: save"&gt;
+    Name: &lt;input type="text" data-bind="value: name"&gt;
+    &lt;button&gt;Save&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/dataModel&gt;</code></pre>
+
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">fw.dataModel.register('Person', fw.dataModel.create({
+  url: '/person',
+  initialize: function() {
+    this.name = fw.observable();
+  }
+}));
+</code></pre>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> There are many ways to register, load, and instantiate a <span class="inline-code">dataModel</span>. See:
+          <a data-bind="$route" href="#registration">dataModel registration</a>.</p>
+      </div>
+        </li>
 
         <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
           <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>

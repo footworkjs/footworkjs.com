@@ -39,9 +39,48 @@
       <p>A <span class="inline-code">viewModel</span> can be instantiated and used in 3 different ways:</p>
 
       <ul>
-        <li>Manually initialized (standard Knockout methodology), and optionally bound to the DOM.</li>
+        <li>
+          <p>Manually initialized (standard KnockoutJS methodology), and optionally bound to the DOM.</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;div id="container"&gt;
+  Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
+  &lt;button data-bind="click: clickHandler"&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
 
-        <li>Automatically via a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM.</li>
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">var viewModel = {
+  hello: 'world',
+  clickHandler: function() { console.info('That tickles.'); }
+};
+
+fw.applyBindings(viewModel, document.getElementById('container'));
+</code></pre>
+        </li>
+
+        <li>
+          <p>Automatically via a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM.</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;viewModel module="helloViewModel"&gt;
+  Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
+  &lt;button data-bind="click: clickHandler"&gt;&lt;/button&gt;
+&lt;/viewModel&gt;</code></pre>
+
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">fw.viewModel.register('helloViewModel', fw.viewModel.create({
+  initialize: function() {
+    this.hello = 'world';
+    this.clickHandler = function() {
+      console.info('That tickles.');
+    };
+  }
+}));
+</code></pre>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> There are many ways to register, load, and instantiate a <span class="inline-code">viewModel</span>. See:
+          <a data-bind="$route" href="#registration">viewModel registration</a>.</p>
+      </div>
+        </li>
 
         <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
           <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
