@@ -99,10 +99,11 @@
       <h2 class="sub title">AMD / Lazy Loading / Registering</h2>
     </header>
     <div class="content">
-      <p>Once an element not recognized as being normal HTML is encountered, Footwork will process it as a component. Beginning with the resolving of its dependencies.</p>
+      <p>Once an element not recognized as being normal HTML is encountered Footwork will process it as a component. This begins with the resolving of
+        its dependencies.</p>
 
-      <div class="note"><span class="label">NOTE:</span> This means every tag it doesn't believe is 'normal html' will be resolved (from cache or dynamically) and processed. You
-        can tell Footwork what should and should not be processed as a component, see <span class="inline-code">fw.components.tagIsComponent()</span> further down.</div>
+      <div class="note"><span class="label">NOTE:</span> You can tell Footwork what should and should not be processed as a component, see
+        <span class="inline-code">fw.components.tagIsComponent()</span> further down.</div>
 
       <p>There are 3 ways Footwork will try to resolve both the viewModel and template for your component once it encounters the
         <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> or
@@ -162,8 +163,8 @@ fw.components.register('sprocket', {
             <a href="http://knockoutjs.com/documentation/component-registration.html" target="_blank">KnockoutJS component registration</a>)</li>
 
           <li>Registering components explicitly is not necessary if you are using AMD/RequireJS and tell Footwork where it can resolve/download them (see
-          <span class="inline-code"><a data-bind="$route" href="#registerLocation">fw.components.registerLocation()</a></span> and
-          <span class="inline-code"><a data-bind="$route" href="#defaultLocation">fw.components.defaultLocation()</a></span> down below).</li>
+          <span class="inline-code"><a data-bind="$route" href="#components-registerLocation">fw.components.registerLocation()</a></span> and
+          <span class="inline-code"><a data-bind="$route" href="#components-defaultLocation">fw.components.defaultLocation()</a></span> down below).</li>
 
           <li>It is recommended you load these assets (the viewModel and template) in via some other means. Footwork preferences loading them with
             <a href="http://requirejs.org">AMD/RequireJS</a> because of its inherent async capabilities/runtime dependency resolution/etc, however if
@@ -191,14 +192,20 @@ fw.components.register('sprocket', {
  * The file name will be appended using the name of the component + .ext
  */
 fw.components.registerLocation('sprocket', {
-  viewModel: '/viewModels/bikeParts/', // load from /viewModels/bikeParts/sprocket.js
-  template: '/templates/bikeParts/' // load from /templates/bikeParts/sprocket.html
+  viewModel: '/components/bikeParts/', // load from /components/bikeParts/sprocket.js
+  template: '/components/bikeParts/' // load from /components/bikeParts/sprocket.html
+});
+
+// Same as above, but using a dataModel instead (you can also load/compose a router with a component as well)
+fw.components.registerLocation('sprocket', {
+  dataModel: '/components/bikeParts/', // load from /components/bikeParts/sprocket.js
+  template: '/components/bikeParts/' // load from /components/bikeParts/sprocket.html
 });
 
 // Specify the full file name (ie: use this if the file name does not conform to what Footwork expects)
 fw.components.registerLocation('sprocket', {
-  viewModel: '/viewModels/bikeParts/TheSprocket.js', // load from /viewModels/bikeParts/TheSprocket.js
-  template: '/templates/bikeParts/theSprocket.html' // load from /templates/bikeParts/theSprocket.html
+  viewModel: '/components/bikeParts/TheSprocket.js', // load from /components/bikeParts/TheSprocket.js
+  template: '/components/bikeParts/theSprocket.html' // load from /components/bikeParts/theSprocket.html
 });
 
 // Specify the 'combined' module to be downloaded (see the 'Module formats' section on this page)
@@ -207,8 +214,8 @@ fw.components.registerLocation('sprocket', '/components/theSprocket.js'); // loa
 
 // You can also specify the path to many components at once (Footwork will append the appropriate file name):
 fw.components.registerLocation(['sprocket', 'wheel'], {
-  viewModel: '/viewModels/bikeParts/', // load from /viewModels/bikeParts/[component-name].js
-  template: '/templates/bikeParts/' // load from /viewModels/bikeParts/[component-name].js
+  viewModel: '/components/bikeParts/', // load from /components/bikeParts/[component-name].js
+  template: '/components/bikeParts/' // load from /components/bikeParts/[component-name].js
 });
 
 // load from /components/[component-name].js in combined format:
@@ -334,41 +341,42 @@ fw.components.defaultLocation('/components/');
     <div class="content">
       <p>Various useful methods and utility functions for misc and debugging purposes.</p>
 
-      <ul>
-        <li><a data-bind="$route" href="#isRegistered">fw.components.isRegistered()</a></li>
-        <li><a data-bind="$route" href="#getLocation">fw.components.getLocation()</a></li>
-        <li><a data-bind="$route" href="#getFileName">fw.components.getFileName()</a></li>
-        <li><a data-bind="$route" href="#fileExtensions">fw.components.fileExtensions()</a></li>
-        <li><a data-bind="$route" href="#getNormalTagList">fw.components.getNormalTagList()</a></li>
-        <li><a data-bind="$route" href="#tagIsComponent">fw.components.tagIsComponent()</a></li>
-      </ul>
-    </div>
-  </section>
-
-  <a id="isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="isRegistered">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.components.isRegistered<span>( <span class="param">'componentName'</span> )</span></em></h3>
-      <h3>Return true or false based on whether or not there is a component that has been registered under 'componentName':</h3>
+      <a id="components-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.isRegistered<span>( <span class="param">'componentName'</span> )</span></div>
+        </div>
+        <div class="description">Returns <span class="inline-code">true</span> or <span class="inline-code">false</span> based on whether or not there
+          is a <span class="inline-code">component</span> that has been registered under <span class="inline-code">componentName</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> TRUE or FALSE depending on whether or not the specified componentName has been registered
+            as a <span class="inline-code">component</span>.</span>
+        </div>
+      </div>
 <pre><code class="javascript">fw.components.register('Sprocket', {
   viewModel: fw.viewModel.create({ /* ... configuration object ... */ }),
   template: '&lt;div&gt;&lt;-- template HTML --&gt;&lt;/div&gt;'
 });
 // fw.components.isRegistered('Sprocket') === true
-// fw.components.isRegistered('ComponentThatIsLoadedByAMD') === false</code></pre>
-    </div>
-  </section>
+// fw.components.isRegistered('SomeOtherComponent') === false</code></pre>
 
-  <a id="getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="getLocation">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.components.getLocation<span>( <span class="param">'componentName'</span> )</span></em></h3>
-      <h3>Get the paths Footwork will attempt to load for the given 'componentName':</h3>
+      <a id="components-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.getLocation<span>( <span class="param">'componentName'</span> )</span></div>
+        </div>
+        <div class="description">Get the path Footwork will attempt to load for the given <span class="inline-code">componentName</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Path to the module</span>
+        </div>
+      </div>
 <pre><code class="javascript">fw.components.registerLocation('Sprocket', {
-  viewModel: '/viewModels/bikeParts/',
-  template: '/templates/bikeParts/'
+  viewModel: '/components/bikeParts/',
+  template: '/components/bikeParts/'
 });
 
 var sprocketLocation = fw.components.getLocation('Sprocket');
@@ -490,7 +498,7 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
       "collapsable": true,
       "isCollapsed": true,
       "subSections": [
-        { "anchor": "isRegistered",
+        { "anchor": "components-isRegistered",
           "title": "fw.components.isRegistered()" },
         { "anchor": "getLocation",
           "title": "fw.components.getLocation()" },
@@ -527,9 +535,15 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
             { "anchor": "components-register",
               "title": "fw.components.register()",
               "description": "Register (cache) a component under a specified 'name' for later use." },
+            { "anchor": "components-isRegistered",
+              "title": "fw.components.isRegistered()",
+              "description": "Returns true or false based on whether or not there is a component that has been registered under componentName." },
             { "anchor": "components-registerLocation",
               "title": "fw.components.registerLocation()",
               "description": "Tell Footwork where to find the component name using the supplied configuration." },
+            { "anchor": "components-getLocation",
+              "title": "fw.components.getLocation()",
+              "description": "Get the path Footwork will attempt to load for the given componentName" },
             { "anchor": "components-defaultLocation",
               "title": "fw.components.defaultLocation()",
               "description": "Tell Footwork where to look for a component if it isn't registered explicitly (ie: when all else fails)." }
