@@ -261,6 +261,8 @@ fw.components.defaultLocation('/components/');
 
       <p>The following examples show <em>RequireJS/AMD</em>-flavored modules.</p>
 
+      <p>This first example shows a basic <span class="inline-code">viewModel</span> / <span class="inline-code">template</span> split:</p>
+
       <div class="file-location">sprocket-viewModel.js</div>
 <pre><code class="javascript">define(["footwork"],
   function(fw) {
@@ -275,20 +277,32 @@ fw.components.defaultLocation('/components/');
 &lt;/div&gt;
 &lt;div class="description" data-bind="text: description"&gt;&lt;/div&gt;</code></pre>
       <div class="note">
-        <p><span class="label">NOTE:</span> You can return any constructor function or plain object from your viewModel modules (you don't have to return a Footwork viewModel
-          constructor as shown).</p>
+        <p><span class="label">NOTE:</span> You can return any constructor function or plain object from your modules and the
+          <span class="inline-code">component</span> will be composed with it (you don't have to return a Footwork
+          <span class="inline-code">viewModel</span> constructor as shown).</p>
       </div>
 
-      <h3><em class="func-def">fw.component<span>( <span class="param">{ viewModel: [viewModel], template: '&lt;!-- template HTML --&gt;' }</span> )</span></em></h3>
-      <h3>viewModel and template are loaded as a combined viewModel + template module:</h3>
-<pre><code class="javascript">// component module file located in: /components/sprocket.js
-define(["footwork"],
+      <p>The following shows how to create a <em>combined</em> <span class="inline-code">component</span> which contains both the
+        constructor function/<span class="inline-code">viewModel</span> and <span class="inline-code">template</span> HTML on one file.</p>
+
+      <a id="fw-component" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.component<span>( <span class="param">configurationObject</span> )</span></div>
+        </div>
+        <div class="description">Create a <em>combined</em> <span class="inline-code">component</span> definition based on the
+          provided <span class="inline-code">viewModel</span> / <span class="inline-code">dataModel</span> / <span class="inline-code">router</span> +
+          <span class="inline-code">template</span> definition.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> Combined <span class="inline-code">component</span> module.</span>
+        </div>
+      </div>
+<pre><code class="javascript">define(["footwork"],
   function(fw) {
     return fw.component({
-      viewModel: fw.viewModel.create({
-        namespace: 'sprocket'
-        // ...
-      }),
+      viewModel: fw.viewModel.create({ /* ... */ }),
       template: '&lt;div&gt;&lt;-- template HTML --&gt;&lt;/div&gt;'
     });
   }
@@ -497,9 +511,9 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
         {
           "label": "General",
           "references": [
-            { "anchor": "fw-viewModel-create",
-              "title": "fw.viewModel.create()",
-              "description": "Creates a new viewModel constructor function." }
+            { "anchor": "fw-component",
+              "title": "fw.component()",
+              "description": "Create a combined component definition based on the provided viewModel / dataModel / router + template definition." }
           ]
         }
       ]
