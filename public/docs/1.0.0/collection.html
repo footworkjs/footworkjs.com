@@ -839,6 +839,47 @@ people.create({
 
     </div>
   </section>
+
+  <a id="utility-methods" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="utility-methods">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Utility Methods</h1>
+    </header>
+    <div class="content">
+      <p>This section outlines various utlity functions related to handling data within a <span class="inline-code">collection</span>.</p>
+
+      <a id="collection-push" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.push<span>( <span class="param">modelData</span> )</span></div>
+          <div class="func-def"><span>collection</span>.push<span>( <span class="param">dataModel</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Adds a new item to the end of the <span class="inline-code">collection</span>.</p>
+
+          <div class="note"><span class="label">NOTE:</span> If the <span class="inline-code">collection</span> is configured with a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> and you are trying to
+            <span class="inline-code">push()</span> a raw attributes object (not a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>) then a <em>new</em> instance of the
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> will be created using the supplied data.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">number</span> The length of the collection after adding the new item</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' }
+]);
+
+// Add a new person
+people.push({ name: 'The Ladies Man' });
+</code></pre>
+    </div>
+  </section>
 </article>
 
 <div id="metaData">
