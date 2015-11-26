@@ -14,7 +14,7 @@
         the DOM.</p>
 
 
-      <p>Footwork.js extends the <span class="inline-code">component</span> feature found in
+      <p>FootworkJS extends the <span class="inline-code">component</span> feature found in
         <a href="http://knockoutjs.com" target="_blank">KnockoutJS</a> 3.2+ to enable many additional features, some of which being:</p>
 
       <ul>
@@ -27,10 +27,10 @@
         <li>Lifecycle events.</li>
         <li>Animations.</li>
         <li>Can be compiled and minified into assets along with all other application code.</li>
-        <li><span class="inline-code">router</span> integration (easily manage components and state, see: <a data-bind="$route: docLink('router')">router</a>)</li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> integration (easily manage components and state)</li>
       </ul>
 
-      <p>Footwork uses KnockoutJS components as its base implementation, for further documentation
+      <p>FootworkJS uses KnockoutJS components as its base implementation, for further documentation
         concerning components (beyond what is contained here) please see the
         <a href="http://knockoutjs.com/documentation/component-overview.html" target="_blank">KnockoutJS component documentation</a>.</p>
     </div>
@@ -52,7 +52,7 @@
           <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> which the template/HTML/DOM is bound to.</li>
       </ul>
 
-      <p>Footwork.js will use either the the custom element name or name provided by the
+      <p>FootworkJS will use either the the custom element name or name provided by the
         <a href="http://knockoutjs.com/documentation/component-binding.html" target="_blank">component binding</a> to resolve and wire-up the designated
         component.</p>
 
@@ -111,36 +111,59 @@
       <p>They are as follows (in order of priority):</p>
 
       <ul>
-        <li>Explicitly registered with a <span class="inline-code">fw.components.register()</span> call.</li>
-        <li>Automatic download/resolution via AMD/RequireJS at a pre-registered location (<span class="inline-code">fw.components.registerLocation()</span>).</li>
-        <li>Automatic download/resolution via AMD/RequireJS at the configurable default (<span class="inline-code">fw.components.defaultLocation()</span>).</li>
+        <li>Explicitly registered with a <span class="inline-code"><a data-bind="$route" href="#components-register">fw.components.register()</a></span> call.</li>
+        <li>Automatic download/resolution via AMD/RequireJS at a pre-registered location (<span class="inline-code"><a data-bind="$route" href="#components-registerLocation">fw.components.registerLocation()</a></span>).</li>
+        <li>Automatic download/resolution via AMD/RequireJS at the configurable default (<span class="inline-code"><a data-bind="$route" href="#components-defaultLocation">fw.components.defaultLocation()</a></span>).</li>
       </ul>
 
       <div class="note"><span class="label">NOTE [<em>advanced</em>]:</span> You can also write your own
         <a href="http://knockoutjs.com/documentation/component-loaders.html" target="_blank">custom loader</a> if you want to use a different method/library or logic to resolve
         your component dependencies.</div>
 
-      <h3><em class="func-def">fw.components.register<span>( <span class="param">'name'</span>, <span class="param">optionsObject</span> )</span></em></h3>
-      <h3>Register (cache) a component under a specified 'name' for later use:</h3>
-<pre><code class="javascript">// Using a Footwork viewModel
+      <p>The following method is used to explicitly register a component and its assets. This means the <span class="inline-code">component</span> will
+        load <em>synchronously</em> as the rest of the markup is bound/initialized.</p>
+
+      <a id="components-register" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.register<span>( <span class="param">'name'</span>, <span class="param">optionsObject</span> )</span></div>
+        </div>
+        <div class="description">Register (cache) a component under a specified <span class="inline-code">name</span> for later use.</div>
+      </div>
+<pre><code class="javascript">// Register a Footwork viewModel
 fw.components.register('sprocket', {
   viewModel: fw.viewModel.create({ /* ... configuration object ... */ }),
   template: '&lt;div data-bind="text: numberOfCogs"&gt;&lt;/div&gt;'
 });
 
-// Using a regular constructor function
+// Register a Footwork dataModel
+fw.components.register('sprocket', {
+  dataModel: fw.dataModel.create({ /* ... configuration object ... */ }),
+  template: '&lt;div data-bind="text: numberOfCogs"&gt;&lt;/div&gt;'
+});
+
+// Register a Footwork router
+fw.components.register('sprocket', {
+  router: fw.router.create({ /* ... configuration object ... */ }),
+  template: '&lt;div data-bind="text: numberOfCogs"&gt;&lt;/div&gt;'
+});
+
+// Register a regular constructor function
 fw.components.register('sprocket', {
   viewModel: function() { this.numberOfCogs = '12'; },
   template: '&lt;div data-bind="text: numberOfCogs"&gt;&lt;/div&gt;'
 });</code></pre>
+
       <div class="note">
         <span class="label">NOTE:</span>
         <ul>
-          <li>Footwork fully supports regular knockout component registration (<span class="inline-code">fw.components.register()</span>,
-            see <a href="http://knockoutjs.com/documentation/component-registration.html" target="_blank">the documentation</a>)</li>
+          <li>FootworkJS fully supports (by proxy) regular KnockoutJS component registration (See:
+            <a href="http://knockoutjs.com/documentation/component-registration.html" target="_blank">KnockoutJS component registration</a>)</li>
 
-          <li>Registering components is not necessary if you have RequireJS and tell Footwork where it can download them (see
-          <span class="inline-code">fw.components.registerLocation()</span> and <span class="inline-code">fw.components.defaultLocation()</span> down below).</li>
+          <li>Registering components explicitly is not necessary if you are using AMD/RequireJS and tell Footwork where it can resolve/download them (see
+          <span class="inline-code"><a data-bind="$route" href="#registerLocation">fw.components.registerLocation()</a></span> and
+          <span class="inline-code"><a data-bind="$route" href="#defaultLocation">fw.components.defaultLocation()</a></span> down below).</li>
 
           <li>It is recommended you load these assets (the viewModel and template) in via some other means. Footwork preferences loading them with
             <a href="http://requirejs.org">AMD/RequireJS</a> because of its inherent async capabilities/runtime dependency resolution/etc, however if
@@ -148,14 +171,21 @@ fw.components.register('sprocket', {
         </ul>
       </div>
 
-      <h3>Tell Footwork how to use AMD/RequireJS to automatically resolve/download your component</h3>
-      <p>It is also possible to simply tell Footwork where your assets are and let it take care of downloading and initializing them for you. The following methods
-        (<span class="inline-code">fw.components.registerLocation()</span> and <span class="inline-code">fw.components.defaultLocation()</span>) outline how to do that.</p>
+      <p>Another option available is to tell FootworkJS where your <span class="inline-code">component</span> assets are and let it take care of
+        downloading/resolving (via AMD/RequireJS) and initializing them for you. The following methods
+        (<span class="inline-code">fw.components.registerLocation()</span> and <span class="inline-code">fw.components.defaultLocation()</span>)
+        outline how to do that.</p>
 
-      <h3><em class="func-def">fw.components.registerLocation<span>( <span class="param">'name'</span>, <span class="param">{ viewModel: 'path/to/viewModel', template: 'path/to/template' }</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.components.registerLocation<span>( <span class="param">'name'</span>, <span class="param">{ combined: 'path/to/combinedComponentFile' }</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.components.registerLocation<span>( <span class="param">'name'</span>, <span class="param">'path/to/combinedComponentFile'</span> )</span></em></h3>
-      <h3>Tell Footwork where to find the component 'name' using the supplied configuration:</h3>
+      <a id="components-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span>, <span class="param">{ viewModel: 'path/to/viewModel', template: 'path/to/template' }</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span>, <span class="param">{ combined: 'path/to/combinedComponentFile' }</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span>, <span class="param">'path/to/combinedComponentFile'</span> )</span></div>
+        </div>
+        <div class="description">Tell Footwork where to find the component <span class="inline-code">name</span> using the supplied configuration.</div>
+      </div>
 <pre><code class="javascript">/**
  * Register component under 'sprocket' using individual paths for the viewModel and template files.
  * The file name will be appended using the name of the component + .ext
@@ -184,14 +214,22 @@ fw.components.registerLocation(['sprocket', 'wheel'], {
 // load from /components/[component-name].js in combined format:
 fw.components.registerLocation(['sprocket', 'wheel'], '/components/');
 </code></pre>
+
       <div class="note"><span class="label">NOTE:</span> Once you <span class="inline-code">registerLocation()</span> a component as being being a 'combined'
         format, Footwork will preferentially choose that path/module type when trying to resolve the component. So in short, make sure you only specify the location of either the
         viewModel+template OR combined modules (not both) for any given component.</div>
 
-      <h3><em class="func-def">fw.components.defaultLocation<span>( <span class="param">{ viewModel: 'path/to/viewModels', template: 'path/to/templates' }</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.components.defaultLocation<span>( <span class="param">{ combined: 'path/to/combinedComponentFiles' }</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.components.defaultLocation<span>( <span class="param">'path/to/combinedComponentFiles'</span> )</span></em></h3>
-      <h3>Tell Footwork where to look for a component if it isn't registered explicitly (ie: when all else fails):</h3>
+      <a id="components-defaultLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.defaultLocation<span>( <span class="param">'name'</span>, <span class="param">{ viewModel: 'path/to/viewModel', template: 'path/to/template' }</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.defaultLocation<span>( <span class="param">'name'</span>, <span class="param">{ combined: 'path/to/combinedComponentFile' }</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.defaultLocation<span>( <span class="param">'name'</span>, <span class="param">'path/to/combinedComponentFile'</span> )</span></div>
+        </div>
+        <div class="description">Tell Footwork where to look for a <span class="inline-code">component</span> if it isn't registered explicitly (ie:
+          when all else fails).</div>
+      </div>
 <pre><code class="javascript">// Load components using individual paths for the viewModel and template files.
 fw.components.defaultLocation({
   viewModel: '/viewModels/', // load from /viewModels/[component-name].js
@@ -211,27 +249,27 @@ fw.components.defaultLocation('/components/');
       <h2 class="sub title">Module Formats</h2>
     </header>
     <div class="content">
-      <p>Footwork templates are always loaded as plain HTML files (plain text), but viewModels are loaded as javascript modules and have a special structure. A component (and thus,
-        its viewModel) can either be expressed inline (ie: when registering a component explicitly as <a data-bind="$route" href="#load-register">shown above</a>), or
-        resolved via a script loader.</p>
+      <p>FootworkJS templates are loaded as plain HTML files, but the corresponding
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> is loaded as a javascript (AMD) module and has a special
+        structure. A <span class="inline-code">component</span> can either be registered explicitly, or resolved via a
+        script loader (by default, AMD/RequireJS).</p>
 
       <p>Both <a href="http://requirejs.org">AMD/RequireJS</a> and <a href="http://browserify.org" target="_blank">Browserify</a> are supported. However RequireJS is preferred as
-        it will enable Footwork to resolve your component (and its dependencies) automatically at runtime as needed.</p>
+        it will enable Footwork to resolve your <span class="inline-code">component</span> (and its dependencies) automatically at runtime as needed.</p>
 
-      <p>The following examples all show RequireJS/AMD-flavored modules.</p>
+      <p>The following examples show <em>RequireJS/AMD</em>-flavored modules.</p>
 
-      <h3>viewModel and template are loaded separately:</h3>
-<pre><code class="javascript">// viewModel module file located in: /viewModel/sprocket.js
-define(["Footwork"],
+      <div class="file-location">sprocket-viewModel.js</div>
+<pre><code class="javascript">define(["footwork"],
   function(fw) {
-    return fw.viewModel.create({
-      namespace: 'sprocket'
-      // ...
-    });
+    return fw.viewModel.create({ /* ... */ });
   }
 );</code></pre>
-<pre><code class="html">&lt;!-- Template file located in: /template/sprocket.html --&gt;
-&lt;div class="info"&gt;
+
+      <div class="file-location">sprocket-view.html</div>
+<pre><code class="html">&lt;div class="info"&gt;
   &lt;div&gt;Sprocket&lt;/div&gt;
   Type: &lt;span data-bind="text: type"&gt;&lt;/span&gt;
 &lt;/div&gt;
@@ -244,7 +282,7 @@ define(["Footwork"],
       <h3><em class="func-def">fw.component<span>( <span class="param">{ viewModel: [viewModel], template: '&lt;!-- template HTML --&gt;' }</span> )</span></em></h3>
       <h3>viewModel and template are loaded as a combined viewModel + template module:</h3>
 <pre><code class="javascript">// component module file located in: /components/sprocket.js
-define(["Footwork"],
+define(["footwork"],
   function(fw) {
     return fw.component({
       viewModel: fw.viewModel.create({
@@ -451,6 +489,40 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
         { "anchor": "tagIsComponent",
           "title": "fw.components.tagIsComponent()" }
       ] }
+  ],
+  "apiReferences": [
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "General",
+          "references": [
+            { "anchor": "fw-viewModel-create",
+              "title": "fw.viewModel.create()",
+              "description": "Creates a new viewModel constructor function." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Registration",
+      "subCategories": [
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "components-register",
+              "title": "fw.components.register()",
+              "description": "Register (cache) a component under a specified 'name' for later use." },
+            { "anchor": "components-registerLocation",
+              "title": "fw.components.registerLocation()",
+              "description": "Tell Footwork where to find the component name using the supplied configuration." },
+            { "anchor": "components-defaultLocation",
+              "title": "fw.components.defaultLocation()",
+              "description": "Tell Footwork where to look for a component if it isn't registered explicitly (ie: when all else fails)." }
+          ]
+        }
+      ]
+    }
   ]
 }
 </div>

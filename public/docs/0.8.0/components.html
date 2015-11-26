@@ -259,7 +259,7 @@ fw.components.defaultLocation('/components/');
 
       <h3>viewModel and template are loaded separately:</h3>
 <pre><code class="javascript">// viewModel module file located in: /viewModel/sprocket.js
-define(["Footwork"],
+define(["footwork"],
   function(fw) {
     return fw.viewModel({
       namespace: 'sprocket'
@@ -281,7 +281,7 @@ define(["Footwork"],
       <h3><em class="func-def">fw.component<span>( <span class="param">{ viewModel: [viewModel], template: '&lt;!-- template HTML --&gt;' }</span> )</span></em></h3>
       <h3>viewModel and template are loaded as a combined viewModel + template module:</h3>
 <pre><code class="javascript">// component module file located in: /components/sprocket.js
-define(["Footwork"],
+define(["footwork"],
   function(fw) {
     return fw.component({
       viewModel: fw.viewModel({

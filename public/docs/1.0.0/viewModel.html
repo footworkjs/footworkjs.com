@@ -287,7 +287,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
 
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">component</span> automatically downloaded for you when needed.</p>
-        <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
+        <p>See <a data-bind="$route: docLink('components#load-register')">component AMD / Lazy Loading / Registering</a>
           for information on how to tell Footwork where to find your component assets.</p>
       </div>
     </div>
@@ -643,7 +643,7 @@ fw.viewModel.defaultLocation('/myViewModels/');</code></pre>
 
       <h3>The following example shows the RequireJS/AMD flavored version:</h3>
 <div class="file-location">/viewModel/Sprocket.js</div>
-<pre><code class="javascript">define(["Footwork"],
+<pre><code class="javascript">define(["footwork"],
   function(fw) {
     // return the constructor created by fw.viewModel.create()
     return fw.viewModel.create({

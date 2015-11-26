@@ -214,7 +214,7 @@ fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'))
  * The only difference being that you return the Footwork-flavored viewModel constructor function
  * result from fw.viewModel() instead of a normal function() {} constructor.
  */
-define(["Footwork"],
+define(["footwork"],
   function(fw) {
     return fw.viewModel({
       // ... configuration object ...
@@ -344,7 +344,7 @@ fw.viewModels.defaultLocation('/myViewModels/');</code></pre>
 
       <h3>viewModel and template are loaded separately:</h3>
 <pre><code class="javascript">// File located in: /viewModel/sprocket.js
-define(["Footwork"],
+define(["footwork"],
   function(fw) {
     return fw.viewModel({
       namespace: 'sprocket'
