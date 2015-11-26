@@ -40,7 +40,8 @@
 
       <ul>
         <li>
-          <p>Manually initialized (standard KnockoutJS methodology), and optionally bound to the DOM.</p>
+          <p>Manually initialized (standard KnockoutJS methodology), and optionally bound to the DOM (See:
+            <a data-bind="$route" href="#bind-manually">manual binding</a>).</p>
 <div class="file-location">markup.html</div>
 <pre><code class="html">&lt;div id="container"&gt;
   Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
@@ -58,7 +59,8 @@ fw.applyBindings(viewModel, document.getElementById('container'));
         </li>
 
         <li>
-          <p>Automatically via a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM.</p>
+          <p>Automatically via a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM
+           (See: <a data-bind="$route" href="#viewModel-element">&lt;viewModel&gt; usage</a>).</p>
 <div class="file-location">markup.html</div>
 <pre><code class="html">&lt;viewModel module="helloViewModel"&gt;
   Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
