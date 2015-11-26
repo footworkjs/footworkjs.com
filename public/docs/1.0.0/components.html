@@ -383,19 +383,24 @@ var sprocketLocation = fw.components.getLocation('Sprocket');
 /**
  * sprocketLocation === {
  *   combined: null,
- *   viewModels: '/viewModel/bikeParts/',
- *   templates: '/component/bikeParts/'
+ *   viewModel: '/viewModel/bikeParts/',
+ *   template: '/component/bikeParts/'
  * }
  */</code></pre>
-    </div>
-  </section>
 
-  <a id="getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="getFileName">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.components.getFileName<span>( <span class="param">'componentName'</span>, <span class="param">'[fileType]'</span> )</span></em></h3>
-      <h3>Get the file name that Footwork will appended to the path when looking up the specified fileType for the component:</h3>
+      <a id="components-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.getFileName<span>( <span class="param">'componentName'</span>, <span class="param">'[fileType]'</span> )</span></div>
+        </div>
+        <div class="description">Get the file name that Footwork will use when looking up the specified <span class="inline-code">fileType</span> for the
+          <span class="inline-code">componentName</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Filename of the module</span>
+        </div>
+      </div>
 <pre><code class="javascript">// get the template filename for the component 'sprocket'
 var fileNameForSprocket = fw.components.getFileName('sprocket', 'template'); // === sprocket.html
 
@@ -544,6 +549,9 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
             { "anchor": "components-getLocation",
               "title": "fw.components.getLocation()",
               "description": "Get the path Footwork will attempt to load for the given componentName" },
+            { "anchor": "components-getFileName",
+              "title": "fw.components.getFileName()",
+              "description": "Get the file name that Footwork will use when looking up the specified fileType for the componentName" },
             { "anchor": "components-defaultLocation",
               "title": "fw.components.defaultLocation()",
               "description": "Tell Footwork where to look for a component if it isn't registered explicitly (ie: when all else fails)." }
