@@ -878,6 +878,80 @@ people.create({
 // Add a new person
 people.push({ name: 'The Ladies Man' });
 </code></pre>
+
+      <a id="collection-pop" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.pop<span>()</span></div>
+        </div>
+        <div class="description">
+          <p>Removes the last item from the <span class="inline-code">collection</span> and returns it.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The last item removed from the <span class="inline-code">collection</span>.</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' }
+]);
+
+// people.pop() === { name: 'Mary Katherine Gallagher' }
+</code></pre>
+
+      <a id="collection-unshift" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.unshift<span>( <span class="param">modelData</span> )</span></div>
+          <div class="func-def"><span>collection</span>.unshift<span>( <span class="param">dataModel</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Inserts a new item at the beginning of the array.</p>
+
+          <div class="note"><span class="label">NOTE:</span> If the <span class="inline-code">collection</span> is configured with a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> and you are trying to
+            <span class="inline-code">push()</span> a raw attributes object (not a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>) then a <em>new</em> instance of the
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> will be created using the supplied data.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">number</span> The length of the collection after adding the new item</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' }
+]);
+
+// Add a new person
+people.unshift({ name: 'The Ladies Man' });
+</code></pre>
+
+      <a id="collection-shift" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.shift<span>()</span></div>
+        </div>
+        <div class="description">
+          <p>Removes the first item from the <span class="inline-code">collection</span> and returns it.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The first item removed from the <span class="inline-code">collection</span>.</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' }
+]);
+
+// people.shift() === { name: 'Jack Handy' }
+</code></pre>
     </div>
   </section>
 </article>
@@ -966,7 +1040,19 @@ people.push({ name: 'The Ladies Man' });
               "description": "Add a model (or an array of models) to the collection." },
             { "anchor": "collection-removeModel",
               "title": "collection.removeModel()",
-              "description": "Remove a model (or an array of models) from the collection." }
+              "description": "Remove a model (or an array of models) from the collection." },
+            { "anchor": "collection-push",
+              "title": "collection.push()",
+              "description": "Adds a new item to the end of the collection." },
+            { "anchor": "collection-pop",
+              "title": "collection.pop()",
+              "description": "Removes the last item from the collection and returns it." },
+            { "anchor": "collection-unshift",
+              "title": "collection.unshift()",
+              "description": "Inserts a new item at the beginning of the array." },
+            { "anchor": "collection-shift",
+              "title": "collection.shift()",
+              "description": "Removes the first item from the array and returns it." }
           ]
         }, {
           "label": "Searching / Retrieval",
