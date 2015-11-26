@@ -21,23 +21,18 @@
         <li>Automatic instantiation and binding of a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
           <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
           <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> instance against a <em>template</em>.</li>
-        <li>
-          <p>Automatic resolution/download at runtime via AMD/RequireJS based on the name in the markup.</p>
-          <div class="note"><span class="label">NOTE:</span> You can also use the standard KnockoutJS
-            <a href="http://knockoutjs.com/documentation/component-binding.html" target="_blank">component binding</a> to initialize your components.</div>
-          <p class="top"></p>
-        </li>
-        <li>Extremely easy to use (and re-use) expressive and semantic <span class="inline-code">&lt;custom-elements&gt;&lt;/custom-elements&gt;</span></li>
+        <li>Automatic resolution/download at runtime via AMD/RequireJS.</li>
+        <li>Expressive and semantic <span class="inline-code">&lt;custom-elements&gt;&lt;/custom-elements&gt;</span></li>
         <li>Unlimited nesting capability.</li>
-        <li>Fully cachable.</li>
         <li>Lifecycle events.</li>
         <li>Animations.</li>
+        <li>Can be compiled and minified into assets along with all other application code.</li>
         <li><span class="inline-code">router</span> integration (easily manage components and state, see: <a data-bind="$route: docLink('router')">router</a>)</li>
       </ul>
 
-      <div class="note"><span class="label">NOTE:</span> Footwork uses KnockoutJS components as the base implementation, for further documentation
-        concerning components please see the <a href="http://knockoutjs.com/documentation/component-overview.html" target="_blank">KnockoutJS
-        component documentation</a>.</div>
+      <p>Footwork uses KnockoutJS components as its base implementation, for further documentation
+        concerning components (beyond what is contained here) please see the
+        <a href="http://knockoutjs.com/documentation/component-overview.html" target="_blank">KnockoutJS component documentation</a>.</p>
     </div>
   </section>
 
@@ -48,85 +43,57 @@
       <h1 class="title">Usage</h1>
     </header>
     <div class="content">
-      <p>Using a component begins with inserting a custom element into your DOM/HTML (or using the standard knockout
-        <a href="http://knockoutjs.com/documentation/component-binding.html" target="_blank">component binding</a>).</p>
+      <p>There are principally 2 pieces that need to be setup prior to a component being usable:</p>
 
-      <div class="note">
-        <p><span class="label">NOTE:</span> Components are somewhat similar to <span class="inline-code">&lt;viewModel module=""&gt;&lt;/viewModel&gt;</span>
-        markup in that they both bind a <span class="inline-code">viewModel</span> to a section of the DOM. The difference being that instead of wrapping
-        a section of HTML with a viewModel, a component pairs the two together ahead of time allowing them to be composed at runtime with a single
-        declarative element. See: <a data-bind="$route: docLink('viewModel#usage')">viewModel usage</a>.</p>
-      </div>
+      <ul>
+        <li>The template/HTML/DOM to bind against.</li>
+        <li>The <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> which the template/HTML/DOM is bound to.</li>
+      </ul>
 
-      <p>Footwork.js uses the the custom element name (or name provided by the component binding) to resolve your component.</p>
+      <p>Footwork.js will use either the the custom element name or name provided by the
+        <a href="http://knockoutjs.com/documentation/component-binding.html" target="_blank">component binding</a> to resolve and wire-up the designated
+        component.</p>
 
-      <h3 class="top">For example, in <span class="inline-code">index.html</span> lets say we have have:</h3>
+      <h3 class="top">Example <span class="inline-code">component</span> declarations inside of an HTML file:</h3>
+<div class="file-location">index.html</div>
 <pre><code class="html">&lt;html&gt;
   &lt;body&gt;
     &lt;div&gt;Look at this awesome Sprocket:&lt;/div&gt;
 
-    &lt;sprocket&gt;&lt;/sprocket&gt; &lt;!-- Footwork will load the 'sprocket' component here --&gt;
+    &lt;!-- this will load the 'sprocket' component here --&gt;
+    &lt;sprocket&gt;&lt;/sprocket&gt;
     &lt;!-- NOTE: only lowercase alpha-numeric and dash (-) characters are allowed for custom elements --&gt;
 
     &lt;!-- this loads the same 'sprocket' component using the standard knockout component binding --&gt;
     &lt;div data-bind="component: 'sprocket'"&gt;&lt;/div&gt;
 
+    &lt;!-- this loads the same 'sprocket' component using KnockoutJS containerless virtual elements --&gt;
+    &lt;!-- ko component: 'sprocket'" --&gt;&lt;!-- /ko --&gt;
+
     &lt;script src="/application.js"&gt;&lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
       <div class="note">
-        <span class="label">NOTE:</span> You can nest both &lt;component&gt; and &lt;viewModel&gt; declarations within one another, Footwork will pull in resources and wire it all
-        up as needed.
+        <span class="label">NOTE:</span> You can nest <span class="inline-code">&lt;component&gt;</span> /
+        <span class="inline-code">&lt;viewModel&gt;</span> /
+        <span class="inline-code">&lt;dataModel&gt;</span> /
+        <span class="inline-code">&lt;router&gt;</span> declarations within
+          one another, Footwork will pull in resources and wire it up as needed at runtime.
       </div>
+
+      <p>The other piece necessary to use a <span class="inline-code">component</span> is the
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> which houses the logic/behavior the HTML is bound against.
+        Those are provided either explicitly via direct registration or by telling Footwork where it can find (download/resolve) them. For that,
+        see <a data-bind="$route" href="#load-register">component registration</a>.</p>
     </div>
   </section>
 
-  <a id="setup" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="setup">
-    <div class="highlight"></div>
-    <header>
-      <h2 class="sub title">Setup</h2>
-    </header>
-    <div class="content">
-      <p>There are principally 2 pieces that need to be setup prior to a component being usable:</p>
-
-      <ul>
-        <li>The template/HTML/DOM to bind against the viewModel.</li>
-        <li>The viewModel which the template/HTML/DOM is bound to.</li>
-      </ul>
-
-      <p>They are both essential. Inside of the template is the markup which comprises your component. The viewModel is the object your template is bound
-        against (Footwork can use <a href="http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models" target="_blank">knockout viewModels</a> which can be created
-        many ways, but <a data-bind="$route: docLink('viewModel')">Footwork viewModels</a> are extra awesome).</p>
-
-      <p>In addition to being autoloaded via RequireJS/AMD (if needed/possible), the viewModel will be initialized (if required) and bound to your template.</p>
-
-      <p>Once both have been combined, the resulting composition is inserted into the DOM and then the <span class="inline-code">afterBinding()</span> lifecycle event is triggered
-        on the viewModel.</p>
-
-      <h3>Example template file used in a component:</h3>
-<div class="file-location">/components/templates/sprocket.html</div>
-<pre><code class="html">&lt;div class="info"&gt;
-  Type: &lt;span data-bind="text: sprocketType"&gt;&lt;/span&gt; &lt;!-- bound to the component viewModel --&gt;
-&lt;/div&gt;
-
-&lt;!-- nested component --&gt;
-&lt;sprocket-diagram&gt;
-  &lt;!-- content here is replaced with the sprocket-diagram component --&gt;
-&lt;/sprocket-diagram&gt;
-
-&lt;!-- nested viewModel --&gt;
-&lt;viewModel module="sprocketLabel"&gt;
-  &lt;div data-bind="text: manufacturer"&gt;&lt;/div&gt; &lt;!-- bound to sprocketLabel viewModel --&gt;
-  &lt;another-nested-component&gt;&lt;/another-nested-component&gt;
-&lt;/viewModel&gt;
-
-&lt;div data-bind="text: description"&gt;&lt;/div&gt; &lt;!-- bound to the component viewModel --&gt;</code></pre>
-    </div>
-  </section>
-
-  <a id="loading-registering" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="loading-registering">
+  <a id="load-register" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="load-register">
     <div class="highlight"></div>
     <header>
       <h2 class="sub title">AMD / Lazy Loading / Registering</h2>
@@ -245,7 +212,7 @@ fw.components.defaultLocation('/components/');
     </header>
     <div class="content">
       <p>Footwork templates are always loaded as plain HTML files (plain text), but viewModels are loaded as javascript modules and have a special structure. A component (and thus,
-        its viewModel) can either be expressed inline (ie: when registering a component explicitly as <a data-bind="$route" href="#loading-registering">shown above</a>), or
+        its viewModel) can either be expressed inline (ie: when registering a component explicitly as <a data-bind="$route" href="#load-register">shown above</a>), or
         resolved via a script loader.</p>
 
       <p>Both <a href="http://requirejs.org">AMD/RequireJS</a> and <a href="http://browserify.org" target="_blank">Browserify</a> are supported. However RequireJS is preferred as
@@ -458,26 +425,13 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
         { "anchor": "usage",
           "title": "Usage",
           "subSections": [
-            { "anchor": "setup",
-              "title": "Setup" },
-            { "anchor": "factory-method",
-              "title": "Factory Method" },
-            { "anchor": "bind-manually",
-              "title": "Manual Instantiation and Binding",
-              "description": "Binding a viewModel using fw.applyBindings()." },
-            { "anchor": "viewModel-element",
-              "title": "&lt;viewModel&gt;",
-              "description": "Using a viewModel with a &lt;viewModel&gt; declarative element." },
-            { "anchor": "inside-component",
-              "title": "&lt;component&gt;",
-              "description": "Using a viewModel with a &lt;component&gt; declarative custom element." }
-          ] },
-        { "anchor": "loading-registering",
-          "title": "AMD / Lazy Loading / Registering" },
-        { "anchor": "module-formats",
-          "title": "Module Formats" },
-        { "anchor": "lifecycle",
-          "title": "Lifecycle" }
+            { "anchor": "load-register",
+              "title": "AMD / Lazy Loading / Registering" },
+            { "anchor": "module-formats",
+              "title": "Module Formats" },
+            { "anchor": "lifecycle",
+              "title": "Lifecycle" }
+          ] }
       ] },
     { "anchor": "misc",
       "title": "Utility / Misc",

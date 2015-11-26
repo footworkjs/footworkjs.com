@@ -306,7 +306,7 @@ var router = new AppRouter();
 
       <div class="note">
         <p><span class="label">NOTE:</span> You can have your <span class="inline-code">component</span> automatically downloaded for you when needed.</p>
-        <p>See <a data-bind="$route: docLink('components#loading-registering')">component AMD / Lazy Loading / Registering</a>
+        <p>See <a data-bind="$route: docLink('components#load-register')">component AMD / Lazy Loading / Registering</a>
           for information on how to tell Footwork where to find your component assets.</p>
       </div>
     </div>
@@ -593,13 +593,13 @@ unknownRoute: { /* ... */ }
 
       <ul>
         <li>A corresponding view registered (cached/preloaded) via <span class="inline-code">fw.outlets.registerView()</span> or
-          <a data-bind="$route: docLink('components#loading-registering')"><span class="inline-code">fw.components.register()</span></a></li>
+          <a data-bind="$route: docLink('components#load-register')"><span class="inline-code">fw.components.register()</span></a></li>
 
         <li>A registered location where it can load the view via <span class="inline-code">fw.outlets.registerViewLocation()</span> or
-          <a data-bind="$route: docLink('components#loading-registering')"><span class="inline-code">fw.components.registerLocation()</span></a></li>
+          <a data-bind="$route: docLink('components#load-register')"><span class="inline-code">fw.components.registerLocation()</span></a></li>
 
         <li>A component/view available at the default component location (<span class="inline-code">fw.components.defaultLocation()</span>, see
-          <a data-bind="$route: docLink('components#loading-registering')">component registration</a>).</li>
+          <a data-bind="$route: docLink('components#load-register')">component registration</a>).</li>
       </ul>
 
       <div class="note">
@@ -629,7 +629,7 @@ unknownRoute: { /* ... */ }
 
         <li><span class="inline-code">fw.outlets.registerViewLocation()</span> - Tell Footwork where it can download it via AMD/RequireJS (dynamically/lazy loaded for you when
           requested). Since outlet views are just viewModel-less components, they are resolved just like any other
-          <a data-bind="$route: docLink('components#loading-registering')">AMD/RequireJS loaded component</a>.</li>
+          <a data-bind="$route: docLink('components#load-register')">AMD/RequireJS loaded component</a>.</li>
       </ul>
 
       <p>Essentially they are ways to easily create/register a view you can use in an outlet.</p>
