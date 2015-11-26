@@ -805,8 +805,9 @@ people.fetch().done(function(peopleList) {
             server (via <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-save')">dataModel.save()</a></span>).</p>
 
           <div class="note"><span class="label">NOTE:</span> By default the new item will be added to the <span class="inline-code">collection</span>
-            immediately. You can tell Footwork not to add it until/when the server returns with a <span class="inline-code">HTTP 200</span> (success)
-            response by passing <span class="inline-code">{ wait: true }</span> to the <span class="inline-code">options</span>.</div>
+            immediately after instantiation (prior to <span class="inline-code">dataModel.save()</span>). You can tell Footwork not to add it until/when the
+            server returns with a <span class="inline-code">HTTP 200</span> (success) response by passing
+            <span class="inline-code">{ wait: true }</span> to the <span class="inline-code">options</span>.</div>
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>
@@ -952,6 +953,35 @@ people.unshift({ name: 'The Ladies Man' });
 
 // people.shift() === { name: 'Jack Handy' }
 </code></pre>
+
+      <a id="collection-splice" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.splice<span>( <span class="param">start</span>, <span class="param">deleteCount</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Removes and returns a given number of items starting from a given index.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">array[]</span> The removed items from the <span class="inline-code">collection</span>.</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' },
+  { name: 'The Ladies Man' },
+  { name: 'Unfrozen Caveman Lawyer' }
+]);
+
+/**
+ * people.splice(1, 2) === [
+ *  { name: 'Mary Katherine Gallagher' },
+ *  { name: 'The Ladies Man' }
+ * ]
+ */
+</code></pre>
     </div>
   </section>
 </article>
@@ -1001,10 +1031,7 @@ people.unshift({ name: 'The Ladies Man' });
       ] },
     { "subSections": [
         { "anchor": "utility-methods",
-          "title": "Utility Methods" },
-        { "anchor": "instance-properties",
-          "title": "Instance Properties",
-          "description": "Properties that exist on an instantiated collection." }
+          "title": "Utility Methods" }
       ] }
   ],
   "apiReferences": [
@@ -1052,7 +1079,10 @@ people.unshift({ name: 'The Ladies Man' });
               "description": "Inserts a new item at the beginning of the array." },
             { "anchor": "collection-shift",
               "title": "collection.shift()",
-              "description": "Removes the first item from the array and returns it." }
+              "description": "Removes the first item from the array and returns it." },
+            { "anchor": "collection-splice",
+              "title": "collection.splice()",
+              "description": "Removes and returns a given number of elements starting from a given index." }
           ]
         }, {
           "label": "Searching / Retrieval",
