@@ -487,18 +487,17 @@ waldoRequestHandler.unsubscribe(); // also works
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>namespace</span>.command.handler<span>( <span class="param">'commandName'</span>, <span class="param">function(data) { ... }</span> )</span></div>
         </div>
-        <div class="description">Create a handler for a <span class="inline-code">request</span> on a <span class="inline-code">namespace</span>,
-          the return value is passed back to the requester.</div>
+        <div class="description">Create a handler for a <span class="inline-code">command</span> on a <span class="inline-code">namespace</span>.</div>
         <div class="return-value">
           <span class="label">Returns:</span>
           <span class="value"><span class="type">SubscriptionDefinition{}</span> The subscription definition for the handler</span>
         </div>
       </div>
-<pre><code class="javascript">myNamespace.command.handler('buyGroceries', function(items) {
+<pre><code class="javascript">var buyGroceriesHandler = myNamespace.command.handler('buyGroceries', function(items) {
   // buy groceries
 });
 
-myNamespace.command.handler('findWaldo', function() {
+var findWaldoHandler = myNamespace.command.handler('findWaldo', function() {
   // go find Waldo
 });</code></pre>
 
@@ -510,11 +509,11 @@ myNamespace.command.handler('findWaldo', function() {
         </div>
         <div class="description">Unregister a <span class="inline-code">command</span> handler.</div>
       </div>
-<pre><code class="javascript">var findWaldo = myNamespace.command.handler('findWaldo', function() {
+<pre><code class="javascript">var findWaldoHandler = myNamespace.command.handler('findWaldo', function() {
   // go find Waldo
 });
 
-myNamespace.command.unregister(findWaldo);
+myNamespace.command.unregister(findWaldoHandler);
 findWaldo.unsubscribe(); // also works</code></pre>
 
       <div class="note"><span class="label">NOTE:</span> Remember that if you are using a <em>managed</em>
@@ -613,6 +612,52 @@ findWaldo.unsubscribe(); // also works</code></pre>
             { "anchor": "namespace-dispose",
               "title": "namespace.dispose()",
               "description": "Dispose of all registered subscriptions and handlers." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "Communication",
+          "references": [
+            { "anchor": "namespace-publish",
+              "title": "namespace.publish()",
+              "description": "Publish the supplied data on a specified topic." },
+            { "anchor": "namespace-subscribe",
+              "title": "namespace.subscribe()",
+              "description": "Subscribe to a specified topic on a namespace." },
+            { "anchor": "namespace-unsubscribe",
+              "title": "namespace.unsubscribe()",
+              "description": "Unsubscribe an instantiated subscription." },
+            { "anchor": "namespace-trigger",
+              "title": "namespace.trigger()",
+              "description": "Trigger eventName on the namespace using the supplied data." },
+            { "anchor": "namespace-event-handler",
+              "title": "namespace.event.handler()",
+              "description": "Create a handler for eventName on the namespace." },
+            { "anchor": "namespace-event-unregister",
+              "title": "namespace.event.unregister()",
+              "description": "Unregister an event handler." },
+            { "anchor": "namespace-request",
+              "title": "namespace.request()",
+              "description": "Request data from a namespace." },
+            { "anchor": "namespace-request-handler",
+              "title": "namespace.request.handler()",
+              "description": "Create a handler for a request on a namespace, the return value is passed back to the requester." },
+            { "anchor": "namespace-request-unregister",
+              "title": "namespace.request.unregister()",
+              "description": "Unregister a request handler." },
+            { "anchor": "namespace-command",
+              "title": "namespace.command()",
+              "description": "Issue a command to the namespace using the supplied data." },
+            { "anchor": "namespace-command-handler",
+              "title": "namespace.command.handler()",
+              "description": "Create a handler for a command on a namespace." },
+            { "anchor": "namespace-command-unregister",
+              "title": "namespace.command.unregister()",
+              "description": "Unregister a command handler." }
           ]
         }
       ]
