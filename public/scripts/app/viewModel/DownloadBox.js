@@ -12,7 +12,7 @@ define(['footwork', 'jquery', 'lodash'],
 
     return fw.viewModel.create({
       namespace: 'DownloadBox',
-      afterBinding: function(container) {
+      afterRender: function(container) {
         $(container).find('pre code').each(function(i, block) {
           hljs.highlightBlock(block);
         });

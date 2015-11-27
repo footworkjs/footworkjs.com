@@ -2,7 +2,7 @@ define([ "footwork", "lodash" ],
   function( fw, _ ) {
     return fw.viewModel.create({
       namespace: 'Pane',
-      afterBinding: function() {
+      afterRender: function() {
         this.$namespace.trigger('initialized', true, false);
       },
       initialize: function() {

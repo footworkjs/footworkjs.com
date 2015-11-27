@@ -46,7 +46,7 @@ define([ "footwork", "lodash", "jquery" ],
     return fw.viewModel.create({
       namespace: 'CodeDemo',
       autoIncrement: true,
-      afterBinding: function(element) {
+      afterRender: function(element) {
         var CodeDemo = this;
         var demoSrc = element.getAttribute('src');
         var outputContainer = element.querySelector('.output > .content');

@@ -2,7 +2,7 @@ define([ "footwork", "lodash", "jquery" ],
   function( fw, _, $ ) {
     return fw.viewModel.create({
       namespace: 'apiReference',
-      afterBinding: function(element) {
+      afterRender: function(element) {
         this.$refElement = $(element);
       },
       initialize: function(params) {

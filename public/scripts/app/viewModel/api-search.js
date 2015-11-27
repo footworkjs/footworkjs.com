@@ -69,7 +69,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
     return fw.viewModel.create({
       namespace: 'apiSearch',
-      afterBinding: function(element) {
+      afterRender: function(element) {
         var $element = this.$element = $(element);
         this.$inputElement = this.$element.find('input');
         this.$scrollContainer = $element.find('.scrollArea');

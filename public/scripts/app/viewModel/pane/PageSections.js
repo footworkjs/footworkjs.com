@@ -41,7 +41,7 @@ define([ "jquery", "lodash", "footwork" ],
 
     return fw.viewModel.create({
       namespace: 'PageSections',
-      afterBinding: function() {
+      afterRender: function() {
         this.checkSelection();
       },
       initialize: function() {

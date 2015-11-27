@@ -10,7 +10,7 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
 
     return fw.viewModel.create({
       namespace: 'SearchResult',
-      afterBinding: function(element) {
+      afterRender: function(element) {
         this.$link = $(element).children('.api-search-result');
         setTimeout(function() {
           this.height(this.$link.outerHeight());
