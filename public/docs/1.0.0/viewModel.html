@@ -308,7 +308,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       </ul>
 
       <p>A viewModel that is attached to the DOM will retrive two main lifecycle events, one just after binding to the DOM
-        (<span class="inline-code">afterBinding()</span>) and one when the element (that the viewModel bound itself to) is removed from the DOM
+        (<span class="inline-code">afterRender()</span>) and one when the element (that the viewModel bound itself to) is removed from the DOM
         (<span class="inline-code">onDispose()</span>, called just before the element is removed).</p>
     </div>
   </section>
@@ -320,15 +320,15 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       <h2 class="sub title">Binding</h2>
     </header>
     <div class="content">
-      <p>If provided, the <span class="inline-code">viewModel</span> configuration <span class="inline-code">afterBinding()</span> method will be called
+      <p>If provided, the <span class="inline-code">viewModel</span> configuration <span class="inline-code">afterRender()</span> method will be called
         just after a <span class="inline-code">viewModel</span> is bound to the DOM. This provides a handy integration point for external libraries or
         plugins (such as jQuery).</p>
 
-      <a id="afterBinding" class="section-anchor" data-bind="sectionAnchor"></a>
+      <a id="afterRender" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">afterBinding<span>()</span></div>
+          <div class="func-def">afterRender<span>()</span></div>
         </div>
         <div class="description">Callback triggered after binding to the DOM.</div>
       </div>
@@ -1142,8 +1142,8 @@ fw.viewModel.fileExtensions(function(moduleName) {
         {
           "label": "Callbacks",
           "references": [
-            { "anchor": "afterBinding",
-              "title": "afterBinding()",
+            { "anchor": "afterRender",
+              "title": "afterRender()",
               "description": "Method triggered after a viewModel has been bound to the DOM." },
             { "anchor": "onDispose",
               "title": "onDispose()",
@@ -1189,10 +1189,7 @@ fw.viewModel.fileExtensions(function(moduleName) {
               "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
             { "anchor": "viewModel-globalNamespace",
               "title": "viewModel.$globalNamespace",
-              "description": "Global namespace channel all instances get access to.",
-              "subDescriptions": [
-                "Think of this as a broadcast channel everyone can talk on."
-              ] }
+              "description": "Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on." }
           ]
         }
       ]

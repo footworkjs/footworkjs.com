@@ -448,6 +448,35 @@ var person = new Person({
  * person.get('firstName') === 'Gary'
  */
 </code></pre>
+
+      <a id="dataModel-toJSON" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.toJSON<span>()</span></div>
+        </div>
+        <div class="description">Convert a <span class="inline-code">dataModel</span> into its JSON stringified form.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> JSON string representing the dataModel</span>
+        </div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+  }
+});
+
+var person = new Person({
+  firstName: 'Gary',
+  lastName: 'Busey'
+});
+
+// person.toJSON() === '{"firstName":"Gary","lastName":"Busey"}'
+// JSON.stringify(person) === '{"firstName":"Gary","lastName":"Busey"}'
+</code></pre>
     </div>
   </section>
 
@@ -732,7 +761,7 @@ person.destroy().done(function() {
       </ul>
 
       <p>A dataModel that is attached to the DOM will retrive two main lifecycle events, one just after binding to the DOM
-        (<span class="inline-code">afterBinding()</span>) and one when the element (that the dataModel bound itself to) is removed from the DOM
+        (<span class="inline-code">afterRender()</span>) and one when the element (that the dataModel bound itself to) is removed from the DOM
         (<span class="inline-code">onDispose()</span>, called just before the element is removed).</p>
     </div>
   </section>
@@ -744,14 +773,15 @@ person.destroy().done(function() {
       <h2 class="sub title">Binding</h2>
     </header>
     <div class="content">
-      <p>If provided, the <span class="inline-code">dataModel</span> configuration <span class="inline-code">afterBinding()</span> method will be called
+      <p>If provided, the <span class="inline-code">dataModel</span> configuration <span class="inline-code">afterRender()</span> method will be called
         just after a <span class="inline-code">dataModel</span> is bound to the DOM. This provides a handy integration point for external libraries or
         plugins (such as jQuery).</p>
 
+      <a id="afterRender" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def">afterBinding<span>()</span></div>
+          <div class="func-def">afterRender<span>()</span></div>
         </div>
         <div class="description">Callback triggered after binding to the DOM.</div>
       </div>
@@ -782,6 +812,7 @@ person.destroy().done(function() {
         just after the element a <span class="inline-code">dataModel</span> is bound to is removed from the DOM. This provides a handy integration
         point for external libraries or plugins (such as jQuery).</p>
 
+      <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
@@ -1420,6 +1451,26 @@ fw.dataModel.fileExtensions(function(moduleName) {
   }
 });</code></pre>
 
+      <a id="dataModel-globalNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$globalNamespace</div>
+        </div>
+        <div class="description">
+          <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>
+        </div>
+      </div>
+<pre><code class="javascript">fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function() {
+    var thisPerson = this;
+    this.$globalNamespace.command.handler('sayHello', function() {
+      console.log('Hello from', thisPerson);
+    });
+  }
+});</code></pre>
+
       <a id="dataModel-cid" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
@@ -1589,6 +1640,25 @@ fw.dataModel.fileExtensions(function(moduleName) {
       ]
     },
     {
+      "label": "Data",
+      "subCategories": [
+        {
+          "label": "Management",
+          "references": [
+            { "anchor": "dataModel-get",
+              "title": "dataModel.get()",
+              "description": "Convert a dataModel or specified mapped value into its hash-mapped plain-javascript-object version." },
+            { "anchor": "dataModel-toJSON",
+              "title": "dataModel.toJSON()",
+              "description": "Convert a dataModel into its JSON stringified form." },
+            { "anchor": "dataModel-set",
+              "title": "dataModel.set()",
+              "description": "Write a POJO (object) model to a dataModel using the internal mapping." }
+          ]
+        }
+      ]
+    },
+    {
       "label": "Registration",
       "subCategories": [
         {
@@ -1600,6 +1670,9 @@ fw.dataModel.fileExtensions(function(moduleName) {
             { "anchor": "dataModel-registerLocation",
               "title": "fw.dataModel.registerLocation()",
               "description": "Register the location of (or path to) a dataModel so that it can be downloaded/resolved when needed." },
+            { "anchor": "dataModel-defaultLocation",
+              "title": "fw.dataModel.defaultLocation()",
+              "description": "Register the default location of dataModels so Footwork can load and bind them for you when needed." },
             { "anchor": "dataModel-isRegistered",
               "title": "fw.dataModel.isRegistered()",
               "description": "Method used to check whether or not a dataModel has been registered or not." },
@@ -1614,7 +1687,10 @@ fw.dataModel.fileExtensions(function(moduleName) {
               "description": "Get the filename Footwork will use when downloading a dataModel.",
               "subDescriptions": [
                 "This is appended onto the location/path when downloading."
-              ] }
+              ] },
+            { "anchor": "dataModel-fileExtensions",
+              "title": "fw.dataModel.fileExtensions()",
+              "description": "Specify the extension to append to an AMD/RequireJS loaded dataModel path when it does not have an extension specified (ie: full file name not specified)." }
           ]
         }
       ]
@@ -1625,8 +1701,8 @@ fw.dataModel.fileExtensions(function(moduleName) {
         {
           "label": "Callbacks",
           "references": [
-            { "anchor": "afterBinding",
-              "title": "afterBinding()",
+            { "anchor": "afterRender",
+              "title": "afterRender()",
               "description": "Method triggered after a dataModel has been bound to the DOM." },
             { "anchor": "onDispose",
               "title": "onDispose()",
@@ -1694,10 +1770,7 @@ fw.dataModel.fileExtensions(function(moduleName) {
               "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
             { "anchor": "dataModel-globalNamespace",
               "title": "dataModel.$globalNamespace",
-              "description": "Global namespace channel all instances get access to.",
-              "subDescriptions": [
-                "Think of this as a broadcast channel everyone can talk on."
-              ] },
+              "description": "Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on." },
             { "anchor": "dataModel-cid",
               "title": "dataModel.$cid",
               "description": "A unique identifier automatically assigned to every dataModel when first created." },
