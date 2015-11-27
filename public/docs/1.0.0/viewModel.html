@@ -263,33 +263,12 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       <h2 class="sub title">&lt;component&gt;</h2>
     </header>
     <div class="content">
-      <p>You can supply a <span class="inline-code">viewModel</span> inside of a component registration (or location registration). By doing that the
-        component will bind the <span class="inline-code">viewModel</span> against your markup.</p>
-<pre><code class="html">&lt;html&gt;
-  &lt;body&gt;
-    &lt;sprocket&gt;&lt;/sprocket&gt;
-    &lt;!-- NOTE: Both the viewModel and template are either autoloaded via requireJS/AMD, or
-               loaded from cache/configuration you supply to the framework --&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+      <p>In addition to using a <span class="inline-code">viewModel</span> in the ways shown above they can also be used inside of a custom
+        <span class="inline-code">&lt;component&gt;</span>. This enables you to (among many other things) fully encapsulate their behavior along with
+        their companion HTML/markup.</p>
 
-          <p>... and as an example, this <span class="inline-code">component</span> was registered directly:</p>
-<pre><code class="javascript">fw.components.register('sprocket', {
-  viewModel: fw.viewModel.create({
-    namespace: 'Sprocket',
-    initialize: function(params) {
-      this.type = fw.observable(params.type);
-    }
-  }),
-  template: '&lt;!-- component HTML markup --&gt;'
-});
-</code></pre>
-
-      <div class="note">
-        <p><span class="label">NOTE:</span> You can have your <span class="inline-code">component</span> automatically downloaded for you when needed.</p>
-        <p>See <a data-bind="$route: docLink('components#load-register')">component AMD / Lazy Loading / Registering</a>
-          for information on how to tell Footwork where to find your component assets.</p>
-      </div>
+      <p>For more information on how to create a <span class="inline-code">viewModel</span>-based <span class="inline-code">component</span> see the
+        <a data-bind="$route: docLink('components')">component documentation</a>.</p>
     </div>
   </section>
 
