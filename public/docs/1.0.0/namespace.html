@@ -196,11 +196,11 @@ alsoMyNamespace.publish('hello', 'Jonathan'); // console prints: 'Greetings Jona
 
       <h3>A quick example <span class="inline-code">broadcastable / receivable</span> usage:</h3>
 <pre><code class="javascript">// Create the receivable
-var receivable = fw.observable().receiveFrom('SomePlace', 'broadcastValue');
+var receivable = fw.observable().receiveFrom('SomeNamespace', 'broadcastVariableName');
 // receivable() === undefined
 
 // Create the broadcastable which will broadcast/sync its data to the receivable
-var broadcastable = fw.observable('someValue').broadcastAs('broadcastValue', 'SomePlace');
+var broadcastable = fw.observable('someValue').broadcastAs('broadcastVariableName', 'SomeNamespace');
 // ... the receivable receives the value from the newly instantiated broadcastable
 // receivable() === 'someValue'
 
@@ -327,7 +327,7 @@ greetingSubscription.unsubscribe(); // Can also call unsubscribe() on the subscr
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>namespace</span>.trigger<span>( <span class="param">'eventName'</span>,  <span class="param">data</span> )</span></div>
+          <div class="func-def"><span>namespace</span>.trigger<span>( <span class="param">'eventName'</span>, <span class="param">data</span> )</span></div>
         </div>
         <div class="description">Trigger <span class="inline-code">eventName</span> on the namespace using the supplied <span class="inline-code">data</span>.</div>
       </div>
@@ -342,7 +342,7 @@ myNamespace.trigger('cantFindWaldo');</code></pre>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>namespace</span>.event.handler<span>( <span class="param">'eventName'</span>,  <span class="param">function(data) { ... }</span> )</span></div>
+          <div class="func-def"><span>namespace</span>.event.handler<span>( <span class="param">'eventName'</span>, <span class="param">function(data) { ... }</span> )</span></div>
         </div>
         <div class="description">Create a handler for <span class="inline-code">eventName</span> on the <span class="inline-code">namespace</span>.</div>
         <div class="return-value">
@@ -382,16 +382,20 @@ foundWaldo.unsubscribe(); // Can also call unsubscribe() on the subscriptionDefi
       <h2 class="sub title">Requests</h2>
     </header>
     <div class="content">
-      <p>Request and respond to data requests on a namespace.</p>
-    </div>
-  </section>
+      <p>Request and respond to data requests on a <span class="inline-code">namespace</span>.</p>
 
-  <a id="issue-request" class="section-anchor top"></a>
-  <section data-name="issue-request" class="top">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">namespace.request<span>( <span class="param">'requestKey'</span>,  <span class="param">data</span>, <span class="param">allowMultiple = false</span> )</span></em></h3>
-      <h3>Request data from a namespace:</h3>
+      <a id="namespace-request" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>namespace</span>.request<span>( <span class="param">'requestKey'</span>, <span class="param">data</span>, <span class="param">allowMultiple = false</span> )</span></div>
+        </div>
+        <div class="description">Request data from a <span class="inline-code">namespace</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">mixed</span> The response from any handlers (or <span class="inline-code">undefined</span> if none respond)</span>
+        </div>
+      </div>
 <pre><code class="javascript">myNamespace.request.handler('waldoLocation', function() {
   return 'I have no idea.';
 });
@@ -409,16 +413,21 @@ myNamespace.request.handler('something', function() {
   return 'response 2';
 });
 // myNamespace.request('waldoLocation', null, true) === [ 'response 1', 'response 2' ]</code></pre>
-    </div>
-  </section>
 
-  <a id="request-handler" class="section-anchor top"></a>
-  <section data-name="request-handler" class="top">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">namespace.request.handler<span>( <span class="param">'requestKey'</span>,  <span class="param">function(data) { ... }</span> )</span></em></h3>
-      <h3>Create a handler for an request on a namespace, return value is passed back to the requester:</h3>
-<pre><code class="javascript">myNamespace.request.handler('waldoLocation', function() {
+      <a id="namespace-request-handler" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>namespace</span>.request.handler<span>( <span class="param">'requestKey'</span>, <span class="param">function(data) { ... }</span> )</span></div>
+        </div>
+        <div class="description">Create a handler for a <span class="inline-code">request</span> on a <span class="inline-code">namespace</span>,
+          the return value is passed back to the requester.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">SubscriptionDefinition{}</span> The subscription definition for the handler</span>
+        </div>
+      </div>
+<pre><code class="javascript">var waldoRequestHandler = myNamespace.request.handler('waldoLocation', function() {
   return 'I have no idea.';
 });
 
@@ -426,25 +435,29 @@ myNamespace.request.handler('something', function() {
 myNamespace.request.handler('taxCost', function(amount) {
   return amount * 0.0825;
 });</code></pre>
-    </div>
-  </section>
 
-  <a id="request-unregister" class="section-anchor top"></a>
-  <section data-name="request-unregister" class="top">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">namespace.request.unregister<span>( <span class="param">handler</span> )</span></em></h3>
-      <h3>Unregister an request handler:</h3>
-<pre><code class="javascript">var waldoLocationResponder = myNamespace.request.handler('waldoLocation', function() {
+      <a id="namespace-request-unregister" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>namespace</span>.request.unregister<span>( <span class="param">subscriptionDefinition</span> )</span></div>
+        </div>
+        <div class="description">Unregister a <span class="inline-code">request</span> handler.</div>
+      </div>
+<pre><code class="javascript">var waldoRequestHandler = myNamespace.request.handler('waldoLocation', function() {
   return 'I have no idea.';
 });
 // myNamespace.request('waldoLocation') === 'I have no idea'
 
-myNamespace.request.unregister(waldoLocationResponder);
-waldoLocationResponder.unsubscribe(); // also works
+myNamespace.request.unregister(waldoRequestHandler);
+waldoRequestHandler.unsubscribe(); // also works
 
 // myNamespace.request('waldoLocation') === undefined
 </code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Remember that if you are using a <em>managed</em>
+        <span class="inline-code">namespace</span> then you do not need to worry about calling <span class="inline-code">unregister()</span> as all
+        handlers/subscriptions are automatically cleaned up for you when the parent instance is disposed of.</p></div>
     </div>
   </section>
 
@@ -455,26 +468,32 @@ waldoLocationResponder.unsubscribe(); // also works
       <h2 class="sub title">Commands</h2>
     </header>
     <div class="content">
-      <p>Issue and perform operations based on commands sent to a namespace.</p>
-    </div>
-  </section>
+      <p>Issue and perform operations based on commands sent to a <span class="inline-code">namespace</span>.</p>
 
-  <a id="issue-command" class="section-anchor top"></a>
-  <section data-name="issue-command" class="top">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">namespace.command<span>( <span class="param">'commandName'</span>,  <span class="param">data</span> )</span></em></h3>
-      <h3>Issue a command to a namespace:</h3>
+      <a id="namespace-command" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>namespace</span>.command<span>( <span class="param">'commandName'</span>, <span class="param">data</span> )</span></div>
+        </div>
+        <div class="description">Issue a <span class="inline-code">command</span> to the <span class="inline-code">namespace</span> using the supplied
+          <span class="inline-code">data</span>.</div>
+      </div>
 <pre><code class="javascript">myNamespace.command('findWaldo');</code></pre>
-    </div>
-  </section>
 
-  <a id="command-handler" class="section-anchor top"></a>
-  <section data-name="command-handler" class="top">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">namespace.command.handler<span>( <span class="param">'commandName'</span>,  <span class="param">function(data) { ... }</span> )</span></em></h3>
-      <h3>Create a handler for a command on a namespace:</h3>
+      <a id="namespace-command-handler" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>namespace</span>.command.handler<span>( <span class="param">'commandName'</span>, <span class="param">function(data) { ... }</span> )</span></div>
+        </div>
+        <div class="description">Create a handler for a <span class="inline-code">request</span> on a <span class="inline-code">namespace</span>,
+          the return value is passed back to the requester.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">SubscriptionDefinition{}</span> The subscription definition for the handler</span>
+        </div>
+      </div>
 <pre><code class="javascript">myNamespace.command.handler('buyGroceries', function(items) {
   // buy groceries
 });
@@ -482,21 +501,25 @@ waldoLocationResponder.unsubscribe(); // also works
 myNamespace.command.handler('findWaldo', function() {
   // go find Waldo
 });</code></pre>
-    </div>
-  </section>
 
-  <a id="command-unregister" class="section-anchor top"></a>
-  <section data-name="command-unregister" class="top">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">namespace.command.unregister<span>( <span class="param">handler</span> )</span></em></h3>
-      <h3>Unregister a command handler:</h3>
+      <a id="namespace-command-unregister" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>namespace</span>.command.unregister<span>( <span class="param">subscriptionDefinition</span> )</span></div>
+        </div>
+        <div class="description">Unregister a <span class="inline-code">command</span> handler.</div>
+      </div>
 <pre><code class="javascript">var findWaldo = myNamespace.command.handler('findWaldo', function() {
   // go find Waldo
 });
 
 myNamespace.command.unregister(findWaldo);
 findWaldo.unsubscribe(); // also works</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Remember that if you are using a <em>managed</em>
+        <span class="inline-code">namespace</span> then you do not need to worry about calling <span class="inline-code">unregister()</span> as all
+        handlers/subscriptions are automatically cleaned up for you when the parent instance is disposed of.</p></div>
     </div>
   </section>
 
