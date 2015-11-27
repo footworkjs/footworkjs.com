@@ -43,6 +43,16 @@
         <li><a data-bind="$route" href="#route-binding">route bindings</a>: Special bindings for links (and other tags) which will initiate new states in your
           <span class="inline-code">router</span>.</li>
       </ul>
+
+      <p>Just like a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> or
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>, a
+        <span class="inline-code">router</span> can be bound against your UI/markup (either on its own or integrated into a
+        <span class="inline-code"><a data-bind="$route: docLink('components')">&lt;component&gt;</a></span>).</p>
+
+      <p>A <span class="inline-code">router</span> is really just an enhanced
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, meaning you can use it in exactly the same way you
+        would a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, but with the added ability of being able
+        to have it manage its inner/nested routing and state.</p>
     </div>
   </section>
 
@@ -62,6 +72,7 @@
 <pre><code class="html">&lt;div id="main-router"&gt;
   Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
   &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
+  &lt;outlet name="mainArea"&gt;&lt;/outlet&gt;
 &lt;/div&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
@@ -83,6 +94,7 @@ fw.applyBindings(router, document.getElementById('main-router'));
 <pre><code class="html">&lt;router module="MainRouter"&gt;
   Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
   &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
+  &lt;outlet name="mainArea"&gt;&lt;/outlet&gt;
 &lt;/viewModel&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
