@@ -9,9 +9,12 @@
     <div class="content">
       <p>The primary purpose behind a <span class="inline-code">dataModel</span> is the management of RESTful data and related logic.</p>
 
-      <p>Just like a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, a
-        <span class="inline-code">dataModel</span> can be bound against your UI/markup. An example usage of this might be binding against an HTML
-        <span class="inline-code">&lt;form&gt;</span> to enable CRUD-type operations on a database.</p>
+      <p>Just like a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> or
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span>, a
+        <span class="inline-code">dataModel</span> can be bound against your UI/markup (either on its own or integrated into a
+        <span class="inline-code"><a data-bind="$route: docLink('components')">&lt;component&gt;</a></span>). An example usage of this might be binding
+        a <span class="inline-code">dataModel</span> against a HTML <span class="inline-code">&lt;form&gt;</span> to enable CRUD-type operations on a
+        database.</p>
 
       <p>A <span class="inline-code">dataModel</span> is really just an enhanced
         <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, meaning you can use it in exactly the same way you

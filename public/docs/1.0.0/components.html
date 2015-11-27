@@ -30,8 +30,8 @@
         <li><span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> integration (easily manage components and state)</li>
       </ul>
 
-      <p>FootworkJS uses KnockoutJS components as its base implementation, for further documentation
-        concerning components (beyond what is contained here) please see the
+      <p>Since FootworkJS uses KnockoutJS components as its base implementation it supports (by proxy) all of the same features found in the
+        <span class="inline-code">component</span> feature of KnockoutJS, for further documentation (beyond what is contained here) please see the
         <a href="http://knockoutjs.com/documentation/component-overview.html" target="_blank">KnockoutJS component documentation</a>.</p>
     </div>
   </section>
@@ -96,23 +96,22 @@
   <section data-name="load-register">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">AMD / Lazy Loading / Registering</h2>
+      <h2 class="sub title">Registering and Loading</h2>
     </header>
     <div class="content">
       <p>Once an element not recognized as being normal HTML is encountered Footwork will process it as a component. This begins with the resolving of
-        its dependencies.</p>
+        its immediate dependencies (the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> and the <span class="inline-code">template</span>).</p>
 
-      <div class="note"><span class="label">NOTE:</span> You can tell Footwork what should and should not be processed as a component, see
-        <span class="inline-code">fw.components.tagIsComponent()</span> further down.</div>
-
-      <p>There are 3 ways Footwork will try to resolve both the viewModel and template for your component once it encounters the
+      <p>There are 3 ways Footwork will try to resolve both of these assets for your <span class="inline-code">component</span> once it encounters the
         <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> or
         <span class="inline-code">&lt;div data-bind="component: 'component-name'"&gt;&lt;/div&gt;</span> markup.</p>
 
       <p>They are as follows (in order of priority):</p>
 
       <ul>
-        <li>Explicitly registered with a <span class="inline-code"><a data-bind="$route" href="#components-register">fw.components.register()</a></span> call.</li>
+        <li>They have already been explicitly registered with a <span class="inline-code"><a data-bind="$route" href="#components-register">fw.components.register()</a></span> call.</li>
         <li>Automatic download/resolution via AMD/RequireJS at a pre-registered location (<span class="inline-code"><a data-bind="$route" href="#components-registerLocation">fw.components.registerLocation()</a></span>).</li>
         <li>Automatic download/resolution via AMD/RequireJS at the configurable default (<span class="inline-code"><a data-bind="$route" href="#components-defaultLocation">fw.components.defaultLocation()</a></span>).</li>
       </ul>
@@ -506,7 +505,7 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
           "title": "Usage",
           "subSections": [
             { "anchor": "load-register",
-              "title": "AMD / Lazy Loading / Registering" },
+              "title": "Registering and Loading" },
             { "anchor": "module-formats",
               "title": "Module Formats" },
             { "anchor": "lifecycle",
@@ -520,15 +519,15 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
       "subSections": [
         { "anchor": "components-isRegistered",
           "title": "fw.components.isRegistered()" },
-        { "anchor": "getLocation",
+        { "anchor": "components-getLocation",
           "title": "fw.components.getLocation()" },
-        { "anchor": "getFileName",
+        { "anchor": "components-getFileName",
           "title": "fw.components.getFileName()" },
-        { "anchor": "fileExtensions",
+        { "anchor": "components-fileExtensions",
           "title": "fw.components.fileExtensions()" },
-        { "anchor": "getNormalTagList",
+        { "anchor": "components-getNormalTagList",
           "title": "fw.components.getNormalTagList()" },
-        { "anchor": "tagIsComponent",
+        { "anchor": "components-tagIsComponent",
           "title": "fw.components.tagIsComponent()" }
       ] }
   ],

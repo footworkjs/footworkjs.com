@@ -7,20 +7,24 @@
       <h1 class="title">Introduction</h1>
     </header>
     <div class="content">
-      <p>Namespaces in Footwork can be thought of as communication 'channels'. They are the information highways your application uses to shuffle data and state from one area to
-        another.</p>
+      <p>A <span class="inline-code">namespace</span> in FootworkJS can be thought of as a communication 'channel'. They are the information highways
+        your application uses to shuffle data and state from one area to another.</p>
 
-      <p>Organizing your modules and keeping them decoupled is extremely important in more complex javascript applications. Without a standardized way of coordinating information,
-        an application will quickly turn into to a horrible tangled mess of code. This tangled mess becomes a buggy unmanageable piece of poo...no one likes to touch poo.</p>
+      <p>Organizing your code and keeping it decoupled is extremely important in more complex javascript applications. Without a standardized way
+        of coordinating and sharing information, an application will quickly turn into to a horrible tangled mess of code.</p>
 
-      <p>Footwork marshals all of that by organizing your modules firstly by namespaces. Namespaces boil down to a simple <span class="inline-code">'string'</span> value which is
-        used to segment off the communication meant for one module from another. Footwork uses this namespacing to provide a lot of enhanced functionality via
-        <a href="http://martinfowler.com/bliki/CQRS.html" target="_blank" title="Command Query Responsibility Segregation">CQRS</a> and other common communications design
-        patterns.</p>
+      <p>Footwork marshals all of that by organizing your code into (and allowing comminication + sharing of state between)
+        <span class="inline-code">namespace</span> channels. Namespaces boil down to a simple <span class="inline-code">'string'</span> identifier which is
+        used to segment off the communication meant for one area from another.</p>
 
-      <h3>All of this essentially means is that the communication between your modules/viewModels/components/<em>whatever</em> will be both expressive and easily managed.</h3>
+      <p>Additionally of note Footwork <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModels</a></span>,
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModels</a></span>,
+        <span class="inline-code"><a data-bind="$route: docLink('router')">routers</a></span>, and
+        <span class="inline-code"><a data-bind="$route: docLink('collection')">collections</a></span> all have <span class="inline-code">namespace</span>
+        channels integrated into them to enable many of their features. A good example of their use is when sharing state/data using a
+        <span class="inline-code"><a data-bind="$route: docLink('broadcastable-receivable')">broadcastable / receivable</a></span>.</p>
 
-      <div class="note"><span class="label">NOTE:</span> At its core namespaces in Footwork are enhanced
+      <div class="note"><span class="label">NOTE:</span> At its core namespaces in FootworkJS are enhanced
         <a href="https://github.com/postaljs/postal.js" target="_blank">postal.js</a> pub/sub channels. If you need to enhance or alter how communication is handled then you likely
         want to take a look at the postal documentation.</div>
     </div>
@@ -33,21 +37,19 @@
       <h1 class="sub title">Usage</h1>
     </header>
     <div class="content">
-      <p>There are essentially 2 different ways a namespace can be used:</p>
+      <p>There are essentially 2 different ways a <span class="inline-code">namespace</span> can be instantiated and used:</p>
 
       <ul>
-        <li>Coupled with a viewModel/dataModel/router/component, automatically initialized and disposed of for you.</li>
+        <li>Coupled with a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span>, automatically initialized and disposed of for you.</li>
         <li>Independently/Manually instantiated by you and <em>sometimes</em> disposed of for you.</li>
       </ul>
 
-      <div class="note"><span class="label">NOTE:</span> If you just need to share a property across differing areas of your application then take a look
-        <a data-bind="$route: docLink('broadcastable-receivable')">broadcastable / receivable</a>, they make sharing of data and state a no-brainer.</div>
-
-      <ul>
-        <li><a data-bind="$route" href="#independent-usage">Independent Usage</a></li>
-        <li><a data-bind="$route" href="#coupled-usage">Coupled Usage</a></li>
-        <li><a data-bind="$route" href="#lifecycle">Lifecycle</a></li>
-      </ul>
+      <div class="note"><span class="label">NOTE:</span> If you need to share data/state across different areas/modules of your application
+        then you may want to also take a look at FootworkJS
+        <span class="inline-code"><a data-bind="$route: docLink('broadcastable-receivable')">broadcastables / receivables</a></span>. They utilize
+        <span class="inline-code">namespaces</span> to easily synchronize data/state across your application.</div>
     </div>
   </section>
 
