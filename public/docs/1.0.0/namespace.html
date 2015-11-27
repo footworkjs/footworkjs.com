@@ -187,11 +187,11 @@ alsoMyNamespace.publish('hello', 'Jonathan'); // console prints: 'Greetings Jona
     </header>
     <div class="content">
       <p>FootworkJS <span class="inline-code"><a data-bind="$route: docLink('broadcastable-receivable')">broadcastables / receivables</a></span>
-        utilize <span class="inline-code">namespaces</span> to link/sync data between differing areas of your application. This enables you to quickly
-        sync data in a <a href="https://en.wikipedia.org/wiki/Loose_coupling" target="_blank">loosely coupled</a> fashion between various
+        utilize a <span class="inline-code">namespace</span> which you can use to
+        share data/state in a <a href="https://en.wikipedia.org/wiki/Loose_coupling" target="_blank">loosely coupled</a> fashion between various
         <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
         <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
-        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> modules as well as ad-hoc locations (ie: wherever you
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> modules, as well as ad-hoc locations (ie: wherever you
         might need to share some data/state).</p>
 
       <h3>A quick example <span class="inline-code">broadcastable / receivable</span> usage:</h3>
@@ -209,8 +209,10 @@ broadcastable('someOtherValue');
 // receivable() === 'someOtherValue'
 </code></pre>
 
-      <p>There are many ways to utilize a <span class="inline-code">broadcastable / receivable</span>, for more detailed information and available
-        options see the relevant <a data-bind="$route: docLink('broadcastable-receivable')">broadcastables / receivables documentation</a>.<p>
+      <p>The documentation on <span class="inline-code">broadcastables / receivables</span> here only serves to mention that they exist and that they
+        use FootworkJS <span class="inline-code">namespaces</span> as their communications/sync channel. For more detailed information about how to
+        use them and their available options see the relevant
+        <a data-bind="$route: docLink('broadcastable-receivable')">broadcastables / receivables documentation</a>.<p>
     </div>
   </section>
 
