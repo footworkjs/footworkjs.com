@@ -193,8 +193,8 @@ fw.applyBindings(router, document.getElementById('main-router'));
     // See: 'Mixins' section on this page
   ],
 
-  // Function called just after binding to the DOM
-  afterBinding: function(containingElement) {
+  // Function called just after rendering against the DOM
+  afterRender: function(containingElement) {
     // this === the router instance
   },
 
@@ -756,7 +756,7 @@ fw.outlets.registerViewLocation(['calendar-page', 'about-page'], '/otherPages/')
       </div>
 <pre><code class="javascript">fw.router.create({
   namespace: 'MainRouter',
-  afterBinding: function() {
+  afterRender: function() {
     console.log('Registered outlets', this.$router.outlets);
   }
 });
@@ -1186,7 +1186,7 @@ mainRouter.command('activate');
 <pre><code class="javascript">var MainRouter = fw.router.create({
   namespace: 'MainRouter',
   routes: [ /* ... */ ],
-  afterBinding: function(domElement) {
+  afterRender: function(domElement) {
     domElement.addEventListener('click', function() {
       console.info('You clicked the router');
     });
@@ -1222,7 +1222,7 @@ mainRouter.command('activate');
       console.info('You clicked the router');
     };
   },
-  afterBinding: function(domElement) {
+  afterRender: function(domElement) {
     domElement.addEventListener('click', this.clickRouter);
   },
   onDispose: function(domElement) {

@@ -192,8 +192,8 @@ fw.applyBindings(dataModel, document.getElementById('person'));
     // See: 'Mixins' section on this page
   ],
 
-  // Function called just after binding to the DOM
-  afterBinding: function(containingElement) {
+  // Function called just after rendering against the DOM
+  afterRender: function(containingElement) {
     // this === the dataModel instance
   },
 
@@ -786,7 +786,7 @@ person.destroy().done(function() {
       </div>
 <pre><code class="javascript">var Person = fw.dataModel.create({
   namespace: 'Person',
-  afterBinding: function(domElement) {
+  afterRender: function(domElement) {
     var person = this;
     domElement.addEventListener('click', function() {
       console.info('You clicked', person.firstName());
@@ -820,7 +820,7 @@ person.destroy().done(function() {
       </div>
 <pre><code class="javascript">var Person = fw.dataModel.create({
   namespace: 'Person',
-  afterBinding: function(domElement) {
+  afterRender: function(domElement) {
     domElement.addEventListener('click', this.clickPerson);
   },
   onDispose: function(domElement) {

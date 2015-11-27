@@ -168,8 +168,8 @@ fw.applyBindings(viewModel, document.getElementById('container'));
     // See: 'Mixins' section on this page
   ],
 
-  // Function called just after binding to the DOM
-  afterBinding: function(containingElement) {
+  // Function called just after rendering against the DOM
+  afterRender: function(containingElement) {
     // this === the viewModel instance
   },
 
@@ -355,7 +355,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       </div>
 <pre><code class="javascript">var Person = fw.viewModel.create({
   namespace: 'Person',
-  afterBinding: function(domElement) {
+  afterRender: function(domElement) {
     var person = this;
     domElement.addEventListener('click', function() {
       console.info('You clicked', person.firstName());
@@ -390,7 +390,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
       </div>
 <pre><code class="javascript">var Person = fw.viewModel.create({
   namespace: 'Person',
-  afterBinding: function(domElement) {
+  afterRender: function(domElement) {
     domElement.addEventListener('click', this.clickPerson);
   },
   onDispose: function(domElement) {
