@@ -334,16 +334,14 @@ var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestF
         <span class="inline-code">dataModel</span>. Using <span class="inline-code">observable.mapTo()</span> we can define how our data maps to the
         representation the server expects.</p>
 
-      <p><span class="inline-code">observable.mapTo()</span> is generally expected to be called from within a <span class="inline-code">dataModel</span>
-        <span class="inline-code">initialize</span> function. If you do call it from within the <span class="inline-code">initialize</span> function
-        then all you need do is supply it the <span class="inline-code">path</span> to map the value to. This path is used to convert the
-        <span class="inline-code">dataModel</span> to the expected form on the server and to map that same data back into the
-        <span class="inline-code">dataModel</span> when retrieving it.</p>
-
       <div class="note">
-        <span class="label">NOTE:</span> If you call <span class="inline-code">.mapTo()</span> sometime after or outside of the main
-        <span class="inline-code">dataModel</span> <span class="inline-code">initialize</span> method then you will need to provide it a direct reference to the
-        <span class="inline-code">dataModel</span> instance using the <span class="inline-code">{ path: '', dataModel: instance }</span> object-notation version.
+        <p><span class="label">NOTE:</span> <span class="inline-code">observable.mapTo()</span> is generally expected to be called from within a
+        <span class="inline-code">dataModel</span> <span class="inline-code">initialize</span> function.</p>
+
+        <p>If you call <span class="inline-code">.mapTo()</span> sometime after or outside of the main <span class="inline-code">dataModel</span>
+          <span class="inline-code">initialize</span> method then you will need to provide it a direct reference to the
+          <span class="inline-code">dataModel</span> instance using the <span class="inline-code">{ path: '', dataModel: instance }</span>
+          object-notation version.</p>
       </div>
 
       <a id="observable-mapTo" class="section-anchor" data-bind="sectionAnchor"></a>
