@@ -278,11 +278,11 @@ fw.components.defaultLocation('/components/');
 );</code></pre>
 
       <div class="file-location">sprocket-view.html</div>
-<pre><code class="html">&lt;div class="info"&gt;
+<pre><code class="html">&lt;div class="sprocket"&gt;
   &lt;div&gt;Sprocket&lt;/div&gt;
   Type: &lt;span data-bind="text: type"&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;div class="description" data-bind="text: description"&gt;&lt;/div&gt;</code></pre>
+  Description: &lt;span data-bind="text: description"&gt;&lt;/span&gt;
+&lt;/div&gt;</code></pre>
       <div class="note">
         <p><span class="label">NOTE:</span> You can return any constructor function or plain object from your modules and the
           <span class="inline-code">component</span> will be composed with it (you don't have to return a Footwork
@@ -290,7 +290,7 @@ fw.components.defaultLocation('/components/');
       </div>
 
       <p>The following shows how to create a <em>combined</em> <span class="inline-code">component</span> which contains both the
-        constructor function/<span class="inline-code">viewModel</span> and <span class="inline-code">template</span> HTML on one file.</p>
+        constructor function/<span class="inline-code">viewModel</span> and <span class="inline-code">template</span> HTML in one file.</p>
 
       <a id="fw-component" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
@@ -310,7 +310,7 @@ fw.components.defaultLocation('/components/');
   function(fw) {
     return fw.component({
       viewModel: fw.viewModel.create({ /* ... */ }),
-      template: '&lt;div&gt;&lt;-- template HTML --&gt;&lt;/div&gt;'
+      template: '&lt;div class="sprocket"&gt;&lt;!-- template HTML --&gt;&lt;/div&gt;'
     });
   }
 );</code></pre>
@@ -327,8 +327,19 @@ fw.components.defaultLocation('/components/');
       <h2 class="sub title">Lifecycle</h2>
     </header>
     <div class="content">
-      <p>Components have two parts, the template and its viewModel. The lifecycle of a component is essentially based on the viewModel it has attached to it...see
-        <a href="/api/viewModel" data-bind="$route: docLink('viewModel')">viewModel</a> for details on how those work.</p>
+      <p>The lifecycle of a <span class="inline-code">component</span> is directly tied to the
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> which it is bound against.</p>
+
+      <p>For information concerning what lifecycle hooks and events are available/occur, see the relevant documentation (dependent on your particular
+        use):</p>
+
+      <ul>
+        <li><span class="inline-code"><a data-bind="$route: docLink('viewModel#lifecycle')">viewModel Lifecycle</a></span></li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('dataModel#lifecycle')">dataModel Lifecycle</a></span></li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('router#lifecycle')">router Lifecycle</a></span></li>
+      </ul>
     </div>
   </section>
 
