@@ -420,16 +420,16 @@ fw.components.register('sprocket', {
 });
 var fileNameForSprocket = fw.components.getFileName('sprocket', 'viewModel'); // === null
 </code></pre>
-    </div>
-  </section>
 
-  <a id="fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="fileExtensions">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.components.fileExtensions<span>( <span class="param">{ /* configuration object */ }</span> )</span></em></h3>
-      <h3 class="top"><em class="func-def">fw.components.fileExtensions<span>( <span class="param">function(componentName) { ... }</span> )</span></em></h3>
-      <h3>Specify the extension to append to AMD/RequireJS loaded component resources when it does not have an extension specified (ie: full file name not specified):</h3>
+      <a id="components-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.fileExtensions<span>( <span class="param">optionsObject</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.fileExtensions<span>( <span class="param">function(componentName) { ... }</span> )</span></div>
+        </div>
+        <div class="description">Specify the extension to append to an AMD/RequireJS loaded <span class="inline-code">component</span> path when it does not have an extension specified (ie: full file name not specified).</div>
+      </div>
 <pre><code class="javascript">// explicitly set the extensions on the various file/module types
 fw.viewModel.fileExtensions({
   combined: '.js', // append combined component files with '.js'
@@ -453,30 +453,34 @@ fw.components.fileExtensions(function(componentName) {
     };
   }
 });</code></pre>
-    </div>
-  </section>
 
-  <a id="getNormalTagList" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="getNormalTagList">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.components.getNormalTagList<span>()</span></em></h3>
-      <h3>Return an array containing the list of elements (tagName) that Footwork will not process as a component:</h3>
+      <a id="components-getNormalTagList" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.getNormalTagList<span>()</span></div>
+        </div>
+        <div class="description">Return an array containing the list of elements (tagName) that Footwork will not process as a component.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">array[]</span> List of tagNames which are 'normal' HTML tags</span>
+        </div>
+      </div>
 <pre><code class="javascript">var normalTags = fw.components.getNormalTagList(); // [ 'span', 'div', ... ]</code></pre>
-    </div>
-  </section>
 
-  <a id="tagIsComponent" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="tagIsComponent">
-    <div class="highlight"></div>
-    <div class="content">
-      <h3 class="top"><em class="func-def">fw.components.tagIsComponent<span>( <span class="param">'tagName'</span>, <span class="param">isComponent</span> )</span></em></h3>
-      <h3>Mark a tagName as being a component (true) or not being a component (false):</h3>
+      <a id="components-tagIsComponent" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.components</span>.tagIsComponent<span>( <span class="param">'tagName'</span>, <span class="param">isComponent</span> )</span></div>
+        </div>
+        <div class="description">Flag a tagName as being a <span class="inline-code">component</span> (<span class="inline-code">true</span>) or not
+          being a component (<span class="inline-code">false</span>).</div>
+      </div>
 <pre><code class="javascript">// tell Footwork not to process &lt;some-element&gt; as a component
 fw.components.tagIsComponent('some-element', false);</code></pre>
     </div>
   </section>
-
 </article>
 
 <div id="metaData">
@@ -545,7 +549,17 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
               "description": "Returns true or false based on whether or not there is a component that has been registered under componentName." },
             { "anchor": "components-registerLocation",
               "title": "fw.components.registerLocation()",
-              "description": "Tell Footwork where to find the component name using the supplied configuration." },
+              "description": "Tell Footwork where to find the component name using the supplied configuration." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Resource",
+      "subCategories": [
+        {
+          "label": "Methods",
+          "references": [
             { "anchor": "components-getLocation",
               "title": "fw.components.getLocation()",
               "description": "Get the path Footwork will attempt to load for the given componentName" },
@@ -554,7 +568,16 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
               "description": "Get the file name that Footwork will use when looking up the specified fileType for the componentName" },
             { "anchor": "components-defaultLocation",
               "title": "fw.components.defaultLocation()",
-              "description": "Tell Footwork where to look for a component if it isn't registered explicitly (ie: when all else fails)." }
+              "description": "Tell Footwork where to look for a component if it isn't registered explicitly (ie: when all else fails)." },
+            { "anchor": "components-fileExtensions",
+              "title": "fw.components.fileExtensions()",
+              "description": "Specify the extension to append to an AMD/RequireJS loaded component path when it does not have an extension specified (ie: full file name not specified)." },
+            { "anchor": "components-getNormalTagList",
+              "title": "fw.components.getNormalTagList()",
+              "description": "Return an array containing the list of elements (tagName) that Footwork will not process as a component." },
+            { "anchor": "components-tagIsComponent",
+              "title": "fw.components.tagIsComponent()",
+              "description": "Flag a tagName as being a component (true) or not being a component (false)." }
           ]
         }
       ]
