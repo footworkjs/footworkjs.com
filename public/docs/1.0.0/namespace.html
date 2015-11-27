@@ -10,10 +10,11 @@
       <p>A <span class="inline-code">namespace</span> in FootworkJS can be thought of as a communication 'channel'. They are the information highways
         your application uses to shuffle data and state from one area to another.</p>
 
-      <p>Organizing your code and keeping it decoupled is extremely important in more complex javascript applications. Without a standardized way
-        of coordinating and sharing information, an application will quickly turn into to a horrible tangled mess of code.</p>
+      <p>Organizing your code and keeping it <a href="https://en.wikipedia.org/wiki/Loose_coupling" target="_blank">loosely coupled</a> is
+        extremely important in more complex javascript applications. Without a standardized way of coordinating and sharing information, an application
+        will quickly turn into to a horrible tangled mess.</p>
 
-      <p>Footwork marshals all of that by organizing your code into (and allowing comminication + sharing of state between)
+      <p>FootworkJS enables you to organize your code into (and allowing comminication + sharing of state between)
         <span class="inline-code">namespace</span> channels. Namespaces boil down to a simple <span class="inline-code">'string'</span> identifier which is
         used to segment off the communication meant for one area from another.</p>
 
@@ -21,8 +22,7 @@
         <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModels</a></span>,
         <span class="inline-code"><a data-bind="$route: docLink('router')">routers</a></span>, and
         <span class="inline-code"><a data-bind="$route: docLink('collection')">collections</a></span> all have <span class="inline-code">namespace</span>
-        channels integrated into them to enable many of their features. A good example of their use is when sharing state/data using a
-        <span class="inline-code"><a data-bind="$route: docLink('broadcastable-receivable')">broadcastable / receivable</a></span>.</p>
+        channels integrated into them to enable many of their features.</p>
 
       <div class="note"><span class="label">NOTE:</span> At its core namespaces in FootworkJS are enhanced
         <a href="https://github.com/postaljs/postal.js" target="_blank">postal.js</a> pub/sub channels. If you need to enhance or alter how communication is handled then you likely
@@ -40,16 +40,90 @@
       <p>There are essentially 2 different ways a <span class="inline-code">namespace</span> can be instantiated and used:</p>
 
       <ul>
-        <li>Coupled with a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <li>Integrated with (Managed by) a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
           <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
-          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span>, automatically initialized and disposed of for you.</li>
-        <li>Independently/Manually instantiated by you and <em>sometimes</em> disposed of for you.</li>
+          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> and automatically disposed of for you.</li>
+        <li>Independently instantiated and disposed of by you.</li>
       </ul>
 
       <div class="note"><span class="label">NOTE:</span> If you need to share data/state across different areas/modules of your application
         then you may want to also take a look at FootworkJS
         <span class="inline-code"><a data-bind="$route: docLink('broadcastable-receivable')">broadcastables / receivables</a></span>. They utilize
         <span class="inline-code">namespaces</span> to easily synchronize data/state across your application.</div>
+    </div>
+  </section>
+
+  <a id="managed-usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="integrated-usage">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Managed Usage</h2>
+    </header>
+    <div class="content">
+      <p>All <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModels</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModels</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">routers</a></span> that are instantiated manage their own
+        <span class="inline-code">namespace</span> channels. This includes the <span class="inline-code">namespace</span> channels automatically
+        instantiated for you (ex: <span class="inline-code"><a data-bind="$route: docLink('viewModel#viewModel-namespace')">viewModel.$namespace</a></span>
+        and <span class="inline-code"><a data-bind="$route: docLink('viewModel#viewModel-rootNamespace')">viewModel.$rootNamespace</a></span>)
+        as well as other ones you might instantiate onto the parent object yourself.</p>
+
+      <p>Any subscriptions/handlers/etc created on a managed <span class="inline-code">namespace</span> will be cleaned up when the parent
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span>
+        it is attached to is disposed of.</p>
+
+      <p>The following shows an example of use of a managed <span class="inline-code">namespace</span> on a
+      <span class="inline-code">viewModel</span>.</p>
+
+<div class="file-location">index.html</div>
+<pre><code>&lt;html&gt;
+  &lt;body&gt;
+    &lt;!--
+      namespace and all attached handlers for Sprocket viewModel
+      handled automatically whenever it is added or removed from the DOM
+    --&gt;
+    &lt;viewModel module="Sprocket"&gt;
+      &lt;!-- ko if: isExpensive --&gt;Warning: Expensive sprocket.&lt;!-- /ko --&gt;
+    &lt;/viewModel&gt;
+    &lt;script src="main.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<div class="file-location">main.js</div>
+<pre><code class="javascript">fw.viewModel.create({
+  namespace: 'Sprocket',
+  autoRegister: true,
+  initialize: function() {
+    // this.$namespace.getName() === 'Sprocket'
+    this.isExpensive = fw.observable(false);
+    this.$namespace.subscribe('ThrowAway', function(reason) {
+      // this handler will be automatically unsubscribed and cleaned up when its parent viewModel is disposed
+    });
+
+    // Create another managed namespace channel for 'someOtherNamespace'
+    this.$someOtherNamespace = fw.namespace('someOtherNamespace');
+    this.$someOtherNamespace.subscribe('ThrowAway', function(reason) {
+      // this handler will be automatically unsubscribed and cleaned up when its parent viewModel is disposed
+    });
+  }
+});
+
+fw.applyBindings();
+</code></pre>
+
+      <p>There are various ways for a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> to be disposed of, depending on your particular context
+        you should seek the relevant lifecycle information pertaining to the type of parent your managed <span class="inline-code">namespace</span> is
+        attached to:</p>
+
+      <ul>
+        <li><a data-bind="$route: docLink('viewModel#lifecycle')">viewModel Lifecycle</a></li>
+        <li><a data-bind="$route: docLink('dataModel#lifecycle')">dataModel Lifecycle</a></li>
+        <li><a data-bind="$route: docLink('router#lifecycle')">router Lifecycle</a></li>
+      </ul>
     </div>
   </section>
 
@@ -60,9 +134,27 @@
       <h2 class="sub title">Independent Usage</h2>
     </header>
     <div class="content">
-      <p>You will need to instantiate a namespace channel anytime you need to send a command/request, trigger an event, or publish some piece of information to another namespace.</p>
-      <p>To do this, call the <span class="inline-code">fw.namespace()</span> factory and pass it a string (namespace name).</p>
-      <h3><em class="func-def">fw.namespace<span>( <span class="param">'namespaceName'</span> )</span></em></h3>
+      <p>Sometimes you might want to create a <span class="inline-code">namespace</span> channel outside of the context of a
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span>. An example of this might be if you wanted to publish an
+        event to a different part of your application from a jQuery plugin.</p>
+
+      <p>To do this you will need to instantiate a <span class="inline-code">namespace</span> channel. This is done by calling the factory method
+        <span class="inline-code">fw.namespace()</span>.</p>
+
+      <a id="fw-namespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.namespace<span>( <span class="param">'namespaceName'</span> )</span></div>
+        </div>
+        <div class="description">Create a <span class="inline-code">namespace</span> channel/instance.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The <span class="inline-code">namespace</span> instance</span>
+        </div>
+      </div>
 <pre><code class="javascript">var myNamespace = fw.namespace('myNamespace');
 myNamespace.subscribe('sayHello', function(toWhom) {
   console.info('Greetings ' + toWhom);
@@ -70,6 +162,7 @@ myNamespace.subscribe('sayHello', function(toWhom) {
 
 myNamespace.publish('sayHello', 'Jonathan'); // console prints: 'Greetings Jonathan'
 </code></pre>
+
       <p>It is important to note that namespaces are based on their <span class="inline-code">'string'</span> key, not the instantiated object...they are just the channels
         <em>to</em> that namespace.</p>
 
@@ -85,60 +178,6 @@ alsoMyNamespace.publish('hello', 'Jonathan'); // console prints: 'Greetings Jona
     </div>
   </section>
 
-  <a id="coupled-usage" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="coupled-usage">
-    <div class="highlight"></div>
-    <header>
-      <h2 class="sub title">Coupled Usage (with viewModel/component)</h2>
-    </header>
-    <div class="content">
-      <p>Anytime you place a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> or
-        <span class="inline-code">&lt;component&gt;&lt;/component&gt;</span> in your markup Footwork is essentially wrapping that section of HTML with a viewModel. That viewModel
-        has a namespace attached to/associated with it (based on the <span class="inline-code">namespace:</span> viewModel configuration attribute, see
-        <a data-bind="$route: docLink('viewModel#factory-method')">viewModel configuration</a>).</p>
-
-      <p>When Footwork sets up the new instance of your viewModel it automatically creates a namespace channel and assigns it to <span class="inline-code">this.$namespace</span>.
-        This namespace will have its lifecycle handled automatically, and any subscriptions made on it will be cleaned up when the viewModel is destroyed.</p>
-
-      <p>The following shows an example of using a declarative <span class="inline-code">&lt;viewModel&gt; ... &lt;/viewModel&gt;</span>, however it works exactly the same with a
-        component (and its viewModel).</p>
-
-<pre><code>&lt;!-- File: index.html --&gt;
-&lt;html&gt;
-  &lt;body&gt;
-    &lt;!--
-      namespace and all attached handlers for Sprocket viewModel
-      handled automatically whenever it is added or removed from the DOM
-    --&gt;
-    &lt;viewModel module="Sprocket"&gt;
-      &lt;!-- ko if: isExpensive --&gt;Warning: Expensive sprocket.&lt;!-- /ko --&gt;
-    &lt;/viewModel&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-
-<pre><code class="javascript">// File: /viewModel/Sprocket.js
-define(["footwork"],
-  function(fw) {
-    return fw.viewModel.create({
-      namespace: 'Sprocket',
-      initialize: function() {
-        // this.$namespace.getName() === 'Sprocket'
-        this.isExpensive = fw.observable(false);
-        this.$namespace.subscribe('ThrowAway', function(reason) {
-          // this handler will be automatically unsubscribed and cleaned up
-        });
-      }
-    });
-  }
-);
-</code></pre>
-
-      <div class="note"><span class="label">NOTE:</span> Lifecycle events (<span class="inline-code">afterRender()</span> and <span class="inline-code">onDispose()</span>) are
-        also dispatched whenever a viewModel or component-viewModel are added/removed from the DOM. See <a data-bind="$route: docLink('viewModel')">viewModel</a>.</div>
-
-    </div>
-  </section>
-
   <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
   <section data-name="lifecycle">
     <div class="highlight"></div>
@@ -146,12 +185,17 @@ define(["footwork"],
       <h2 class="sub title">Lifecycle</h2>
     </header>
     <div class="content">
-      <p>Namespace subscriptions and handlers are automatically cleaned up for you when it is attached to a viewModel (See:
-        <a data-bind="$route: docLink('viewModel#lifecycle')">viewModel lifecycle</a>). In other scenarios you must tell the namespace when to clean up its references, this is done
-        via <span class="inline-code">dispose()</span>.</p>
+      <p>Managed <span class="inline-code">namespace</span> subscriptions and handlers are automatically cleaned up for you when the parent object
+        lifecycle ends. Independently used <span class="inline-code">namespace</span> channels will need to be disposed of.<p>
 
-      <h3 class="top"><em class="func-def">namespace.dispose<span>( )</span></em></h3>
-      <h3>Dispose of all registered subscriptions and handlers:</h3>
+      <a id="namespace-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>namespace</span>.dispose<span>()</span></div>
+        </div>
+        <div class="description">Dispose of all registered subscriptions and handlers.</div>
+      </div>
 <pre><code class="javascript">var myNamespace = fw.namespace('Waldo');
 myNamespace.request.handler('ping', function() {
   return 'pong';
@@ -412,20 +456,18 @@ findWaldo.unsubscribe(); // also works</code></pre>
   "description": "Communicate to/from, send/receive commands, and trigger events between differing areas of your application.",
   "sections": [
     { "anchor": "introduction",
-      "title": "Introduction" },
-    { "anchor": "usage",
-      "title": "Usage",
+      "title": "Introduction",
       "subSections": [
-        { "anchor": "independent-usage",
-          "title": "Independent Usage" },
-        { "anchor": "coupled-usage",
-          "title": "Coupled Usage" },
-        { "anchor": "lifecycle",
-          "title": "Lifecycle" }
-      ] },
-    { "subSections": [
-        { "anchor": "namespace-getName",
-          "title": "namespace.getName()" }
+        { "anchor": "usage",
+          "title": "Usage",
+          "subSections": [
+            { "anchor": "managed-usage",
+              "title": "Managed Usage" },
+            { "anchor": "independent-usage",
+              "title": "Independent Usage" },
+            { "anchor": "lifecycle",
+              "title": "Lifecycle" }
+          ] }
       ] },
     { "anchor": "pub-sub",
       "title": "Pub / Sub",
@@ -475,6 +517,34 @@ findWaldo.unsubscribe(); // also works</code></pre>
         { "anchor": "command-unregister",
           "title": "namespace.command.unregister()" }
       ] }
+  ],
+  "apiReferences": [
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "General",
+          "references": [
+            { "anchor": "fw-namespace",
+              "title": "fw.namespace()",
+              "description": "Create a namespace channel/instance." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "Lifecycle",
+          "references": [
+            { "anchor": "namespace-dispose",
+              "title": "namespace.dispose()",
+              "description": "Dispose of all registered subscriptions and handlers." }
+          ]
+        }
+      ]
+    }
   ]
 }
 </div>
