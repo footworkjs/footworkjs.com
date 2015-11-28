@@ -340,6 +340,59 @@ myNamespace.publish('sayHello', 'Jonathan'); // console prints: 'Greetings Jonat
       ] },
     { "anchor": "utility",
       "title": "Utility" }
+  ],
+  "apiReferences": [
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "General",
+          "references": [
+            { "anchor": "observable-receiveFrom",
+              "title": "obserbable.receiveFrom()",
+              "description": "Create and return a receivable based on an existing observable, observableArray, or computed variable." },
+            { "anchor": "observable-broadcastAs",
+              "title": "observable.broadcastAs()",
+              "description": "Create and return a broadcastable based on an existing observable, observableArray, or computed variable." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "Lifecycle",
+          "references": [
+            { "anchor": "dispose",
+              "title": "receivable.dispose()",
+              "description": "Dispose of a receivable (no longer receives updates)." },
+            { "anchor": "dispose",
+              "title": "broadcastable.dispose()",
+              "description": "Dispose of a broadcastable (no longer sends out updates)." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "Misc",
+          "references": [
+            { "anchor": "receivable-when",
+              "title": "receivable.when()",
+              "description": "Modify and return an existing receivable with its write: operation filtered by the callback or observableValue." },
+            { "anchor": "fw-isReceivable",
+              "title": "fw.isReceivable()",
+              "description": "Method which will determine whether the passed in reference is a receivable." },
+            { "anchor": "fw-isBroadcastable",
+              "title": "fw.isBroadcastable()",
+              "description": "Method which will determine whether the passed in reference is a broadcastable." }
+          ]
+        }
+      ]
+    }
   ]
 }
 </div>
