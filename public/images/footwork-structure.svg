@@ -8,7 +8,7 @@
 	.st2{fill:#3AA2EF;}
 	.st3{fill:#FFFFFF;}
 	.st4{fill:#1384EE;}
-	.st5{fill:#F2F2F2;stroke:#C9C9C9;stroke-miterlimit:10;}
+	.st5{fill:#F2F2F2;stroke:#E65B00;stroke-miterlimit:10;}
 	.st6{fill:#E65B00;}
 	.st7{fill:#B3B3B3;}
 	.st8{fill:none;stroke:#333333;stroke-width:3;stroke-linecap:round;stroke-miterlimit:10;}
@@ -162,7 +162,7 @@
 <g id="FootworkJS">
 	<g id="Background_2_">
 		
-			<image style="overflow:visible;opacity:0.75;" width="260" height="324" xlink:href="C0948B11.png"  transform="matrix(1 0 0 1 191 -2)">
+			<image style="overflow:visible;opacity:0.75;" width="260" height="324" xlink:href="C0948B12.png"  transform="matrix(1 0 0 1 191 -2)">
 		</image>
 		<g>
 			<path class="st3" d="M440,307.5c0,0.8-0.7,1.5-1.5,1.5h-235c-0.8,0-1.5-0.7-1.5-1.5V7.5c0-0.8,0.7-1.5,1.5-1.5h235
