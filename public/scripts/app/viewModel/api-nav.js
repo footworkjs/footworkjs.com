@@ -43,7 +43,13 @@ define([ "footwork", "lodash", "jquery" ],
 
     return fw.viewModel.create({
       namespace: 'apiNav',
+      afterRender: function(container) {
+        var apiNav = this;
+        this.$content = $(container).find('.api-nav > .content');
+        window.apiNav = this;
+      },
       initialize: function(params) {
+        var apiNav = this;
         this.viewPortScrollPos = fw.observable().receiveFrom('ViewPort', 'scrollPosition');
         this.anchorPositions = fw.observable({});
         this.$namespace.subscribe('anchorPos', function(anchorDef) {
@@ -52,7 +58,7 @@ define([ "footwork", "lodash", "jquery" ],
           this.anchorPositions.valueHasMutated();
         }.bind(this));
 
-        this.apiNavHeight = fw.observable(400).broadcastAs('apiNavHeight');
+        this.apiNavHeight = fw.observable(0).broadcastAs('apiNavHeight');
         this.mouseOver = fw.observable().broadcastAs('mouseOver', true);
         this.currentAPISection = fw.observable().broadcastAs('currentAPISection');
         this.inAPISection = fw.computed(function() {
@@ -67,6 +73,7 @@ define([ "footwork", "lodash", "jquery" ],
 
         this.active = fw.observable(false);
         this.active.subscribe(function() {
+          apiNav.apiNavHeight(apiNav.$content.outerHeight());
           apiReferenceNamespace.command('computePopupPosition');
         });
 
