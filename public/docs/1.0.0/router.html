@@ -88,7 +88,7 @@ fw.applyBindings(router, document.getElementById('main-router'));
         </li>
 
         <li>
-          <p>Automatically via a <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> declaration in the DOM
+          <p>Automatically via a <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span> declaration in the DOM
            (See: <a data-bind="$route" href="#router-element">&lt;router&gt; usage</a>).</p>
 <div class="file-location">markup.html</div>
 <pre><code class="html">&lt;router module="MainRouter"&gt;
@@ -266,7 +266,7 @@ var router = new AppRouter();
   <section data-name="router-element">
     <div class="highlight"></div>
     <header>
-      <h2>Automatic initialization via <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> declaration in
+      <h2>Automatic initialization via <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span> declaration in
         the DOM:</h2>
     </header>
     <div class="content">
@@ -1268,12 +1268,6 @@ var MyRouter = fw.router.create({
     router.$someOtherNamespace.command.handler('doSomethingElse', function() {
       // This command handler will get cleaned up when the router is disposed
     });
-
-    router.someOtherThing = {
-      eventHandler: router.$namespace.event.handler('someEvent', function() {
-        // This will NOT get cleaned up, handler result/subscription is not attached to the instance
-      })
-    };
   }
 });
 </code></pre>
@@ -1287,13 +1281,13 @@ var MyRouter = fw.router.create({
       <h1 class="sub title">Registration</h1>
     </header>
     <div class="content">
-      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;router&gt;</span> it must be registered in some
-        way (it needs to know where it is).</p>
+      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;router&gt;</span> declaration it must be
+        registered in some way (it needs to know where it is).</p>
 
       <p>Footwork supports both explicitly registering your <span class="inline-code">router</span> ahead of time (caching its constructor function
         or instance directly) or by telling it where it can be downloaded (automatically/lazy loading via AMD/RequireJS).</p>
 
-      <p>That is done with one of the following methods:</p>
+      <p>You can register your module with one of the following methods:</p>
 
       <ul>
         <li><span class="inline-code"><a data-bind="$route" href="#router-register">fw.router.register()</a></span> - Register (cache) a
@@ -1302,7 +1296,7 @@ var MyRouter = fw.router.create({
           the location of a <span class="inline-code">router</span> so that it can be dynamically loaded at some time in the future.</li>
       </ul>
 
-      <p>In either case, the declarative <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span>
+      <p>In either case, the declarative <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span>
         syntax will trigger the loading (if necessary), instantiation, and binding of the <span class="inline-code">router</span>.</p>
 
       <div class="note">
@@ -1313,31 +1307,15 @@ var MyRouter = fw.router.create({
 
           <li>Helps decouple your application and allow for easier testability.</li>
 
-          <li>Footwork can take advantage of its dependency resolution to automatically load and use resources for you as needed at runtime
-            (<em>including the automatic loading and composing of entire views/pages/routes, components, or routers</em>).</li>
+          <li>Footwork can take advantage of its dependency resolution to automatically load and use resources for you as needed at runtime (<em>including the automatic
+            loading and composing of entire (including nested) views/pages, <span class="inline-code">routers</span>, <span class="inline-code">components</span>,
+            <span class="inline-code">viewModels</span>, or <span class="inline-code">dataModels</span></em>).</li>
 
           <li>Allows for easier debugging as non-compiled assets while still being buildable for release into a production environment.</li>
 
           <li>Allows for easy and highly configurable caching/preloading of assets (this includes all components, routers, and templates). None,
             some, or all of it...you choose what your users wait for.</li>
         </ul>
-      </div>
-
-      <p>To load and bind a section of your DOM with a <span class="inline-code">router</span>, insert/wrap the HTML with a
-        <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> element.</p>
-
-      <h3>Example <span class="inline-code">&lt;router&gt;</span> wrapper:</h3>
-<pre><code class="html">&lt;html&gt;
-  &lt;body&gt;
-    &lt;router module="Person"&gt;
-      &lt;!-- HTML to be bound using an instance of the router/module --&gt;
-      Current Router Path: &lt;span data-bind="text: path"&gt;&lt;/span&gt;!
-    &lt;/router&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-      <div class="note">
-        <span class="label">NOTE:</span> You can nest <span class="inline-code">dataModels</span>, <span class="inline-code">viewModels</span>,
-        <span class="inline-code">routers</span>, and <span class="inline-code">components</span> within one another.
       </div>
     </div>
   </section>
@@ -1350,7 +1328,7 @@ var MyRouter = fw.router.create({
     </header>
     <div class="content">
       <p>There are 3 ways Footwork will try to resolve your <span class="inline-code">router</span> when it encounters the declarative
-        <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> element you place in the DOM.</p>
+        <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span> element you place in the DOM.</p>
 
       <p>Here they are in order of priority:</p>
 
@@ -1361,7 +1339,7 @@ var MyRouter = fw.router.create({
       </ul>
 
       <p>Registering a router explicitly with <span class="inline-code">fw.router.register()</span> makes it immediately available. Any
-        <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> declarations encountered will be processed with no delay
+        <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span> declarations encountered will be processed with no delay
         (the router is 'cached' when registered).</p>
 
       <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell Footwork where it can

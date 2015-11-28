@@ -116,7 +116,7 @@ define([ "jquery", "lodash", "footwork" ],
             isInitialLoad = false;
             goToSection = null;
             _.each(anchorPosition, function(anchorPos) {
-              if( anchorPos.anchor.length && anchorPos.anchor ===  window.location.hash.substring(1) ) {
+              if( _.isString(anchorPos.anchor) && anchorPos.anchor.length && anchorPos.anchor ===  window.location.hash.substring(1) ) {
                 window.scrollTo( 0, anchorPos.position - anchorOffset );
               }
             });

@@ -2,7 +2,7 @@
   <div class="button-label" data-bind="click: toggleVisibility">
     <span class="icon" data-bind="class: labelIcon"></span> API <!-- ko if: inAPISection --><span class="api-section"><span class="content" data-bind="text: currentAPISection"></span></span><!-- /ko -->
   </div>
-  <div class="content" data-bind="stopProp, apiScroll">
+  <div class="content" data-bind="stopProp, apiScroll, limitScroll">
     <div class="title">
       <div class="description-toggle" data-bind="click: toggleDescriptionVisibility, css: { active: !hideDescriptions() }">
         <span class="icon-info"></span>

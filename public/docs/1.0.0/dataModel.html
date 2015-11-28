@@ -54,7 +54,7 @@ fw.applyBindings(new DataModel(), document.getElementById('person'));
         </li>
 
         <li>
-          <p>Automatically via a <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM
+          <p>Automatically via a <span class="inline-code">&lt;dataModel module="moduleName"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM
            (See: <a data-bind="$route" href="#dataModel-element">&lt;dataModel&gt; usage</a>).</p>
 <div class="file-location">markup.html</div>
 <pre><code class="html">&lt;dataModel module="Person"&gt;
@@ -887,12 +887,6 @@ var MyDataModel = fw.dataModel.create({
     dataModel.$someOtherNamespace.command.handler('doSomethingElse', function() {
       // This command handler will get cleaned up when the dataModel is disposed
     });
-
-    dataModel.someOtherThing = {
-      eventHandler: dataModel.$namespace.event.handler('someEvent', function() {
-        // This will NOT get cleaned up, handler result/subscription is not attached the instance
-      })
-    };
   }
 });
 </code></pre>
@@ -906,13 +900,13 @@ var MyDataModel = fw.dataModel.create({
       <h1 class="sub title">Registration</h1>
     </header>
     <div class="content">
-      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;dataModel&gt;</span> it must be registered in some
-        way (it needs to know where it is).</p>
+      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;dataModel&gt;</span> declaration it must be
+        registered in some way (it needs to know where it is).</p>
 
       <p>Footwork supports both explicitly registering your <span class="inline-code">dataModel</span> ahead of time (caching its constructor function
         or instance directly) or by telling it where it can be downloaded (automatically/lazy loading via AMD/RequireJS).</p>
 
-      <p>That is done with one of the following methods:</p>
+      <p>You can register your module with one of the following methods:</p>
 
       <ul>
         <li><span class="inline-code"><a data-bind="$route" href="#dataModel-register">fw.dataModel.register()</a></span> - Register (cache) a
@@ -921,7 +915,7 @@ var MyDataModel = fw.dataModel.create({
           <span class="inline-code">dataModel</span> so that it can be dynamically loaded at some time in the future.</li>
       </ul>
 
-      <p>In either case, the declarative <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span>
+      <p>In either case, the declarative <span class="inline-code">&lt;dataModel module="moduleName"&gt; ... &lt;/dataModel&gt;</span>
         syntax will trigger the loading (if necessary), instantiation, and binding of the <span class="inline-code">dataModel</span>.</p>
 
       <div class="note">
@@ -933,30 +927,14 @@ var MyDataModel = fw.dataModel.create({
           <li>Helps decouple your application and allow for easier testability.</li>
 
           <li>Footwork can take advantage of its dependency resolution to automatically load and use resources for you as needed at runtime (<em>including the automatic
-            loading and composing of entire views/pages/routes, components, or dataModels</em>).</li>
+            loading and composing of entire (including nested) views/pages, <span class="inline-code">routers</span>, <span class="inline-code">components</span>,
+            <span class="inline-code">viewModels</span>, or <span class="inline-code">dataModels</span></em>).</li>
 
           <li>Allows for easier debugging as non-compiled assets while still being buildable for release into a production environment.</li>
 
           <li>Allows for easy and highly configurable caching/preloading of assets (this includes all components, dataModels, and templates). None, some, or all of
             it...you choose what your users wait for.</li>
         </ul>
-      </div>
-
-      <p>To load and bind a section of your DOM with a <span class="inline-code">dataModel</span>, insert/wrap the HTML with a
-        <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> element.</p>
-
-      <h3>Example <span class="inline-code">&lt;dataModel&gt;</span> wrapper:</h3>
-<pre><code class="html">&lt;html&gt;
-  &lt;body&gt;
-    &lt;dataModel module="Person"&gt;
-      &lt;!-- HTML to be bound using an instance of the dataModel/module --&gt;
-      Hello &lt;span data-bind="text: firstName"&gt;&lt;/span&gt;!
-    &lt;/dataModel&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-      <div class="note">
-        <span class="label">NOTE:</span> You can nest <span class="inline-code">dataModels</span>, <span class="inline-code">viewModels</span>,
-        <span class="inline-code">routers</span>, and <span class="inline-code">components</span> within one another.
       </div>
     </div>
   </section>
@@ -969,7 +947,7 @@ var MyDataModel = fw.dataModel.create({
     </header>
     <div class="content">
       <p>There are 3 ways Footwork will try to resolve your <span class="inline-code">dataModel</span> when it encounters the declarative
-        <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> element you place in the DOM.</p>
+        <span class="inline-code">&lt;dataModel module="moduleName"&gt; ... &lt;/dataModel&gt;</span> element you place in the DOM.</p>
 
       <p>Here they are in order of priority:</p>
 
@@ -980,7 +958,7 @@ var MyDataModel = fw.dataModel.create({
       </ul>
 
       <p>Registering a dataModel explicitly with <span class="inline-code">fw.dataModel.register()</span> makes it immediately available. Any
-        <span class="inline-code">&lt;dataModel module="[moduleName]"&gt; ... &lt;/dataModel&gt;</span> declarations encountered will be processed with no delay
+        <span class="inline-code">&lt;dataModel module="moduleName"&gt; ... &lt;/dataModel&gt;</span> declarations encountered will be processed with no delay
         (the dataModel is 'cached' when registered).</p>
 
       <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell Footwork where it can

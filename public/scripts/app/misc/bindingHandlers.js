@@ -51,14 +51,13 @@ define(["jquery", "lodash", "footwork", "postal" ],
       init: function ( element, valueAccessor, allBindings, viewModel, bindingContext ) {
         var $element = $(element);
         var scrollEvents = 'mousewheel DOMMouseScroll';
-
-        function trackScrollEvent(event) {
+        var trackScrollEvent = function(event) {
           if(this.scrollHeight === this.offsetHeight) {
             return true;
           }
           var delta = event.originalEvent.wheelDelta || -event.originalEvent.detail;
           var direction = delta > 0 ? 'up' : 'down';
-          if((direction == 'up' && this.scrollTop === 0) || (direction === 'down' && this.scrollTop === (this.scrollHeight - this.offsetHeight))) {
+          if((direction == 'up' && this.scrollTop === 0) || (direction === 'down' && this.scrollTop >= (this.scrollHeight - this.offsetHeight))) {
             event.preventDefault();
           }
         };

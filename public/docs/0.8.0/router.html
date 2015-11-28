@@ -425,7 +425,7 @@ fw.router({
     </header>
     <div class="content">
       <p>Footwork.js supports both explicitly registering your routers ahead of time or automatically loading via AMD/RequireJS. In either case, the declarative
-        <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> syntax will trigger the loading (if necessary), initialization, and binding of the
+        <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span> syntax will trigger the loading (if necessary), initialization, and binding of the
         router.</p>
 
       <p>AMD/RequireJS is fully supported (and highly encouraged) for a number of reasons:</p>
@@ -447,7 +447,7 @@ fw.router({
       <h3><span class="inline-code">router</span>/module resolution</h3>
 
       <p>There are 3 ways Footwork will try to resolve your router when it encounters the declarative
-        <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> element you place in the DOM.</p>
+        <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span> element you place in the DOM.</p>
 
       <p>Here they are in order of priority:</p>
 
@@ -458,7 +458,7 @@ fw.router({
       </ul>
 
       <p>Registering a router explicitly with <span class="inline-code">fw.routers.register()</span> makes it immediately available. Any
-        <span class="inline-code">&lt;router module="[moduleName]"&gt; ... &lt;/router&gt;</span> declarations encountered will be processed with no delay (the router is 'cached'
+        <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span> declarations encountered will be processed with no delay (the router is 'cached'
         when registered).</p>
 
       <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell Footwork where it can download your router
