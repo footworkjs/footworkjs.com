@@ -48,16 +48,20 @@ define([ "footwork", "lodash", "jquery", "jwerty" ],
       return found;
     }
 
+    var oldDocsVersion;
     fw.computed(function() {
       var searchData = this.apiSearchData();
       var docsVersion = this.selectedDocsVersion();
 
       if(this.searchTouched()) {
-        if(_.isUndefined(searchData) && !_.isUndefined(docsVersion) && !isLoadingSearchData) {
+        if((_.isUndefined(searchData) || oldDocsVersion !== docsVersion) && !_.isUndefined(docsVersion) && !isLoadingSearchData) {
+          oldDocsVersion = docsVersion;
           isLoadingSearchData = true;
           $.get('/docs/search-data/' + selectedDocsVersion())
             .done(function(response) {
               apiSearchData(response);
+            }).always(function() {
+              isLoadingSearchData = false;
             });
         }
       }
