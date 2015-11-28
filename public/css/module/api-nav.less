@@ -13,12 +13,6 @@
   @subCatBackground: darken(@backgroundColor, 20%);
   @subCatBorderColor: darken(@subCatBackground, 5%);
 
-  .commonStyles {
-    background: @backgroundColor;
-    border: 1px solid transparent;
-    .border-radius(3px);
-  }
-
   float: right;
   overflow: hidden;
   position: relative;
@@ -30,8 +24,8 @@
 
     .button-label {
       color: @textColor;
+      background: black;
       border-color: @buttonHoverBorder;
-      .box-shadow(0 1px 3px -1px black inset);
     }
   }
 
@@ -131,13 +125,22 @@
     width: 100%;
     z-index: 10;
     margin-top: 5px;
-    .commonStyles;
+    background: @backgroundColor;
+    .border-radius(3px);
     .box-sizing(border-box);
     font-size: 13px;
-    border-width: 0;
-    border: 3px solid @accentColor;
-    max-height: 400px;
-    overflow-y: auto;
+    background: lighten(@backgroundColor, 5%);
+
+    & > .title {
+      border-bottom: 1px solid black;
+      background: @backgroundColor;
+      .box-shadow(0 1px 3px -1px black);
+    }
+
+    .nav-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
 
     & > .title {
       position: relative;
@@ -322,16 +325,11 @@
     display: block;
     float: right;
     .no-select;
-    .commonStyles;
-    border-color: darken(@buttonHoverBorder, 10%);
+    background: @backgroundColor;
+    .border-radius(3px);
 
     &:hover {
       color: @textColor;
-      border-color: @buttonHoverBorder;
-    }
-
-    &:active {
-      .box-shadow(0 1px 3px -1px black inset);
     }
 
     .api-section {
