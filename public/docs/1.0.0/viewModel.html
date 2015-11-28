@@ -49,12 +49,14 @@
 &lt;/div&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
-<pre><code class="javascript">var viewModel = {
-  hello: 'world',
-  clickHandler: function() { console.info('That tickles.'); }
-};
+<pre><code class="javascript">var ViewModel = fw.viewModel.create({
+  initialize: function() {
+    this.hello = 'world';
+    this.clickHandler = function() { console.info('That tickles.'); }
+  }
+});
 
-fw.applyBindings(viewModel, document.getElementById('container'));
+fw.applyBindings(new ViewModel(), document.getElementById('container'));
 </code></pre>
         </li>
 
@@ -68,7 +70,9 @@ fw.applyBindings(viewModel, document.getElementById('container'));
 &lt;/viewModel&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
-<pre><code class="javascript">fw.viewModel.register('helloViewModel', fw.viewModel.create({
+<pre><code class="javascript">fw.viewModel.create({
+  namespace: 'helloViewModel',
+  autoRegister: true,
   initialize: function() {
     this.hello = 'world';
     this.clickHandler = function() {
@@ -76,6 +80,8 @@ fw.applyBindings(viewModel, document.getElementById('container'));
     };
   }
 }));
+
+fw.start();
 </code></pre>
 
       <div class="note">

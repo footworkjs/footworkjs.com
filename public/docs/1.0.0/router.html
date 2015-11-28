@@ -98,12 +98,16 @@ fw.applyBindings(router, document.getElementById('main-router'));
 &lt;/viewModel&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
-<pre><code class="javascript">fw.router.register('MainRouter', fw.router.create({
+<pre><code class="javascript">fw.router.create({
+  namespace: 'MainRouter',
+  autoRegister: true,
   initialize: function() {
     this.hello = 'world';
   },
   routes: [ /* ... */ ]
-}));
+});
+
+fw.start();
 </code></pre>
 
       <div class="note">

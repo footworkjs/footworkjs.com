@@ -42,14 +42,14 @@
 &lt;/form&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
-<pre><code class="javascript">var dataModel = fw.dataModel.create({
+<pre><code class="javascript">var DataModel = fw.dataModel.create({
   url: '/person',
   initialize: function() {
     this.name = fw.observable();
   }
-})(); // &lt;--- note we are creating an instance of it (using the extra parens), not just the constructor
+});
 
-fw.applyBindings(dataModel, document.getElementById('person'));
+fw.applyBindings(new DataModel(), document.getElementById('person'));
 </code></pre>
         </li>
 
@@ -65,12 +65,15 @@ fw.applyBindings(dataModel, document.getElementById('person'));
 &lt;/dataModel&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
-<pre><code class="javascript">fw.dataModel.register('Person', fw.dataModel.create({
-  url: '/person',
+<pre><code class="javascript">fw.dataModel.create({
+  namespace: 'Person',
+  autoRegister: true,
   initialize: function() {
     this.name = fw.observable();
   }
-}));
+});
+
+fw.start();
 </code></pre>
 
       <div class="note">
