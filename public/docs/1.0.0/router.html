@@ -1024,6 +1024,62 @@ console.info(currentRoute.url); // === '/book/1234'
     </div>
   </section>
 
+  <a id="animating-views" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="animating-views">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Animating Views</h2>
+    </header>
+    <div class="content">
+      <p>Often times it is desirable to animate the loading of a new view inside an <span class="inline-code">&lt;outlet&gt;</span>. FootworkJS
+        builds animation capability into every
+        <span class="inline-code"><a data-bind="$route: docLink('components#animating-components')">&lt;component&gt;</a></span> and
+        <span class="inline-code">&lt;outlet&gt;</span>.</p>
+
+      <p>To use the built in animation capability you first need to include the companion <span class="inline-code">CSS</span> which has the relevant
+        animation code in it.</p>
+<div class="file-location">index.html</div>
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;!-- The animation.css asset is included with FootworkJS in the dist folder --&gt;
+    &lt;link rel="stylesheet" href="bower_components/footwork/dist/animation/animation.css"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;router module="MainRouter"&gt;
+      &lt;outlet name="mainArea"&gt;&lt;/outlet&gt;
+    &lt;/router&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <p>After you have the <span class="inline-code">animation.css</span> asset being loaded you will need to add one of the available animation
+        classes to the top-level container elements inside of your views/<span class="inline-code">components</span> that you are loading inside of an
+        <span class="inline-code">&lt;outlet&gt;</span>.</p>
+
+      <p>Lets say that we are loading a view into the <span class="inline-code">mainArea</span> <span class="inline-code">&lt;outlet&gt;</span> above,
+        the <span class="inline-code">template</span> HTML could contain something like this:</p>
+<div class="file-location">view.html</div>
+<pre><code>&lt;!-- The specified animation class will dictate how it animates into view --&gt;
+&lt;div class="fade-in"&gt;
+  &lt;p&gt;All of the content inside of this view will fade-in!&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- You can also animate more than one thing, it simply needs to be a
+     top-level element and have an animation class on it --&gt;
+&lt;div class="fade-in-from-top"&gt;
+  &lt;p&gt;All of the content inside of this view will fade-in-from-top!&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+      <p>Currently available animations by default:</p>
+      <ul>
+        <li><em>fade-in</em></li>
+        <li><em>fade-in-from-top</em></li>
+        <li><em>fade-in-from-bottom</em></li>
+        <li><em>fade-in-from-left</em></li>
+        <li><em>fade-in-from-right</em></li>
+      </ul>
+    </div>
+  </section>
+
   <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
   <section data-name="lifecycle-registration">
     <div class="highlight"></div>
@@ -1876,7 +1932,10 @@ fw.router.html5History(); // === false when using &lt;=IE8</code></pre>
                   "description": "How to bind an element to a route via an event." },
                 { "anchor": "getting-state",
                   "title": "Getting the State",
-                  "description": "How to get the current state/route of a router." }
+                  "description": "How to get the current state/route of a router." },
+                { "anchor": "animating-views",
+                  "title": "Animating Views",
+                  "description": "How to animate new views in when an outlet changes." }
               ] }
           ] },
         { "title": "Lifecycle &amp; Registration",

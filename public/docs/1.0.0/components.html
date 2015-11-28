@@ -342,6 +342,57 @@ fw.components.defaultLocation('/components/');
     </div>
   </section>
 
+  <a id="animating-components" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="animating-components">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Animating Components</h2>
+    </header>
+    <div class="content">
+      <p>Often times it is desirable to animate the loading of a new <span class="inline-code">component</span>. FootworkJS builds animation capability
+        into every <span class="inline-code">&lt;component&gt;</span> and
+        <span class="inline-code"><a data-bind="$route: docLink('router#animating-views')">router &lt;outlet&gt;</a></span>.</p>
+
+      <p>To use the built in animation capability you first need to include the companion <span class="inline-code">CSS</span> which has the relevant
+        animation code in it.</p>
+<div class="file-location">index.html</div>
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;!-- The animation.css asset is included with FootworkJS in the dist folder --&gt;
+    &lt;link rel="stylesheet" href="bower_components/footwork/dist/animation/animation.css"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- ... --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <p>After you have the <span class="inline-code">animation.css</span> asset being loaded you will need to add one of the available animation
+        classes to the top-level container elements inside of your <span class="inline-code">components</span>.</p>
+
+      <p>Lets say that we have the <span class="inline-code">template</span> for a <span class="inline-code">component</span> defined as follows:</p>
+<div class="file-location">component-template.html</div>
+<pre><code>&lt;!-- The specified animation class will dictate how it animates into view --&gt;
+&lt;div class="fade-in"&gt;
+  &lt;p&gt;All of the content inside of this view will fade-in!&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- You can also animate more than one thing, it simply needs to be a
+     top-level element and have an animation class on it --&gt;
+&lt;div class="fade-in-from-top"&gt;
+  &lt;p&gt;All of the content inside of this view will fade-in-from-top!&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+      <p>Currently available animations by default:</p>
+      <ul>
+        <li><em>fade-in</em></li>
+        <li><em>fade-in-from-top</em></li>
+        <li><em>fade-in-from-bottom</em></li>
+        <li><em>fade-in-from-left</em></li>
+        <li><em>fade-in-from-right</em></li>
+      </ul>
+    </div>
+  </section>
+
   <a id="misc" class="section-anchor" data-bind="sectionAnchor"></a>
   <section data-name="misc">
     <div class="highlight"></div>
@@ -509,7 +560,10 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
             { "anchor": "module-formats",
               "title": "Module Formats" },
             { "anchor": "lifecycle",
-              "title": "Lifecycle" }
+              "title": "Lifecycle" },
+            { "anchor": "animating-components",
+              "title": "Animating Components",
+              "description": "How to animate in loaded components." }
           ] }
       ] },
     { "anchor": "misc",
