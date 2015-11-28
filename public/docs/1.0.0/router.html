@@ -1046,6 +1046,8 @@ console.info(currentRoute.url); // === '/book/1234'
   &lt;/head&gt;
   &lt;body&gt;
     &lt;router module="MainRouter"&gt;
+      &lt;!-- This outlet will load in the template which contains the elements
+           that have the animation class on them. --&gt;
       &lt;outlet name="mainArea"&gt;&lt;/outlet&gt;
     &lt;/router&gt;
   &lt;/body&gt;
@@ -1057,7 +1059,7 @@ console.info(currentRoute.url); // === '/book/1234'
 
       <p>Lets say that we are loading a view into the <span class="inline-code">mainArea</span> <span class="inline-code">&lt;outlet&gt;</span> above,
         the <span class="inline-code">template</span> HTML could contain something like this:</p>
-<div class="file-location">view.html</div>
+<div class="file-location">view-template.html</div>
 <pre><code>&lt;!-- The specified animation class will dictate how it animates into view --&gt;
 &lt;div class="fade-in"&gt;
   &lt;p&gt;All of the content inside of this view will fade-in!&lt;/p&gt;

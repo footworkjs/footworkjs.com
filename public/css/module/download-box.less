@@ -10,13 +10,12 @@
   @tabsHeight: 30px;
 
   float: right;
-  width: 52%;
-  margin: 0 0 10px 10px;
+  background: @backgroundColor;
+  border: 1px solid @downloadBoxBorderColor;
+  margin: 10px 0;
   .transition(all 0.3s ease);
   .box-sizing(border-box);
-  background: @backgroundColor;
   .border-radius(3px);
-  border: 1px solid @downloadBoxBorderColor;
 
   .section {
     .clearblock;
@@ -299,17 +298,5 @@
         }
       }
     }
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .download-box {
-    width: 60%;
-  }
-}
-
-@media screen and (max-width: 1120px) {
-  .download-box {
-    width: 100%;
   }
 }
