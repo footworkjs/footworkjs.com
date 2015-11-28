@@ -43,7 +43,6 @@ define([ "jquery", "lodash", "footwork" ],
 
         this.clickHandler = function(event, url) {
           var routeToURL = false;
-          var $target = $(event.target);
           var stopHere = false;
 
           if( (this.hasSubMenu || this.hasDocsMenu) && !viewPortIsMobile() ) {

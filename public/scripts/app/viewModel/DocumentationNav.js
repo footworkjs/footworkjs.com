@@ -36,7 +36,6 @@ define(['footwork', 'jquery', 'lodash'],
 
         this.clickHandler = function(event, url) {
           var routeToURL = true;
-          var $target = $(event.target);
           var stopHere = false;
 
           if( !fw.utils.isFullURL(url) && event.which !== 2 ) {
