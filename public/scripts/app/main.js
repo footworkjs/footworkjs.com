@@ -43,7 +43,7 @@ require([
     (new Page());
 
     if( Modernizr.touch === true ) {
-      require( ['PaneTouchManager'], function(PaneTouchManager) {
+      require( ['app/viewModel/PaneTouchManager'], function(PaneTouchManager) {
         (new PaneTouchManager());
       });
     }
