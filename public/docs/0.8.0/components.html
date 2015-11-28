@@ -214,11 +214,11 @@ fw.components.registerLocation('sprocket', '/components/theSprocket.js'); // loa
 
 // You can also specify the path to many components at once (Footwork will append the appropriate file name):
 fw.components.registerLocation(['sprocket', 'wheel'], {
-  viewModel: '/viewModels/bikeParts/', // load from /viewModels/bikeParts/[component-name].js
-  template: '/templates/bikeParts/' // load from /viewModels/bikeParts/[component-name].js
+  viewModel: '/viewModels/bikeParts/', // load from /viewModels/bikeParts/component-name.js
+  template: '/templates/bikeParts/' // load from /viewModels/bikeParts/component-name.js
 });
 
-// load from /components/[component-name].js in combined format:
+// load from /components/component-name.js in combined format:
 fw.components.registerLocation(['sprocket', 'wheel'], '/components/');
 </code></pre>
       <div class="note"><span class="label">NOTE:</span> Once you <span class="inline-code">registerLocation()</span> a component as being being a 'combined'
@@ -231,11 +231,11 @@ fw.components.registerLocation(['sprocket', 'wheel'], '/components/');
       <h3>Tell Footwork where to look for a component if it isn't registered explicitly (ie: when all else fails):</h3>
 <pre><code class="javascript">// Load components using individual paths for the viewModel and template files.
 fw.components.defaultLocation({
-  viewModel: '/viewModels/', // load from /viewModels/[component-name].js
-  template: '/templates/' // load from /templates/[component-name].html
+  viewModel: '/viewModels/', // load from /viewModels/component-name.js
+  template: '/templates/' // load from /templates/component-name.html
 });
 
-// Load components in combined format by default from /components/[component-name].js
+// Load components in combined format by default from /components/component-name.js
 fw.components.defaultLocation('/components/');
 </code></pre>
     </div>
@@ -478,39 +478,47 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
   "title": "Components",
   "description": "Modularize and encapsulate sections of your application. Create different views it can use.",
   "sections": [
-    { "anchor": "introduction",
-      "title": "Introduction",
+    { "anchor": "",
+      "title": "",
       "subSections": [
-        { "anchor": "configuration",
-          "title": "Configuration" },
-        { "anchor": "usage",
-          "title": "Usage" },
-        { "anchor": "loading-registering",
-          "title": "AMD / Lazy Loading / Registering" },
-        { "anchor": "module-formats",
-          "title": "Module Formats" },
-        { "anchor": "lifecycle",
-          "title": "Lifecycle" }
+        { "anchor": "introduction",
+          "title": "Introduction",
+          "subSections": [
+            { "anchor": "configuration",
+              "title": "Configuration" },
+            { "anchor": "usage",
+              "title": "Usage" },
+            { "anchor": "loading-registering",
+              "title": "AMD / Lazy Loading / Registering" },
+            { "anchor": "module-formats",
+              "title": "Module Formats" },
+            { "anchor": "lifecycle",
+              "title": "Lifecycle" }
+          ] }
       ] },
-    { "anchor": "misc",
-      "title": "Utility / Misc",
-      "collapsable": true,
-      "isCollapsed": true,
+    { "anchor": "",
+      "title": "",
       "subSections": [
-        { "anchor": "isRegistered",
-          "title": "fw.components.isRegistered()" },
-        { "anchor": "getResourceLocation",
-          "title": "fw.components.getResourceLocation()" },
-        { "anchor": "getFileName",
-          "title": "fw.components.getFileName()" },
-        { "anchor": "fileExtensions",
-          "title": "fw.components.fileExtensions()" },
-        { "anchor": "isTemplateOnly",
-          "title": "fw.components.isTemplateOnly()" },
-        { "anchor": "getNormalTagList",
-          "title": "fw.components.getNormalTagList()" },
-        { "anchor": "tagIsComponent",
-          "title": "fw.components.tagIsComponent()" }
+        { "anchor": "misc",
+          "title": "Utility / Misc",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "isRegistered",
+              "title": "fw.components.isRegistered()" },
+            { "anchor": "getResourceLocation",
+              "title": "fw.components.getResourceLocation()" },
+            { "anchor": "getFileName",
+              "title": "fw.components.getFileName()" },
+            { "anchor": "fileExtensions",
+              "title": "fw.components.fileExtensions()" },
+            { "anchor": "isTemplateOnly",
+              "title": "fw.components.isTemplateOnly()" },
+            { "anchor": "getNormalTagList",
+              "title": "fw.components.getNormalTagList()" },
+            { "anchor": "tagIsComponent",
+              "title": "fw.components.tagIsComponent()" }
+          ] }
       ] }
   ]
 }

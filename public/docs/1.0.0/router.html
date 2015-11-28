@@ -116,7 +116,7 @@ fw.start();
       </div>
         </li>
 
-        <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
+        <li>Automatically via a <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declaration in the DOM (See:
           <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
       </ul>
     </div>
@@ -297,7 +297,7 @@ var router = new AppRouter();
   <section data-name="inside-component">
     <div class="highlight"></div>
     <header>
-      <h2>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h2>
+      <h2>Automatic initialization via <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declaration in the DOM:</h2>
     </header>
     <div class="content">
       <p>In addition to using a <span class="inline-code">router</span> in the ways shown above they can also be used inside of a custom
@@ -1070,7 +1070,7 @@ console.info(currentRoute.url); // === '/book/1234'
 
       <ul>
         <li>Use the <span class="inline-code">&lt;router&gt; ... &lt;/router&gt;</span> declarative syntax.</li>
-        <li>Use the <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declarative syntax.</li>
+        <li>Use the <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declarative syntax.</li>
         <li>Manually bound (<span class="inline-code">fw.applyBindings()</span>) to the DOM.</li>
       </ul>
 
@@ -2038,7 +2038,7 @@ fw.router.html5History(); // === false when using &lt;=IE8</code></pre>
           "references": [
             { "anchor": "router-outlet",
               "title": "router.outlet()",
-              "description": "Tell an outlet to display a component, optionally providing an onComplete() callback and/or parameters to its viewModel/dataModel/etc.",
+              "description": "Tell an outlet to display a component.",
               "keywords": [ "component", "routing", "view", "template" ] },
             { "anchor": "router-outlets",
               "title": "router.outlets",

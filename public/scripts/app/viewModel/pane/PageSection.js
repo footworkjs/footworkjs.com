@@ -15,7 +15,7 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
         var computeAnchorPos;
         var anchorComputeDelay = 100;
         var $anchor = $('#' + (_.isObject(pageSectionData) ? pageSectionData.anchor : ''));
-        var $anchorContainer = $('[data-name=' + pageSectionData.anchor + ']');
+        var $anchorContainer = pageSectionData.anchor ? $('[data-name=' + pageSectionData.anchor + ']') : undefined;
         var anchorOffset = PageSectionsNamespace.request('anchorOffset');
         var PageSection = this;
 
@@ -81,7 +81,9 @@ define([ "jquery", "lodash", "footwork", "jquery.pulse" ],
 
           chosenSection('');
           chosenSection(this.anchor);
-          $anchorContainer.pulse({ className: 'active', duration: 1000 });
+          if(!_.isUndefined($anchorContainer)) {
+            $anchorContainer.pulse({ className: 'active', duration: 1000 });
+          }
           return true;
         }.bind(this);
 

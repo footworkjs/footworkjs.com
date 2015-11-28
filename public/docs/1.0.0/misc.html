@@ -24,12 +24,21 @@ fw.start(); // document.body is the default element</code></pre>
       <div class="note">
         <p>
           <span class="label">NOTE:</span> This is very similar to calling <span class="inline-code">fw.applyBindings()</span>. In fact they are identical except
-          <span class="inline-code">fw.start()</span> is a simplified version which does not accept a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind, it simply causes Footwork
-          to begin processing the DOM (and thus it will initialize any viewModel/router/component/etc definitions it finds in the markup).
+          <span class="inline-code">fw.start()</span> is a simplified version which does not accept a
+          <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> to bind, it simply causes FootworkJS
+          to begin processing the DOM (and thus it will initialize and compose any
+          <span class="inline-code"><a data-bind="$route: docLink('viewModel')">&lt;viewModel&gt;</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">&lt;dataModel&gt;</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">&lt;router&gt;</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('components')">&lt;component&gt;</a></span> declarations it finds in the markup).
         </p>
         <p>
           <span class="inline-code">fw.applyBindings()</span> will also cause Footwork to begin processing the DOM, but it also requires that you supply a
-          <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> to bind with the root node.
+          <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> to bind with the root node.
         </p>
       </div>
 

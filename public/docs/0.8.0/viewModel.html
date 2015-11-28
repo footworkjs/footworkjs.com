@@ -116,7 +116,7 @@
 
         <li>Automatically via a <span class="inline-code">&lt;viewModel module="[moduleName]"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM.</li>
 
-        <li>Automatically via a <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM (See:
+        <li>Automatically via a <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declaration in the DOM (See:
           <a data-bind="$route: docLink('components#usage')">component usage</a>).</li>
       </ul>
 
@@ -167,7 +167,7 @@ fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'))
       <p class="note"><span class="label">NOTE:</span> See <a data-bind="$route" href="#loading-registering">AMD / Lazy Loading / Registering</a> for information
         on how to make sure Footwork knows how to find your viewModels/modules.</p>
 
-      <h3>Automatic initialization via <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declaration in the DOM:</h3>
+      <h3>Automatic initialization via <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declaration in the DOM:</h3>
 <pre><code class="html">&lt;html&gt;
   &lt;body&gt;
     &lt;sprocket&gt;&lt;/sprocket&gt;
@@ -371,7 +371,7 @@ define(["footwork"],
 
       <ul>
         <li>Use the <span class="inline-code">&lt;viewModel&gt; ... &lt;/viewModel&gt;</span> declarative syntax.</li>
-        <li>Use the <span class="inline-code">&lt;[component-name]&gt;&lt;/[component-name]&gt;</span> declarative syntax.</li>
+        <li>Use the <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declarative syntax.</li>
         <li>Manually bound (<span class="inline-code">fw.applyBindings()</span>) to the DOM.</li>
       </ul>
 
@@ -767,49 +767,61 @@ fw.viewModels.fileExtensions(function(moduleName) {
   "title": "viewModel",
   "description": "Bindable logic and statefulness for your markup.",
   "sections": [
-    { "anchor": "introduction",
-      "title": "Introduction",
+    { "anchor": "",
+      "title": "",
       "subSections": [
-        { "anchor": "configuration",
-          "title": "Configuration" },
-        { "anchor": "initialization",
-          "title": "Initialization / Usage" },
-        { "anchor": "loading-registering",
-          "title": "AMD / Lazy Loading / Registering" },
-        { "anchor": "module-formats",
-          "title": "Module Formats" },
-        { "anchor": "lifecycle",
-          "title": "Lifecycle" },
-        { "anchor": "properties",
-          "title": "Properties" }
+        { "anchor": "introduction",
+          "title": "Introduction",
+          "subSections": [
+            { "anchor": "configuration",
+              "title": "Configuration" },
+            { "anchor": "initialization",
+              "title": "Initialization / Usage" },
+            { "anchor": "loading-registering",
+              "title": "AMD / Lazy Loading / Registering" },
+            { "anchor": "module-formats",
+              "title": "Module Formats" },
+            { "anchor": "lifecycle",
+              "title": "Lifecycle" },
+            { "anchor": "properties",
+              "title": "Properties" }
+          ] }
       ] },
-    { "anchor": "mixins",
-      "title": "Mixins",
-      "collapsable": true,
-      "isCollapsed": true,
+    { "anchor": "",
+      "title": "",
       "subSections": [
-        { "anchor": "mixin-configuration",
-          "title": "Configuration" },
-        { "anchor": "mixin-usage",
-          "title": "Usage" }
+        { "anchor": "mixins",
+          "title": "Mixins",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "mixin-configuration",
+              "title": "Configuration" },
+            { "anchor": "mixin-usage",
+              "title": "Usage" }
+          ] }
       ] },
-    { "anchor": "misc",
-      "title": "Utility / Misc",
-      "collapsable": true,
-      "isCollapsed": true,
+    { "anchor": "",
+      "title": "",
       "subSections": [
-        { "anchor": "getAll",
-          "title": "fw.viewModels.getAll()" },
-        { "anchor": "isRegistered",
-          "title": "fw.viewModels.isRegistered()" },
-        { "anchor": "getRegistered",
-          "title": "fw.viewModels.getRegistered()" },
-        { "anchor": "getResourceLocation",
-          "title": "fw.viewModels.getResourceLocation()" },
-        { "anchor": "getFileName",
-          "title": "fw.viewModels.getFileName()" },
-        { "anchor": "fileExtensions",
-          "title": "fw.viewModels.fileExtensions()" }
+        { "anchor": "misc",
+          "title": "Utility / Misc",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "getAll",
+              "title": "fw.viewModels.getAll()" },
+            { "anchor": "isRegistered",
+              "title": "fw.viewModels.isRegistered()" },
+            { "anchor": "getRegistered",
+              "title": "fw.viewModels.getRegistered()" },
+            { "anchor": "getResourceLocation",
+              "title": "fw.viewModels.getResourceLocation()" },
+            { "anchor": "getFileName",
+              "title": "fw.viewModels.getFileName()" },
+            { "anchor": "fileExtensions",
+              "title": "fw.viewModels.fileExtensions()" }
+          ] }
       ] }
   ]
 }
