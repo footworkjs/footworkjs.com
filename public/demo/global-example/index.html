@@ -1,9 +1,16 @@
 <html>
   <head>
-    <script src="/js/footwork-all.js"></script>
+    <!-- Include Footwork -->
+    <script src="js/footwork-all.js"></script>
   </head>
+
   <body>
-    <!-- ... -->
-    <script src="/js/myApp.js"></script>
+    <!-- Example use of a <viewModel> -->
+    <viewModel module="MyViewModel">
+      Some variable: <span data-bind="text: someVariable"></span>
+    </viewModel>
+
+    <!-- Main app code which creates MyViewModel and starts Footwork -->
+    <script src="js/myApp.js"></script>
   </body>
 </html>
