@@ -11,7 +11,7 @@
   },
   {
     "label": "Collection",
-    "description": "RESTful handling of dataModels with handy utilities when managing a collection of them.",
+    "description": "Manage collections of data, retrieve and save them, bind your UI to them, and more.",
     "page": "collection.html"
   },
   {
@@ -21,7 +21,7 @@
   },
   {
     "label": "Router",
-    "description": "Swap out views and manage user state in your application.",
+    "description": "Swap out views and manage state in your application.",
     "page": "router.html"
   },
   {

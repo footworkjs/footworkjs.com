@@ -11,7 +11,7 @@
   },
   {
     "label": "Router",
-    "description": "Swap out views and manage user state in your application.",
+    "description": "Swap out views and manage state in your application.",
     "page": "router.html"
   },
   {
