@@ -25,7 +25,7 @@ define(['footwork', 'jquery', 'lodash'],
 
         this.environment = fw.observable('production');
         this.environments = [
-          { label: 'Production', value: 'production' },
+          { label: 'Production (minified)', value: 'production' },
           { label: 'Development', value: 'development' }
         ];
 

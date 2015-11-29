@@ -8,9 +8,8 @@
   @tabsBackground: #ddd;
   @tabsBorder: darken(@tabsBackground, 10%);
   @tabsHeight: 30px;
-  @buildLabelWidth: 20%;
+  @buildLabelWidth: 30%;
 
-  float: right;
   margin: 10px 0;
   position: relative;
   .transition(all 0.3s ease);
@@ -33,6 +32,7 @@
     .text {
       float: left;
       width: @buildLabelWidth;
+      .box-sizing(border-box);
     }
 
     .button {
@@ -62,11 +62,8 @@
       border-color: darken(@tabsBackground, 10%);
     }
     .builds.content {
-      height: auto;
-      opacity: 1;
+      display: block;
       padding-top: @innerSpacing;
-      overflow-y: auto;
-      min-height: 235px;
     }
   }
 
@@ -78,11 +75,8 @@
       border-color: darken(@tabsBackground, 10%);
     }
     .bower.content {
-      height: auto;
-      opacity: 1;
-      padding: @innerSpacing;
-      overflow-y: auto;
-      min-height: 235px;
+      display: block;
+      padding-top: @innerSpacing;
     }
   }
 
@@ -94,11 +88,8 @@
       border-color: darken(@tabsBackground, 10%);
     }
     .bootstrap.content {
-      height: auto;
-      opacity: 1;
-      padding: @innerSpacing;
-      overflow-y: auto;
-      min-height: 235px;
+      display: block;
+      padding-top: @innerSpacing;
     }
   }
 
@@ -139,12 +130,11 @@
   }
 
   & > .content {
-    height: 0;
+    .clearblock;
+    display: none;
+    font-size: 13px;
     width: 100%;
     .box-sizing(border-box);
-    opacity: 0;
-    .clearblock;
-    font-size: 13px;
   }
 
   .build-label, .build-selector {
@@ -172,7 +162,7 @@
   .build-label {
     width: @buildLabelWidth;
     text-align: right;
-    padding-right: 5px;
+    padding-right: 10px;
     float: left;
   }
   .build-selector {
