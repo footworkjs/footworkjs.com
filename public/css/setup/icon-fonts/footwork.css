@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'footwork';
-  src: url('footwork.eot?69965686');
-  src: url('footwork.eot?69965686#iefix') format('embedded-opentype'),
-       url('footwork.woff?69965686') format('woff'),
-       url('footwork.ttf?69965686') format('truetype'),
-       url('footwork.svg?69965686#footwork') format('svg');
+  src: url('footwork.eot?13548483');
+  src: url('footwork.eot?13548483#iefix') format('embedded-opentype'),
+       url('footwork.woff?13548483') format('woff'),
+       url('footwork.ttf?13548483') format('truetype'),
+       url('footwork.svg?13548483#footwork') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'footwork';
-    src: url('footwork.svg?69965686#footwork') format('svg');
+    src: url('footwork.svg?13548483#footwork') format('svg');
   }
 }
 */
@@ -88,3 +88,4 @@
 .icon-comment:before { content: '\e81f'; } /* '' */
 .icon-doc:before { content: '\e820'; } /* '' */
 .icon-doc-inv:before { content: '\e821'; } /* '' */
+.icon-file-archive:before { content: '\e822'; } /* '' */

@@ -41,9 +41,21 @@ main {
   .download.button {
     margin-top: 10px;
     padding-left: 5px;
+    line-height: 28px;
+    cursor: pointer;
 
     &:hover {
       text-decoration: none;
+
+      .file-type {
+        background: rgba(255,255,255,0.90);
+      }
+    }
+
+    &:active {
+      .file-type {
+        background: rgba(255,255,255,0.70);
+      }
     }
 
     &:before {
@@ -56,6 +68,33 @@ main {
       text-align: center;
       margin-right: 5px;
       float: left;
+    }
+
+    .file-type {
+      @height: 20px;
+
+      position: relative;
+      float: right;
+      background: rgba(255,255,255,0.3);
+      padding: 1px 5px;
+      .border-radius(3px);
+      margin-left: 5px;
+      color: darken(@pane-bg-color, 10%);
+      border: 1px solid darken(@pane-bg-color, 10%);
+      line-height: @height - 2px;
+      height: @height;
+      top: 2px;
+
+      &:before {
+        .icon-mixin;
+        content: '\e822';
+
+        font-size: 15px;
+        position: relative;
+        float: left;
+        margin-right: 5px;
+        top: 1px;
+      }
     }
   }
 
