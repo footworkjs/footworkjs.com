@@ -174,6 +174,7 @@ define([ "footwork", "lodash", "jquery" ],
         this.hasError = fw.observable(false);
         this.explanation = fw.observable(params.explanation);
         this.changed = fw.observable(false);
+        this.resourceOnly = fw.observable(params.resourceOnly);
 
         this.resources = fw.observableArray();
 
