@@ -56,20 +56,22 @@
       <p>A broad overview of a few of the key features included with footwork:</p>
 
       <ul>
-        <li>Custom Tags and Components.</li>
-        <li>Automatic loading views and animations.</li>
-        <li><span class="inline-code">dataModel</span> for handling data on a RESTful endpoint.</li>
-        <li><span class="inline-code">collection</span> for mananaging collections of data.</li>
-        <li>Nested <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> with unlimited
+        <li><span class="inline-code"><a data-bind="$route: docLink('components#usage')">&lt;custom-components&gt;</a></span></li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> for managing data on a RESTful endpoint.</li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('collection')">collection</a></span> for mananaging collections of data.</li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> for application state management with unlimited
           <span class="inline-code"><a data-bind="$route: docLink('router#outlets')">&lt;outlet&gt;</a></span> support.</li>
         <li>Declarative <span class="inline-code"><a data-bind="$route: docLink('viewModel#viewModel-element')">&lt;viewModel&gt;</a></span> /
           <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-element')">&lt;dataModel&gt;</a></span> /
           <span class="inline-code"><a data-bind="$route: docLink('router#router-element')">&lt;router&gt;</a></span> wrapping and 2-Way bindings.</li>
-        <li>Inter-Module communication and dependency tracking.</li>
+        <li>Rich <a data-bind="$route: docLink('namespace')">communication/eventing capabilities</a>.</li>
+        <li>Automatic <a data-bind="$route: docLink('broadcastable-receivable')">data/state sharing and syncing</a>.</li>
+        <li><a data-bind="$route: docLink('router#animating-views')">View animations</a> and
+          <a data-bind="$route: docLink('components#animating-components')">component animations</a>.</li>
         <li>Automatic dependency resolution via AMD.</li>
-        <li>Integrates well with jQuery and others (but doesn't need them).</li>
+        <li>Integrates well with jQuery and others.</li>
         <li>Drop-in replacement for KnockoutJS-based applications, add in new functionality organically.</li>
-        <li><em>... and a ton more.</em></li>
+        <li><em>... and a <a data-bind="$route" href="/docs/list">ton more</a>.</em></li>
       </ul>
     </div>
   </section>
