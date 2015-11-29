@@ -17,11 +17,13 @@ define(['footwork', 'jquery', 'lodash'],
           hljs.highlightBlock(block);
         });
       },
-      initialize: function() {
+      initialize: function(params) {
         this.activeTab = fw.observable('builds');
         this.chooseTab = function(model, event) {
           this.activeTab(event.target.className.replace(' tab',''));
         };
+        this.showTitle = params.showTitle || _.isUndefined(params.showTitle);
+        this.showTabs = params.showTabs || _.isUndefined(params.showTabs);
 
         this.environment = fw.observable('production');
         this.environments = [
