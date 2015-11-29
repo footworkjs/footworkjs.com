@@ -1,8 +1,10 @@
 <article>
-
-  <a id="introduction" class="section-anchor"></a>
-  <section name="introduction">
+  <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="introduction">
     <div class="highlight"></div>
+    <header>
+      <h1 class="title">Introduction</h1>
+    </header>
     <div class="content">
       <p>Getting started with any framework can seem like a daunting task. Often times the initial pain is from the loss in output or other hurdles you
         experience while your knowledge of (and thus capabilities surrounding) the framework increase. Footwork is built to be easy to work with, but
@@ -11,7 +13,52 @@
       <p>Once you get going with Footwork its benefits will really start to shine...the following information and resources will help you get up to
         speed quickly.</p>
 
+    </div>
+  </section>
+
+  <a id="basics" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="basics">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">The Basics</h1>
+    </header>
+    <div class="content">
+      <p>There are two primary ways of using <span class="inline-code">collections</span> in Footwork. They can be utilized with raw data (arrays of
+        objects, i.e. a <em>plain</em> <span class="inline-code">collection</span>) or configured to use a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>. In either case you can then use any of the
+        <span class="inline-code">collection</span> methods to find, retrieve, add, etc.</p>
+
+      <p>Essentially, at the core of it you are managing a list of
+        <span class="inline-code">objects</span> which may or may not have RESTful (persistent) features attached to them. With this list you can also
+        bind your UI, create
+        <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values,
+        subscribe to changes, etc (all of the same capabilities/features you have with a normal KnockoutJS
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>).</p>
+    </div>
+  </section>
+
+  <a id="tutorials" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="tutorials">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Tutorials</h1>
+    </header>
+    <div class="content">
+      <p>Tutorials are a good step-by-step introduction into the framework.</p>
+    </div>
+  </section>
+
+  <a id="todo-mvc" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="todo-mvc">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">TodoMVC Tutorial</h2>
+    </header>
+    <div class="content">
       <h3>Create a TodoMVC Application</h3>
+
+      <p>This 3-part tutorial introduces you to Footwork by showing you how to create a Todo application.</p>
+
       <ul>
         <li>
           <a href="/tutorials/TodoMVC/creatingApplication" data-bind="$route"><em>Part 1 - Creating the Application</em></a>
@@ -49,12 +96,29 @@
       </ul>
     </div>
   </section>
-
 </article>
 
 <div id="metaData">
 {
   "title": "Get Started",
-  "description": "The place to get running with FootworkJS."
+  "description": "The place to get running with FootworkJS.",
+  "sections": [
+    { "anchor": "introduction",
+      "title": "Introduction",
+      "subSections": [
+        { "anchor": "basics",
+          "title": "The Basics",
+          "subSections": [
+            { "anchor": "downloading",
+              "title": "Downloading" },
+            { "anchor": "loading",
+              "title": "Loading" },
+            { "anchor": "using",
+              "title": "Using" }
+          ] }
+      ] },
+    { "anchor": "todo-mvc",
+      "title": "TodoMVC Tutorial" }
+  ]
 }
 </div>

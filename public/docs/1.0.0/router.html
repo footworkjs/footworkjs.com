@@ -585,18 +585,21 @@ unknownRoute: { /* ... */ }
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-      <p>When you tell an outlet what to show, you are telling it to load a component. Thus for each 'page' or view you want
+      <p>When you tell an outlet what to show, you are actually telling it to load a
+        <span class="inline-code"><a data-bind="$route: docLink('components')">component</a></span>. Thus for each 'page' or view you want
       to display for an <span class="inline-code">outlet</span>, Footwork will need one of the three following things:</p>
 
       <ul>
-        <li>A corresponding view registered (cached/preloaded) via <span class="inline-code">fw.outlets.registerView()</span> or
-          <a data-bind="$route: docLink('components#load-register')"><span class="inline-code">fw.components.register()</span></a></li>
+        <li>A corresponding view registered (cached/preloaded) via
+          <span class="inline-code"><a data-bind="$route" href="#outlets-registerView">fw.outlets.registerView()</a></span> or
+          <span class="inline-code"><a data-bind="$route: docLink('components#load-register')">fw.components.register()</a></span></li>
 
-        <li>A registered location where it can load the view via <span class="inline-code">fw.outlets.registerViewLocation()</span> or
-          <a data-bind="$route: docLink('components#load-register')"><span class="inline-code">fw.components.registerLocation()</span></a></li>
+        <li>A registered location where it can load the view via
+          <span class="inline-code"><a data-bind="$route" href="#outlets-registerViewLocation">fw.outlets.registerViewLocation()</a></span> or
+          <span class="inline-code"><a data-bind="$route: docLink('components#load-register')">fw.components.registerLocation()</a></span></li>
 
-        <li>A component/view available at the default component location (<span class="inline-code">fw.components.defaultLocation()</span>, see
-          <a data-bind="$route: docLink('components#load-register')">component registration</a>).</li>
+        <li>A component/view available at the default component location
+          (<span class="inline-code"><a data-bind="$route: docLink('components#components-defaultLocation')">fw.components.defaultLocation()</a></span>).</li>
       </ul>
 
       <div class="note">
