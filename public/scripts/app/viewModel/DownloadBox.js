@@ -18,7 +18,7 @@ define(['footwork', 'jquery', 'lodash'],
         });
       },
       initialize: function(params) {
-        this.activeTab = fw.observable('builds');
+        this.activeTab = fw.observable(params.showTab || 'builds');
         this.chooseTab = function(model, event) {
           this.activeTab(event.target.className.replace(' tab',''));
         };

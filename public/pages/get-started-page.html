@@ -47,9 +47,40 @@
       <p>To use FootworkJS you must first download it. This is done in one of two ways (primarily)...via <span class="inline-code">bower</span>
         (recommended) or downloading a specific build from this website.</p>
 
+      <p><em>Download Manually</em></p>
+
       <p>If you want it as simple as possible, use the dialog below to download the specific version and build you require:</p>
 
       <download-box params="showTitle: false, showTabs: false"></download-box>
+
+      <div class="note">
+        <p><span class="label">What build do I need?</span></p>
+
+        <p>The default (Build: <span class="inline-code">All</span>, Environment: <span class="inline-code">Production</span>) should work for most
+          people out-of-the-box. It does not require any external dependencies (they are all embedded/built into it).</p>
+
+        <p>One thing you might choose is <span class="inline-code">Environment: Development</span> as this will get you the unminified version
+          (useful for debugging purposes).</p>
+
+        <p>The options and their meaning:</p>
+        <ul>
+          <li><em>Version:</em> The version of the framework you want, latest version is preferred.</li>
+          <li><em>Build:</em> This defines what dependencies you want built into Footwork vs which ones you will provide. The easiest is generally
+            either an <span class="inline-code">All</span> or <span class="inline-code">All + History.js</span> build as they do not require any
+            dependencies.</li>
+          <li><em>Environment:</em> Choose <span class="inline-code">Production</span> if you want a minified build, otherwise choose
+            <span class="inline-code">Development</span>.</li>
+        </ul>
+      </div>
+
+      <p>After you download the build you will simply need to put it in a place you can reference with a <span class="inline-code">&lt;script&gt;</span>
+        tag from your HTML.</p>
+
+      <p><em>Download via Bower</em></p>
+
+      <p>The other (and more preferred) method is to utilize <a href="http://bower.io" target="_blank">Bower</a> to install/use Footwork.</p>
+
+      <download-box params="showTitle: false, showTabs: false, showTab: 'bower'"></download-box>
     </div>
   </section>
 

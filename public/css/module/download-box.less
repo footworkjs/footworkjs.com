@@ -63,7 +63,6 @@
     }
     .builds.content {
       display: block;
-      padding-top: @innerSpacing;
     }
   }
 
@@ -76,7 +75,6 @@
     }
     .bower.content {
       display: block;
-      padding-top: @innerSpacing;
     }
   }
 
@@ -89,16 +87,16 @@
     }
     .bootstrap.content {
       display: block;
-      padding-top: @innerSpacing;
     }
   }
 
   .tabs {
     line-height: @tabsHeight;
-    .clearblock;
     font-size: 13px;
-    .box-sizing(border-box);
     height: @tabsHeight;
+    margin-bottom: 10px;
+    .box-sizing(border-box);
+    .clearblock;
 
     .tab {
       position: relative;
@@ -131,7 +129,6 @@
   & > .content {
     .clearblock;
     display: none;
-    font-size: 13px;
     width: 100%;
     .box-sizing(border-box);
   }

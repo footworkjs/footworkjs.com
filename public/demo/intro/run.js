@@ -2,7 +2,7 @@ define(["footwork"],
   function(fw) {
     return {
       className: 'intro',
-      explanation: 'Please take a moment to play around with the demo below and get a quick feel for a few of footworks features. Remember though this barely scratches the surface, there is a wide variety of useful and novel features in footwork...check it out!',
+      explanation: 'Take a moment to play around with the demo below and get a quick feel for a few of Footworks features. Remember though this barely scratches the surface, there is a wide variety of useful and novel features in FootworkJS...check it out!',
       resources: {
         indexHTML: {
           type: 'html',
