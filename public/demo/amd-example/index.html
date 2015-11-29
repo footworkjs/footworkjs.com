@@ -2,10 +2,12 @@
   <body>
     <!-- Example use of a <viewModel> -->
     <viewModel module="MyViewModel">
-      Some variable: <span data-bind="text: someVariable"></span>
+      <div>
+        Hello <span data-bind="text: something"></span>!
+      </div>
     </viewModel>
 
-    <!-- Call to RequireJS which loads and initializes js/myApp.js -->
-    <script src="js/require.js" data-main="js/myApp"></script>
+    <!-- Load RequireJS which loads and initializes main.js -->
+    <script src="require.js" data-main="main"></script>
   </body>
 </html>

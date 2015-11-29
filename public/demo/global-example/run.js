@@ -8,8 +8,7 @@ define([],
         },
         myApp: {
           type: 'javascript',
-          label: 'js/myApp.js',
-          file: 'myApp.js'
+          file: 'main.js'
         }
       }
     };

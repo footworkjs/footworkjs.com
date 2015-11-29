@@ -41,7 +41,7 @@
 
       <p><em>Download Manually</em></p>
 
-      <p>If you want it as simple as possible, use the dialog below to download the specific version and build you require:</p>
+      <p>You can use the dialog below to download Footwork:</p>
 
       <download-box params="showTitle: false, showTabs: false, environment: 'development'"></download-box>
 
@@ -70,11 +70,11 @@
     </div>
   </section>
 
-  <a id="loading" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="loading">
+  <a id="loading-using" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="loading-using">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">Loading</h2>
+      <h2 class="sub title">Loading &amp; Using</h2>
     </header>
     <div class="content">
       <p>After you download Footwork you will need to somehow load it in the browser. This is done (principally) in one of two ways:</p>
@@ -83,12 +83,19 @@
           <p>Using a regular <span class="inline-code">&lt;script&gt;</span> tag and loading it into the global namespace (<span class="inline-code">window</span>
             object):</p>
           <code-demo params="resourceOnly: true, noTitle: true, showBare: true, readOnly: true, editorHeight: 240" src="/demo/global-example"></code-demo>
+
+          <a class="download button" href="/demo/global-example/footwork-bootstrap-global.zip">Download Demo Application Code</a>
         </li>
         <li>
           <p>Using RequireJS/AMD to load Footwork:</p>
           <code-demo params="resourceOnly: true, noTitle: true, showBare: true, readOnly: true, editorHeight: 240" src="/demo/amd-example"></code-demo>
+
+          <a class="download button" href="/demo/amd-example/footwork-bootstrap-amd.zip">Download Demo Application Code</a>
         </li>
       </ul>
+
+      <p>Now you are ready to go! It is recommended that you take a look at the <a data-bind="$route" href="#todo-mvc">TodoMVC Tutorial</a> or the
+        <a data-bind="$route" href="/docs/list">API Documentation</a> next...stay tuned for more! Videos upcoming <em>very very soon!</em></p>
     </div>
   </section>
 
@@ -155,10 +162,8 @@
           "subSections": [
             { "anchor": "downloading",
               "title": "Downloading" },
-            { "anchor": "loading",
-              "title": "Loading" },
-            { "anchor": "using",
-              "title": "Using" }
+            { "anchor": "loading-using",
+              "title": "Loading &amp; Using" }
           ] }
       ] },
     { "anchor": "todo-mvc",

@@ -7,10 +7,12 @@
   <body>
     <!-- Example use of a <viewModel> -->
     <viewModel module="MyViewModel">
-      Some variable: <span data-bind="text: someVariable"></span>
+      <div class="message">
+        Hello <span data-bind="text: something"></span>!
+      </div>
     </viewModel>
 
     <!-- Main app code which creates MyViewModel and starts Footwork -->
-    <script src="js/myApp.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
