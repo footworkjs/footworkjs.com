@@ -3,7 +3,7 @@
   <section name="introduction">
     <div class="highlight"></div>
     <header>
-      <h1 class="title">An introduction to footwork.js...</h1>
+      <h1 class="parent title">An introduction to footwork.js...</h1>
     </header>
     <div class="content">
       <img class="structure" src="images/footwork-structure.svg" alt="FootworkJS Structure">
@@ -28,8 +28,8 @@
         on a combination of several well known open source libraries and design patterns.
       </p>
 
-      <p>Footwork focuses on using pre-existing concepts, libraries, and APIs - while extending and adding in features where appropriate. This helps ease the learning curve as the
-        terminology, concepts, and features are not completely foreign.</p>
+      <p>Footwork focuses on using pre-existing concepts, libraries, and APIs - while extending and adding in features where appropriate. This helps
+        ease the learning curve as the terminology, concepts, and features are not completely foreign.</p>
 
       <p>With a few (very useful) novel features up its sleeve, a solid design, and consistent API you might just want to check footwork out!</p>
     </div>
@@ -38,9 +38,6 @@
   <a id="demo" class="section-anchor"></a>
   <section name="demo">
     <div class="highlight"></div>
-    <header>
-      <h1 class="title">Footwork at a glance...</h1>
-    </header>
     <div class="content">
       <code-demo params="title: 'FootworkJS at a glance...'" src="/demo/intro"></code-demo>
     </div>
@@ -56,10 +53,12 @@
       <p>A broad overview of a few of the key features included with footwork:</p>
 
       <ul>
-        <li><span class="inline-code"><a data-bind="$route: docLink('components#usage')">&lt;custom-components&gt;</a></span></li>
-        <li><span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> for managing data on a RESTful endpoint.</li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('components#usage')">&lt;custom-components&gt;</a></span> for encapsulating entire
+          blocks of application code, or even entire applications.</li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> for encapsulating logic and behavior.</li>
+        <li><span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> for encapsulating logic and behavior as well as managing data on a RESTful endpoint.</li>
         <li><span class="inline-code"><a data-bind="$route: docLink('collection')">collection</a></span> for mananaging collections of data.</li>
-        <li><span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> for application state management with unlimited
+        <li><span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> for encapsulating logic and behavior surrounding application state management with unlimited
           <span class="inline-code"><a data-bind="$route: docLink('router#outlets')">&lt;outlet&gt;</a></span> support.</li>
         <li>Declarative <span class="inline-code"><a data-bind="$route: docLink('viewModel#viewModel-element')">&lt;viewModel&gt;</a></span> /
           <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-element')">&lt;dataModel&gt;</a></span> /
@@ -79,13 +78,7 @@
   <a id="download" class="section-anchor"></a>
   <section name="download">
     <div class="highlight"></div>
-    <header>
-      <h1 class="title">Download</h1>
-    </header>
     <div class="content">
-      <p>While it is generally recommended you install from <span class="inline-code">bower</span> or pull down the Github repository, the various
-        builds are also available for direct download here.</p>
-
       <download-box></download-box>
     </div>
   </section>

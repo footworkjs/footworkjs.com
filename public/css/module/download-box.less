@@ -1,8 +1,8 @@
 .download-box {
-  @downloadBoxBorderColor: @pane-bg-color;
   @innerSpacing: 15px;
   @iconWidth: 15%;
-  @backgroundColor: white;
+  @downloadBoxBorderColor: transparent;
+  @backgroundColor: transparent;
 
   @tabsInnerShadow: 0 4px 6px -5px black inset;
   @tabsBackground: #ddd;
@@ -10,8 +10,6 @@
   @tabsHeight: 30px;
 
   float: right;
-  background: @backgroundColor;
-  border: 1px solid @downloadBoxBorderColor;
   margin: 10px 0;
   .transition(all 0.3s ease);
   .box-sizing(border-box);
@@ -21,26 +19,24 @@
     .clearblock;
   }
 
-  @downloadBoxTitleHeight: 25px;
   .title {
     font-weight: bold;
     font-size: 20px;
-    line-height: @downloadBoxTitleHeight;
-    padding: @innerSpacing;
     position: relative;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    float: left;
 
     .button {
       display: block;
       float: right;
       text-align: center;
-      height: @downloadBoxTitleHeight;
-      line-height: @downloadBoxTitleHeight - 2px;
       text-decoration: none;
       cursor: pointer;
       color: white;
+      margin-left: 10px;
+      .button-color(#dedede);
 
       .label {
         margin-right: 5px;
@@ -103,12 +99,8 @@
   .tabs {
     line-height: @tabsHeight;
     .clearblock;
-    background: @tabsBackground;
     font-size: 13px;
     padding-right: @innerSpacing;
-    border: 1px solid @tabsBorder;
-    border-left-width: 0;
-    border-right-width: 0;
     .box-sizing(border-box);
     height: @tabsHeight;
 
@@ -120,8 +112,7 @@
       text-align: center;
       cursor: pointer;
       border: 1px solid transparent;
-      border-top-width: 0;
-      border-bottom-width: 0;
+      .border-radius(3px);
       margin-left: 5px;
       font-weight: bold;
       color: #909090;
@@ -145,11 +136,8 @@
     height: 0;
     width: 100%;
     .box-sizing(border-box);
-    overflow: hidden;
     opacity: 0;
-    .transition(opacity 0.3s ease);
     .clearblock;
-    max-height: 240px;
     font-size: 13px;
   }
 
@@ -175,7 +163,7 @@
     margin-top: 10px;
   }
 
-  @buildLabelWidth: 35%;
+  @buildLabelWidth: 20%;
   .build-label {
     width: @buildLabelWidth;
     text-align: right;
