@@ -146,11 +146,21 @@ define([ "footwork", "lodash", "jquery" ],
               CodeDemo.changed(false);
             };
 
+            var hasRunDemo = false;
             if(!CodeDemo.collapsed()) {
-              CodeDemo.runDemo();
+              if(!CodeDemo.resourceOnly()) {
+                CodeDemo.runDemo();
+              } else {
+                CodeDemo.resourceSub = CodeDemo.resourceOnly.subscribe(function(isResourceOnly) {
+                  if(!hasRunDemo && !isResourceOnly) {
+                    hasRunDemo = true;
+                    CodeDemo.runDemo();
+                  }
+                });
+              }
             }
           });
-        })
+        });
       },
       initialize: function(params) {
         var CodeDemo = this;
@@ -175,6 +185,11 @@ define([ "footwork", "lodash", "jquery" ],
         this.explanation = fw.observable(params.explanation);
         this.changed = fw.observable(false);
         this.resourceOnly = fw.observable(params.resourceOnly);
+        this.canRun = fw.observable(params.canRun);
+
+        this.openRunner = function() {
+          CodeDemo.resourceOnly(false);
+        };
 
         this.resources = fw.observableArray();
 

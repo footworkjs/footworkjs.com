@@ -37,7 +37,7 @@
     .border-radius(3px 3px 0 0);
     margin-bottom: 5px;
 
-    .expand {
+    .expand, .run {
       float: right;
       padding-right: 10px;
       cursor: pointer;
@@ -54,9 +54,15 @@
 
       &:before {
         .icon-mixin;
-        content: '\e80d';
         padding-right: 5px;
       }
+    }
+
+    .expand:before {
+      content: '\e80d';
+    }
+    .run:before {
+      content: '\e816';
     }
 
     &:before {

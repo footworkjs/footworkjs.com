@@ -4,6 +4,9 @@
     <!-- ko if: collapsed -->
       <div class="expand">Open Live Editor</div>
     <!-- /ko -->
+    <!-- ko if: resourceOnly() && canRun() -->
+      <div class="run" data-bind="click: openRunner">Run this code</div>
+    <!-- /ko -->
   </div>
 
   <!-- ko if: explanation -->
