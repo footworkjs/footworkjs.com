@@ -101,11 +101,11 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
             this.outlet('mainContent', 'index-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
-          route: '/tutorials',
+          route: '/get-started',
           title: 'Tutorials - footwork.js',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
-            this.outlet('mainContent', 'tutorials-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
+            this.outlet('mainContent', 'get-started-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/creatingApplication',

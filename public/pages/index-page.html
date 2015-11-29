@@ -58,12 +58,17 @@
       <ul>
         <li>Custom Tags and Components.</li>
         <li>Automatic loading views and animations.</li>
-        <li>Declarative Wrapping and 2-Way Bindings.</li>
-        <li>Inter-Module Communication and Dependency Tracking.</li>
-        <li>Automatic Dependency Resolution.</li>
-        <li>Declarative Routing (with unlimited outlet and nested router support).</li>
+        <li><span class="inline-code">dataModel</span> for handling data on a RESTful endpoint.</li>
+        <li><span class="inline-code">collection</span> for mananaging collections of data.</li>
+        <li>Nested <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> with unlimited
+          <span class="inline-code"><a data-bind="$route: docLink('router#outlets')">&lt;outlet&gt;</a></span> support.</li>
+        <li>Declarative <span class="inline-code"><a data-bind="$route: docLink('viewModel#viewModel-element')">&lt;viewModel&gt;</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-element')">&lt;dataModel&gt;</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router#router-element')">&lt;router&gt;</a></span> wrapping and 2-Way bindings.</li>
+        <li>Inter-Module communication and dependency tracking.</li>
+        <li>Automatic dependency resolution via AMD.</li>
         <li>Integrates well with jQuery and others (but doesn't need them).</li>
-        <li>Drop-in replacement for knockout-based applications, add in new functionality organically.</li>
+        <li>Drop-in replacement for KnockoutJS-based applications, add in new functionality organically.</li>
         <li><em>... and a ton more.</em></li>
       </ul>
     </div>

@@ -10,7 +10,7 @@ define([ "footwork", "lodash" ],
         }, this);
 
         this.docLink = function(page) {
-          return '/docs/' + this.selectedDocsVersion() + '/' + page;
+          return '/docs/' + (this.selectedDocsVersion() || '1.0.0') + '/' + page;
         };
       }
     });

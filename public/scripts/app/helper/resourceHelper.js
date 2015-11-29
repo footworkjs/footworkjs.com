@@ -18,9 +18,13 @@ define(["footwork"],
 
       fw.viewModel.defaultLocation(locations.viewModels.root);
 
-      fw.outlets.registerViewLocation([ 'index-page', 'tutorials-page', 'about-page', 'not-found-page', 'docs' ], '/pages/');
+      fw.outlets.registerViewLocation(['get-started-page', 'about-page', 'not-found-page', 'docs'], '/pages/');
       fw.outlets.registerViewLocation(['todomvc-creating-page', 'todomvc-routing-page', 'todomvc-general-page'], '/pages/tutorials/');
 
+      fw.components.registerLocation('index-page', {
+        viewModel: '/scripts/app/viewModel/DocPage.js',
+        template: '/pages/'
+      });
       fw.components.registerLocation('configmanagement', {
         viewModel: locations.viewModels.config + 'ConfigManagement.js',
         template: locations.templates.config + 'configmanagement.html'

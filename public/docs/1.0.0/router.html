@@ -34,7 +34,7 @@
         <li><a data-bind="$route" href="#configuration">configuration object</a>: A router configuration used to generate the constructor function. It defines
           the router, its routes, controllers, and their actions.</li>
 
-        <li><a data-bind="$route" href="#usage">&lt;router&gt; declaration</a>: A <span class="inline-code">&lt;router&gt;</span> declaration tells Footwork what
+        <li><a data-bind="$route" href="#router-element">&lt;router&gt; declaration</a>: A <span class="inline-code">&lt;router&gt;</span> declaration tells Footwork what
           portion of the DOM a <span class="inline-code">router</span> is responsible for.</li>
 
         <li><a data-bind="$route" href="#outlets">outlets</a>: Any number of <span class="inline-code">&lt;outlet&gt;&lt;/outlet&gt;</span> declarations in your
@@ -242,7 +242,7 @@ fw.start();
   <section data-name="bind-manually">
     <div class="highlight"></div>
     <header>
-      <h2>Manual Instantiation and Binding:</h2>
+      <h2 class="sub title">Manual Instantiation and Binding</h2>
     </header>
     <div class="content">
       <p>Manually instantiating a <span class="inline-code">router</span> is done by calling <span class="inline-code">new ConstructorFunc()</span>.
@@ -267,8 +267,7 @@ var router = new AppRouter();
   <section data-name="router-element">
     <div class="highlight"></div>
     <header>
-      <h2>Automatic initialization via <span class="inline-code">&lt;router module="moduleName"&gt; ... &lt;/router&gt;</span> declaration in
-        the DOM:</h2>
+      <h2 class="sub title">&lt;router&gt;</h2>
     </header>
     <div class="content">
       <p>A <span class="inline-code">router</span> can be instantiated and bound automatically when using a
@@ -298,7 +297,7 @@ var router = new AppRouter();
   <section data-name="inside-component">
     <div class="highlight"></div>
     <header>
-      <h2>Automatic initialization via <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declaration in the DOM:</h2>
+      <h2 class="sub title">&lt;component&gt;</h2>
     </header>
     <div class="content">
       <p>In addition to using a <span class="inline-code">router</span> in the ways shown above they can also be used inside of a custom
