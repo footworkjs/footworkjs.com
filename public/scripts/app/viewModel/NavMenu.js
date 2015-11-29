@@ -103,8 +103,8 @@ define([ "jquery", "lodash", "footwork" ],
         }, this);
         this.visible = fw.observable(false);
         this.entries = fw.observableArray([
-          new Entry({ label: 'Docs', url: '/docs/list', inHeader: this.inHeader }),
           new Entry({ label: 'Get Started', url: '/get-started', inHeader: this.inHeader }),
+          new Entry({ label: 'Docs', url: '/docs/list', inHeader: this.inHeader }),
           new Entry({ component: 'api-search', showInHeader: true, inHeader: this.inHeader }),
           new Entry({ label: 'About', url: '/about', aside: true, inHeader: this.inHeader })
         ]);

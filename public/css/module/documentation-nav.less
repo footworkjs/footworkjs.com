@@ -128,6 +128,8 @@
       background: transparent;
       .dot {
         background: white;
+        .box-shadow(0 2px 5px -1px rgba(0,0,0,0.5) inset);
+        border: none !important;
       }
     }
 
@@ -168,6 +170,12 @@ header .documentation-nav {
       .border-radius(0 0 5px 5px);
     }
 
+    &:hover {
+      .dot {
+        border: 1px solid darken(@pane-bg-color, 20%);
+      }
+    }
+
     &:hover, &.active {
       background: rgba(0,0,0,0.1) !important;
 
@@ -175,9 +183,6 @@ header .documentation-nav {
         text-decoration: none;
       }
 
-      .dot {
-        border: 1px solid darken(@pane-bg-color, 20%);
-      }
       color: contrast(@pane-bg-color, white, black, 60%) !important;
     }
 
