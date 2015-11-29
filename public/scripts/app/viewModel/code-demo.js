@@ -19,6 +19,15 @@ define([ "footwork", "lodash", "jquery" ],
           tabSize: 2,
           useSoftTabs: true
         });
+
+        if(_.result(params, 'readOnly')) {
+          editor.keyBinding.addKeyboardHandler({
+            handleKeyboard : function(data, hash, keyString, keyCode, event) {
+              return { command: "null", passEvent: false };
+            }
+          });
+        }
+
         editor.setValue(source);
         editor.gotoLine(1);
         editor.on('change', function() {
@@ -186,6 +195,10 @@ define([ "footwork", "lodash", "jquery" ],
         this.changed = fw.observable(false);
         this.resourceOnly = fw.observable(params.resourceOnly);
         this.canRun = fw.observable(params.canRun);
+        this.noTitle = fw.observable(_.isUndefined(params.noTitle) ? false : params.noTitle);
+        this.showBare = fw.observable(_.isUndefined(params.showBare) ? false : params.showBare);
+        this.readOnly = fw.observable(_.isUndefined(params.readOnly) ? false : params.readOnly);
+        this.editorHeight = fw.observable(_.isUndefined(params.editorHeight) ? undefined : params.editorHeight + 'px');
 
         this.openRunner = function() {
           CodeDemo.resourceOnly(false);

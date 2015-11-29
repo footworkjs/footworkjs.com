@@ -23,17 +23,8 @@
       <h1 class="title">The Basics</h1>
     </header>
     <div class="content">
-      <p>There are two primary ways of using <span class="inline-code">collections</span> in Footwork. They can be utilized with raw data (arrays of
-        objects, i.e. a <em>plain</em> <span class="inline-code">collection</span>) or configured to use a
-        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>. In either case you can then use any of the
-        <span class="inline-code">collection</span> methods to find, retrieve, add, etc.</p>
-
-      <p>Essentially, at the core of it you are managing a list of
-        <span class="inline-code">objects</span> which may or may not have RESTful (persistent) features attached to them. With this list you can also
-        bind your UI, create
-        <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values,
-        subscribe to changes, etc (all of the same capabilities/features you have with a normal KnockoutJS
-        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>).</p>
+      <p>Using FootworkJS (or any framework) can be a bit tricky to figure out if you haven't done it before or don't yet know know a frameworks
+        particular idiosyncrasies. The following sections help to outline the very basics of getting started with FootworkJS.</p>
     </div>
   </section>
 
@@ -44,27 +35,25 @@
       <h2 class="sub title">Downloading</h2>
     </header>
     <div class="content">
-      <p>To use FootworkJS you must first download it. This is done in one of two ways (primarily)...via <span class="inline-code">bower</span>
-        (recommended) or downloading a specific build from this website.</p>
+      <p>To use FootworkJS you must first download it. This is done in one of two ways (primarily)...downloading a specific build from this website or
+       via <a href="http://bower.io" target="_blank">Bower</a> (recommended). Alternatively you can also access the source code for Footwork at the
+       <a href="https://github.com/footworkjs/footwork" target="_blank">Github repo</a>.</p>
 
       <p><em>Download Manually</em></p>
 
       <p>If you want it as simple as possible, use the dialog below to download the specific version and build you require:</p>
 
-      <download-box params="showTitle: false, showTabs: false"></download-box>
+      <download-box params="showTitle: false, showTabs: false, environment: 'development'"></download-box>
 
       <div class="note">
         <p><span class="label">What build do I need?</span></p>
 
-        <p>The default (Build: <span class="inline-code">All</span>, Environment: <span class="inline-code">Production</span>) should work for most
+        <p>The default (Build: <span class="inline-code">All</span>, Environment: <span class="inline-code">Development</span>) should work for most
           people out-of-the-box. It does not require any external dependencies (they are all embedded/built into it).</p>
-
-        <p>One thing you might choose is <span class="inline-code">Environment: Development</span> as this will get you the unminified version
-          (useful for debugging purposes).</p>
 
         <p>The options and their meaning:</p>
         <ul>
-          <li><em>Version:</em> The version of the framework you want, latest version is preferred.</li>
+          <li><em>Version:</em> The version of the framework you want, latest version is recommended.</li>
           <li><em>Build:</em> This defines what dependencies you want built into Footwork vs which ones you will provide. The easiest is generally
             either an <span class="inline-code">All</span> or <span class="inline-code">All + History.js</span> build as they do not require any
             dependencies.</li>
@@ -72,9 +61,6 @@
             <span class="inline-code">Development</span>.</li>
         </ul>
       </div>
-
-      <p>After you download the build you will simply need to put it in a place you can reference with a <span class="inline-code">&lt;script&gt;</span>
-        tag from your HTML.</p>
 
       <p><em>Download via Bower</em></p>
 
@@ -84,14 +70,25 @@
     </div>
   </section>
 
-  <a id="tutorials" class="section-anchor" data-bind="sectionAnchor"></a>
-  <section data-name="tutorials">
+  <a id="loading" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="loading">
     <div class="highlight"></div>
     <header>
-      <h1 class="title">Tutorials</h1>
+      <h2 class="sub title">Loading</h2>
     </header>
     <div class="content">
-      <p>Tutorials are a good step-by-step introduction into the framework.</p>
+      <p>After you download the build you will need to somehow load the library in a browser. This is done (principally) in one of two ways:</p>
+      <ul class="spaced">
+        <li>
+          <p>Using a regular <span class="inline-code">&lt;script&gt;</span> tag and loading it into the global namespace (<span class="inline-code">window</span>
+            object):</p>
+          <code-demo params="resourceOnly: true, noTitle: true, showBare: true, readOnly: true, editorHeight: 220" src="/demo/global-example"></code-demo>
+        </li>
+        <li>
+          <p>Using RequireJS/AMD to load Footwork:</p>
+          <code-demo params="resourceOnly: true, noTitle: true, showBare: true, readOnly: true, editorHeight: 220" src="/demo/amd-example"></code-demo>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -99,7 +96,7 @@
   <section data-name="todo-mvc">
     <div class="highlight"></div>
     <header>
-      <h2 class="sub title">TodoMVC Tutorial</h2>
+      <h1 class="title">TodoMVC Tutorial</h2>
     </header>
     <div class="content">
       <h3>Create a TodoMVC Application</h3>

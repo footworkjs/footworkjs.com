@@ -1,3 +1,8 @@
+p + code-demo {
+  display: block;
+  padding-top: 10px;
+}
+
 .code-demo {
   @demoHeight: 400px;
   @editorWidth: 70%;
@@ -24,6 +29,13 @@
 
     .editor, .resource-titles {
       width: 100%;
+    }
+  }
+
+  &.bare {
+    background: transparent;
+    .resource-titles {
+      background: transparent;
     }
   }
 

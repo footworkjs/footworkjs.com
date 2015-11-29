@@ -1,13 +1,21 @@
-<div class="code-demo" data-bind="css: { collapsed: collapsed, changed: changed, runningCode: runningCode, resourceOnly: resourceOnly }, click: openEditor">
-  <div class="title">
-    <span data-bind="text: demoTitle"></span>
-    <!-- ko if: collapsed -->
-      <div class="expand">Open Live Editor</div>
-    <!-- /ko -->
-    <!-- ko if: resourceOnly() && canRun() -->
-      <div class="run" data-bind="click: openRunner">Run this code</div>
-    <!-- /ko -->
-  </div>
+<div class="code-demo" data-bind="css: {
+    collapsed: collapsed,
+    bare: showBare,
+    changed: changed,
+    runningCode: runningCode,
+    resourceOnly: resourceOnly
+  }, click: openEditor ">
+  <!-- ko ifnot: noTitle -->
+    <div class="title">
+      <span data-bind="text: demoTitle"></span>
+      <!-- ko if: collapsed -->
+        <div class="expand">Open Live Editor</div>
+      <!-- /ko -->
+      <!-- ko if: resourceOnly() && canRun() -->
+        <div class="run" data-bind="click: openRunner">Run this code</div>
+      <!-- /ko -->
+    </div>
+  <!-- /ko -->
 
   <!-- ko if: explanation -->
     <div class="explanation" data-bind="text: explanation"></div>
@@ -32,7 +40,7 @@
   </div>
 
   <div class="resource-editors" data-bind="foreach: resources">
-    <div class="editor" data-bind="demoCodeEditor: { name: name, parentNS: parentNS, source: source, type: type }">
+    <div class="editor" data-bind="style: { height: $parent.editorHeight }, demoCodeEditor: { name: name, parentNS: parentNS, source: source, type: type, readOnly: $parent.readOnly }">
       <div class="ace"></div>
     </div>
   </div>

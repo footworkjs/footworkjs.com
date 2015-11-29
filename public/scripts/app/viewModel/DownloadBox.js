@@ -25,7 +25,7 @@ define(['footwork', 'jquery', 'lodash'],
         this.showTitle = params.showTitle || _.isUndefined(params.showTitle);
         this.showTabs = params.showTabs || _.isUndefined(params.showTabs);
 
-        this.environment = fw.observable('production');
+        this.environment = fw.observable(params.environment || 'production');
         this.environments = [
           { label: 'Production (minified)', value: 'production' },
           { label: 'Development', value: 'development' }
