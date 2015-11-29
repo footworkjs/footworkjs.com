@@ -8,9 +8,11 @@
   @tabsBackground: #ddd;
   @tabsBorder: darken(@tabsBackground, 10%);
   @tabsHeight: 30px;
+  @buildLabelWidth: 20%;
 
   float: right;
   margin: 10px 0;
+  position: relative;
   .transition(all 0.3s ease);
   .box-sizing(border-box);
   .border-radius(3px);
@@ -22,20 +24,24 @@
   .title {
     font-weight: bold;
     font-size: 20px;
-    position: relative;
+    position: absolute;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    float: left;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    .text {
+      float: left;
+      width: @buildLabelWidth;
+    }
 
     .button {
       display: block;
-      float: right;
+      float: left;
       text-align: center;
       text-decoration: none;
       cursor: pointer;
       color: white;
-      margin-left: 10px;
       .button-color(#dedede);
 
       .label {
@@ -58,7 +64,7 @@
     .builds.content {
       height: auto;
       opacity: 1;
-      padding: @innerSpacing;
+      padding-top: @innerSpacing;
       overflow-y: auto;
       min-height: 235px;
     }
@@ -163,7 +169,6 @@
     margin-top: 10px;
   }
 
-  @buildLabelWidth: 20%;
   .build-label {
     width: @buildLabelWidth;
     text-align: right;
