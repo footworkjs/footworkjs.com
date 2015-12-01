@@ -26,7 +26,7 @@
         are integrated (and make most sense when used) with
         <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModels</a></span>,
         <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModels</a></span>, and
-        <span class="inline-code"><a data-bind="$route: docLink('router')">routers</a></span> but they can also be used independently.</div>
+        <span class="inline-code"><a data-bind="$route: docLink('router')">routers</a></span> but they can also be used independently of them.</div>
     </div>
   </section>
 
@@ -43,6 +43,15 @@
         <span class="inline-code"><a data-bind="$route" href="#observable-receiveFrom">observable.receiveFrom()</a></span> on it. Broadcastables and
         receivables can be based off of any KnockoutJS <span class="inline-code">observable</span> type (essentially any:
         <span class="inline-code">observable</span>, <span class="inline-code">computed</span>, or <span class="inline-code">observableArray</span>).</p>
+
+      <div class="note"><span class="label">NOTE:</span> It does not matter if the <span class="inline-code">broadcastable</span> or
+        <span class="inline-code">receivable</span> is instantiated first:
+        <ul>
+          <li>As soon as the broadcastable is instantiated any receivables listening will be updated with the current value.</li>
+          <li>As soon as a receivable is instantiated it will request the current value from the broadcastable. If no broadcastable is present for the receivable, no change to the
+            receivables default will be made.</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -228,15 +237,6 @@ user.login('DarkHelmet', '12345');
 
       <p>This is essentially because the underlying mechanism behind <span class="inline-code">broadcastable</span> and <span class="inline-code">receivable</span> is based on
         subscriptions to messages. These subscriptions must be detatched/removed before the garbage handler in your browser can clean their references up.</p>
-
-      <div class="note"><span class="label">NOTE:</span> It does not matter if the <span class="inline-code">broadcastable</span> or
-        <span class="inline-code">receivable</span> is instantiated first:
-        <ul>
-          <li>As soon as the broadcastable is instantiated any receivables listening will be updated with the current value.</li>
-          <li>As soon as a receivable is instantiated it will request the current value from the broadcastable. If no broadcastable is present for the receivable, no change to the
-            receivables default will be made.</li>
-        </ul>
-      </div>
 
       <a id="dispose" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
