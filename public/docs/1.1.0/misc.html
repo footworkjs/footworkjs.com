@@ -1,0 +1,91 @@
+<article>
+  <div class="version-display" data-bind="text: versionDisplay"></div>
+  <a id="utility" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="utility">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Utility</h1>
+    </header>
+    <div class="content">
+      <p>Utility functions / methods.</p>
+
+      <a id="fw-start" class="section-anchor top"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.start<span>()</span></div>
+          <div class="func-def"><span>fw</span>.start<span>( <span class="param">targetElement</span> )</span></div>
+        </div>
+        <div class="description">Initialize binding / start FootworkJS (optionally on the specified node/element).</div>
+      </div>
+<pre><code class="javascript">// start application (defaults to body element)
+fw.start(); // document.body is the default element</code></pre>
+
+      <div class="note">
+        <p>
+          <span class="label">NOTE:</span> This is very similar to calling <span class="inline-code">fw.applyBindings()</span>. In fact they are identical except
+          <span class="inline-code">fw.start()</span> is a simplified version which does not accept a
+          <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> to bind, it simply causes FootworkJS
+          to begin processing the DOM (and thus it will initialize and compose any
+          <span class="inline-code"><a data-bind="$route: docLink('viewModel')">&lt;viewModel&gt;</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">&lt;dataModel&gt;</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">&lt;router&gt;</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('components')">&lt;component&gt;</a></span> declarations it finds in the markup).
+        </p>
+        <p>
+          <span class="inline-code">fw.applyBindings()</span> will also cause Footwork to begin processing the DOM, but it also requires that you supply a
+          <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> to bind with the root node.
+        </p>
+      </div>
+
+      <a id="fw-utils-guid" class="section-anchor top"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.utils.guid<span>()</span></div>
+        </div>
+        <div class="description">Generate a random GUID (format: ########-####-####-####-############).</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> The name of the namespace channel</span>
+        </div>
+      </div>
+<pre><code class="javascript">// generate a random GUID
+var guid = fw.utils.guid();
+// guid === "629e4dfa-fd39-d756-b830-563af555a03f"</code></pre>
+    </div>
+  </section>
+</article>
+
+<div id="metaData">
+{
+  "title": "Misc",
+  "description": "Miscelaneous.",
+  "sections": [
+    { "anchor": "utility",
+      "title": "Utility" }
+  ],
+  "apiReferences": [
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "General",
+          "references": [
+            { "anchor": "fw-start",
+              "title": "fw.start()",
+              "description": "Initialize binding / start FootworkJS." },
+            { "anchor": "fw-utils-guid",
+              "title": "fw.utils.guid()",
+              "description": "Generate a random GUID." }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</div>

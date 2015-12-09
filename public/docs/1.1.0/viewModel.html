@@ -1,0 +1,1180 @@
+<article>
+  <div class="version-display" data-bind="text: versionDisplay"></div>
+  <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="introduction">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Introduction</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">viewModel</span> can be thought of as a container object that houses the logic and data your
+        template/HTML/DOM binds to. They are used to 'wrap' your HTML/markup, applying the bindings (behavior) you declare in the HTML.</p>
+
+      <p>When initialized, if the markup a <span class="inline-code">viewModel</span> is bound against contains any nested
+        <span class="inline-code">&lt;viewModel&gt;</span>,
+        <span class="inline-code"><a data-bind="$route: docLink('components')">&lt;component&gt;</a></span>,
+        <span class="inline-code"><a data-bind="$route: docLink('router')">&lt;router&gt;</a></span>, or
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">&lt;dataModel&gt;</a></span>
+        declarations they will be initialized as well.</p>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> It is important to remember that just as with <a href="http://knockoutjs.com/" target="_blank">KnockoutJS</a>
+          you can use any object as a <span class="inline-code">viewModel</span> to bind against the DOM. This page describes a FootworkJS variant of a
+          <span class="inline-code">viewModel</span> which grants it extra capabilities.</p>
+      </div>
+    </div>
+  </section>
+
+  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="usage">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Usage</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">viewModel</span> can be instantiated and used in 3 different ways:</p>
+
+      <ul>
+        <li>
+          <p>Manually initialized (standard KnockoutJS methodology), and optionally bound to the DOM (See:
+            <a data-bind="$route" href="#bind-manually">manual binding</a>).</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;div id="container"&gt;
+  Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
+  &lt;button data-bind="click: clickHandler"&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">var ViewModel = fw.viewModel.create({
+  initialize: function() {
+    this.hello = 'world';
+    this.clickHandler = function() { console.info('That tickles.'); }
+  }
+});
+
+fw.applyBindings(new ViewModel(), document.getElementById('container'));
+</code></pre>
+        </li>
+
+        <li>
+          <p>Automatically via a <span class="inline-code">&lt;viewModel module="moduleName"&gt; ... &lt;/viewModel&gt;</span> declaration in the DOM
+           (See: <a data-bind="$route" href="#viewModel-element">&lt;viewModel&gt; usage</a>).</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;viewModel module="helloViewModel"&gt;
+  Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
+  &lt;button data-bind="click: clickHandler"&gt;&lt;/button&gt;
+&lt;/viewModel&gt;</code></pre>
+
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">fw.viewModel.create({
+  namespace: 'helloViewModel',
+  autoRegister: true,
+  initialize: function() {
+    this.hello = 'world';
+    this.clickHandler = function() {
+      console.info('That tickles.');
+    };
+  }
+}));
+
+fw.start();
+</code></pre>
+        </li>
+
+        <li>Automatically via a <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declaration in the DOM (See:
+          <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
+      </ul>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> There are many ways to register and/or load a <span class="inline-code">viewModel</span> so it can be
+          found/used when needed. See: <a data-bind="$route" href="#registration">viewModel registration</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <a id="factory-method" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="factory-method">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Factory Method</h2>
+    </header>
+    <div class="content">
+      <p>Each different type of <span class="inline-code">viewModel</span> you wish to have must have a new constructor function made for it.</p>
+
+      <p><span class="inline-code">viewModel</span> constructor functions are created by calling the factory method
+        <span class="inline-code">fw.viewModel.create()</span> and passing it a configuration object.</p>
+
+      <p>The resulting constructor function can then be used to instantiate new instances of that <span class="inline-code">viewModel</span>.
+        These constructor functions are essentially specialized wrappers which enable Footwork to hook into both
+        <a href="http://knockoutjs.com/" target="_blank">KnockoutJS</a> and your <span class="inline-code">viewModel</span> to provide for all of the
+        additional features the framework provides.</p>
+
+      <a id="fw-viewModel-create" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.viewModel.create<span>( <span class="param">configurationObject</span> )</span></div>
+        </div>
+        <div class="description">Create a <span class="inline-code">viewModel</span> constructor function.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">function()</span> <span class="inline-code">ViewModel</span> Constructor Function</span>
+        </div>
+      </div>
+<pre><code class="javascript">var ViewModelConstructor = fw.viewModel.create({
+  /**
+   * The namespace (communications channel) the viewModel uses. This is essentially used as
+   * the 'key' for CQRS separation between modules. If no namespace is provided a unique one
+   * will be automatically assigned.
+   */
+  namespace: 'Sprocket', // example namespace name, any alpha-numeric is valid
+
+  /**
+   * If true, Footwork will register the viewModel under its namespace name. This means
+   * that when this fw.viewModel.create() call is made it will automatically call
+   * fw.viewModel.register('Sprocket', ThisViewModelConstructor)
+   * This is a (handy) way of telling Footwork how to find your viewModel when it needs it.
+   */
+  autoRegister: false, // default === false
+
+  /**
+   * If true, the namespace will have an auto-incremented 0-based index number appended for
+   * each new viewModel (ie: new instances will not share the same namespace).
+   */
+  autoIncrement: false, // default === false
+
+  /**
+   * Initialization function called at creation of a new viewModel.
+   * Note: it is passed in the parameters supplied at creation.
+   */
+  initialize: function(param1, param2, ...) {
+    // this === the viewModel instance
+    var viewModel = this;
+
+    // Perform normal viewModel initialization here, just like typical knockout.js code.
+    viewModel.param1 = fw.observable(param1);
+  },
+
+  /**
+   * Attributes/properties that are extended onto each newly instantiated viewModel
+   * NOTE: Only suitable for primitive values (strings, numbers, etc), do not put observables
+   *       or namespaces/etc here as they are shared across instances.
+   */
+  extend: {
+    prop1: 'value',
+    prop2: 123
+  },
+
+  // Behavioral mixins to include with each new viewModel created
+  mixins: [
+    // See: 'Mixins' section on this page
+  ],
+
+  // Function called just after rendering against the DOM
+  afterRender: function(containingElement) {
+    // this === the viewModel instance
+  },
+
+  // Function called just before the html this viewModel is bound to is removed from the DOM
+  onDispose: function(containingElement) {
+    // this === the viewModel instance
+  }
+});</code></pre>
+    </div>
+  </section>
+
+  <a id="bind-manually" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="bind-manually">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Manual Instantiation and Binding</h2>
+    </header>
+    <div class="content">
+      <p>Manually instantiating a <span class="inline-code">viewModel</span> is done by calling <span class="inline-code">new ConstructorFunc()</span>.
+        With the instance in hand you can then use it as you wish, either directly or by binding it to the DOM.</p>
+
+      <p>To manually bind a <span class="inline-code">viewModel</span> you use a <span class="inline-code">fw.applyBindings()</span>
+        call after instantiating it.</p>
+<pre><code class="javascript">var Sprocket = fw.viewModel.create({
+  namespace: 'Sprocket',
+  initialize: function(params) {
+    // params === object passed in when calling new Sprocket()
+    this.type = fw.observable(params.type);
+    this.color = params.color || 'orange';
+    this.price = fw.observable(params.price);
+    this.isExpensive = fw.computed(function() {
+      return this.price() > 10;
+    }, this);
+  }
+});
+
+var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
+// awesomeSprocket.type() === 'awesome'
+// awesomeSprocket.color === 'orange'
+// awesomeSprocket.isExpensive() === false
+</code></pre>
+
+      <p>Now, if we wish, we can bind the <span class="inline-code">Sprocket</span> instance (<span class="inline-code">awesomeSprocket</span>) to the
+      DOM. You would also typically expect the markup we are binding against to contain bindings relevent to the
+      <span class="inline-code">viewModel</span>:</p>
+<pre><code class="javascript">fw.applyBindings(awesomeSprocket, document.getElementById('sprocket-container'));</code></pre>
+    </div>
+  </section>
+
+  <a id="viewModel-element" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="viewModel-element">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">&lt;viewModel&gt;</h2>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">viewModel</span> can be instantiated and bound automatically when using a
+        <span class="inline-code">&lt;viewModel&gt;</span> declarative wrapper element. Using the <span class="inline-code">module=""</span> attribute
+        you can specify which <span class="inline-code">viewModel</span> should be instantiated and bound by Footwork.</p>
+<pre><code class="html">&lt;viewModel module="Sprocket"&gt;
+  Type: &lt;span data-bind="text: type"&gt;&lt;/span&gt;
+  &lt;!-- ko if: isExpensive --&gt;
+    &lt;span class="warning"&gt;This is expensive!&lt;/span&gt;
+  &lt;!-- /ko --&gt;
+&lt;/viewModel&gt;</code></pre>
+
+          <p>... and as an example, this <span class="inline-code">viewModel</span> was registered directly:</p>
+<pre><code class="javascript">fw.viewModel.register('Sprocket', fw.viewModel.create({
+    namespace: 'Sprocket',
+    initialize: function(params) {
+      this.price = fw.observable(params.price || 20);
+      this.isExpensive = fw.computed(function() {
+        return this.price() > 10;
+      }, this);
+    }
+  })
+);
+</code></pre>
+      <div class="note">
+        <p><span class="label">NOTE:</span> You can have your <span class="inline-code">viewModel</span> automatically downloaded for you when needed.</p>
+        <p>See <a data-bind="$route" href="#registration">viewModel registration</a>
+          for information on how to tell Footwork where to find your <span class="inline-code">viewModel</span> module.</p>
+      </div>
+    </div>
+  </section>
+
+  <a id="inside-component" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="inside-component">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">&lt;component&gt;</h2>
+    </header>
+    <div class="content">
+      <p>In addition to using a <span class="inline-code">viewModel</span> in the ways shown above they can also be used inside of a custom
+        <span class="inline-code">&lt;component&gt;</span>. This enables you to (among many other things) fully encapsulate their behavior along with
+        their companion HTML/markup.</p>
+
+      <p>For more information on how to create a <span class="inline-code">viewModel</span>-based <span class="inline-code">component</span> see the
+        <a data-bind="$route: docLink('components')">component documentation</a>.</p>
+    </div>
+  </section>
+
+  <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="lifecycle-registration">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Lifecycle &amp; Registration</h1>
+    </header>
+    <div class="content">
+      <p>Each <span class="inline-code">viewModel</span> instantiated and bound to the DOM will receive lifecycle events.</p>
+
+      <p>These events can be used for any logic you need to incorporate when the instance is initially setup/bound onto or removed from the page. A common example
+        would be the setup and teardown of a jQuery plugin, or events.</p>
+
+      <p>Registration of a <span class="inline-code">viewModel</span> is referring to telling Footwork (in one way or another) where your
+        <span class="inline-code">viewModel</span> is so that it can be used when needed.</p>
+    </div>
+  </section>
+
+  <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="lifecycle">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Lifecycle</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">viewModel</span> is instantiated, then bound to the DOM and used, or just used independent of the DOM. Depending on
+        what you choose to do with a <span class="inline-code">viewModel</span> determines its exact lifecycle.</p>
+
+      <p>Lifecycle events are automatically triggered for you when using a <span class="inline-code">viewModel</span> via one of the three main methods:</p>
+
+      <ul>
+        <li>Use the <span class="inline-code">&lt;viewModel&gt; ... &lt;/viewModel&gt;</span> declarative syntax.</li>
+        <li>Use the <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declarative syntax.</li>
+        <li>Manually bound (<span class="inline-code">fw.applyBindings()</span>) to the DOM.</li>
+      </ul>
+
+      <p>A viewModel that is attached to the DOM will retrive two main lifecycle events, one just after binding to the DOM
+        (<span class="inline-code">afterRender()</span>) and one when the element (that the viewModel bound itself to) is removed from the DOM
+        (<span class="inline-code">onDispose()</span>, called just before the element is removed).</p>
+    </div>
+  </section>
+
+  <a id="binding" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="binding">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Binding</h2>
+    </header>
+    <div class="content">
+      <p>If provided, the <span class="inline-code">viewModel</span> configuration <span class="inline-code">afterRender()</span> method will be called
+        just after a <span class="inline-code">viewModel</span> is bound to the DOM. This provides a handy integration point for external libraries or
+        plugins (such as jQuery).</p>
+
+      <a id="afterRender" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">afterRender<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after binding to the DOM.</div>
+      </div>
+<pre><code class="javascript">var Person = fw.viewModel.create({
+  namespace: 'Person',
+  afterRender: function(domElement) {
+    var person = this;
+    domElement.addEventListener('click', function() {
+      console.info('You clicked', person.firstName());
+    });
+  },
+  initialize: function(params) {
+    this.firstName = fw.observable().mapTo('firstName');
+  }
+});
+</code></pre>
+    </div>
+  </section>
+
+  <a id="disposal" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="disposal">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Disposal</h2>
+    </header>
+    <div class="content">
+      <p>If provided, the <span class="inline-code">viewModel</span> configuration <span class="inline-code">onDispose()</span> method will be called
+        just after the element a <span class="inline-code">viewModel</span> is bound to is removed from the DOM. This provides a handy integration
+        point for external libraries or plugins (such as jQuery).</p>
+
+      <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">onDispose<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after the parent bound element is removed from the DOM.</div>
+      </div>
+<pre><code class="javascript">var Person = fw.viewModel.create({
+  namespace: 'Person',
+  afterRender: function(domElement) {
+    domElement.addEventListener('click', this.clickPerson);
+  },
+  onDispose: function(domElement) {
+    domElement.removeEventListener('click', this.clickPerson);
+  },
+  initialize: function(params) {
+    var person = this;
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.clickPerson = function() {
+      console.info('You clicked', person.firstName());
+    };
+  }
+});
+</code></pre>
+
+      <p>If you do not bind a <span class="inline-code">viewModel</span> to the DOM then you will want to tell it to clean up its references when you are getting rid of it. This is done
+        by calling <span class="inline-code">viewModel.dispose()</span> directly.</p>
+
+      <a id="viewModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>viewModel</span>.dispose<span>()</span></div>
+        </div>
+        <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a viewModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> the viewModel instance</span>
+        </div>
+      </div>
+<pre><code class="javascript">var MyViewModel = fw.viewModel.create({ /* ... */ });
+var viewModel = new MyViewModel();
+// ...
+viewModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to the instance if you
+        want them to automatically be cleaned up for you when the viewModel is disposed.</div>
+
+<pre><code class="javascript">var someOtherObservable = fw.observable();
+
+var MyViewModel = fw.viewModel.create({
+  initialize: function() {
+    // Make viewModel the instance reference
+    var viewModel = this;
+
+    viewModel.myVarSub = someOtherObservable.subscribe(function() {
+      // This subscription will get cleaned up when the viewModel is disposed
+    });
+
+    viewModel.$namespace.command.handler('doSomething', function() {
+      // This command handler will get cleaned up when the viewModel is disposed
+    });
+
+    viewModel.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
+    viewModel.$someOtherNamespace.command.handler('doSomethingElse', function() {
+      // This command handler will get cleaned up when the viewModel is disposed
+    });
+  }
+});
+</code></pre>
+    </div>
+  </section>
+
+  <a id="registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="registration">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Registration</h1>
+    </header>
+    <div class="content">
+      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;viewModel&gt;</span> declaration it must be
+        registered in some way (it needs to know where it is).</p>
+
+      <p>Footwork supports both explicitly registering your <span class="inline-code">viewModel</span> ahead of time (caching its constructor function
+        or instance directly) or by telling it where it can be downloaded (automatically/lazy loading via AMD/RequireJS).</p>
+
+      <p>You can register your module with one of the following methods:</p>
+
+      <ul>
+        <li><span class="inline-code"><a data-bind="$route" href="#viewModel-register">fw.viewModel.register()</a></span> - Register (cache) a
+          <span class="inline-code">viewModel</span> explicitly.</li>
+        <li><span class="inline-code"><a data-bind="$route" href="#viewModel-registerLocation">fw.viewModel.registerLocation()</a></span> - Register
+          the location of a <span class="inline-code">viewModel</span> so that it can be dynamically loaded at some time in the future.</li>
+      </ul>
+
+      <p>In either case, the declarative <span class="inline-code">&lt;viewModel module="moduleName"&gt; ... &lt;/viewModel&gt;</span>
+        syntax will trigger the loading (if necessary), instantiation, and binding of the <span class="inline-code">viewModel</span>.</p>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> AMD/RequireJS is fully supported (and highly encouraged) for a number of reasons:</p>
+
+        <ul>
+          <li>It strongly encourages modularization and separation of concerns.</li>
+
+          <li>Helps decouple your application and allow for easier testability.</li>
+
+          <li>Footwork can take advantage of its dependency resolution to automatically load and use resources for you as needed at runtime (<em>including the automatic
+            loading and composing of entire (including nested) views/pages, <span class="inline-code">routers</span>, <span class="inline-code">components</span>,
+            <span class="inline-code">viewModels</span>, or <span class="inline-code">dataModels</span></em>).</li>
+
+          <li>Allows for easier debugging as non-compiled assets while still being buildable for release into a production environment.</li>
+
+          <li>Allows for easy and highly configurable caching/preloading of assets (this includes all components, viewModels, and templates). None,
+            some, or all of it...you choose what your users wait for.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <a id="module-resolution" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="module-resolution">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Module Resolution</h2>
+    </header>
+    <div class="content">
+      <p>There are 3 ways Footwork will try to resolve your <span class="inline-code">viewModel</span> when it encounters the declarative
+        <span class="inline-code">&lt;viewModel module="moduleName"&gt; ... &lt;/viewModel&gt;</span> element you place in the DOM.</p>
+
+      <p>Here they are in order of priority:</p>
+
+      <ul>
+        <li>Explicitly registered with a <span class="inline-code">fw.viewModel.register()</span> call.</li>
+        <li>Automatic download/resolution via AMD/RequireJS at a pre-registered location (<span class="inline-code">fw.viewModel.registerLocation()</span>).</li>
+        <li>Automatic download/resolution via AMD/RequireJS at the configurable default (<span class="inline-code">fw.viewModel.defaultLocation()</span>).</li>
+      </ul>
+
+      <p>Registering a viewModel explicitly with <span class="inline-code">fw.viewModel.register()</span> makes it immediately available. Any
+        <span class="inline-code">&lt;viewModel module="moduleName"&gt; ... &lt;/viewModel&gt;</span> declarations encountered will be processed with no delay
+        (the viewModel is 'cached' when registered).</p>
+
+      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell Footwork where it can
+        download your viewModel module (in the event you do not explicitly register it). In any case your markup will wait until the viewModel is resolved prior
+        to being initialized.</p>
+
+      <div class="note"><span class="label">NOTE:</span> Nested routers, viewModels, dataModels, and components are independently resolved. It works as
+        you would expect, with an outer-most container (router/component/etc) initializing/processing/binding and rendering, then any nested routers/components/etc
+        get initialized (and so forth until the end).</div>
+
+      <a id="viewModel-register" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.register<span>( <span class="param">'moduleName'</span>, <span class="param">viewModel</span> )</span></div>
+        </div>
+        <div class="description">Cache a viewModel/module ahead of time.</div>
+      </div>
+<pre><code class="javascript">// register a Footwork viewModel
+fw.viewModel.register('Sprocket', fw.viewModel.create({
+  initialize: function() {
+    this.isUsed = fw.observable(false);
+  }
+}));
+
+// register a normal class constructor function (like in regular knockout)
+fw.viewModel.register('Sprocket', function() {
+  this.isUsed = fw.observable(false);
+});
+
+// register an instance of an object (like in regular knockout)
+fw.viewModel.register('Sprocket', {
+  instance: { isUsed: false } // object representing the viewModel to be bound against the DOM
+});
+
+/**
+ * A constructor function to be called when the declaration is encountered.
+ * It is supplied params given at the binding (&lt;viewModel params="exampleParam: true"&gt;) and
+ * the containing element of the viewModel.
+ */
+fw.viewModel.register('Sprocket', {
+  createViewModel: function(params, info) {
+    // info.element = containing &lt;viewModel&gt; element
+    // params are the parameters declaratively created from the DOM (See: note below)
+    return { isUsed: false }; // object representing the viewModel to be bound against the DOM
+  }
+});</code></pre>
+      <div class="note">
+        <p><span class="label">NOTE:</span> Are you using a fw.viewModel.create() constructor and simply want to register it using the namespace name (recommended)?</p>
+
+        <p>You can optionally just set <span class="inline-code">autoRegister: true</span> in the <span class="inline-code">viewModel</span> configuration object,
+          then the <span class="inline-code">fw.viewModel.register</span> call is taken care of for you when the router constructor is created.</p>
+
+        <p>See: <a data-bind="$route" href="#factory-method">viewModel configuration</a>.</p>
+      </div>
+
+      <a id="viewModel-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+        </div>
+        <div class="description">Register the location of a viewModel/module so Footwork can load and bind it for you when needed.</div>
+      </div>
+<pre><code class="javascript">// Load Sprocket from: /viewModels/parts/Sprocket.js (based on viewModel/module name, case sensitive)
+fw.viewModel.registerLocation('Sprocket', '/viewModels/parts/');
+
+// Load Sprocket from: /viewModels/parts/DifferentFileName.js (specify full file name)
+fw.viewModel.registerLocation('Sprocket', '/viewModels/parts/DifferentFileName.js');
+
+// register the location of several viewModels at once (ie: all in the same folder)
+fw.viewModel.registerLocation(['Body', 'Navigation', 'Footer'], '/viewModels/pageAreas/');</code></pre>
+
+      <a id="viewModel-defaultLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.defaultLocation<span>( <span class="param">'path/to/viewModel/folder'</span> )</span></div>
+        </div>
+        <div class="description">Register the default location of viewModels so Footwork can load and bind them for you when needed.</div>
+      </div>
+<pre><code class="javascript">// Load all viewModels from /myViewModels/[module-name].js (case sensitive)
+fw.viewModel.defaultLocation('/myViewModels/');</code></pre>
+    </div>
+  </section>
+
+  <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="module-formats">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Module Formats</h2>
+    </header>
+    <div class="content">
+      <p>Loading your <span class="inline-code">viewModel</span> in so that Footwork can use it is done via a script loader.</p>
+
+      <p>Both <a href="http://requirejs.org">AMD/RequireJS</a> and <a href="http://browserify.org" target="_blank">Browserify</a> are supported. However RequireJS is
+        preferred as it will enable Footwork to resolve your viewModels/etc (and their dependencies) automatically at runtime as needed.</p>
+
+      <h3>The following example shows the RequireJS/AMD flavored version:</h3>
+<div class="file-location">/viewModel/Sprocket.js</div>
+<pre><code class="javascript">define(["footwork"],
+  function(fw) {
+    // return the constructor created by fw.viewModel.create()
+    return fw.viewModel.create({
+      namespace: 'Sprocket'
+      initialize: function() {
+        // ...
+      }
+    });
+  }
+);</code></pre>
+
+      <div class="note">
+        <span class="label">NOTE:</span> You can return any normal constructor function or plain object from your <span class="inline-code">viewModel</span>
+        modules (you don't have to return a Footwork <span class="inline-code">viewModel</span> constructor as shown).
+      </div>
+    </div>
+  </section>
+
+  <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="mixins">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Mixins</h1>
+    </header>
+    <div class="content">
+      <p>Mixins are about reusing behavior, functionality, and code whenever possible. They allow you to write various behaviors/logic and then later on combine
+      and compose them as you want at runtime.</p>
+      <p>The mixin functionality in Footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
+      All <span class="inline-code">fw.viewModel.create()</span> based constructor functions are riveter constructor functions. Above and beyond the
+      functionality outlined here, each object has various methods extended from riveter which can enable you to extend viewModels in
+      various ways, it is recommended you to also <a href="https://github.com/a2labs/riveter" target="_blank">look at its documentation</a>.</p>
+
+      <ul>
+        <li><a data-bind="$route" href="#mixin-configuration">Configuration</a></li>
+        <li><a data-bind="$route" href="#mixin-usage">Usage</a></li>
+      </ul>
+
+      <h3>Basic usage:</h3>
+<pre><code class="javascript">var bigSprocket = { /* mixin configuration object */ };
+var bikeSprocket = { /* mixin configuration object, detailed in the next section */ };
+
+/**
+ * Mixin behavior is applied to a viewModel by passing it into the
+ * fw.viewModel.create() configuration object
+ * NOTE: mixins are applied to the viewModel in the order they are given.
+ */
+var Sprocket = fw.viewModel.create({
+  // ... viewModel configuration object
+  namespace: 'Sprocket',
+  initialize: function(param) {
+    this.type = param.type;
+  },
+
+  // mixins/behavior to include for each new 'Sprocket' viewModel
+  mixins: [ bigSprocket, bikeSprocket ]
+});
+
+var mySprocket = new Sprocket({ type: 'awesome' });</code></pre>
+    </div>
+  </section>
+
+  <a id="mixin-configuration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="mixin-configuration">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Configuration</h2>
+    </header>
+    <div class="content">
+      <p>Each mixin is simply a configuration object defining certain behaviors, functionality, and logic. The behavior you define will be added to each
+        viewModel instance it is configured with.</p>
+
+      <h3>Mixin configuration object synopsis:</h3>
+<pre><code class="javascript">// define 'bigSprocket' as an object to serve as the configuration container
+var bigSprocket = {
+  _preInit: function(param1, param2, ...) {
+    /**
+     * called prior to the initialize() method from the viewModel configuration being called
+     * params === params passed in at creation
+     * this === the viewModel
+     */
+  },
+
+  mixin: {
+    /**
+     * these properties are added the instance object immediately upon creation, before
+     * any methods (including _preInit) are called
+     */
+    function1: function() {
+      // function that is extended onto the viewModel object (this) upon creation
+    },
+    function2: function() {
+      // another function that is extended onto the viewModel object (this) upon creation
+    },
+    property1: 'someValue' // a raw property extended to the object
+    // ...
+  },
+
+  _postInit: function() {
+    /**
+     * called after the initialize() method from the viewModel configuration is called
+     * this === the viewModel instance
+     */
+  }
+};</code></pre>
+
+      <div class="note">
+        <span class="label">NOTE:</span>
+        <ul>
+          <li>If you require some other type of object extension or mixin, as recommended above you should look at the
+            <a href="https://github.com/a2labs/riveter" target="_blank">riveter documentation</a>.</li>
+
+          <li>A <span class="inline-code">viewModel</span> can have as many mixins as you want, and you can re-use them across as many differing
+            viewModels/modules as you like.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <a id="mixin-usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="mixin-usage">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Usage</h2>
+    </header>
+    <div class="content">
+      <p>Each mixin behavior is added to each new instance of the <span class="inline-code">viewModel</span> that is created. This goes for ones
+        instantiated automatically via declarative HTML, or directly/manually in javascript code.</p>
+
+      <p>All mixins may be reused on both a standalone <span class="inline-code">viewModel</span> and viewModels attributed with a <span class="inline-code">component</span>.</p>
+      <h3>Example usage:</h3>
+<pre><code class="javascript">// define the mixin configuration object
+var bigSprocket = {
+  _preInit: function(param) {
+    this.isAwesome = (param.type === 'awesome' ? true : false);
+    // this.isBig === true
+  },
+  mixin: {
+    isBig: true,
+    fitInSmallPlace: function() {
+      return false;
+    }
+  }
+};
+
+// create a BigSprocket contructor and include the bigSprocket mixin
+var BigSprocket = fw.viewModel.create({
+  namespace: 'Sprocket',
+  initialize: function(param) {
+    this.type = param.type;
+  },
+  mixins: [ bigSprocket ]
+});
+
+var mySprocket = new BigSprocket({ type: 'awesome' });
+// mySprocket.fitInSmallPlace() === false
+// mySprocket.isBig === true
+// mySprocket.isAwesome === true</code></pre>
+    </div>
+  </section>
+
+  <a id="utility-functions" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="utility-functions">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Utility Functions</h1>
+    </header>
+    <div class="content">
+      <p>Various useful methods and utility functions for miscellaneous and debugging purposes.</p>
+
+      <a id="viewModel-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.getAll<span>()</span></div>
+          <div class="func-def"><span>fw.viewModel</span>.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModel</span>.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
+        </div>
+        <div class="description">Get list of currently instantiated viewModels grouped/indexed by namespace.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">array[]</span> list of instances</span>
+        </div>
+      </div>
+<pre><code class="javascript">var Bike = fw.viewModel.create({
+  namespace: 'Bike',
+  initialize: function() {
+    this.isBike = true;
+  }
+});
+var Wheel = fw.viewModel.create({
+  namespace: 'Wheel',
+  initialize: function() {
+    this.isWheel = true;
+  }
+});
+
+var bike = new Bike();
+var wheel1 = new Wheel();
+var wheel2 = new Wheel();
+
+var viewModels = fw.viewModel.getAll();
+// viewModels['Bike'][0].isBike === true
+// viewModels['Wheel'].length === 2
+// viewModels['Wheel'][0].isWheel === true
+
+// Note: specifying a single namespace will result in the only those instances being returned
+var viewModels = fw.viewModel.getAll('Wheel'); // get all 'Bike' instances
+// viewModels[0].isWheel === true
+// viewModels[1].isWheel === true
+
+var viewModels = fw.viewModel.getAll(['Bike', 'Wheel']); // get all 'Bike' and 'Wheel' instances
+// viewModels === {
+//  Bike: [ { ... } ],
+//  Wheel: [ { ... }, { ... } ]
+// }
+</code></pre>
+
+      <a id="viewModel-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Return <span class="inline-code">true</span> or <span class="inline-code">false</span> based on whether or not there
+          is a <span class="inline-code">viewModel</span> that has been registered under <span class="inline-code">moduleName</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> TRUE or FALSE depending on registration state of the module</span>
+        </div>
+      </div>
+<pre><code class="javascript">fw.viewModel.register('Bike', fw.viewModel.create({
+  namespace: 'Bike',
+  initialize: function() {
+    this.isBike = true;
+  }
+}));
+
+// fw.viewModel.isRegistered('Bike') === true
+// fw.viewModel.isRegistered('ModuleThatIsLoadedByAMD') === false</code></pre>
+
+      <a id="viewModel-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Return viewModel that has been registered under 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">function()</span> Returns whatever viewModel is registered under that moduleName</span>
+        </div>
+      </div>
+<pre><code class="javascript">// Explicit registration
+var Bike = fw.viewModel.create({ /* ... configuration object */ });
+fw.viewModel.register('Bike', Bike);
+// fw.viewModel.getRegistered('Bike') === Bike;
+
+// viewModel that registers itself
+var Sprocket = fw.viewModel.create({
+  namespace: 'Sprocket',
+  autoRegister: true,
+  // ...
+});
+// fw.viewModel.getRegistered('Sprocket') === Sprocket;</code></pre>
+
+      <a id="viewModel-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Get the path Footwork will attempt to load for the given 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Path to the module</span>
+        </div>
+      </div>
+<pre><code class="javascript">fw.viewModel.registerLocation('Sprocket', '/path/to/viewModel/folder/');
+// fw.viewModel.getLocation('Sprocket') === '/path/to/viewModel/folder/'</code></pre>
+
+      <a id="viewModel-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Get the file name that Footwork will appended to the path when downloading the viewModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Filename of the module</span>
+        </div>
+      </div>
+<pre><code class="javascript">fw.viewModel.registerLocation('Sprocket', '/path/to/viewModel/folder/');
+var fileNameForSprocket = fw.viewModel.getFileName('Sprocket'); // === Sprocket.js
+
+/**
+ * If the viewModel was explicitly registered (cached), then null is returned for any
+ * fileType because the file name will never be used.
+ */
+fw.viewModel.register('Sprocket', fw.viewModel.create({ /* configuration object */ }) );
+var fileNameForSprocket = fw.viewModel.getFileName('Sprocket'); // === null
+</code></pre>
+
+      <a id="viewModel-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.viewModel</span>.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModel</span>.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
+        </div>
+        <div class="description">Specify the extension to append to an AMD/RequireJS loaded <span class="inline-code">viewModel</span> path when it
+          does not have an extension specified (ie: full file name not specified).</div>
+      </div>
+<pre><code class="javascript">// explicitly set the extension
+fw.viewModel.fileExtensions('.jscript'); // append viewModel module files with '.jscript'
+
+// You can also specify a function() whose return value is used as the extension.
+fw.viewModel.fileExtensions(function(moduleName) {
+  if(moduleName === 'Sprocket') {
+    return '.jscript';
+  } else {
+    return '.js';
+  }
+});</code></pre>
+    </div>
+  </section>
+
+  <a id="instance-properties" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="instance-properties">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Instance Properties</h1>
+    </header>
+    <div class="content">
+      <p>After a <span class="inline-code">viewModel</span> has been created, there are a few properties which are on the instantiated object.</p>
+
+      <a id="viewModel-namespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>viewModel</span>.$namespace</div>
+        </div>
+        <div class="description">The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
+        to setup any handlers and subscriptions on the current namespace that a viewModel might need.</div>
+      </div>
+<pre><code class="javascript">var Navigation = fw.viewModel.create({
+  namespace: 'Navigation',
+  initialize: function() {
+    this.$namespace.event.handler('userLoggedIn', function(username) {
+      console.log('Welcome', username);
+    });
+  }
+});</code></pre>
+
+      <a id="viewModel-rootNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>viewModel</span>.$rootNamespace</div>
+        </div>
+        <div class="description">
+          <p>The root (non-indexed) namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
+          <p>If you provide the option <span class="inline-code">autoIncrement: true</span> then each new <span class="inline-code">viewModel</span> instance will have
+            an indexed namespace name, the <span class="inline-code">$rootNamespace</span> is the namespace channel provided which hooks into the
+            non-indexed (root) namespace name.</p>
+        </div>
+      </div>
+<pre><code class="javascript">fw.viewModel.create({
+  namespace: 'Sprocket',
+  autoIncrement: true,
+  initialize: function() {
+    this.$rootNamespace.event.handler('wasThrownAway', function() {
+      console.log('Sprocket, not Sprocket0 or Sprocket1, received this event.');
+    });
+  }
+});</code></pre>
+
+      <a id="viewModel-globalNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>viewModel</span>.$globalNamespace</div>
+        </div>
+        <div class="description">
+          <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>
+        </div>
+      </div>
+<pre><code class="javascript">fw.viewModel.create({
+  namespace: 'Sprocket',
+  initialize: function() {
+    var thisViewModel = this;
+    this.$globalNamespace.command.handler('sayHello', function() {
+      console.log('Hello from', thisViewModel);
+    });
+  }
+});</code></pre>
+    </div>
+  </section>
+</article>
+
+<div id="metaData">
+{
+  "title": "ViewModel",
+  "description": "Bindable logic and statefulness for your markup.",
+  "sections": [
+    { "anchor": "introduction",
+      "title": "Introduction",
+      "subSections": [
+        { "anchor": "usage",
+          "title": "Usage",
+          "subSections": [
+            { "anchor": "factory-method",
+              "title": "Factory Method" },
+            { "anchor": "bind-manually",
+              "title": "Manual Instantiation and Binding",
+              "description": "Binding a viewModel using fw.applyBindings()." },
+            { "anchor": "viewModel-element",
+              "title": "&lt;viewModel&gt;",
+              "description": "Using a viewModel with a &lt;viewModel&gt; declarative element." },
+            { "anchor": "inside-component",
+              "title": "&lt;component&gt;",
+              "description": "Using a viewModel with a &lt;component&gt; declarative custom element." }
+          ] },
+        { "title": "Lifecycle &amp; Registration",
+          "anchor": "lifecycle-registration",
+          "subSections": [
+            { "anchor": "lifecycle",
+              "title": "Lifecycle",
+              "description": "Explanation of the lifecycle of a viewModel, including instantiation and disposal.",
+              "subSections": [
+                { "anchor": "binding",
+                  "title": "Binding",
+                  "description": "Information about how a viewModel is bound to the DOM." },
+                { "anchor": "disposal",
+                  "title": "Disposal",
+                  "description": "Information about how disposal of a viewModel is handled." }
+              ] },
+            { "anchor": "registration",
+              "title": "Registration",
+              "description": "How to register a viewModel and have it loaded via AMD, asynchronously.",
+              "subSections": [
+                { "anchor": "module-resolution",
+                  "title": "Module Resolution",
+                  "description": "How Footwork loads/resolves your viewModel prior to instantiation." },
+                { "anchor": "module-formats",
+                  "title": "Module Formats",
+                  "description": "What formats a valid for a viewModel module." }
+              ] }
+          ] },
+        { "anchor": "mixins",
+          "title": "Mixins",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "mixin-configuration",
+              "title": "Configuration" },
+            { "anchor": "mixin-usage",
+              "title": "Usage" }
+          ] }
+      ] },
+    { "subSections": [
+        { "anchor": "utility-functions",
+          "title": "Utility Functions" },
+        { "anchor": "instance-properties",
+          "title": "Instance Properties",
+          "description": "Properties that exist on an instantiated viewModel." }
+      ] }
+  ],
+  "apiReferences": [
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "General",
+          "references": [
+            { "anchor": "fw-viewModel-create",
+              "title": "fw.viewModel.create()",
+              "description": "Creates a new viewModel constructor function." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Registration",
+      "subCategories": [
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "viewModel-register",
+              "title": "fw.viewModel.register()",
+              "description": "Register/cache a viewModel so that it is ready to be used when needed." },
+            { "anchor": "viewModel-registerLocation",
+              "title": "fw.viewModel.registerLocation()",
+              "description": "Register the location of (or path to) a viewModel so that it can be downloaded/resolved when needed." },
+            { "anchor": "viewModel-isRegistered",
+              "title": "fw.viewModel.isRegistered()",
+              "description": "Method used to check whether or not a viewModel has been registered or not." },
+            { "anchor": "viewModel-getRegistered",
+              "title": "fw.viewModel.getRegistered()",
+              "description": "Return the viewModel registered under a specified name." },
+            { "anchor": "viewModel-getLocation",
+              "title": "fw.viewModel.getLocation()",
+              "description": "Get the location Footwork will attempt to download a viewModel from when it is needed." },
+            { "anchor": "viewModel-getFileName",
+              "title": "fw.viewModel.getFileName()",
+              "description": "Get the filename Footwork will use when downloading a viewModel.",
+              "subDescriptions": [
+                "This is appended onto the location/path when downloading."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Lifecycle",
+      "subCategories": [
+        {
+          "label": "Callbacks",
+          "references": [
+            { "anchor": "afterRender",
+              "title": "afterRender()",
+              "description": "Method triggered after a viewModel has been bound to the DOM." },
+            { "anchor": "onDispose",
+              "title": "onDispose()",
+              "description": "Method triggered after the element a viewModel is bound to is removed from the DOM.",
+              "subDescriptions": [
+                "This is also triggered when viewModel.dispose() is called."
+              ] }
+          ]
+        },
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "viewModel-dispose",
+              "title": "viewModel.dispose()",
+              "description": "Dispose of a viewModel and all of its attached handlers and subscriptions.",
+              "subDescriptions": [
+                "This is done automatically when a bound instance is removed from the DOM."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Instance",
+      "subCategories": [
+        {
+          "label": "Utility Methods",
+          "references": [
+            { "anchor": "viewModel-getAll",
+              "title": "fw.viewModel.getAll()",
+              "description": "Get all currently instantiated viewModel references.",
+              "keywords": [ "instance" ] }
+          ]
+        },
+        {
+          "label": "Properties",
+          "references": [
+            { "anchor": "viewModel-namespace",
+              "title": "viewModel.$namespace",
+              "description": "The namespace for this viewModel used for communication with other areas of your application." },
+            { "anchor": "viewModel-rootNamespace",
+              "title": "viewModel.$rootNamespace",
+              "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
+            { "anchor": "viewModel-globalNamespace",
+              "title": "viewModel.$globalNamespace",
+              "description": "Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on." }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</div>
+

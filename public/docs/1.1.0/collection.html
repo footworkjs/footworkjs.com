@@ -1,0 +1,1145 @@
+<article>
+  <div class="version-display" data-bind="text: versionDisplay"></div>
+  <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="introduction">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Introduction</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">collection</span> is used to manage lists of <span class="inline-code">objects</span>. Collections are
+        an extension built on top of Knockout.js
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArrays</a></span> and
+        thus can be used just like they can, such as:</p>
+
+      <ul>
+        <li>Binding your UI to them.</li>
+        <li>Creating a <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span>
+          value based on them (such as a filtered, or sorted version of a list).</li>
+        <li>Manipulating them like normal
+          <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArrays</a></span>
+          using <span class="inline-code">push</span>, <span class="inline-code">pop</span>, <span class="inline-code">splice</span>, etc...</li>
+      </ul>
+
+      <p>Using the
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> type,
+        Footwork builds upon them to integrate various features such as:</p>
+
+      <ul>
+        <li>Searching the list to find an <span class="inline-code">object</span> or
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> (or list of them) which matches a set of attributes or id.</li>
+        <li>Retrieving a list of items from the server and (if specified) instantiate each of the results using a
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>.</li>
+        <li>Creating a new record of the specified <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> on the
+          server and inserting it into the <span class="inline-code">collection</span> when completed.</li>
+        <li>Easy methods for adding new items to or removing items from the <span class="inline-code">collection</span>.</li>
+      </ul>
+
+      <div class="note">
+        <p><span class="label">Example Use-Case:</span> An app has a user profile and attached to it a list of contact phone numbers. Each phone number
+          would be represented in with a <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> (which would have
+          its REST endpoint used for CRUD operations, say at <span class="inline-code">/user/phone-number/123</span> for the record with id 123).</p>
+        <p>There would be a <span class="inline-code">/user/phone-numbers</span> endpoint which would return a JSON list of
+          phone numbers attached to my profile. This list/endpoint is what would be managed by the <span class="inline-code">collection</span> from
+          within the application.</p>
+        <p>If represented by a <span class="inline-code">collection</span>, you could then <span class="inline-code">fetch()</span> the
+          list from the server and have the list of <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>
+          instances created for you and injected into the <span class="inline-code">collection</span>. You could also <span class="inline-code">create()</span>
+          a new <span class="inline-code">phone-number</span> which would be saved to the server via the
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> and its RESTful configuration.</p>
+      </div>
+    </div>
+  </section>
+
+  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="usage">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Usage</h1>
+    </header>
+    <div class="content">
+      <p>There are two primary ways of using <span class="inline-code">collections</span> in Footwork. They can be utilized with raw data (arrays of
+        objects, i.e. a <em>plain</em> <span class="inline-code">collection</span>) or configured to use a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>. In either case you can then use any of the
+        <span class="inline-code">collection</span> methods to find, retrieve, add, etc.</p>
+
+      <p>Essentially, at the core of it you are managing a list of
+        <span class="inline-code">objects</span> which may or may not have RESTful (persistent) features attached to them. With this list you can also
+        bind your UI, create
+        <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values,
+        subscribe to changes, etc (all of the same capabilities/features you have with a normal KnockoutJS
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>).</p>
+    </div>
+  </section>
+
+  <a id="basic-usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="basic-usage">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Basic Usage</h2>
+    </header>
+    <div class="content">
+      <p>If you are using a <em>plain</em> <span class="inline-code">collection</span> (ie: one which does not require a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>) then they are initialized in exactly the same way
+        a normal KnockoutJS <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>
+        would be with the exception that you would use
+        <span class="inline-code">fw.collection()</span> insted of <span class="inline-code">fw.observableArray()</span> to instantiate one.</p>
+
+      <a id="fw-collection" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.collection<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ] )</span></div>
+        </div>
+        <div class="description">Instantiate a <span class="inline-code">collection</span> composed of the supplied data.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">collection</span> A new <span class="inline-code">collection</span> instance representing the data passed in.</span>
+        </div>
+      </div>
+<pre><code class="javascript">var collection = fw.collection([ { name: 'James Bond' }, { name: 'Eve Moneypenny' } ]);
+</code></pre>
+
+      <h3>Creation of a simple <span class="inline-code">collection</span> instance consisting of a list of <span class="inline-code">objects</span>:</h3>
+<pre><code class="javascript">var group = fw.collection([
+  { name: 'John Smith', company: 'Acme Brick' },
+  { name: 'Jane Doe', company: 'Acme Brick' }
+]);
+
+/**
+ * group() === [
+ *   { name: "John Smith", company: "Acme Brick"  },
+ *   { name: "Jane Doe", company: "Acme Brick"  }
+ * ]
+ */
+
+/**
+ * group.findWhere({ name: "John Smith" }) === { name: "John Smith", company: "Acme Brick"  }
+ */
+</code></pre>
+    </div>
+  </section>
+
+  <a id="factory-method" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="factory-method">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Factory Method</h2>
+    </header>
+    <div class="content">
+      <p>If each item in your <span class="inline-code">collection</span> has a RESTful endpoint (ex: a list of notes) then you will want to create
+        a <em>new</em> type of <span class="inline-code">collection</span> which is configured to handle them utilizing a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>. By doing this you can more easily fetch, save,
+        retrieve, and search the data.</p>
+
+      <p>To create and use a new type of <span class="inline-code">collection</span> we begin by creating a new constructor function, configuring it
+        as desired. This is done with the factory method <span class="inline-code">fw.collection.create()</span>. The constructor function returned
+        can then be used to create new instances of that type of <span class="inline-code">collection</span>.</p>
+
+      <a id="fw-collection-create" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.collection.create<span>( <span class="param">configurationObject</span> )</span></div>
+        </div>
+        <div class="description">Create a new collection constructor function. This is used to create a new type of collection.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">function()</span> <span class="inline-code">Collection</span> Constructor Function</span>
+        </div>
+      </div>
+<pre><code class="javascript">var CollectionConstructor = fw.collection.create({
+  // (optional) The namespace (communications channel) the collection uses.
+  namespace: 'MyCollection', // example namespace name, any alpha-numeric is valid
+
+  // (optional) URL which will/can be used to GET/fetch the collection from the server
+  url: function() {},
+  url: '',
+
+  /**
+   * (optional) dataModel constructor used to create each new instance.
+   * If specified this will also be used to source the idAttribute field used for searching/matching
+   */
+  dataModel: DataModelConstructor,
+
+  /**
+   * (optional) The idAttribute to use internally within each dataModel/object
+   * Note: This overrides the dataModel idAttribute if specified
+   */
+  idAttribute: 'id', // default is 'id' (also used for plain collections)
+
+  /**
+   * Callback method used to transform the response from a .fetch() call prior to instantiating or
+   * creating new items/entries in the collection. The return result will be .set() on the collection
+   */
+  parse: function(ajaxResponse) { return ajaxResponse; }
+
+  /**
+   * Flag telling Footwork if it should call .dispose() when a dataModel is removed from
+   * the list. Default: true.
+   */
+  disposeOnRemove: true
+});
+</code></pre>
+
+      <p>The following example shows the creation of a <span class="inline-code">collection</span> constructor which can be used to manage
+        <span class="inline-code">collections</span> consisting of
+        <span class="inline-code">Person</span> <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> instances.</p>
+
+      <p>A <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> would normally be used to represent items which
+        also have RESTful endpoints. An example of this might be a list of contact numbers or email addresses listed on a user profile.</p>
+
+      <h3>Creation and use of a <span class="inline-code">collection</span> constructor to create a <span class="inline-code">collection</span> (group) of people:</h3>
+<pre><code class="javascript">// Create the ContactList collection constructor
+var ContactList = fw.collection.create({
+  namespace: "ContactList",
+  url: '/list-contacts',
+  // It is recommended you store the dataModel in a separate file.
+  // This example shows it inline.
+  dataModel: fw.dataModel.create({
+    namespace: "Contact",
+    url: '/contact',
+    initialize: function(contactData) {
+      this.email = fw.observable(contactData.email).mapTo('email');
+      this.number = fw.observable(contactData.number).mapTo('number');
+    }
+  })
+});
+
+// Instantiate a new ContactList collection using the constructor
+var myNumbers = ContactList([
+  { number: '555-555-5555', email: 'batman@wayneindustries.com' },
+  { number: '555-555-5556', email: 'robin@wayneindustries.com' }
+]);
+
+// Each entry is an instance of the Contact dataModel
+// myNumbers() === [ Contact, Contact ]
+
+/**
+ * The raw mapped data can be retrieved using the helper .getData()
+ * myNumbers.getData() === [
+ *   { number: '555-555-5555', email: 'batman@wayneindustries.com' },
+ *   { number: '555-555-5556', email: 'robin@wayneindustries.com' }
+ * ]
+ */
+</code></pre>
+    </div>
+  </section>
+
+  <a id="computed-values" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="computed-values">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Computed Values</h2>
+    </header>
+    <div class="content">
+      <p>It is important to remember that a <span class="inline-code">collection</span> is an <em>observable</em> value. This means that just like any
+        other <span class="inline-code">observable</span> we can create
+        <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values
+        based on it.</p>
+
+      <p>Another important note is that you can also use various <span class="inline-code">collection</span> methods (<span class="inline-code">findWhere()</span>,
+        <span class="inline-code">where()</span>, and <span class="inline-code">getData()</span>) to create
+        <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span> values
+        derived from them.</p>
+
+      <h3>Create <span class="inline-code"><a target="_blank" href="http://knockoutjs.com/documentation/computedObservables.html">computed</a></span>
+        values based on a <span class="inline-code">collection</span>:</h3>
+<pre><code class="javascript">// Shown in a viewModel which is a more likely usage scenario
+var PeopleViewModel = fw.viewModel.create({
+  initialize: function(peopleList) {
+    // The main collection of people
+    this.peopleList = fw.collection(peopleList);
+
+    /**
+     * A computed based on peopleList which determines whether or not the
+     * list is empty
+     */
+    this.hasPeopleInList = fw.computed(function() {
+      return this.peopleList().length > 0;
+    }, this);
+
+    /**
+     * This creates a computed value based on the peopleList
+     * filtered to include only entries where()
+     * company === 'OCP', sorted by the name
+     */
+    this.omniCorpPeople = fw.computed(function() {
+      return this.peopleList
+        .where({ company: 'OCP' }, { getData: true })
+        .sort(function(a, b) {
+          return a.name.toLowerCase() &lt; b.name.toLowerCase() ? 1 : -1;
+        });
+    }, this);
+  }
+});
+</code></pre>
+
+      <p>The above example shows the creation of a <span class="inline-code">PeopleViewModel</span> which is fed a
+        <span class="inline-code">peopleList</span>. Upon initialization it then creates a <span class="inline-code">peopleList</span>
+        <span class="inline-code">collection</span> using the supplied data. Two <span class="inline-code">computed</span> values are created based
+        on the list, one which returns a boolean value indicating whether or not there are people in the list
+        (<span class="inline-code">hasPeopleInList</span>) and <span class="inline-code">omniCorpPeople</span> which is a filtered list containing
+        OCP employees sorted by their name.</p>
+
+      <h3>Example usage of the above <span class="inline-code">computed</span> values:</h3>
+<pre><code class="javascript">var peopleVM = new PeopleViewModel([
+  { name: 'Peter Weller', company: 'Detroit PD' },
+  { name: 'Robert Morton', company: 'OCP' },
+  { name: 'Donald Johnson', company: 'OCP' }
+]);
+/**
+ * peopleVM.omniCorpPeople() === [
+ *   { name: 'Robert Morton', company: 'OCP' },
+ *   { name: 'Donald Johnson', company: 'OCP' }
+ * ]
+ */
+
+peopleVM.peopleList.add({ name: 'Richard Jones', company: 'OCP' });
+/**
+ * Since omniCorpPeople is a computed value it is automatically updated when
+ * the new entry is added to peopleList. Hence we see it returned (in the sorted
+ * order as defined/returned by the evaluator function) when we retrieve the
+ * value again:
+ *
+ * peopleVM.omniCorpPeople() === [
+ *   { name: 'Robert Morton', company: 'OCP' },
+ *   { name: 'Richard Jones', company: 'OCP' },
+ *   { name: 'Donald Johnson', company: 'OCP' }
+ * ]
+ */
+</code></pre>
+    </div>
+  </section>
+
+  <a id="ui-binding" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="ui-binding">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">UI Binding</h2>
+    </header>
+    <div class="content">
+      <p>Since a <span class="inline-code">collection</span> is actually an
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> under
+        the covers, you can bind to them from your UI just as you would with an
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span> with
+        KnockoutJS.</p>
+
+      <p>Using the <span class="inline-code">GroupOfPeople</span> <span class="inline-code">collection</span> from above, we instantiate a list of people
+      inside of the <span class="inline-code">PeopleView</span> <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</p>
+
+      <h3>Example markup used to bind with the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> (which contains
+        the collection):</h3>
+<pre><code class="html">&lt;div id="people-view" data-bind="foreach: persons"&gt;
+  &lt;div class="person"&gt;
+    Name: &lt;span data-bind="text: name"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <h3>Instantiate a new <span class="inline-code">collection</span> inside of the <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>:</h3>
+<pre><code class="javascript">var PeopleView = fw.viewModel.create({
+  namespace: 'PeopleView',
+  initialize: function() {
+    this.persons = fw.collection([
+      { name: 'John Smith' },
+      { name: 'Jane Doe' }
+    ]);
+  };
+});
+
+// Bind (and render) the viewModel and its collection to the UI
+fw.applyBindings(new PeopleView(), document.querySelector('#people-view'));
+</code></pre>
+    </div>
+  </section>
+
+  <a id="data-management" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="data-management">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Data Management</h1>
+    </header>
+    <div class="content">
+      <p>There are various operations which you can perform on a <span class="inline-code">collection</span>.</p>
+
+      <p>Most methods, such as <span class="inline-code">find</span>,
+        <span class="inline-code">findWhere</span>, <span class="inline-code">set</span>, etc do not depend on there being a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> or endpoint
+        (<span class="inline-code">url</span>) specified/configured. This means that you can use them to operate on arbitrary objects as well (ie: a
+        <em>plain collection</em>).</p>
+
+      <p>Some methods such as <span class="inline-code">fetch</span> and <span class="inline-code">create</span> require that a RESTful endpoint and/or
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> be specified when a new
+        <span class="inline-code">collection</span> constructor is created.</p>
+    </div>
+  </section>
+
+  <a id="local-operations" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="local-operations">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Local Operations</h1>
+    </header>
+    <div class="content">
+      <p>Many operations performed on a <span class="inline-code">collection</span> are local-only. This means that using them does not depend on any
+        RESTful configuration (<span class="inline-code">url</span>) or <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>.</p>
+    </div>
+  </section>
+
+  <a id="set-reset" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="set-reset">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Set and Reset</h2>
+    </header>
+    <div class="content">
+      <p>The following methods are used to load data into a <span class="inline-code">collection</span>. You might invoke one of the following
+        if you wanted to manually load some data into a <span class="inline-code">collection</span>, such as if you retrieved the models/data via some
+        means other than the included RESTful <span class="inline-code">fetch</span> method.</p>
+
+      <a id="collection-set" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.set<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ], <span class="param">options</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Perform a <em>smart</em> update of the <span class="inline-code">collection</span> with the passed list of models.</p>
+          <p>If a supplied model is not yet in the <span class="inline-code">collection</span> it will be added; if the it is already in the
+            <span class="inline-code">collection</span> (matched via the <span class="inline-code">idAttribute</span> value) then its data will be
+            merged; and if the supplied data contains any models that are not present in the <span class="inline-code">collection</span>, they will
+            be removed.</p>
+
+          <p>You can provide the following <span class="inline-code">options</span> to customize the behavior:
+            <span class="inline-code">{ add: false }</span>,
+            <span class="inline-code">{ remove: false }</span>, or
+            <span class="inline-code">{ merge: false }</span>.</p>
+
+          <div class="note"><span class="label">NOTE:</span> All of the <span class="inline-code">_.add</span>,
+            <span class="inline-code">_.remove</span>, and <span class="inline-code">_.change</span> events are fired as appropriate.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">array[]</span> The affected entries/dataModels</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection();
+people.set([
+  {
+    "id": 1,
+    "firstName": "Bruce",
+    "lastName": "Wayne"
+  }, {
+    "id": 2,
+    "firstName": "Barbara",
+    "lastName": "Gordon"
+  }, {
+    "id": 3,
+    "firstName": "Ethan",
+    "lastName": "Bennett"
+  }
+]);
+</code></pre>
+
+      <a id="collection-reset" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.reset<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ] )</span></div>
+        </div>
+        <div class="description">
+          <p>Replace a collection with a new list of models. This will trigger a single <span class="inline-code">_.reset</span>
+            event afterwards.</p>
+
+          <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">_.reset</span> event triggered will be passed an object
+            (<span class="inline-code">{ newModels: {}, oldModels: {} }</span>) containing the relevant data at runtime.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">array[]</span> The entries/dataModels</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection();
+people.reset([
+  {
+    "id": 1,
+    "firstName": "Bruce",
+    "lastName": "Wayne"
+  }, {
+    "id": 2,
+    "firstName": "Barbara",
+    "lastName": "Gordon"
+  }, {
+    "id": 3,
+    "firstName": "Ethan",
+    "lastName": "Bennett"
+  }
+]);
+</code></pre>
+    </div>
+  </section>
+
+  <a id="add-remove" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="add-remove">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Add and Remove</h2>
+    </header>
+    <div class="content">
+      <p>The following methods are used to add and remove items from a <span class="inline-code">collection</span>.</p>
+
+      <a id="collection-addModel" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.addModel<span>( <span class="param">model</span>, <span class="param">options</span> )</span></div>
+          <div class="func-def"><span>collection</span>.addModel<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ], <span class="param">options</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Add a model (or an array of models) to the <span class="inline-code">collection</span>, firing an <span class="inline-code">_.add</span>
+            event for each new model. Altered models will have their data merged and have a corresponding <span class="inline-code">_.change</span>
+            event fired for them. If a model property is defined and you are passing in raw attributes objects they will be vivified as instances of the
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> (if one is specified/configured). If you pass
+            in an instantiated <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then it will be inserted
+            as-is.</p>
+
+          <div class="note">
+            <span class="label">NOTE:</span> You may pass in <span class="inline-code">{ at: <em>integer</em> }</span> to the options to tell Footwork
+            to insert the new items at a certain index. You may also pass <span class="inline-code">{ merge: false }</span> if you do not wish to have
+            any updated model data to be merged with what is currently in the <span class="inline-code">collection</span> (which is found via matching
+            against the <span class="inline-code">idAttribute</span> value).
+          </div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">array[]</span> The affected entries/dataModels</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection();
+people.add([
+  {
+    "id": 1,
+    "firstName": "Bruce",
+    "lastName": "Wayne"
+  }, {
+    "id": 2,
+    "firstName": "Barbara",
+    "lastName": "Gordon"
+  }, {
+    "id": 3,
+    "firstName": "Ethan",
+    "lastName": "Bennett"
+  }
+]);
+</code></pre>
+
+      <a id="collection-removeModel" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.removeModel<span>( <span class="param">model</span> )</span></div>
+          <div class="func-def"><span>collection</span>.removeModel<span>( [ <span class="param">model1</span>, <span class="param">model2</span>, <span class="param">...</span> ] )</span></div>
+        </div>
+        <div class="description">
+          <p>Remove a model (or an array of models) from the collection. Each model can be a Model instance, a JS object (whose
+            properties will be matched against), or a JS regex-attribute object. Fires a <span class="inline-code">_.remove</span> event for each model.</p>
+
+          <div class="note"><span class="label">NOTE:</span> You can supply a <span class="inline-code">RegExp</span> pattern inside of an attribute hash
+            and Footwork will match against it when looking for entries to remove.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">array[]</span> The removed entries/dataModels</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  {
+    "id": 1,
+    "firstName": "Bruce",
+    "lastName": "Wayne"
+  }, {
+    "id": 2,
+    "firstName": "Barbara",
+    "lastName": "Gordon"
+  }, {
+    "id": 3,
+    "firstName": "Ethan",
+    "lastName": "Bennett"
+  }
+]);
+
+// remove the people that have id: 2
+var removedPeople = people.removeModel({ id: 2 });
+// removedPeople === [ { id: 2, firstName: "Barbara", lastName: "Gordon" } ]
+
+// remove people that have id 1 or 3 (this shows how you can match against a RegExp)
+var removedPeople = people.removeModel({ id: /^(1|3)$/ });
+/**
+ * removedPeople === [ { id: 1, firstName: "Bruce", lastName: "Wayne" },
+ *                     { id: 3, firstName: "Ethan", lastName: "Bennett" } ]
+ */
+</code></pre>
+    </div>
+  </section>
+
+  <a id="find-get" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="find-get">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Find and Get</h2>
+    </header>
+    <div class="content">
+      <p>The following methods are used to find and retrieve items from a <span class="inline-code">collection</span>.</p>
+
+      <a id="collection-where" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.where<span>( <span class="param">attributes</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Return an array of all the models in a <span class="inline-code">collection</span> that match the passed attributes.</p>
+
+          <div class="note"><span class="label">NOTE:</span> You can supply a <span class="inline-code">RegExp</span> pattern inside of an attribute hash
+            and Footwork will match against it when looking for matches.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">array[]</span> The matching entries/dataModels</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  {
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "employer": "Wayne Industries"
+  }, {
+    "firstName": "James",
+    "lastName": "Gordon",
+    "employer": "GCPD"
+  }, {
+    "firstName": "Alfred",
+    "lastName": "Creane",
+    "employer": "Wayne Industries"
+  }
+]);
+
+/**
+ * people.where({ lastName: 'Gordon' }) === [ { firstName: "James", lastName: "Gordon", employer: "GCPD" } ]
+ *
+ * people.where({ employer: 'Wayne Industries' }) === [
+ *   { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries" },
+ *   { firstName: "Alfred", lastName: "Creane", employer: "Wayne Industries" }
+ * ]
+ */
+</code></pre>
+
+      <p>Here is a <span class="inline-code">where()</span> example demonstrating the use of a <span class="inline-code">RegExp</span> to search through the
+        <span class="inline-code">collection</span> (using the same <span class="inline-code">collection</span> instance from above):</p>
+<pre><code class="javascript">people.where({ employer: /.*Industries$/ }) === [
+  { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries" },
+  { firstName: "Alfred", lastName: "Creane", employer: "Wayne Industries" }
+]
+</code></pre>
+
+      <p>Also note that you can do deep-nested searches with both <span class="inline-code">where()</span> and <span class="inline-code">findWhere()</span>:</p>
+<pre><code class="javascript">var people = fw.collection([
+  {
+    firstName: "Bruce",
+    lastName: "Wayne",
+    employer: "Wayne Industries",
+    attr: {
+      badass: true,
+      alterEgo: 'The Batman'
+    }
+  }
+]);
+
+// Search for nested property 'badass: true'
+people.where({ attr: { badass: true } }) === [
+  { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries", attr: { badass: true } }
+]
+
+// You can also search for nested properties with a RegExp
+people.where({ attr: { alterEgo: /Batman/ } }) === [
+  { firstName: "Bruce", lastName: "Wayne", employer: "Wayne Industries", attr: { badass: true } }
+]
+</code></pre>
+
+      <p>Sometimes all you want is the first (or only) result found in a <span class="inline-code">collection</span>, for that you would use
+        <span class="inline-code">findWhere()</span>.</p>
+
+      <a id="collection-findWhere" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.findWhere<span>( <span class="param">attributes</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Just like <span class="inline-code">collection.where()</span> but returns only the first entry in the
+            <span class="inline-code">collection</span> that matches the passed attributes.</p>
+
+          <div class="note"><span class="label">NOTE:</span> You can supply a <span class="inline-code">RegExp</span> pattern inside of an attribute hash
+            and Footwork will match against it when looking for a match.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The matching entry/dataModel</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  {
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "employer": "Wayne Industries"
+  }, {
+    "firstName": "James",
+    "lastName": "Gordon",
+    "employer": "GCPD"
+  }, {
+    "firstName": "Alfred",
+    "lastName": "Creane",
+    "employer": "Wayne Industries"
+  }
+]);
+
+/**
+ * people.findWhere({ employer: 'Wayne Industries' }) === {
+ *   firstName: "Bruce",
+ *   lastName: "Wayne",
+ *   employer: "Wayne Industries"
+ * }
+ */
+</code></pre>
+
+      <a id="collection-get" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.get<span>( <span class="param">cid</span> )</span></div>
+          <div class="func-def"><span>collection</span>.get<span>( <span class="param">id</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Get a model from a collection, matched against via the
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-cid')">dataModel.$cid</a> or
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-id')">dataModel.$id</a>.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The matching entry/dataModel</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  {
+    "id": 1,
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "employer": "Wayne Industries"
+  }, {
+    "id": 2,
+    "firstName": "James",
+    "lastName": "Gordon",
+    "employer": "GCPD"
+  }, {
+    "id": 3,
+    "firstName": "Alfred",
+    "lastName": "Creane",
+    "employer": "Wayne Industries"
+  }
+]);
+
+/**
+ * people.get(1) === {
+ *   id: 1,
+ *   firstName: "Bruce",
+ *   lastName: "Wayne",
+ *   employer: "Wayne Industries"
+ * }
+ */
+</code></pre>
+    </div>
+  </section>
+
+  <a id="restful-operations" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="restful-operations">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">RESTful Operations</h1>
+    </header>
+    <div class="content">
+      <p>Some operations performed on a <span class="inline-code">collection</span> can be <em>RESTful</em> in nature. Depending on your need, you will
+        need to create a new type of <span class="inline-code">collection</span> which is configured with an endpoint (<span class="inline-code">url</span>)
+        or <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>.</p>
+    </div>
+  </section>
+
+  <a id="fetch-create" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="fetch-create">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Fetch and Create</h2>
+    </header>
+    <div class="content">
+
+      <p>If you are using a <span class="inline-code">collection</span> that has been configured with a RESTful endpoint (<span class="inline-code">url</span>)
+        then you can also <span class="inline-code">fetch</span> the <span class="inline-code">collection</span> from the server.</p>
+
+      <a id="collection-fetch" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.fetch<span>( <span class="param">options</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Merges the model with data fetched from the server by delegating to <span class="inline-code">fw.sync()</span>. This is useful if
+            the model has never been populated with data, or if you would like to ensure that you have the latest state from the server. Triggers
+            a <span class="inline-code">_.change</span> event if the server's data differs from the current entry.</p>
+
+          <div class="note"><span class="label">NOTE:</span> You can specify that the data not be merged. To reset the data pass
+            <span class="inline-code">{ reset: true }</span> to the <span class="inline-code">options</span>.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Promise</span> The request promise</span>
+        </div>
+      </div>
+<pre><code class="javascript">var PeopleList = fw.collection.create({
+  url: '/people/list'
+});
+
+var people = PeopleList();
+
+people.fetch().done(function(peopleList) {
+  console.info('People listed:', peopleList);
+});
+</code></pre>
+
+      <p>If you are using a <span class="inline-code">collection</span> configured with a
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then you can also use the
+        <span class="inline-code">collection.create()</span> method which when called is equivalent to instantiating the
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> with the supplied data, saving it to the server
+        (calling <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-save')">dataModel.save()</a></span> after instantiation), and
+        adding it to the <span class="inline-code">collection</span> (before or after being successfully created).</p>
+
+      <a id="collection-create" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.create<span>( <span class="param">modelData</span>, <span class="param">options</span>)</span></div>
+        </div>
+        <div class="description">
+          <p>Convenience method used to create a new instance of a model within a <span class="inline-code">collection</span> and save it to the server.</p>
+
+          <p>If the <span class="inline-code">collection</span> is configured with a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> then the new instance will be saved to the
+            server (via <span class="inline-code"><a data-bind="$route: docLink('dataModel#dataModel-save')">dataModel.save()</a></span>).</p>
+
+          <div class="note"><span class="label">NOTE:</span> By default the new item will be added to the <span class="inline-code">collection</span>
+            immediately after instantiation (prior to <span class="inline-code">dataModel.save()</span>). You can tell Footwork not to add it until/when the
+            server returns with a <span class="inline-code">HTTP 200</span> (success) response by passing
+            <span class="inline-code">{ wait: true }</span> to the <span class="inline-code">options</span>.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Promise</span> The request promise returned from <span class="inline-code">dataModel.save()</span></span>
+        </div>
+      </div>
+<pre><code class="javascript">// Create a new type of collection with the requisite dataModel (that has a REST url)
+var PeopleCollection = fw.collection.create({
+  dataModel: fw.dataModel.create({
+    namespace: 'Person',
+    url: '/person',
+    initialize: function(person) {
+      this.firstName = fw.observable(person.firstName).mapTo('firstName');
+      this.lastName = fw.observable(person.lastName).mapTo('lastName');
+    }
+  })
+});
+
+// Instantiate a new instance of the PeopleCollection
+var people = new PeopleCollection();
+
+// Tell the collection to create a new Person
+people.create({
+  "firstName": "Thomas",
+  "lastName": "Anderson"
+}, { wait: true }).done(function(response) {
+  console.info('Person created!');
+});
+</code></pre>
+
+    </div>
+  </section>
+
+  <a id="utility-methods" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="utility-methods">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Utility Methods</h1>
+    </header>
+    <div class="content">
+      <p>This section outlines various utlity functions related to handling data within a <span class="inline-code">collection</span>.</p>
+
+      <a id="collection-push" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.push<span>( <span class="param">modelData</span> )</span></div>
+          <div class="func-def"><span>collection</span>.push<span>( <span class="param">dataModel</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Adds a new item to the end of the <span class="inline-code">collection</span>.</p>
+
+          <div class="note"><span class="label">NOTE:</span> If the <span class="inline-code">collection</span> is configured with a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> and you are trying to
+            <span class="inline-code">push()</span> a raw attributes object (not a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>) then a <em>new</em> instance of the
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> will be created using the supplied data.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">number</span> The length of the collection after adding the new item</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' }
+]);
+
+// Add a new person
+people.push({ name: 'The Ladies Man' });
+</code></pre>
+
+      <a id="collection-pop" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.pop<span>()</span></div>
+        </div>
+        <div class="description">
+          <p>Removes the last item from the <span class="inline-code">collection</span> and returns it.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The last item removed from the <span class="inline-code">collection</span>.</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' }
+]);
+
+// people.pop() === { name: 'Mary Katherine Gallagher' }
+</code></pre>
+
+      <a id="collection-unshift" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.unshift<span>( <span class="param">modelData</span> )</span></div>
+          <div class="func-def"><span>collection</span>.unshift<span>( <span class="param">dataModel</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Inserts a new item at the beginning of the array.</p>
+
+          <div class="note"><span class="label">NOTE:</span> If the <span class="inline-code">collection</span> is configured with a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> and you are trying to
+            <span class="inline-code">push()</span> a raw attributes object (not a
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>) then a <em>new</em> instance of the
+            <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> will be created using the supplied data.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">number</span> The length of the collection after adding the new item</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' }
+]);
+
+// Add a new person
+people.unshift({ name: 'The Ladies Man' });
+</code></pre>
+
+      <a id="collection-shift" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.shift<span>()</span></div>
+        </div>
+        <div class="description">
+          <p>Removes the first item from the <span class="inline-code">collection</span> and returns it.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The first item removed from the <span class="inline-code">collection</span>.</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' }
+]);
+
+// people.shift() === { name: 'Jack Handy' }
+</code></pre>
+
+      <a id="collection-splice" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.splice<span>( <span class="param">start</span>, <span class="param">deleteCount</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Removes and returns a given number of items starting from a given index.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">array[]</span> The removed items from the <span class="inline-code">collection</span>.</span>
+        </div>
+      </div>
+<pre><code class="javascript">var people = fw.collection([
+  { name: 'Jack Handy' },
+  { name: 'Mary Katherine Gallagher' },
+  { name: 'The Ladies Man' },
+  { name: 'Unfrozen Caveman Lawyer' }
+]);
+
+/**
+ * people.splice(1, 2) === [
+ *  { name: 'Mary Katherine Gallagher' },
+ *  { name: 'The Ladies Man' }
+ * ]
+ */
+</code></pre>
+    </div>
+  </section>
+</article>
+
+<div id="metaData">
+{
+  "title": "Collection",
+  "description": "Manage collections of data, retrieve and save them, bind your UI to them, and more.",
+  "sections": [
+    { "anchor": "introduction",
+      "title": "Introduction",
+      "subSections": [
+        { "anchor": "usage",
+          "title": "Usage",
+          "subSections": [
+            { "anchor": "basic-usage",
+              "title": "Basic Usage" },
+            { "anchor": "factory-method",
+              "title": "Factory Method" },
+            { "anchor": "computed-values",
+              "title": "Computed Values" },
+            { "anchor": "ui-binding",
+              "title": "UI Binding" }
+          ] },
+        { "anchor": "data-management",
+          "title": "Data Management",
+          "subSections": [
+            { "anchor": "local-operations",
+              "title": "Local Operations",
+              "description": "Features of a collection which do not require any RESTful configuration.",
+              "subSections": [
+                { "anchor": "set-reset",
+                  "title": "Set and Reset" },
+                { "anchor": "add-remove",
+                  "title": "Add and Remove" },
+                { "anchor": "find-get",
+                  "title": "Find and Get" }
+              ] },
+            { "anchor": "restful-operations",
+              "title": "RESTful Operations",
+              "description": "Features of a collection which interact with the server via a RESTful interface.",
+              "subSections": [
+                { "anchor": "fetch-create",
+                  "title": "Fetch and Create" }
+              ] }
+          ] }
+      ] },
+    { "subSections": [
+        { "anchor": "utility-methods",
+          "title": "Utility Methods" }
+      ] }
+  ],
+  "apiReferences": [
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "Creation",
+          "references": [
+            { "anchor": "fw-collection",
+              "title": "fw.collection()",
+              "description": "Instantiate a collection composed of the supplied data." },
+            { "anchor": "fw-collection-create",
+              "title": "fw.collection.create()",
+              "description": "Create a new collection constructor function. This is used to create a new type of collection." }
+          ]
+        }
+      ]
+    }, {
+      "label": "Data",
+      "subCategories": [
+        {
+          "label": "Management",
+          "references": [
+            { "anchor": "collection-set",
+              "title": "collection.set()",
+              "description": "Perform a smart update of the collection with the passed list of models." },
+            { "anchor": "collection-reset",
+              "title": "collection.reset()",
+              "description": "Replace a collection with a new list of models." },
+            { "anchor": "collection-addModel",
+              "title": "collection.addModel()",
+              "description": "Add a model (or an array of models) to the collection." },
+            { "anchor": "collection-removeModel",
+              "title": "collection.removeModel()",
+              "description": "Remove a model (or an array of models) from the collection." },
+            { "anchor": "collection-push",
+              "title": "collection.push()",
+              "description": "Adds a new item to the end of the collection." },
+            { "anchor": "collection-pop",
+              "title": "collection.pop()",
+              "description": "Removes the last item from the collection and returns it." },
+            { "anchor": "collection-unshift",
+              "title": "collection.unshift()",
+              "description": "Inserts a new item at the beginning of the array." },
+            { "anchor": "collection-shift",
+              "title": "collection.shift()",
+              "description": "Removes the first item from the array and returns it." },
+            { "anchor": "collection-splice",
+              "title": "collection.splice()",
+              "description": "Removes and returns a given number of elements starting from a given index." }
+          ]
+        }, {
+          "label": "Searching / Retrieval",
+          "references": [
+            { "anchor": "collection-where",
+              "title": "collection.where()",
+              "description": "Return an array of all the models in a collection that match the passed attributes." },
+            { "anchor": "collection-findWhere",
+              "title": "collection.findWhere()",
+              "description": "Just like collection.where() but returns only the first entry in the collection that matches the passed attributes." },
+            { "anchor": "collection-get",
+              "title": "collection.get()",
+              "description": "Get a model from a collection, specified by a dataModel.$cid or dataModel.$id." }
+          ]
+        }, {
+          "label": "RESTful Operations",
+          "references": [
+            { "anchor": "collection-fetch",
+              "title": "collection.fetch()",
+              "description": "Merges the model with data fetched from the server by delegating to fw.sync()." },
+            { "anchor": "collection-create",
+              "title": "collection.create()",
+              "description": "Convenience method used to create a new instance of a model within a collection and save it to the server." }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</div>

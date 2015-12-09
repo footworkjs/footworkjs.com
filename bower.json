@@ -8,7 +8,7 @@
   "devDependencies": {
     "knockoutjs": "3.4.0",
     "lodash": "3.3.1",
-    "footwork": "#6afce6a278b277ee6a2b04705f6d4b4ee2673fce",
+    "footwork": "1.0.0",
     "ace": "https://github.com/ajaxorg/ace-builds.git#1.2.0",
     "reqwest": "https://github.com/ded/reqwest.git#*",
     "riveter": "0.1.2",

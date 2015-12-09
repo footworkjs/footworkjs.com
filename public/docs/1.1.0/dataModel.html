@@ -1,0 +1,1770 @@
+<article>
+  <div class="version-display" data-bind="text: versionDisplay"></div>
+  <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="introduction">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Introduction</h1>
+    </header>
+    <div class="content">
+      <p>The primary purpose behind a <span class="inline-code">dataModel</span> is the management of RESTful data and related logic.</p>
+
+      <p>Just like a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> or
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span>, a
+        <span class="inline-code">dataModel</span> can be bound against your UI/markup (either on its own or integrated into a
+        <span class="inline-code"><a data-bind="$route: docLink('components')">&lt;component&gt;</a></span>). An example usage of this might be binding
+        a <span class="inline-code">dataModel</span> against a HTML <span class="inline-code">&lt;form&gt;</span> to enable CRUD-type operations on a
+        database.</p>
+
+      <p>A <span class="inline-code">dataModel</span> is really just an enhanced
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, meaning you can use it in exactly the same way you
+        would a <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>, but with the added ability of being able
+        to have its data loaded from/saved to a RESTful endpoint as well as a host of other related features.</p>
+    </div>
+  </section>
+
+  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="usage">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Usage</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">dataModel</span> can be instantiated and used in 3 different ways:</p>
+      <ul>
+        <li>
+          <p>Manually initialized (standard KnockoutJS methodology), and optionally bound to the DOM (See:
+            <a data-bind="$route" href="#bind-manually">manual binding</a>).</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;form id="person" data-bind="submit: save"&gt;
+  Name: &lt;input type="text" data-bind="value: name"&gt;
+  &lt;button&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">var DataModel = fw.dataModel.create({
+  url: '/person',
+  initialize: function() {
+    this.name = fw.observable();
+  }
+});
+
+fw.applyBindings(new DataModel(), document.getElementById('person'));
+</code></pre>
+        </li>
+
+        <li>
+          <p>Automatically via a <span class="inline-code">&lt;dataModel module="moduleName"&gt; ... &lt;/dataModel&gt;</span> declaration in the DOM
+           (See: <a data-bind="$route" href="#dataModel-element">&lt;dataModel&gt; usage</a>).</p>
+<div class="file-location">markup.html</div>
+<pre><code class="html">&lt;dataModel module="Person"&gt;
+  &lt;form id="person" data-bind="submit: save"&gt;
+    Name: &lt;input type="text" data-bind="value: name"&gt;
+    &lt;button&gt;Save&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/dataModel&gt;</code></pre>
+
+<div class="file-location">markup.js</div>
+<pre><code class="javascript">fw.dataModel.create({
+  namespace: 'Person',
+  autoRegister: true,
+  initialize: function() {
+    this.name = fw.observable();
+  }
+});
+
+fw.start();
+</code></pre>
+        </li>
+
+        <li>Automatically via a <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declaration in the DOM (See:
+          <a data-bind="$route" href="#inside-component">&lt;component&gt; usage</a>).</li>
+      </ul>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> There are many ways to register and/or load a <span class="inline-code">dataModel</span> so it can be
+          found/used when needed. See: <a data-bind="$route" href="#registration">dataModel registration</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <a id="factory-method" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="factory-method">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Factory Method</h2>
+    </header>
+    <div class="content">
+      <p>Each different type of <span class="inline-code">dataModel</span> you wish to have must have a new constructor function created for it. These
+        constructor functions are then used (either by you directly or by Footwork) to instantiate new <span class="inline-code">dataModel</span>
+        instances per your definition (which are then used and/or bound to your UI).</p>
+
+      <p><span class="inline-code">dataModel</span> constructor functions are created by calling the factory method
+        <span class="inline-code">fw.dataModel.create()</span> and passing it a configuration object.</p>
+
+      <p>The resulting constructor function can then be used to instantiate new instances of that <span class="inline-code">dataModel</span>. These
+        constructor functions are essentially specialized wrappers which enable Footwork to hook into your dataModel/module to provide for all of the
+        features a <span class="inline-code">dataModel</span> provides.</p>
+
+      <a id="fw-dataModel-create" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.dataModel.create<span>( <span class="param">configurationObject</span> )</span></div>
+        </div>
+        <div class="description">Create a <span class="inline-code">dataModel</span> constructor function.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">function()</span> DataModel Constructor Function</span>
+        </div>
+      </div>
+<pre><code class="javascript">var DataModelConstructor = fw.dataModel.create({
+  /**
+   * The namespace (communications channel) the dataModel uses. This is essentially used as
+   * the 'key' for CQRS separation between modules. If no namespace is provided a unique one
+   * will be automatically assigned.
+   */
+  namespace: 'Person', // example namespace name, any alpha-numeric is valid
+
+  /**
+   * URL to use for RESTful operations.
+   * You should provide either a string value or an evaluator function which will be used to
+   * determine the URL endpoint each time a request is made.
+   */
+  url: '/path/to/endpoint',
+  url: function() { return '/path/to/endpoint'; },
+
+  /**
+   * Attribute to use as the primary key (id) of the model.
+   * This idAttribute will be automatically created/instantiated on your dataModel as an
+   * observable, its value will also be used for AJAX requests.
+   */
+  idAttribute: 'id', // default === 'id'
+
+  /**
+   * Flag telling Footwork whether or not to include the primary key in the URL when
+   * performing REST operations.
+   * IE: Use of '/path/to/endpoint/1' vs '/path/to/endpoint'
+   */
+  pkInURL: true, // default === true
+
+  /**
+   * Parse function called whenever a models data is returned by the server from either a
+   * save() or fetch().
+   * This method is passed the response object and should return the attributes hash to be
+   * set() on the dataModel. By default this method simply returns the responseObject back
+   * to be used in the set() call.
+   */
+  parse: function(responseObject) { return { /* ... */ }; },
+
+  /**
+   * If true, Footwork will register the dataModel under its namespace name. This means
+   * that when this fw.dataModel.create() call is made it will automatically call
+   * fw.dataModel.register('Person', ThisdataModelConstructor)
+   * This is a (handy) way of telling Footwork how to find your dataModel when it needs it.
+   */
+  autoRegister: false, // default === false
+
+  /**
+   * If true, the namespace will have an auto-incremented 0-based index number appended for
+   * each new dataModel (ie: new instances will not share the same namespace).
+   */
+  autoIncrement: true, // default === true
+
+  /**
+   * Initialization function called at creation of a new dataModel.
+   * Note: it is passed in the parameters supplied at creation.
+   */
+  initialize: function(param1, param2, ...) {
+    // this === the dataModel instance
+    var dataModel = this;
+
+    // Perform normal dataModel initialization here, just like typical knockout.js code.
+    dataModel.param1 = fw.observable(param1);
+  },
+
+  /**
+   * Attributes/properties that are extended onto each newly instantiated dataModel
+   * NOTE: Only suitable for primitive values (strings, numbers, etc), do not put observables
+   *       or namespaces/etc here as they are shared across instances.
+   */
+  extend: {
+    prop1: 'value',
+    prop2: 123
+  },
+
+  // Behavioral mixins to include with each new dataModel created
+  mixins: [
+    // See: 'Mixins' section on this page
+  ],
+
+  // Function called just after rendering against the DOM
+  afterRender: function(containingElement) {
+    // this === the dataModel instance
+  },
+
+  // Function called just before the html this dataModel is bound to is removed from the DOM
+  onDispose: function(containingElement) {
+    // this === the dataModel instance
+  }
+});</code></pre>
+    </div>
+  </section>
+
+  <a id="bind-manually" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="bind-manually">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Manual Instantiation and Binding</h2>
+    </header>
+    <div class="content">
+      <p>Manually instantiating a <span class="inline-code">dataModel</span> is done by calling <span class="inline-code">new ConstructorFunc()</span>.
+        With the instance in hand you can then use it as you wish, either directly or by binding it to the DOM (just as you might a
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>).</p>
+
+      <p>To manually bind a <span class="inline-code">dataModel</span> you use a <span class="inline-code">fw.applyBindings()</span>
+        call after instantiating it.</p>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function(params) {
+    // params === object passed in when calling new Person( ... )
+    this.firstName = fw.observable(person.firstName).mapTo('firstName');
+    this.lastName = fw.observable(person.lastName).mapTo('lastName');
+    this.isBestFriend = fw.observable(params.isBestFriend).mapTo('isBestFriend');
+  }
+});
+
+var bestFriend = new Person({ firstName: 'Patrick', lastName: 'Bateman', isBestFriend: true });
+</code></pre>
+
+      <p>Now, if we wish, we can bind the <span class="inline-code">Person</span> instance (<span class="inline-code">bestFriend</span>) to the DOM:</p>
+<pre><code class="javascript">fw.applyBindings(bestFriend, document.getElementById('best-friend'));
+</code></pre>
+    </div>
+  </section>
+
+  <a id="dataModel-element" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="dataModel-element">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">&lt;dataModel&gt;</h2>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">dataModel</span> can be instantiated and bound automatically when using a
+        <span class="inline-code">&lt;dataModel&gt;</span> declarative wrapper element. Using the <span class="inline-code">module=""</span> attribute
+        you can specify which <span class="inline-code">dataModel</span> should be instantiated and bound by Footwork.</p>
+<pre><code class="html">&lt;dataModel module="Person"&gt;
+  &lt;form&gt;
+    &lt;label&gt;First Name: &lt;input type="text" data-bind="value: firstName"&gt;&lt;/label&gt;
+    &lt;label&gt;Last Name: &lt;input type="text" data-bind="value: lastName"&gt;&lt;/label&gt;
+    &lt;input type="submit" value="Save"&gt;
+  &lt;/form&gt;
+&lt;/dataModel&gt;</code></pre>
+
+          <p>... and as an example, this <span class="inline-code">dataModel</span> was registered directly:</p>
+<pre><code class="javascript">fw.dataModel.register('Person', fw.dataModel.create({
+    namespace: 'Person',
+    initialize: function(params) {
+      this.firstName = fw.observable(person.firstName).mapTo('firstName');
+    }
+  })
+);
+</code></pre>
+      <div class="note">
+        <p><span class="label">NOTE:</span> You can have your <span class="inline-code">dataModel</span> automatically downloaded for you when needed.</p>
+        <p>See <a data-bind="$route" href="#registration">dataModel registration</a>
+          for information on how to tell Footwork where to find your <span class="inline-code">dataModel</span> module.</p>
+      </div>
+    </div>
+  </section>
+
+  <a id="inside-component" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="inside-component">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">&lt;component&gt;</h2>
+    </header>
+    <div class="content">
+      <p>In addition to using a <span class="inline-code">dataModel</span> in the ways shown above they can also be used inside of a custom
+        <span class="inline-code">&lt;component&gt;</span>. This enables you to (among many other things) fully encapsulate their behavior along with
+        their companion HTML/markup.</p>
+
+      <p>For more information on how to create a <span class="inline-code">dataModel</span>-based <span class="inline-code">component</span> see the
+        <a data-bind="$route: docLink('components')">component documentation</a>.</p>
+    </div>
+  </section>
+
+  <a id="data-management" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="data-management">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Data Management</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">dataModel</span> is a construct provided by Footwork which enables easy management of data which maps to a RESTful
+        endpoint.</p>
+
+      <p>This includes functionality for:</p>
+
+      <ul>
+        <li>Telling the framework where the data is and how it maps to the other side.</li>
+        <li>How to read the data from your <span class="inline-code">dataModel</span>.</li>
+        <li>How to set that data in your <span class="inline-code">dataModel</span>.</li>
+        <li>How to fetch the data from its REST endpoint.</li>
+        <li>How to save the data to its REST endpoint.</li>
+        <li>How to delete/destroy the data on its REST endpoint.</li>
+      </ul>
+    </div>
+  </section>
+
+  <a id="mapping-getting-setting-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="mapping-getting-setting-data">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Mapping / Getting / Setting Data</h1>
+    </header>
+    <div class="content">
+      <p>In order to perform REST operations you will need to be able to map, get, and set the data on your <span class="inline-code">dataModel</span>.</p>
+      <p>The following sections describe how to perform those operations.</p>
+    </div>
+  </section>
+
+  <a id="mapping-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="mapping-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Mapping Data</h2>
+    </header>
+    <div class="content">
+      <p>When sending to or retreiving from from the server Footwork needs to know how to transpose that data to and from your
+        <span class="inline-code">dataModel</span>. Using <span class="inline-code">observable.mapTo()</span> we can define how our data maps to the
+        representation the server expects.</p>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> <span class="inline-code">observable.mapTo()</span> is generally expected to be called from within a
+        <span class="inline-code">dataModel</span> <span class="inline-code">initialize</span> function.</p>
+
+        <p>If you call <span class="inline-code">.mapTo()</span> sometime after or outside of the main <span class="inline-code">dataModel</span>
+          <span class="inline-code">initialize</span> method then you will need to provide it a direct reference to the
+          <span class="inline-code">dataModel</span> instance using the <span class="inline-code">{ path: '', dataModel: instance }</span>
+          object-notation version.</p>
+      </div>
+
+      <a id="observable-mapTo" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( <span class="param">'dot.notated.path'</span> )</span></div>
+          <div class="func-def">(<span>observable</span> || <span>observableArray</span> || <span>computed</span>).mapTo<span>( { path: <span class="param">'dot.notated.path'</span>, dataModel: <span class="param">dataModelInstance</span> } )</span></div>
+        </div>
+        <div class="description"><span class="inline-code">observable.mapTo()</span> will map an <span class="inline-code">observable</span> value to the dot-notated path
+        supplied.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">observable()</span> Observable that has now been mapped</span>
+        </div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.age = fw.observable(params.attributes.age).mapTo('attributes.age');
+    this.inTheMachine = fw.observable(params.attributes.inTheMachine).mapTo('attributes.inTheMachine');
+  }
+});
+var person = new Person();
+
+person.set({
+  firstName: 'Kevin',
+  lastName: 'Flynn',
+  attributes: {
+    age: 33,
+    inTheMachine: true
+  }
+});
+
+/**
+ * person.inTheMachine() === true
+ * person.get() === {
+ *   id: 1,
+ *   firstName: 'Kevin',
+ *   lastName: 'Flynn',
+ *   attributes: {
+ *     age: 33,
+ *     inTheMachine: true
+ *   }
+ * }
+ */
+</code></pre>
+
+      <div class="note">
+        <span class="label">NOTE:</span> <span class="inline-code"><a data-bind="$route" href="#dataModel-get">dataModel.get()</a></span> and
+        <span class="inline-code"><a data-bind="$route" href="#dataModel-set">dataModel.set()</a></span> are documented further down the page.
+      </div>
+    </div>
+  </section>
+
+  <a id="getting-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="getting-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Getting / Reading</h2>
+    </header>
+    <div class="content">
+      <p>Sometimes you need to convert a <span class="inline-code">dataModel</span> to <span class="inline-code">JSON</span> or want to grab its values.</p>
+
+      <p>To do this you can either reference the mapped observables directly (which requires a lot of boilerplate) or use one of the supplied
+        <span class="inline-code">dataModel</span> methods which gathers the data together/based on the mappings you have setup.</p>
+
+      <a id="dataModel-get" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.get<span>()</span></div>
+          <div class="func-def"><span>dataModel</span>.get<span>( <span class="param">'mapped.variable'</span> )</span></div>
+          <div class="func-def"><span>dataModel</span>.get<span>( [ <span class="param">'mapped.variable'</span>, <span class="param">'other.variable'</span> ] )</span></div>
+        </div>
+        <div class="description">Convert a <span class="inline-code">dataModel</span> or specified mapped value into its hash-mapped plain-javascript-object version.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> Object representing the pure javascript representation of the dataModels data</span>
+        </div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+  }
+});
+
+var person = new Person({
+  firstName: 'Gary',
+  lastName: 'Busey'
+});
+
+/**
+ * person.get() === {
+ *   id: 1,
+ *   firstName: 'Gary',
+ *   lastName: 'Busey'
+ * }
+ *
+ * person.get('firstName') === 'Gary'
+ */
+</code></pre>
+
+      <a id="dataModel-toJSON" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.toJSON<span>()</span></div>
+        </div>
+        <div class="description">Convert a <span class="inline-code">dataModel</span> into its JSON stringified form.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> JSON string representing the dataModel</span>
+        </div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+  }
+});
+
+var person = new Person({
+  firstName: 'Gary',
+  lastName: 'Busey'
+});
+
+// person.toJSON() === '{"firstName":"Gary","lastName":"Busey"}'
+// JSON.stringify(person) === '{"firstName":"Gary","lastName":"Busey"}'
+</code></pre>
+    </div>
+  </section>
+
+  <a id="setting-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="setting-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Setting / Writing</h2>
+    </header>
+    <div class="content">
+      <p>When you are not using one of the RESTful methods (like <span class="inline-code">dataModel.fetch()</span>) to retrieve and set the values in
+        your <span class="inline-code">dataModel</span> you will need to set them by some other means.</p>
+
+      <p>One method is to write to the underlying observables that are mapped inside of your <span class="inline-code">dataModel</span>. You
+        might do this when a click event or some other internal event occurs that originates from inside your application.</p>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable().mapTo('firstName');
+    this.lastName = fw.observable().mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('isDead');
+
+    this.kill = function() {
+      this.isDead(true);
+    };
+  }
+});
+
+var person = new Person();
+
+// This method writes a value directly to the underlying observable
+person.kill();
+</code></pre>
+
+      <p>Another possibility is that you have the <span class="inline-code">dataModel</span> bound to the DOM and it is manipulated via the user and
+        two-way bindings (ex: when a <span class="inline-code">dataModel</span> is bound to an HTML <span class="inline-code">&lt;form&gt;</span>).</p>
+
+      <p>This works in many circumstances, and might in fact be what you want/need to do.</p>
+
+      <p>However if you are handling data from the server/REST endpoint for your <span class="inline-code">dataModel</span> then you likely want to write that
+        data using the mappings you have setup. Otherwise you will have to manually map and write that data to each underlying observable, which may or
+        may not be a direct 1-to-1 mapping and requires a lot more boilerplate.</p>
+
+      <p>Footwork provides a <span class="inline-code">dataModel.set()</span> method which will take the (plain object) data you pass it, map it
+        to the variables in your <span class="inline-code">dataModel</span> and write to them as appropriate.</p>
+
+      <a id="dataModel-set" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.set<span>( <span class="param">'mapped.variable'</span>, <span class="param">value</span> )</span></div>
+          <div class="func-def"><span>dataModel</span>.set<span>( <span class="param">object</span> )</span></div>
+        </div>
+        <div class="description">Write a POJO (object) model to a <span class="inline-code">dataModel</span> using the internal mapping.</div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function(params) {
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('attr.dead');
+  }
+});
+
+var person = new Person();
+// person.isDead() === false
+
+person.set({
+  firstName: 'Gary',
+  lastName: 'Busey',
+  attr: {
+    dead: true
+  }
+});
+// person.firstName() === 'Gary'
+// person.isDead() === true
+
+// ...and you can also just pass a single value to set
+person.set('firstName', 'Jake');
+// person.firstName() === 'Jake'
+</code></pre>
+    </div>
+  </section>
+
+  <a id="rest-operations" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="rest-operations">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">REST / AJAX Operations</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">dataModel</span> is often times used to communicate or transfer state to/from a RESTful endpoint.</p>
+      <p>To aid in performing those operations, Footwork provides a number of useful methods/features.</p>
+    </div>
+  </section>
+
+  <a id="fetching-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="fetching-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Fetching Model Data</h2>
+    </header>
+    <div class="content">
+      <p>To fetch the data for a <span class="inline-code">dataModel</span> it must be configured with a <span class="inline-code">url</span>,
+        see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel.create()</a></span> factory method for details on that
+        option.</p>
+
+      <p>Assuming that has been done, fetching the data is done via a call to <span class="inline-code">dataModel.fetch()</span>.</p>
+
+      <a id="dataModel-fetch" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.fetch<span>( <span class="param">ajaxOptions</span> )</span></div>
+        </div>
+        <div class="description">Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</div>
+        <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  url: '/person',
+  initialize: function(params) {
+    this.id = fw.observable(params.id).mapTo('id');
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('attr.dead');
+  }
+});
+
+var person = new Person({
+  id: 1
+});
+// person.isDead() === false
+
+// ... some time later
+person.fetch().done(function() {
+  // person.firstName() === 'Gary'
+  // person.isDead() === true
+});
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">fetch</span>
+        are exactly the same as is supported in a
+        <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
+    </div>
+  </section>
+
+  <a id="saving-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="saving-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Saving Model Data</h2>
+    </header>
+    <div class="content">
+      <p>To save the data for a <span class="inline-code">dataModel</span> it must be configured with a <span class="inline-code">url</span>,
+        see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel.create()</a></span> factory method for details on that
+        option.</p>
+
+      <p>Assuming that has been done, saving the data is done via a call to <span class="inline-code">dataModel.save()</span>. You can save either the
+        entire <span class="inline-code">dataModel</span> (all the mapped values), or save specific data by passing it the appropriate parameters.</p>
+
+      <a id="dataModel-save" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.save<span>()</span></div>
+          <div class="func-def"><span>dataModel</span>.save<span>( <span class="param">optionsObject</span> )</span></div>
+          <div class="func-def"><span>dataModel</span>.save<span>( <span class="param">key</span>, <span class="param">value</span>, <span class="param">optionsObject</span> )</span></div>
+        </div>
+        <div class="description">Save the data for a <span class="inline-code">dataModel</span> to its configured endpoint.</div>
+        <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  url: '/person',
+  initialize: function(params) {
+    this.id = fw.observable(params.id).mapTo('id');
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('attr.dead');
+  }
+});
+
+var person = new Person({
+  id: 1,
+  firstName: 'Alfred',
+  lastName: 'Hitchcock'
+});
+
+person.save().done(function() {
+  console.info('dataModel saved successfully.');
+});
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">save</span>
+        are exactly the same as is supported in a
+        <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
+    </div>
+  </section>
+
+  <a id="deleting-data" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="deleting-data">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Deleting / Destroying Model Data</h2>
+    </header>
+    <div class="content">
+      <p>To delete or destroy the data for a <span class="inline-code">dataModel</span> (send the DELETE request) to its endpoint it must be configured
+        with a <span class="inline-code">url</span>, see the <span class="inline-code"><a href="#fw-dataModel" data-bind="$route">fw.dataModel.create()</a></span>
+        factory method for details on that option.</p>
+
+      <p>Assuming that has been done, destroying the data is done via a call to <span class="inline-code">dataModel.destroy()</span>.</p>
+
+      <a id="dataModel-destroy" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.destroy<span>( <span class="param">optionsObject</span> )</span></div>
+        </div>
+        <div class="description">Destroy the data for a <span class="inline-code">dataModel</span> on/at its configured endpoint.</div>
+        <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  url: '/person',
+  initialize: function(params) {
+    this.id = fw.observable(params.id).mapTo('id');
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.lastName = fw.observable(params.lastName).mapTo('lastName');
+    this.isDead = fw.observable(false).mapTo('attr.dead');
+  }
+});
+
+var person = new Person({
+  id: 1
+});
+
+person.destroy().done(function() {
+  console.info('dataModel destroyed successfully.');
+});
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">options</span> supported by <span class="inline-code">destroy</span>
+        are exactly the same as is supported in a
+        <span class="inline-code"><a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery $.ajax()</a></span> call.</div>
+    </div>
+  </section>
+
+  <a id="lifecycle-registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="lifecycle-registration">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Lifecycle &amp; Registration</h1>
+    </header>
+    <div class="content">
+      <p>Each <span class="inline-code">dataModel</span> instantiated and bound to the DOM will receive lifecycle events.</p>
+
+      <p>These events can be used for any logic you need to incorporate when the instance is initially setup/bound onto or removed from the page. A common example
+        would be the setup and teardown of a jQuery plugin, or events.</p>
+
+      <p>Registration of a <span class="inline-code">dataModel</span> is referring to telling Footwork (in one way or another) where your
+        <span class="inline-code">dataModel</span> is so that it can be used when needed.</p>
+    </div>
+  </section>
+
+  <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="lifecycle">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Lifecycle</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">dataModel</span> is instantiated, then bound to the DOM and used, or just used independent of the DOM. Depending on
+        what you choose to do with a <span class="inline-code">dataModel</span> determines its exact lifecycle.</p>
+
+      <p>Lifecycle events are automatically triggered for you when using a <span class="inline-code">dataModel</span> via one of the three main methods:</p>
+
+      <ul>
+        <li>Use the <span class="inline-code">&lt;dataModel&gt; ... &lt;/dataModel&gt;</span> declarative syntax.</li>
+        <li>Use the <span class="inline-code">&lt;component-name&gt;&lt;/component-name&gt;</span> declarative syntax.</li>
+        <li>Manually bound (<span class="inline-code">fw.applyBindings()</span>) to the DOM.</li>
+      </ul>
+
+      <p>A dataModel that is attached to the DOM will retrive two main lifecycle events, one just after binding to the DOM
+        (<span class="inline-code">afterRender()</span>) and one when the element (that the dataModel bound itself to) is removed from the DOM
+        (<span class="inline-code">onDispose()</span>, called just before the element is removed).</p>
+    </div>
+  </section>
+
+  <a id="binding" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="binding">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Binding</h2>
+    </header>
+    <div class="content">
+      <p>If provided, the <span class="inline-code">dataModel</span> configuration <span class="inline-code">afterRender()</span> method will be called
+        just after a <span class="inline-code">dataModel</span> is bound to the DOM. This provides a handy integration point for external libraries or
+        plugins (such as jQuery).</p>
+
+      <a id="afterRender" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">afterRender<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after binding to the DOM.</div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  afterRender: function(domElement) {
+    var person = this;
+    domElement.addEventListener('click', function() {
+      console.info('You clicked', person.firstName());
+    });
+  },
+  initialize: function(params) {
+    this.firstName = fw.observable().mapTo('firstName');
+  }
+});
+</code></pre>
+    </div>
+  </section>
+
+  <a id="disposal" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="disposal">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Disposal</h2>
+    </header>
+    <div class="content">
+      <p>If provided, the <span class="inline-code">dataModel</span> configuration <span class="inline-code">onDispose()</span> method will be called
+        just after the element a <span class="inline-code">dataModel</span> is bound to is removed from the DOM. This provides a handy integration
+        point for external libraries or plugins (such as jQuery).</p>
+
+      <a id="onDispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def">onDispose<span>()</span></div>
+        </div>
+        <div class="description">Callback triggered after the parent bound element is removed from the DOM.</div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({
+  namespace: 'Person',
+  afterRender: function(domElement) {
+    domElement.addEventListener('click', this.clickPerson);
+  },
+  onDispose: function(domElement) {
+    domElement.removeEventListener('click', this.clickPerson);
+  },
+  initialize: function(params) {
+    var person = this;
+    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.clickPerson = function() {
+      console.info('You clicked', person.firstName());
+    };
+  }
+});
+</code></pre>
+
+      <p>If you do not bind a <span class="inline-code">dataModel</span> to the DOM then you will want to clean up its references and subscriptions when you are done with it. This is done
+        by calling <span class="inline-code">dataModel.dispose()</span> directly.</p>
+
+      <a id="dataModel-dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.dispose<span>()</span></div>
+        </div>
+        <div class="description">Dispose of all namespaces, handlers, and subscriptions assigned to a dataModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> The dataModel instance</span>
+        </div>
+      </div>
+<pre><code class="javascript">var MydataModel = fw.dataModel.create({ /* ... */ });
+var dataModel = new MydataModel();
+// ...
+dataModel.dispose(); // all namespaces, handlers, and subscriptions now cleaned up/removed
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> Any subscriptions, namespaces, events, etc must be assigned to the instance if you
+        want them to automatically be cleaned up for you when the dataModel is disposed.</div>
+
+<pre><code class="javascript">var someOtherObservable = fw.observable();
+
+var MyDataModel = fw.dataModel.create({
+  initialize: function() {
+    // Make dataModel the instance reference
+    var dataModel = this;
+
+    dataModel.myVarSub = someOtherObservable.subscribe(function() {
+      // This subscription will get cleaned up when the dataModel is disposed
+    });
+
+    dataModel.$namespace.command.handler('doSomething', function() {
+      // This command handler will get cleaned up when the dataModel is disposed
+    });
+
+    dataModel.$someOtherNamespace = fw.namespace('SomeOtherNamespace');
+    dataModel.$someOtherNamespace.command.handler('doSomethingElse', function() {
+      // This command handler will get cleaned up when the dataModel is disposed
+    });
+  }
+});
+</code></pre>
+    </div>
+  </section>
+
+  <a id="registration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="registration">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Registration</h1>
+    </header>
+    <div class="content">
+      <p>In order for Footwork to know what to do when it encounters a <span class="inline-code">&lt;dataModel&gt;</span> declaration it must be
+        registered in some way (it needs to know where it is).</p>
+
+      <p>Footwork supports both explicitly registering your <span class="inline-code">dataModel</span> ahead of time (caching its constructor function
+        or instance directly) or by telling it where it can be downloaded (automatically/lazy loading via AMD/RequireJS).</p>
+
+      <p>You can register your module with one of the following methods:</p>
+
+      <ul>
+        <li><span class="inline-code"><a data-bind="$route" href="#dataModel-register">fw.dataModel.register()</a></span> - Register (cache) a
+          <span class="inline-code">dataModel</span> explicitly.</li>
+        <li><span class="inline-code"><a data-bind="$route" href="#dataModel-registerLocation">fw.dataModel.registerLocation()</a></span> - Register the location of a
+          <span class="inline-code">dataModel</span> so that it can be dynamically loaded at some time in the future.</li>
+      </ul>
+
+      <p>In either case, the declarative <span class="inline-code">&lt;dataModel module="moduleName"&gt; ... &lt;/dataModel&gt;</span>
+        syntax will trigger the loading (if necessary), instantiation, and binding of the <span class="inline-code">dataModel</span>.</p>
+
+      <div class="note">
+        <p><span class="label">NOTE:</span> AMD/RequireJS is fully supported (and highly encouraged) for a number of reasons:</p>
+
+        <ul>
+          <li>It strongly encourages modularization and separation of concerns.</li>
+
+          <li>Helps decouple your application and allow for easier testability.</li>
+
+          <li>Footwork can take advantage of its dependency resolution to automatically load and use resources for you as needed at runtime (<em>including the automatic
+            loading and composing of entire (including nested) views/pages, <span class="inline-code">routers</span>, <span class="inline-code">components</span>,
+            <span class="inline-code">viewModels</span>, or <span class="inline-code">dataModels</span></em>).</li>
+
+          <li>Allows for easier debugging as non-compiled assets while still being buildable for release into a production environment.</li>
+
+          <li>Allows for easy and highly configurable caching/preloading of assets (this includes all components, dataModels, and templates). None, some, or all of
+            it...you choose what your users wait for.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <a id="module-resolution" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="module-resolution">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Module Resolution</h2>
+    </header>
+    <div class="content">
+      <p>There are 3 ways Footwork will try to resolve your <span class="inline-code">dataModel</span> when it encounters the declarative
+        <span class="inline-code">&lt;dataModel module="moduleName"&gt; ... &lt;/dataModel&gt;</span> element you place in the DOM.</p>
+
+      <p>Here they are in order of priority:</p>
+
+      <ul>
+        <li>Explicitly registered with a <span class="inline-code">fw.dataModel.register()</span> call.</li>
+        <li>Automatic download/resolution via AMD/RequireJS at a pre-registered location (<span class="inline-code">fw.dataModel.registerLocation()</span>).</li>
+        <li>Automatic download/resolution via AMD/RequireJS at the configurable default (<span class="inline-code">fw.dataModel.defaultLocation()</span>).</li>
+      </ul>
+
+      <p>Registering a dataModel explicitly with <span class="inline-code">fw.dataModel.register()</span> makes it immediately available. Any
+        <span class="inline-code">&lt;dataModel module="moduleName"&gt; ... &lt;/dataModel&gt;</span> declarations encountered will be processed with no delay
+        (the dataModel is 'cached' when registered).</p>
+
+      <p>The 2 methods <span class="inline-code">registerLocation()</span> and <span class="inline-code">defaultLocation()</span> tell Footwork where it can
+        download your dataModel module (in the event you do not explicitly register it). In any case your markup will wait until the dataModel is resolved prior
+        to being initialized.</p>
+
+      <div class="note"><span class="label">NOTE:</span> Nested routers, viewModels, dataModels, and components are independently resolved. It works as
+        you would expect, with an outer-most container (router/component/etc) initializing/processing/binding and rendering, then any nested routers/components/etc
+        get initialized (and so forth until the end).</div>
+
+      <a id="dataModel-register" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.register<span>( <span class="param">'moduleName'</span>, <span class="param">dataModel</span> )</span></div>
+        </div>
+        <div class="description">Cache a dataModel/module ahead of time.</div>
+      </div>
+<pre><code class="javascript">// register a Footwork dataModel
+fw.dataModel.register('Person', fw.dataModel.create({
+  this.isCool = fw.observable(false);
+}));
+
+// register a normal class constructor function (like in regular knockout)
+fw.dataModel.register('Person', function() {
+  this.isCool = fw.observable(false);
+});
+
+// register an instance of an object (like in regular knockout)
+fw.dataModel.register('Person', {
+  instance: { isCool: false }
+});
+
+/**
+ * A constructor function to be called when the declaration is encountered.
+ * It is supplied params given at the binding (&lt;dataModel params="exampleParam: true"&gt;) and
+ * the containing element of the dataModel.
+ */
+fw.dataModel.register('Person', {
+  createDataModel: function(params, info) {
+    // info.element = containing &lt;dataModel&gt; element
+    // params are the parameters declaratively created from the DOM
+    return { isCool: false }; // object representing the dataModel to be bound against the DOM
+  }
+});</code></pre>
+      <div class="note">
+        <p><span class="label">NOTE:</span> Are you using a fw.dataModel.create() constructor and simply want to register it using the namespace name (recommended)?</p>
+
+        <p>You can optionally just set <span class="inline-code">autoRegister: true</span> in the <span class="inline-code">dataModel</span> configuration object,
+          then the <span class="inline-code">fw.dataModel.register</span> call is taken care of for you when the router constructor is created.</p>
+
+        <p>See: <a data-bind="$route" href="#factory-method">dataModel configuration</a>.</p>
+      </div>
+
+      <a id="dataModel-registerLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+        </div>
+        <div class="description">Register the location of a dataModel/module so Footwork can load and bind it for you when needed.</div>
+      </div>
+<pre><code class="javascript">// Load Person from: /dataModels/Person.js (based on dataModel/module name, case sensitive)
+fw.dataModel.registerLocation('Person', '/dataModels/');
+
+// Load Person from: /dataModels/DifferentFileName.js (specify full file name)
+fw.dataModel.registerLocation('Person', '/dataModels/DifferentFileName.js');
+
+// register the location of several dataModels at once (ie: all in the same folder)
+fw.dataModel.registerLocation(['Reservations', 'Invoices', 'Notes'], '/dataModels/stuff/');</code></pre>
+
+      <a id="dataModel-defaultLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.defaultLocation<span>( <span class="param">'path/to/dataModel/folder'</span> )</span></div>
+        </div>
+        <div class="description">Register the default location of dataModels so Footwork can load and bind them for you when needed.</div>
+      </div>
+<pre><code class="javascript">// Load all dataModels from /mydataModels/[module-name].js (case sensitive)
+fw.dataModel.defaultLocation('/myDataModels/');</code></pre>
+    </div>
+  </section>
+
+  <a id="module-formats" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="module-formats">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Module Formats</h2>
+    </header>
+    <div class="content">
+      <p>Loading your <span class="inline-code">dataModel</span> in so that Footwork can use it is done via a script loader.</p>
+
+      <p>Both <a href="http://requirejs.org">AMD/RequireJS</a> and <a href="http://browserify.org" target="_blank">Browserify</a> are supported. However RequireJS is
+        preferred as it will enable Footwork to resolve your dataModels/etc (and their dependencies) automatically at runtime as needed.</p>
+
+      <h3>The following example shows the RequireJS/AMD flavored version:</h3>
+<div class="file-location">/dataModel/Person.js</div>
+<pre><code class="javascript">define(["footwork"],
+  function(fw) {
+    // return the constructor created by fw.dataModel.create()
+    return fw.dataModel.create({
+      namespace: 'Person'
+      initialize: function() {
+        // ...
+      }
+    });
+  }
+);</code></pre>
+
+      <div class="note">
+        <span class="label">NOTE:</span> You can return any normal constructor function or plain object from your <span class="inline-code">dataModel</span>
+        modules (you don't have to return a Footwork <span class="inline-code">dataModel</span> constructor as shown).
+      </div>
+    </div>
+  </section>
+
+  <a id="mixins" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="mixins">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Mixins</h1>
+    </header>
+    <div class="content">
+      <p>Mixins are about reusing behavior, functionality, and code whenever possible. They allow you to write various behaviors/logic and then later on combine
+      and compose them as you want at runtime.</p>
+      <p>The mixin functionality in Footwork is provided via a library called <a href="https://github.com/a2labs/riveter" target="_blank">riveter</a>.
+      All <span class="inline-code">fw.dataModel.create()</span> based constructor functions are riveter constructor functions. Above and beyond the
+      functionality outlined here, each object has various methods extended from riveter which can enable you to extend dataModels in
+      various ways, it is recommended you to also <a href="https://github.com/a2labs/riveter" target="_blank">look at its documentation</a>.</p>
+
+      <ul>
+        <li><a data-bind="$route" href="#mixin-configuration">Configuration</a></li>
+        <li><a data-bind="$route" href="#mixin-usage">Usage</a></li>
+      </ul>
+
+      <h3>Basic usage:</h3>
+<pre><code class="javascript">var bigSprocket = { /* mixin configuration object */ };
+var bikeSprocket = { /* mixin configuration object, detailed in the next section */ };
+
+/**
+ * Mixin behavior is applied to a dataModel by passing it into the
+ * fw.dataModel.create() configuration object
+ * NOTE: mixins are applied to the dataModel in the order they are given.
+ */
+var Sprocket = fw.dataModel.create({
+  // ... dataModel configuration object
+  namespace: 'Sprocket',
+  initialize: function(param) {
+    this.type = param.type;
+  },
+
+  // mixins/behavior to include for each new 'Sprocket' dataModel
+  mixins: [ bigSprocket, bikeSprocket ]
+});
+
+var mySprocket = new Sprocket({ type: 'awesome' });</code></pre>
+    </div>
+  </section>
+
+  <a id="mixin-configuration" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="mixin-configuration">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Configuration</h2>
+    </header>
+    <div class="content">
+      <p>Each mixin is simply a configuration object defining certain behaviors, functionality, and logic. The behavior you define will be added to each
+        dataModel instance it is configured with.</p>
+
+      <h3>Mixin configuration object synopsis:</h3>
+<pre><code class="javascript">// define 'bigSprocket' as an object to serve as the configuration container
+var bigSprocket = {
+  _preInit: function(param1, param2, ...) {
+    /**
+     * called prior to the initialize() method from the dataModel configuration being called
+     * params === params passed in at creation
+     * this === the dataModel
+     */
+  },
+
+  mixin: {
+    /**
+     * these properties are added the instance object immediately upon creation, before
+     * any methods (including _preInit) are called
+     */
+    function1: function() {
+      // function that is extended onto the dataModel object (this) upon creation
+    },
+    function2: function() {
+      // another function that is extended onto the dataModel object (this) upon creation
+    },
+    property1: 'someValue' // a raw property extended to the object
+    // ...
+  },
+
+  _postInit: function() {
+    /**
+     * called after the initialize() method from the dataModel configuration is called
+     * this === the dataModel instance
+     */
+  }
+};</code></pre>
+
+      <div class="note">
+        <span class="label">NOTE:</span>
+        <ul>
+          <li>If you require some other type of object extension or mixin, as recommended above you should look at the
+            <a href="https://github.com/a2labs/riveter" target="_blank">riveter documentation</a>.</li>
+
+          <li>A <span class="inline-code">dataModel</span> can have as many mixins as you want, and you can re-use them across as many differing
+            dataModels/modules as you like.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <a id="mixin-usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="mixin-usage">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Usage</h2>
+    </header>
+    <div class="content">
+      <p>Each mixin behavior is added to each new instance of the <span class="inline-code">dataModel</span> that is created. This goes for ones
+        instantiated automatically via declarative HTML, or directly/manually in javascript code.</p>
+
+      <p>All mixins may be reused on both a standalone <span class="inline-code">dataModel</span> and dataModels attributed with a <span class="inline-code">component</span>.</p>
+      <h3>Example usage:</h3>
+<pre><code class="javascript">// define the mixin configuration object
+var bigSprocket = {
+  _preInit: function(param) {
+    this.isAwesome = (param.type === 'awesome' ? true : false);
+    // this.isBig === true
+  },
+  mixin: {
+    isBig: true,
+    fitInSmallPlace: function() {
+      return false;
+    }
+  }
+};
+
+// create a BigSprocket contructor and include the bigSprocket mixin
+var BigSprocket = fw.dataModel.create({
+  namespace: 'Sprocket',
+  initialize: function(param) {
+    this.type = param.type;
+  },
+  mixins: [ bigSprocket ]
+});
+
+var mySprocket = new BigSprocket({ type: 'awesome' });
+// mySprocket.fitInSmallPlace() === false
+// mySprocket.isBig === true
+// mySprocket.isAwesome === true</code></pre>
+    </div>
+  </section>
+
+  <a id="utility-functions" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="utility-functions">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Utility Functions</h1>
+    </header>
+    <div class="content">
+      <p>Various useful methods and utility functions for miscellaneous and debugging purposes.</p>
+
+      <a id="dataModel-getAll" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.getAll<span>()</span></div>
+          <div class="func-def"><span>fw.dataModel</span>.getAll<span>( <span class="param">'moduleName'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModel</span>.getAll<span>( <span class="param">[ 'moduleName', 'moduleName2', ... ]</span> )</span></div>
+        </div>
+        <div class="description">Get list of currently instantiated dataModels grouped/indexed by namespace.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">array[]</span> list of instances</span>
+        </div>
+      </div>
+<pre><code class="javascript">var Bike = fw.dataModel.create({
+  namespace: 'Bike',
+  initialize: function() {
+    this.isBike = true;
+  }
+});
+var Wheel = fw.dataModel.create({
+  namespace: 'Wheel',
+  initialize: function() {
+    this.isWheel = true;
+  }
+});
+
+var bike = new Bike();
+var wheel1 = new Wheel();
+var wheel2 = new Wheel();
+
+var dataModels = fw.dataModel.getAll();
+// dataModels['Bike'][0].isBike === true
+// dataModels['Wheel'].length === 2
+// dataModels['Wheel'][0].isWheel === true
+
+// Note: specifying a single namespace will result in the only those instances being returned
+var dataModels = fw.dataModel.getAll('Wheel'); // get all 'Bike' instances
+// dataModels[0].isWheel === true
+// dataModels[1].isWheel === true
+
+var dataModels = fw.dataModel.getAll(['Bike', 'Wheel']); // get all 'Bike' and 'Wheel' instances
+// dataModels === {
+//  Bike: [ { ... } ],
+//  Wheel: [ { ... }, { ... } ]
+// }
+</code></pre>
+
+      <a id="dataModel-isRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.isRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Return <span class="inline-code">true</span> or <span class="inline-code">false</span> based on whether or not there
+          is a <span class="inline-code">dataModel</span> that has been registered under <span class="inline-code">moduleName</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> TRUE or FALSE depending on registration state of the module</span>
+        </div>
+      </div>
+<pre><code class="javascript">fw.dataModel.register('Bike', fw.dataModel.create({
+  namespace: 'Bike',
+  initialize: function() {
+    this.isBike = true;
+  }
+}));
+
+// fw.dataModel.isRegistered('Bike') === true
+// fw.dataModel.isRegistered('ModuleThatIsLoadedByAMD') === false</code></pre>
+
+      <a id="dataModel-getRegistered" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.getRegistered<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Return dataModel that has been registered under 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">object{}</span> or <span class="type">function()</span> Returns whatever dataModel is registered under that moduleName</span>
+        </div>
+      </div>
+<pre><code class="javascript">// Explicit registration
+var Bike = fw.dataModel.create({ /* ... configuration object */ });
+fw.dataModel.register('Bike', Bike);
+// fw.dataModel.getRegistered('Bike') === Bike;
+
+// dataModel that registers itself
+var Person = fw.dataModel.create({
+  namespace: 'Person',
+  autoRegister: true,
+  // ...
+});
+// fw.dataModel.getRegistered('Person') === Person;</code></pre>
+
+      <a id="dataModel-getLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.getLocation<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Get the path Footwork will attempt to load for the given 'moduleName'.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Path to the module</span>
+        </div>
+      </div>
+<pre><code class="javascript">fw.dataModel.registerLocation('Person', '/path/to/dataModel/folder');
+// fw.dataModel.getLocation('Person') === '/path/to/dataModel/folder'</code></pre>
+
+      <a id="dataModel-getFileName" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.getFileName<span>( <span class="param">'moduleName'</span> )</span></div>
+        </div>
+        <div class="description">Get the file name that Footwork will appended to the path when downloading the dataModel.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">'string'</span> Filename of the module</span>
+        </div>
+      </div>
+<pre><code class="javascript">var fileNameForPerson = fw.dataModel.getFileName('Person'); // === Person.js
+
+/**
+ * If the dataModel was explicitly registered (cached), then null is returned for any
+ * fileType because the file name will never be used.
+ */
+fw.dataModel.register('Person', fw.dataModel.create({ /* configuration object */ }) );
+var fileNameForPerson = fw.dataModel.getFileName('Person'); // === null
+</code></pre>
+
+      <a id="dataModel-fileExtensions" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw.dataModel</span>.fileExtensions<span>( <span class="param">'.ext'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModel</span>.fileExtensions<span>( <span class="param">function(moduleName) { ... }</span> )</span></div>
+        </div>
+        <div class="description">Specify the extension to append to an AMD/RequireJS loaded <span class="inline-code">dataModel</span> path when it
+          does not have an extension specified (ie: full file name not specified).</div>
+      </div>
+<pre><code class="javascript">// explicitly set the extension
+fw.dataModel.fileExtensions('.jscript'); // append dataModel module files with '.jscript'
+
+// You can also specify a function() whose return value is used as the extension.
+fw.dataModel.fileExtensions(function(moduleName) {
+  if(moduleName === 'Sprocket') {
+    return '.jscript';
+  } else {
+    return '.js';
+  }
+});</code></pre>
+    </div>
+  </section>
+
+  <a id="instance-properties" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="instance-properties">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Instance Properties</h1>
+    </header>
+    <div class="content">
+      <p>After a <span class="inline-code">dataModel</span> has been created, there are a few properties which are on the instantiated object.</p>
+
+      <a id="dataModel-namespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$namespace</div>
+        </div>
+        <div class="description">The namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given. It should be used
+        to setup any handlers and subscriptions on the current namespace that a dataModel might need.</div>
+      </div>
+<pre><code class="javascript">var Navigation = fw.dataModel.create({
+  namespace: 'Navigation',
+  initialize: function() {
+    this.$namespace.event.handler('userLoggedIn', function(username) {
+      console.log('Welcome', username);
+    });
+  }
+});</code></pre>
+
+      <a id="dataModel-rootNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$rootNamespace</div>
+        </div>
+        <div class="description">
+          <p>The root (non-indexed) namespace channel created as a result of the <span class="inline-code">namespace:</span> configuration attribute given.</p>
+          <p>A <span class="inline-code">dataModel</span> <span class="inline-code">namespace</span> is automatically indexed by default (unless you
+            specify <span class="inline-code">autoIncrement: false</span> to its configuration).</p>
+          <p>If you do not provide that configuration option then each new <span class="inline-code">dataModel</span> instance will have an indexed
+            namespace name, the <span class="inline-code">$rootNamespace</span> is the namespace channel provided which hooks into the non-indexed
+            (root) namespace name.</p>
+        </div>
+      </div>
+<pre><code class="javascript">fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function() {
+    this.$rootNamespace.event.handler('wasFound', function() {
+      console.log('Person, not Person0 or Person1, received this event.');
+    });
+  }
+});</code></pre>
+
+      <a id="dataModel-globalNamespace" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$globalNamespace</div>
+        </div>
+        <div class="description">
+          <p>Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on.</p>
+        </div>
+      </div>
+<pre><code class="javascript">fw.dataModel.create({
+  namespace: 'Person',
+  initialize: function() {
+    var thisPerson = this;
+    this.$globalNamespace.command.handler('sayHello', function() {
+      console.log('Hello from', thisPerson);
+    });
+  }
+});</code></pre>
+
+      <a id="dataModel-cid" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$cid</div>
+        </div>
+        <div class="description">Internally generated client id. This is a unique identifier automatically assigned to every <span class="inline-code">dataModel</span> when
+        they are first created.</div>
+      </div>
+<pre><code class="javascript">var Navigation = fw.dataModel.create({
+  namespace: 'Navigation',
+  initialize: function() {
+    // this.$cid === 'ed53b42d-faa0-a251-29c1-e396d9f083bc'
+  }
+});</code></pre>
+
+      <a id="dataModel-id" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.$id()</div>
+        </div>
+        <div class="description">Observable which <em>always</em> maps to the <span class="inline-code">idAttribute</span> value of the
+          <span class="inline-code">dataModel</span>.</div>
+      </div>
+<pre><code class="javascript">var Navigation = fw.dataModel.create({
+  namespace: 'Navigation',
+  idAttribute: 'myId',
+  initialize: function() {
+    // idAttribute automatically instantiated and .mapTo()'d for you, here we assign it a value of 10
+    this.myId(10);
+
+    // this.myId() === 10
+    // this.$id() === 10
+    // this.myId === this.$id
+  }
+});</code></pre>
+    </div>
+  </section>
+</article>
+
+<div id="metaData">
+{
+  "title": "DataModel",
+  "description": "Bindable logic and data for your markup with additional RESTful persistence features.",
+  "sections": [
+    { "anchor": "introduction",
+      "title": "Introduction",
+      "subSections": [
+        { "anchor": "usage",
+          "title": "Usage",
+          "subSections": [
+            { "anchor": "factory-method",
+              "title": "Factory Method" },
+            { "anchor": "bind-manually",
+              "title": "Manual Instantiation and Binding",
+              "description": "Binding a dataModel using fw.applyBindings()." },
+            { "anchor": "dataModel-element",
+              "title": "&lt;dataModel&gt;",
+              "description": "Using a dataModel with a &lt;dataModel&gt; declarative element." },
+            { "anchor": "inside-component",
+              "title": "&lt;component&gt;",
+              "description": "Using a dataModel with a &lt;component&gt; declarative custom element." }
+          ] },
+        { "anchor": "data-management",
+          "title": "Data Management",
+          "subSections": [
+            { "anchor": "mapping-getting-setting-data",
+              "title": "Mapping / Getting / Setting Data",
+              "subSections": [
+                { "anchor": "mapping-data",
+                  "title": "Mapping Data",
+                  "description": "How to map data in your dataModel, informing Footwork how to transpose it to/from its RESTful endpoint." },
+                { "anchor": "getting-data",
+                  "title": "Getting / Reading",
+                  "description": "Reading the mapped data from a dataModel." },
+                { "anchor": "setting-data",
+                  "title": "Setting / Writing",
+                  "description": "Writing data to the dataModel via its mapped observables." }
+              ] },
+            { "anchor": "rest-operations",
+              "title": "REST / AJAX Operations",
+              "keywords": [ "ajax" ],
+              "subSections": [
+                { "anchor": "fetching-data",
+                  "title": "Fetching Model Data",
+                  "description": "Fetching a models data from its REST endpoint via AJAX." },
+                { "anchor": "saving-data",
+                  "title": "Saving Model Data",
+                  "description": "Saving a models data to its REST endpoint via AJAX." },
+                { "anchor": "deleting-data",
+                  "title": "Deleting / Destroying Data",
+                  "description": "Deleting / destroying data from a dataModel REST endpoint." }
+              ] }
+          ] },
+        { "title": "Lifecycle &amp; Registration",
+          "anchor": "lifecycle-registration",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "lifecycle",
+              "title": "Lifecycle",
+              "description": "Explanation of the lifecycle of a dataModel, including instantiation and disposal.",
+              "subSections": [
+                { "anchor": "binding",
+                  "title": "Binding",
+                  "description": "Information about how a dataModel is bound to the DOM." },
+                { "anchor": "disposal",
+                  "title": "Disposal",
+                  "description": "Information about how disposal of a dataModel is handled." }
+              ] },
+            { "anchor": "registration",
+              "title": "Registration",
+              "description": "How to register a dataModel and have it loaded via AMD, asynchronously.",
+              "subSections": [
+                { "anchor": "module-resolution",
+                  "title": "Module Resolution",
+                  "description": "How Footwork loads/resolves your dataModel prior to instantiation." },
+                { "anchor": "module-formats",
+                  "title": "Module Formats",
+                  "description": "What formats a valid for a dataModel module." }
+              ] }
+          ] },
+        { "anchor": "mixins",
+          "title": "Mixins",
+          "collapsable": true,
+          "isCollapsed": true,
+          "subSections": [
+            { "anchor": "mixin-configuration",
+              "title": "Configuration" },
+            { "anchor": "mixin-usage",
+              "title": "Usage" }
+          ] }
+      ] },
+    { "subSections": [
+        { "anchor": "utility-functions",
+          "title": "Utility Functions" },
+        { "anchor": "instance-properties",
+          "title": "Instance Properties" }
+      ] }
+  ],
+  "apiReferences": [
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "General",
+          "references": [
+            { "anchor": "fw-dataModel-create",
+              "title": "fw.dataModel.create()",
+              "description": "Creates a new dataModel constructor function." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Mapping Data",
+      "subCategories": [
+        {
+          "references": [
+            { "anchor": "observable-mapTo",
+              "title": "observable.mapTo()",
+              "description": "Tell Footwork how data maps to/from the server side.",
+              "keywords": [ "ajax", "REST", "async" ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Data",
+      "subCategories": [
+        {
+          "label": "Management",
+          "references": [
+            { "anchor": "dataModel-get",
+              "title": "dataModel.get()",
+              "description": "Convert a dataModel or specified mapped value into its hash-mapped plain-javascript-object version." },
+            { "anchor": "dataModel-toJSON",
+              "title": "dataModel.toJSON()",
+              "description": "Convert a dataModel into its JSON stringified form." },
+            { "anchor": "dataModel-set",
+              "title": "dataModel.set()",
+              "description": "Write a POJO (object) model to a dataModel using the internal mapping." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Registration",
+      "subCategories": [
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "dataModel-register",
+              "title": "fw.dataModel.register()",
+              "description": "Register/cache a dataModel so that it is ready to be used when needed." },
+            { "anchor": "dataModel-registerLocation",
+              "title": "fw.dataModel.registerLocation()",
+              "description": "Register the location of (or path to) a dataModel so that it can be downloaded/resolved when needed." },
+            { "anchor": "dataModel-defaultLocation",
+              "title": "fw.dataModel.defaultLocation()",
+              "description": "Register the default location of dataModels so Footwork can load and bind them for you when needed." },
+            { "anchor": "dataModel-isRegistered",
+              "title": "fw.dataModel.isRegistered()",
+              "description": "Method used to check whether or not a dataModel has been registered or not." },
+            { "anchor": "dataModel-getRegistered",
+              "title": "fw.dataModel.getRegistered()",
+              "description": "Return the dataModel registered under a specified name." },
+            { "anchor": "dataModel-getLocation",
+              "title": "fw.dataModel.getLocation()",
+              "description": "Get the location Footwork will attempt to download a dataModel from when it is needed." },
+            { "anchor": "dataModel-getFileName",
+              "title": "fw.dataModel.getFileName()",
+              "description": "Get the filename Footwork will use when downloading a dataModel.",
+              "subDescriptions": [
+                "This is appended onto the location/path when downloading."
+              ] },
+            { "anchor": "dataModel-fileExtensions",
+              "title": "fw.dataModel.fileExtensions()",
+              "description": "Specify the extension to append to an AMD/RequireJS loaded dataModel path when it does not have an extension specified (ie: full file name not specified)." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Lifecycle",
+      "subCategories": [
+        {
+          "label": "Callbacks",
+          "references": [
+            { "anchor": "afterRender",
+              "title": "afterRender()",
+              "description": "Method triggered after a dataModel has been bound to the DOM." },
+            { "anchor": "onDispose",
+              "title": "onDispose()",
+              "description": "Method triggered after the element a dataModel is bound to is removed from the DOM.",
+              "subDescriptions": [
+                "This is also triggered when dataModel.dispose() is called."
+              ] }
+          ]
+        },
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "dataModel-dispose",
+              "title": "dataModel.dispose()",
+              "description": "Dispose of a dataModel and all of its attached handlers and subscriptions.",
+              "subDescriptions": [
+                "This is done automatically when a bound instance is removed from the DOM."
+              ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "REST / AJAX",
+      "subCategories": [
+        {
+          "label": "Methods",
+          "references": [
+            { "anchor": "dataModel-fetch",
+              "title": "dataModel.fetch()",
+              "description": "Fetch a models data from its RESTful endpoint.",
+              "keywords": [ "ajax", "REST", "async", "GET" ] },
+            { "anchor": "dataModel-save",
+              "title": "dataModel.save()",
+              "description": "Save a models data to its RESTful endpoint.",
+              "keywords": [ "ajax", "REST", "async", "POST", "PUT" ] },
+            { "anchor": "dataModel-destroy",
+              "title": "dataModel.destroy()",
+              "description": "Delete a dataModel from its RESTful endpoint.",
+              "keywords": [ "ajax", "REST", "async", "DELETE" ] }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Instance",
+      "subCategories": [
+        {
+          "label": "Utility Methods",
+          "references": [
+            { "anchor": "dataModel-getAll",
+              "title": "fw.dataModel.getAll()",
+              "description": "Get all currently instantiated dataModel references.",
+              "keywords": [ "instance" ] }
+          ]
+        },
+        {
+          "label": "Properties",
+          "references": [
+            { "anchor": "dataModel-namespace",
+              "title": "dataModel.$namespace",
+              "description": "The namespace for this dataModel used for communication with other areas of your application." },
+            { "anchor": "dataModel-rootNamespace",
+              "title": "dataModel.$rootNamespace",
+              "description": "The root (non-indexed) namespace channel created as a result of the namespace: configuration attribute given." },
+            { "anchor": "dataModel-globalNamespace",
+              "title": "dataModel.$globalNamespace",
+              "description": "Global namespace channel all instances get access to. Think of this as a broadcast channel everyone can talk on." },
+            { "anchor": "dataModel-cid",
+              "title": "dataModel.$cid",
+              "description": "A unique identifier automatically assigned to every dataModel when first created." },
+            { "anchor": "dataModel-id",
+              "title": "dataModel.$id",
+              "description": "Observable which always maps to the idAttribute value of the dataModel." }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</div>
