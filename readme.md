@@ -79,7 +79,6 @@ Typically its expected you will have some sort of background process which will 
 # Compile the LESS into CSS
 gulp less
 ```
-```
 
 7) **Build the demo zip files**
 
