@@ -59,6 +59,7 @@ cd releases
 # Clone whatever versions you would like to have available
 git clone -b 0.8.1 --single-branch --depth 1 https://github.com/footworkjs/footwork.git 0.8.1
 git clone -b 1.0.0 --single-branch --depth 1 https://github.com/footworkjs/footwork.git 1.0.0
+git clone -b 1.0.0 --single-branch --depth 1 https://github.com/footworkjs/footwork.git 1.1.0
 ```
 
 And thats it...the application will use this folder to lookup and provide the available releases inside of that widget.

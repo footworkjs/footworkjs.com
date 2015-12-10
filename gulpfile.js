@@ -65,8 +65,10 @@ gulp.task('zipDemoFiles', function() {
   var zipGlobal = gulp.src('./scratch/footwork-bootstrap-global')
         .pipe(zip('footwork-bootstrap-global.zip'))
         .pipe(gulp.dest('./public/demo/global-example'));
+
   var zipAmd = gulp.src('./scratch/footwork-bootstrap-amd')
         .pipe(zip('footwork-bootstrap-amd.zip'))
         .pipe(gulp.dest('./public/demo/amd-example'));
+
   return merge(zipGlobal, zipAmd);
 });
