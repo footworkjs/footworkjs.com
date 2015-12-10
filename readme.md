@@ -78,15 +78,22 @@ Typically its expected you will have some sort of background process which will 
 ```bash
 # Compile the LESS into CSS
 gulp less
+```
+```
 
-# The default task will also build the css, javascript, and demo zip assets
+7) **Build the demo zip files**
+
+This build the zip files for the demo applications on the /get-started page:
+
+```bash
+# The default task will build the css, javascript, and demo zip assets
 gulp
 
-# Build the demo zip assets (download zip files for example apps, this re-builds the zips using the current footwork)
+# Build the demo zip assets
 gulp makeDemoBuilds
 ```
 
-7) **Run the site**
+8) **Run the site** (if needed)
 
 This final step is necessary if you do not have your own HTTP server setup locally.
 
