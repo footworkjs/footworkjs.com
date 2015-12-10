@@ -47,28 +47,28 @@ gulp.task('less', function() {
  * Package up the demo files using the current bower footwork
  */
 gulp.task('makeDemoBuilds', function(callback) {
-  runSequence('copyDemoFiles', 'zipDemoFiles', callback);
+  runSequence('copyDemoFiles', 'zipAmd', 'zipGlobal', callback);
 });
 
 gulp.task('copyDemoFiles', function() {
-  var globalExample = gulp.src(['./public/demo/global-example/files/**/*'], { base: './public/demo/global-example/files' }).pipe(gulp.dest('./scratch/footwork-bootstrap-global'));
-  var globalExampleContribFw = gulp.src(['./public/bower_components/footwork/dist/footwork-all.js'], { base: './public/bower_components/footwork/dist' }).pipe(gulp.dest('./scratch/footwork-bootstrap-global/js'));
+  var globalExample = gulp.src(['./public/demo/global-example/files/**/*'], { base: './public/demo/global-example/files' }).pipe(gulp.dest('./scratch/footwork-bootstrap-global/footwork-bootstrap-global'));
+  var globalExampleContribFw = gulp.src(['./public/bower_components/footwork/dist/footwork-all.js'], { base: './public/bower_components/footwork/dist' }).pipe(gulp.dest('./scratch/footwork-bootstrap-global/footwork-bootstrap-global/js'));
 
-  var amdExample = gulp.src(['./public/demo/amd-example/files/**/*'], { base: './public/demo/amd-example/files' }).pipe(gulp.dest('./scratch/footwork-bootstrap-amd'));
-  var amdExampleContribAmd = gulp.src(['./public/bower_components/requirejs/require.js'], { base: './public/bower_components/requirejs' }).pipe(gulp.dest('./scratch/footwork-bootstrap-amd'));
-  var amdExampleContribFw = gulp.src(['./public/bower_components/footwork/dist/footwork-all.js'], { base: './public/bower_components/footwork/dist' }).pipe(gulp.dest('./scratch/footwork-bootstrap-amd/js'));
+  var amdExample = gulp.src(['./public/demo/amd-example/files/**/*'], { base: './public/demo/amd-example/files' }).pipe(gulp.dest('./scratch/footwork-bootstrap-amd/footwork-bootstrap-amd'));
+  var amdExampleContribAmd = gulp.src(['./public/bower_components/requirejs/require.js'], { base: './public/bower_components/requirejs' }).pipe(gulp.dest('./scratch/footwork-bootstrap-amd/footwork-bootstrap-amd'));
+  var amdExampleContribFw = gulp.src(['./public/bower_components/footwork/dist/footwork-all.js'], { base: './public/bower_components/footwork/dist' }).pipe(gulp.dest('./scratch/footwork-bootstrap-amd/footwork-bootstrap-amd/js'));
 
   return merge(globalExample, globalExampleContribFw, amdExample, amdExampleContribAmd);
 });
 
-gulp.task('zipDemoFiles', function() {
-  var zipGlobal = gulp.src('./scratch/footwork-bootstrap-global')
-        .pipe(zip('footwork-bootstrap-global.zip'))
-        .pipe(gulp.dest('./public/demo/global-example'));
-
-  var zipAmd = gulp.src('./scratch/footwork-bootstrap-amd')
+gulp.task('zipAmd', function() {
+  return gulp.src('./scratch/footwork-bootstrap-amd/**/*')
         .pipe(zip('footwork-bootstrap-amd.zip'))
         .pipe(gulp.dest('./public/demo/amd-example'));
+});
 
-  return merge(zipGlobal, zipAmd);
+gulp.task('zipGlobal', function() {
+  return gulp.src('./scratch/footwork-bootstrap-global/**/*')
+        .pipe(zip('footwork-bootstrap-global.zip'))
+        .pipe(gulp.dest('./public/demo/global-example'));
 });
