@@ -78,8 +78,11 @@ Typically its expected you will have some sort of background process which will 
 # Compile the LESS into CSS
 gulp less
 
-# The default task will also build the css (in addition to the javascript)
+# The default task will also build the css, javascript, and demo zip assets
 gulp
+
+# Build the demo zip assets (download zip files for example apps, this re-builds the zips using the current footwork)
+gulp makeDemoBuilds
 ```
 
 7) **Run the site**

@@ -1,9 +1,12 @@
 {
-  "buildVersion": 62,
+  "buildVersion": 65,
   "private": true,
   "devDependencies": {
     "gulp": "^3.8.8",
     "gulp-json-editor": "*",
+    "gulp-zip": "*",
+    "run-sequence": "*",
+    "merge-stream": "*",
     "gulp-less": "3.0.3",
     "yargs": "*",
     "laravel-elixir": "*",

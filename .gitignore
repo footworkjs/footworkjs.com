@@ -6,3 +6,6 @@
 composer.phar
 .env
 /public/css/app.css
+/public/demo/amd-example/*.zip
+/public/demo/global-example/*.zip
+/scratch
