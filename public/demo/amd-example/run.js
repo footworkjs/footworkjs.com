@@ -4,17 +4,17 @@ define([],
       resources: {
         indexHTML: {
           type: 'html',
-          file: 'index.html'
+          file: 'files/index.html'
         },
         myApp: {
           type: 'javascript',
           label: 'main.js',
-          file: 'main.js'
+          file: 'files/main.js'
         },
         myViewModel: {
           type: 'javascript',
           label: 'js/MyViewModel.js',
-          file: 'MyViewModel.js'
+          file: 'files/js/MyViewModel.js'
         }
       }
     };

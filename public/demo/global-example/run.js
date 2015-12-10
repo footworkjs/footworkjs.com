@@ -4,11 +4,13 @@ define([],
       resources: {
         indexHTML: {
           type: 'html',
-          file: 'index.html'
+          file: 'files/index.html',
+          label: 'index.html'
         },
         myApp: {
           type: 'javascript',
-          file: 'main.js'
+          file: 'files/main.js',
+          label: 'main.js'
         }
       }
     };
