@@ -82,7 +82,7 @@ gulp less
 
 7) **Build the demo zip files**
 
-This build the zip files for the demo applications on the /get-started page:
+This builds the zip files for the demo applications on the /get-started page:
 
 ```bash
 # The default task will build the css, javascript, and demo zip assets
