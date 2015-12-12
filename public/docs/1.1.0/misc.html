@@ -57,6 +57,41 @@ fw.start(); // document.body is the default element</code></pre>
 <pre><code class="javascript">// generate a random GUID
 var guid = fw.utils.guid();
 // guid === "629e4dfa-fd39-d756-b830-563af555a03f"</code></pre>
+
+      <a id="fw-sync" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.sync<span>( <span class="param">method</span>, <span class="param">concern</span>, <span class="param">options</span>)</span></div>
+        </div>
+        <div class="description">
+          <p>The function that Footwork calls every time it attempts to perform some sort of ajax request.</p>
+          <p>By default, it uses either <span class="inline-code">jQuery.ajax</span> or <span class="inline-code">reqwest.ajax</span> (ie: fw.ajax -
+          using one of those depending on your particular environment) to make a RESTful JSON request and returns a
+          <span class="inline-code">Promise</span>.</p>
+          <p>You can override it in order to use a different persistence strategy, such as WebSockets, XML transport, or Local Storage.</p>
+
+          <ul>
+            <li><em>method</em> - The CRUD method (<span class="inline-code">'create'</span>, <span class="inline-code">'read'</span>,
+              <span class="inline-code">'update'</span>, or <span class="inline-code">'delete'</span>).</li>
+            <li><em>concern</em> - The <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> or
+              <span class="inline-code"><a data-bind="$route: docLink('collection')">collection</a></span> to sync.</li>
+            <li><em>options</em> - All other <a href="http://api.jquery.com/jquery.ajax/" target="_blank">jQuery-based request options</a>.</li>
+          </ul>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Promise</span> The request promise returned from <span class="inline-code">fw.ajax</span></span>
+        </div>
+      </div>
+<pre><code class="javascript">var PeopleCollection = fw.collection.create({
+  url: '/people'
+});
+
+fw.sync('read', people).done(function(response) {
+  console.info('People returned', response);
+});
+</code></pre>
     </div>
   </section>
 </article>
@@ -81,7 +116,10 @@ var guid = fw.utils.guid();
               "description": "Initialize binding / start FootworkJS." },
             { "anchor": "fw-utils-guid",
               "title": "fw.utils.guid()",
-              "description": "Generate a random GUID." }
+              "description": "Generate a random GUID." },
+            { "anchor": "fw-sync",
+              "title": "fw.sync()",
+              "description": "The function that Footwork calls every time it attempts to perform some sort of ajax request." }
           ]
         }
       ]
