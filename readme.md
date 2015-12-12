@@ -51,7 +51,7 @@ Laravel uses a local ```.env``` file to determine what environment the applicati
 
 The download widget on the front page won't work unless the releases folder is setup (which houses the different releases referenced on/from that widget). Follow these instructions if you wish to set that up.
 
-For versions ```0.8.1``` and ```1.0.0```:
+For versions ```0.8.1``` to ```1.1.0```:
 ```bash
 # Change to the 'releases' folder under the base path
 cd releases
