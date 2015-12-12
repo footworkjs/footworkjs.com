@@ -584,12 +584,11 @@ person.set('firstName', 'Jake');
           <div class="func-def"><span>dataModel</span>.sync<span>( <span class="param">method</span>, <span class="param">dataModel</span>, <span class="param">options</span>)</span></div>
         </div>
         <div class="description">
-          <p>Uses <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span> to
+          <p>The method Footwork calls to
             <span class="inline-code">read</span> (<span class="inline-code"><a data-bind="$route" href="#dataModel-fetch">dataModel.fetch()</a></span>),
             <span class="inline-code">delete</span> (<span class="inline-code"><a data-bind="$route" href="#dataModel-destroy">dataModel.destroy()</a></span>),
             or <span class="inline-code">create</span>/<span class="inline-code">patch</span>/<span class="inline-code">update</span> (<span class="inline-code"><a data-bind="$route" href="#dataModel-save">dataModel.save()</a></span>)
-            the dataModel on the server. Can be overridden for custom behavior (such as providing an alternate implementation that uses
-            localStorage/etc).</p>
+            the dataModel on the server (you typically do not call this directly).</p>
         </div>
         <div class="return-value">
           <span class="label">Returns:</span>

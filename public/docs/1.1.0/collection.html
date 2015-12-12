@@ -770,6 +770,35 @@ people.where({ attr: { alterEgo: /Batman/ } }) === [
       <p>Some operations performed on a <span class="inline-code">collection</span> can be <em>RESTful</em> in nature. Depending on your need, you will
         need to create a new type of <span class="inline-code">collection</span> which is configured with an endpoint (<span class="inline-code">url</span>)
         or <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span>.</p>
+
+      <a id="collection-sync" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.sync<span>( <span class="param">method</span>, <span class="param">collection</span>, <span class="param">options</span>)</span></div>
+        </div>
+        <div class="description">
+          <p>The method Footwork calls to <span class="inline-code">read</span>
+            (<span class="inline-code">.fetch()</span>) the collection from the server (you typically do not call this directly). Delegates to
+            <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span>.</p>
+
+          <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">dataModel.save</span> method is used when calling
+            <span class="inline-code">collection.create</span> to create a new instance and save it to the server.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Promise</span> The request promise returned from <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span></span>
+        </div>
+      </div>
+<pre><code class="javascript">// Create a new type of collection with the requisite dataModel (that has a REST url)
+var PeopleCollection = fw.collection.create({
+  url: '/people'
+});
+
+people.sync('read', people).done(function(response) {
+  console.info('People returned', response);
+});
+</code></pre>
     </div>
   </section>
 
@@ -868,35 +897,6 @@ people.create({
   "lastName": "Anderson"
 }, { wait: true }).done(function(response) {
   console.info('Person created!');
-});
-</code></pre>
-
-      <a id="collection-sync" class="section-anchor" data-bind="sectionAnchor"></a>
-      <div class="ref-block">
-        <div class="title">
-          <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>collection</span>.sync<span>( <span class="param">method</span>, <span class="param">collection</span>, <span class="param">options</span>)</span></div>
-        </div>
-        <div class="description">
-          <p>Uses <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span> to <span class="inline-code">read</span>
-            (<span class="inline-code">.fetch()</span>) the collection from the server. Can be overridden for custom behavior (such as providing an
-            alternate implementation that uses localStorage/etc).</p>
-
-          <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">dataModel.sync</span> method is used when calling
-            <span class="inline-code">collection.create</span> to create a new instance and save it to the server.</div>
-        </div>
-        <div class="return-value">
-          <span class="label">Returns:</span>
-          <span class="value"><span class="type">Promise</span> The request promise returned from <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span></span>
-        </div>
-      </div>
-<pre><code class="javascript">// Create a new type of collection with the requisite dataModel (that has a REST url)
-var PeopleCollection = fw.collection.create({
-  url: '/people'
-});
-
-people.sync('read', people).done(function(response) {
-  console.info('People returned', response);
 });
 </code></pre>
     </div>
