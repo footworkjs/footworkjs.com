@@ -765,6 +765,9 @@ var removedPeople = people.removeModel({ id: /^(1|3)$/ });
             the model has never been populated with data, or if you would like to ensure that you have the latest state from the server. Triggers
             a <span class="inline-code">_.change</span> event if the server's data differs from the current entry.</p>
 
+          <p>You can specify options to pass to the underlying <span class="inline-code">.ajax()</span> call via the <span class="inline-code">options</span>
+            parameter.</p>
+
           <div class="note"><span class="label">NOTE:</span> You can specify that the data not be merged. To reset the data pass
             <span class="inline-code">{ reset: true }</span> to the <span class="inline-code">options</span>.</div>
         </div>

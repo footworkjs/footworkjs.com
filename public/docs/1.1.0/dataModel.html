@@ -596,9 +596,10 @@ person.set('firstName', 'Jake');
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>dataModel</span>.fetch<span>( <span class="param">ajaxOptions</span> )</span></div>
+          <div class="func-def"><span>dataModel</span>.fetch<span>( <span class="param">options</span> )</span></div>
         </div>
-        <div class="description">Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint.</div>
+        <div class="description">Fetch the data for a <span class="inline-code">dataModel</span> from its configured endpoint. You can specify options
+          to pass to the underlying <span class="inline-code">.ajax()</span> call via the <span class="inline-code">options</span> parameter.</div>
         <div class="return-value"><span class="label">Returns:</span> <span class="value">promise object</span></div>
       </div>
 <pre><code class="javascript">var Person = fw.dataModel.create({
