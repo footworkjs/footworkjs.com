@@ -791,7 +791,7 @@ people.where({ attr: { alterEgo: /Batman/ } }) === [
           <div class="func-def"><span>collection</span>.fetch<span>( <span class="param">options</span> )</span></div>
         </div>
         <div class="description">
-          <p>Merges the model with data fetched from the server by delegating to <span class="inline-code">fw.sync()</span>. This is useful if
+          <p>Merges the model with data fetched from the server by delegating to <span class="inline-code"><a data-bind="$route" href="#collection-sync">collection.sync()</a></span>. This is useful if
             the model has never been populated with data, or if you would like to ensure that you have the latest state from the server. Triggers
             a <span class="inline-code">_.change</span> event if the server's data differs from the current entry.</p>
 
@@ -871,6 +871,34 @@ people.create({
 });
 </code></pre>
 
+      <a id="collection-sync" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.sync<span>( <span class="param">method</span>, <span class="param">collection</span>, <span class="param">options</span>)</span></div>
+        </div>
+        <div class="description">
+          <p>Uses <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span> to <span class="inline-code">read</span>
+            (<span class="inline-code">.fetch()</span>) the collection from the server. Can be overridden for custom behavior (such as providing an
+            alternate implementation that uses localStorage/etc).</p>
+
+          <div class="note"><span class="label">NOTE:</span> The <span class="inline-code">dataModel.sync</span> method is used when calling
+            <span class="inline-code">collection.create</span> to create a new instance and save it to the server.</div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Promise</span> The request promise returned from <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span></span>
+        </div>
+      </div>
+<pre><code class="javascript">// Create a new type of collection with the requisite dataModel (that has a REST url)
+var PeopleCollection = fw.collection.create({
+  url: '/people'
+});
+
+people.sync('read', people).done(function(response) {
+  console.info('People returned', response);
+});
+</code></pre>
     </div>
   </section>
 
@@ -1138,7 +1166,10 @@ people.unshift({ name: 'The Ladies Man' });
               "description": "Merges the model with data fetched from the server by delegating to fw.sync()." },
             { "anchor": "collection-create",
               "title": "collection.create()",
-              "description": "Convenience method used to create a new instance of a model within a collection and save it to the server." }
+              "description": "Convenience method used to create a new instance of a model within a collection and save it to the server." },
+            { "anchor": "collection-sync",
+              "title": "collection.sync()",
+              "description": "Uses fw.sync to read (fetch()) the collection from the server." }
           ]
         }
       ]

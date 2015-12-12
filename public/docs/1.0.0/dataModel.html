@@ -576,6 +576,38 @@ person.set('firstName', 'Jake');
     <div class="content">
       <p>A <span class="inline-code">dataModel</span> is often times used to communicate or transfer state to/from a RESTful endpoint.</p>
       <p>To aid in performing those operations, Footwork provides a number of useful methods/features.</p>
+
+      <a id="dataModel-sync" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.sync<span>( <span class="param">method</span>, <span class="param">dataModel</span>, <span class="param">options</span>)</span></div>
+        </div>
+        <div class="description">
+          <p>Uses <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span> to
+            <span class="inline-code">read</span> (<span class="inline-code"><a data-bind="$route" href="#dataModel-fetch">dataModel.fetch()</a></span>),
+            <span class="inline-code">delete</span> (<span class="inline-code"><a data-bind="$route" href="#dataModel-destroy">dataModel.destroy()</a></span>),
+            or <span class="inline-code">create</span>/<span class="inline-code">patch</span>/<span class="inline-code">update</span> (<span class="inline-code"><a data-bind="$route" href="#dataModel-save">dataModel.save()</a></span>)
+            the dataModel on the server. Can be overridden for custom behavior (such as providing an alternate implementation that uses
+            localStorage/etc).</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Promise</span> The request promise returned from <span class="inline-code"><a data-bind="$route: docLink('misc#fw-sync')">fw.sync</a></span></span>
+        </div>
+      </div>
+<pre><code class="javascript">// Create a new type of collection with the requisite dataModel (that has a REST url)
+var Person = fw.dataModel.create({
+  url: '/person',
+  initialize: function() { /* ... */ }
+});
+
+var person = new Person();
+
+person.sync('read', person).done(function(personData) {
+  console.info('Person returned', personData);
+});
+</code></pre>
     </div>
   </section>
 
@@ -1727,7 +1759,11 @@ fw.dataModel.fileExtensions(function(moduleName) {
             { "anchor": "dataModel-destroy",
               "title": "dataModel.destroy()",
               "description": "Delete a dataModel from its RESTful endpoint.",
-              "keywords": [ "ajax", "REST", "async", "DELETE" ] }
+              "keywords": [ "ajax", "REST", "async", "DELETE" ] },
+            { "anchor": "dataModel-sync",
+              "title": "dataModel.sync()",
+              "description": "Uses fw.sync to read, delete, or create/patch/update the dataModel on the server.",
+              "keywords": [ "ajax", "REST", "async", "read", "delete", "create", "patch", "update" ] }
           ]
         }
       ]
