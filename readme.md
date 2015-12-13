@@ -71,28 +71,16 @@ And thats it...the application will use this folder to lookup and provide the av
 chmod -R a+rw storage
 ```
 
-6) **Compile the LESS into CSS**
+6) **Compile the LESS into CSS, bundle + minify the Javascript, zip up the demo application files**
 
-Typically its expected you will have some sort of background process which will compile the LESS for you, but there is a ```gulp``` task which will do it as well:
-
-```bash
-# Compile the LESS into CSS
-gulp less
-```
-
-7) **Build the demo zip files**
-
-This builds the zip files for the demo applications on the /get-started page:
+There are tasks outlined further below which will launch a watch process that will automatically rebuild the css and javascript for you. This (the default) task will build both of them, plus the demo zip files. This is basically the 'prep-everything' for first use task:
 
 ```bash
-# The default task will build the css, javascript, and demo zip assets
+# Run the default gulp task to build the javascript, css, and zip up the demo files
 gulp
-
-# Build the demo zip assets
-gulp makeDemoBuilds
 ```
 
-8) **Run the site** (if needed)
+7) **Run the site** (if needed)
 
 This final step is necessary if you do not have your own HTTP server setup locally.
 
@@ -101,6 +89,27 @@ cd public
 php -S localhost:8000
 
 # access the site locally on your browser at http://localhost:8000
+```
+
+### Other Gulp Tasks
+
+There are several other included gulp tasks, they are as follows:
+
+```bash
+# Build the javascript
+gulp build-js
+
+# Watch the CSS and JS and rebuild as appropriate
+gulp watch
+
+# Watch the CSS and rebuild as appropriate
+gulp watch-css
+
+# Watch the JS and rebuild as appropriate
+gulp watch-js
+
+# Build the demo application zip assets
+gulp makeDemoBuilds
 ```
 
 ### License

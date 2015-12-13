@@ -8,8 +8,9 @@ var less = require('gulp-less');
 var zip = require('gulp-zip');
 var runSequence = require('run-sequence');
 var merge = require('merge-stream');
+var watch = require('gulp-watch');
 
-gulp.task('default', ['bump', 'less', 'makeDemoBuilds'], function() {
+var buildJS = function() {
   return rjs.optimize(_.extend( require( __dirname + '/public/scripts/require-config.js' ), {
     include: [ 'requireLib', 'text', 'storage', 'router', 'LoadState', 'highlight', 'jquery.pulse', 'Layout' ],
     baseUrl: 'public/scripts/',
@@ -23,7 +24,11 @@ gulp.task('default', ['bump', 'less', 'makeDemoBuilds'], function() {
       end: "}());"
     }
   }));
-});
+};
+
+gulp.task('default', ['bump', 'build-css', 'build-js', 'makeDemoBuilds'], buildJS);
+
+gulp.task('build-js', buildJS);
 
 gulp.task('bump', function() {
   if(typeof args.ver !== 'undefined') {
@@ -37,10 +42,20 @@ gulp.task('bump', function() {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('less', function() {
+gulp.task('build-css', function() {
   return gulp.src('./public/css/app.less')
     .pipe(less())
     .pipe(gulp.dest('./public/css'));
+});
+
+gulp.task('watch', ['watch-css', 'watch-js']);
+
+gulp.task('watch-css', function() {
+  gulp.watch('public/**/*.less', ['build-css']);
+});
+
+gulp.task('watch-js', function() {
+  gulp.watch('public/scripts/**/*.js', ['build-js']);
 });
 
 /**
