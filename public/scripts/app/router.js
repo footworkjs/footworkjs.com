@@ -102,35 +102,35 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
           }
         }, {
           route: '/get-started',
-          title: 'Tutorials - footwork.js',
+          title: 'Get Started - footwork.js',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
             this.outlet('mainContent', 'get-started-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/creatingApplication',
-          title: 'footworkjs - Tutorials - TodoMVC - Creating the Application',
+          title: 'Footworkjs - Tutorials - TodoMVC - Creating the Application',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
             this.outlet('mainContent', 'todomvc-creating-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/routing',
-          title: 'footworkjs - Tutorials - TodoMVC - Routing',
+          title: 'Footworkjs - Tutorials - TodoMVC - Routing',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
             this.outlet('mainContent', 'todomvc-routing-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/tutorials/TodoMVC/generalFunctionality',
-          title: 'footworkjs - Tutorials - TodoMVC - General Functionality',
+          title: 'Footworkjs - Tutorials - TodoMVC - General Functionality',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
             this.outlet('mainContent', 'todomvc-general-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
           }
         }, {
           route: '/about',
-          title: 'about - footwork.js',
+          title: 'About - footwork.js',
           controller: function($routeParams) {
             var showLoadedPage = _.bind(resolvePage, this, getPageLoadPromise());
             this.outlet('mainContent', 'about-page', { onComplete: showLoadedPage, onFailure: showNotFoundPage });
