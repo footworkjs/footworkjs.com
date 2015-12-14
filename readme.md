@@ -13,7 +13,9 @@ Related links:
 
 * [Get Started](http://footworkjs.com/get-started "Get Started")
 
-  * [Skeleton Application](https://github.com/footworkjs/skeleton-app "Skeleton Application")
+  * [Install via Yeoman](https://github.com/footworkjs/generator-footwork "FootworkJS Yeoman Generator") (recommended)
+
+  * [Skeleton Application](https://github.com/footworkjs/skeleton-app "Skeleton Application") (based on the Yeoman generator)
 
 [![Join the chat at https://gitter.im/jonbnewman/footwork](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jonbnewman/footwork?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
