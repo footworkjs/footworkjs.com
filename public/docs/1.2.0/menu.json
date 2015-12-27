@@ -1,0 +1,41 @@
+[
+  {
+    "label": "ViewModel",
+    "description": "Bindable logic and statefulness for your markup.",
+    "page": "viewModel.html"
+  },
+  {
+    "label": "DataModel",
+    "description": "Bindable logic and data for your markup with additional RESTful persistence features.",
+    "page": "dataModel.html"
+  },
+  {
+    "label": "Collection",
+    "description": "Manage collections of data, retrieve and save them, bind your UI to them, and more.",
+    "page": "collection.html"
+  },
+  {
+    "label": "Components",
+    "description": "Modularize and encapsulate sections of your application. Create different views it can use.",
+    "page": "components.html"
+  },
+  {
+    "label": "Router",
+    "description": "Swap out views and manage state in your application.",
+    "page": "router.html"
+  },
+  {
+    "label": "Namespace",
+    "description": "Communicate to/from, send/receive commands, and trigger events between differing areas of your application.",
+    "page": "namespace.html"
+  },
+  {
+    "label": "Broadcastable / Receivable",
+    "description": "Share/propogate information and state automatically between different areas of your application.",
+    "page": "broadcastable-receivable.html"
+  },
+  {
+    "label": "Misc",
+    "page": "misc.html"
+  }
+]
