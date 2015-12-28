@@ -1050,6 +1050,7 @@ fw.dataModel.register('Person', {
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.dataModel</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+          <div class="func-def"><span>fw.dataModel</span>.registerLocation<span>( <span class="param">/RegExp/</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
         <div class="description">Register the location of a dataModel/module so Footwork can load and bind it for you when needed.</div>
       </div>
@@ -1058,6 +1059,9 @@ fw.dataModel.registerLocation('Person', '/dataModels/');
 
 // Load Person from: /dataModels/DifferentFileName.js (specify full file name)
 fw.dataModel.registerLocation('Person', '/dataModels/DifferentFileName.js');
+
+// Load all *-store from /stores/
+fw.dataModel.registerLocation(/.*-store/, '/stores/');
 
 // register the location of several dataModels at once (ie: all in the same folder)
 fw.dataModel.registerLocation(['Reservations', 'Invoices', 'Notes'], '/dataModels/stuff/');</code></pre>

@@ -563,6 +563,7 @@ fw.viewModel.register('Sprocket', {
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.viewModel</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+          <div class="func-def"><span>fw.viewModel</span>.registerLocation<span>( <span class="param">/RegExp/</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
         <div class="description">Register the location of a viewModel/module so Footwork can load and bind it for you when needed.</div>
       </div>
@@ -571,6 +572,9 @@ fw.viewModel.registerLocation('Sprocket', '/viewModels/parts/');
 
 // Load Sprocket from: /viewModels/parts/DifferentFileName.js (specify full file name)
 fw.viewModel.registerLocation('Sprocket', '/viewModels/parts/DifferentFileName.js');
+
+// Load all *-tool from /tools/
+fw.viewModel.registerLocation(/.*-tools/, '/tools/');
 
 // register the location of several viewModels at once (ie: all in the same folder)
 fw.viewModel.registerLocation(['Body', 'Navigation', 'Footer'], '/viewModels/pageAreas/');</code></pre>

@@ -591,11 +591,11 @@ unknownRoute: { /* ... */ }
 
       <ul>
         <li>A corresponding view registered (cached/preloaded) via
-          <span class="inline-code"><a data-bind="$route" href="#outlets-registerView">fw.outlet.registerView()</a></span> or
+          <span class="inline-code"><a data-bind="$route" href="#outlet-registerView">fw.outlet.registerView()</a></span> or
           <span class="inline-code"><a data-bind="$route: docLink('components#load-register')">fw.components.register()</a></span></li>
 
         <li>A registered location where it can load the view via
-          <span class="inline-code"><a data-bind="$route" href="#outlets-registerViewLocation">fw.outlet.registerViewLocation()</a></span> or
+          <span class="inline-code"><a data-bind="$route" href="#outlet-registerViewLocation">fw.outlet.registerViewLocation()</a></span> or
           <span class="inline-code"><a data-bind="$route: docLink('components#load-register')">fw.components.registerLocation()</a></span></li>
 
         <li>A component/view available at the default component location
@@ -634,11 +634,11 @@ unknownRoute: { /* ... */ }
 
       <p>Essentially they are ways to easily create/register a view you can use in an outlet.</p>
 
-      <a id="outlets-registerView" class="section-anchor" data-bind="sectionAnchor"></a>
+      <a id="outlet-registerView" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>fw.outlets</span>.registerView<span>( <span class="param">'viewName'</span>, <span class="param">'&lt;!-- template HTML --&gt;'</span> )</span></div>
+          <div class="func-def"><span>fw.outlet</span>.registerView<span>( <span class="param">'viewName'</span>, <span class="param">'&lt;!-- template HTML --&gt;'</span> )</span></div>
         </div>
         <div class="description">Register/cache a view for later use.</div>
       </div>
@@ -655,12 +655,13 @@ fw.outlet.registerView('calendar-page', 'Calendar: &lt;calendar&gt;&lt;/calendar
           <span class="inline-code">fw.outlet.registerViewLocation()</span>.</p>
       </div>
 
-      <a id="outlets-registerViewLocation" class="section-anchor" data-bind="sectionAnchor"></a>
+      <a id="outlet-registerViewLocation" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>fw.outlets</span>.registerViewLocation<span>( <span class="param">'viewName'</span>, <span class="param">'/path/to/template'</span> )</span></div>
-          <div class="func-def"><span>fw.outlets</span>.registerViewLocation<span>( <span class="param">[ 'viewName', 'viewName2', ... ]</span>, <span class="param">'/path/to/template/'</span> )</span></div>
+          <div class="func-def"><span>fw.outlet</span>.registerViewLocation<span>( <span class="param">/regexp/</span>, <span class="param">'/path/to/template'</span> )</span></div>
+          <div class="func-def"><span>fw.outlet</span>.registerViewLocation<span>( <span class="param">'viewName'</span>, <span class="param">'/path/to/template'</span> )</span></div>
+          <div class="func-def"><span>fw.outlet</span>.registerViewLocation<span>( <span class="param">[ 'viewName', 'viewName2', ... ]</span>, <span class="param">'/path/to/template/'</span> )</span></div>
         </div>
         <div class="description">Tell Footwork where it can download a view via AMD/RequireJS.</div>
       </div>
@@ -1435,11 +1436,15 @@ fw.router.register('MainRouter', fw.router.create({ /* ... */ }));</code></pre>
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
           <div class="func-def"><span>fw.router</span>.registerLocation<span>( <span class="param">'moduleName'</span>, <span class="param">'path/to/module'</span> )</span></div>
+          <div class="func-def"><span>fw.router</span>.registerLocation<span>( <span class="param">/RegExp/</span>, <span class="param">'path/to/module'</span> )</span></div>
         </div>
         <div class="description">Register the location of a router/module so Footwork can load and bind it for you when needed.</div>
       </div>
 <pre><code class="javascript">// Load MainRouter from: /routers/MainRouter.js (based on router/module name, case sensitive)
 fw.router.registerLocation('MainRouter', '/routers/');
+
+// Load all *OtherRouters from /routers/
+fw.router.registerLocation(/.*OtherRouters/, '/routers/');
 
 // Load MainRouter from: /routers/DifferentFileName.js (specify full file name)
 fw.router.registerLocation('MainRouter', '/routers/DifferentFileName.js');</code></pre>
@@ -2158,10 +2163,10 @@ fw.router.html5History(); // === false when using &lt;=IE8</code></pre>
         {
           "label": "Outlet Views",
           "references": [
-            { "anchor": "outlets-registerView",
+            { "anchor": "outlet-registerView",
               "title": "fw.outlet.registerView()",
               "description": "Register/cache a view for later use." },
-            { "anchor": "outlets-registerViewLocation",
+            { "anchor": "outlet-registerViewLocation",
               "title": "fw.outlet.registerViewLocation()",
               "description": "Tell Footwork where it can download a view via AMD/RequireJS." }
           ]

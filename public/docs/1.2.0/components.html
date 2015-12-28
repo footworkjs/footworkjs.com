@@ -180,9 +180,9 @@ fw.components.register('sprocket', {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span>, <span class="param">{ viewModel: 'path/to/viewModel', template: 'path/to/template' }</span> )</span></div>
-          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span>, <span class="param">{ combined: 'path/to/combinedComponentFile' }</span> )</span></div>
-          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span>, <span class="param">'path/to/viewModelAndTemplate'</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">{ viewModel: 'path/to/viewModel', template: 'path/to/template' }</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">{ combined: 'path/to/combinedComponentFile' }</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">'path/to/viewModelAndTemplate'</span> )</span></div>
         </div>
         <div class="description">Tell Footwork where to find the component <span class="inline-code">name</span> using the supplied configuration.</div>
       </div>
@@ -217,8 +217,8 @@ fw.components.registerLocation(['sprocket', 'wheel'], {
   template: '/components/bikeParts/' // load from /components/bikeParts/component-name.html
 });
 
-// load viewModel from /components/sprocket.js and template from /components/sprocket.html
-fw.components.registerLocation('sprocket', '/components/');
+// load viewModel from /components/sprocket/sprocket.js and template from /components/sprocket/sprocket.html
+fw.components.registerLocation('sprocket', '/components/sprocket/');
 </code></pre>
 
       <div class="note"><span class="label">NOTE:</span> Once you <span class="inline-code">registerLocation()</span> a component as being being a 'combined'
