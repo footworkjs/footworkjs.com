@@ -180,9 +180,9 @@ fw.components.register('sprocket', {
       <div class="ref-block">
         <div class="title">
           <div class="type"><span class="icon icon-code"></span></div>
-          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">{ viewModel: 'path/to/viewModel', template: 'path/to/template' }</span> )</span></div>
-          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">{ combined: 'path/to/combinedComponentFile' }</span> )</span></div>
-          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">'path/to/viewModelAndTemplate'</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">{ viewModel: 'path/to/viewModel', template: 'path/to/template' }</span>, <span class="param">folderOffset</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">{ combined: 'path/to/combinedComponentFile' }</span>, <span class="param">folderOffset</span> )</span></div>
+          <div class="func-def"><span>fw.components</span>.registerLocation<span>( <span class="param">'name'</span> | <span class="param">/RegExp/</span>, <span class="param">'path/to/viewModelAndTemplate'</span>, <span class="param">folderOffset</span> )</span></div>
         </div>
         <div class="description">Tell Footwork where to find the component <span class="inline-code">name</span> using the supplied configuration.</div>
       </div>
@@ -201,11 +201,17 @@ fw.components.registerLocation('sprocket', {
   template: '/components/bikeParts/' // load from /components/bikeParts/sprocket.html
 });
 
-// Specify the full file name (ie: use this if the file name does not conform to what Footwork expects)
+// You can specify the full file name (ie: use this if the file name does not conform to what Footwork expects)
 fw.components.registerLocation('sprocket', {
   viewModel: '/components/bikeParts/TheSprocket.js', // load from /components/bikeParts/TheSprocket.js
   template: '/components/bikeParts/theSprocket.html' // load from /components/bikeParts/theSprocket.html
 });
+
+// You can tell footwork to prepend with a folder name using the folderOffset option
+fw.components.registerLocation('sprocket', {
+  viewModel: '/components/', // load from /components/sprocket/sprocket.js
+  template: '/components/' // load from /components/sprocket/sprocket.html
+}, true);
 
 // Specify the 'combined' module to be downloaded (see the 'Module Formats' section on this page)
 fw.components.registerLocation('sprocket', { combined: '/components/' }); // load from /components/sprocket.js
