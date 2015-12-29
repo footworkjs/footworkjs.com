@@ -894,11 +894,12 @@ mainRouter.command('setState', {
         optional parameters:</p>
 
       <ul>
-        <li><span class="inline-code">url:</span> <span class="inline-code">'string' / callback() / observable</span> The route to send the application to.</li>
-        <li><span class="inline-code">on:</span> <span class="inline-code">'string' / callback() / observable</span> The event to trigger the action on (click, by default).</li>
+        <li><span class="inline-code">url:</span> <span class="inline-code">'string' / callback() / observable</span> The route to send the application to (uses <span class="inline-code">href=""</span> attribute when not supplied).</li>
+        <li><span class="inline-code">on:</span> <span class="inline-code">'string' / callback() / observable</span> The event to trigger the action on (<span class="inline-code">'click'</span>, by default).</li>
         <li><span class="inline-code">handler:</span> <span class="inline-code">function(event, url)</span> Callback handler for the event.</li>
         <li><span class="inline-code">addActiveClass:</span> <span class="inline-code">boolean / callback() / observable</span> Flag indicating whether or not the 'active' class should be added to the element.</li>
         <li><span class="inline-code">activeClass:</span> <span class="inline-code">'string' / callback() / observable</span> The class name to add to the element when the route is active (default is 'active').</li>
+        <li><span class="inline-code">parentHasState:</span> <span class="inline-code">'.selector' / boolean</span> If supplied, the parent will have the <span class="inline-code">activeClass</span> managed on a parent of the bound element (<span class="inline-code">true</span> selects the immediate parent).</li>
       </ul>
 
       <a id="route-binding-def" class="section-anchor" data-bind="sectionAnchor"></a>
@@ -912,6 +913,23 @@ mainRouter.command('setState', {
 <pre><code class="html">&lt;!-- ... --&gt;
   &lt;!-- If the url is not explicitely provided, Footwork will use the url attribute from the element instead. --&gt;
   &lt;a href="/about" data-bind="$route"&gt;About Page&lt;/a&gt;
+  &lt;a href="/about" data-bind="$route: { activeClass: 'is-active' }"&gt;About Page&lt;/a&gt;
+&lt;!-- ... --&gt;
+
+&lt;!-- ... --&gt;
+  &lt;!-- Supplying parentHasState will tell Footwork to manage the activeClass on a parent element --&gt;
+
+  &lt;!-- true will tell Footwork to apply the activeClass to the immediate parent element --&gt;
+  &lt;div class="container"&gt; &lt;!-- activeClass applied here --&gt;
+    &lt;a href="/about" data-bind="$route: { parentHasState: true }"&gt;About Page&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;!-- A '.selector' will tell Footwork to apply the activeClass to the parent element with that matching selector --&gt;
+  &lt;div class="main-container"&gt; &lt;!-- activeClass applied here --&gt;
+    &lt;div class="container"&gt;
+      &lt;a href="/about" data-bind="$route: { parentHasState: '.main-container' }"&gt;About Page&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 &lt;!-- ... --&gt;
 
 &lt;!-- ... --&gt;
