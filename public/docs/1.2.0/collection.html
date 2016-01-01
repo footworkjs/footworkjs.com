@@ -172,7 +172,13 @@
    * Callback method used to transform the response from a .fetch() call prior to instantiating or
    * creating new items/entries in the collection. The return result will be .set() on the collection
    */
-  parse: function(ajaxResponse) { return ajaxResponse; }
+  parse: function(ajaxResponse) { return ajaxResponse; },
+
+  /**
+   * Options passed to fw.sync() for every request.
+   * Valid values are the same as jQuery.ajax(), http://api.jquery.com/jquery.ajax/
+   */
+  ajaxOptions: {},
 
   /**
    * Flag telling Footwork if it should call .dispose() when a dataModel is removed from

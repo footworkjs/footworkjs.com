@@ -158,6 +158,12 @@ fw.start();
   parse: function(responseObject) { return { /* ... */ }; },
 
   /**
+   * Options passed to fw.sync() for every request.
+   * Valid values are the same as jQuery.ajax(), http://api.jquery.com/jquery.ajax/
+   */
+  ajaxOptions: {},
+
+  /**
    * If true, Footwork will register the dataModel under its namespace name. This means
    * that when this fw.dataModel.create() call is made it will automatically call
    * fw.dataModel.register('Person', ThisdataModelConstructor)

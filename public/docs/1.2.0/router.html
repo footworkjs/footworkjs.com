@@ -31,7 +31,7 @@
       <h3>Routers have four principle components which make them useful:</h3>
 
       <ul>
-        <li><a data-bind="$route" href="#configuration">configuration object</a>: A router configuration used to generate the constructor function. It defines
+        <li><a data-bind="$route" href="#factory-method">configuration object</a>: A router configuration used to generate the constructor function. It defines
           the router, its routes, controllers, and their actions.</li>
 
         <li><a data-bind="$route" href="#router-element">&lt;router&gt; declaration</a>: A <span class="inline-code">&lt;router&gt;</span> declaration tells Footwork what
@@ -179,8 +179,8 @@ fw.start();
   },
 
   /**
-   * Sometimes you want to show something while a component loads. This is the property
-   * which defines which component to show while the chosen one downloads.
+   * Sometimes you want to show something while an outlet loads its component. This is the
+   * property that defines which component to show while the chosen one downloads.
    * Note: You will typically only want to use an explicitly registered component/view for
    *       this otherwise it will need to be downloaded first as well.
    */
