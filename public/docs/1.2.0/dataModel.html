@@ -134,6 +134,10 @@ fw.start();
   url: '/path/to/endpoint',
   url: function() { return '/path/to/endpoint'; },
 
+  // Note that the url option can have mapped variables interpolated into the string
+  url: '/path/:mappedVariable/to/endpoint/',
+  url: function() { return '/path/:mappedVariable/to/endpoint'; },
+
   /**
    * Attribute to use as the primary key (id) of the model.
    * This idAttribute will be automatically created/instantiated on your dataModel as an
@@ -162,6 +166,7 @@ fw.start();
    * Valid values are the same as jQuery.ajax(), http://api.jquery.com/jquery.ajax/
    */
   ajaxOptions: {},
+  ajaxOptions: function() { return optionsObject; },
 
   /**
    * If true, Footwork will register the dataModel under its namespace name. This means

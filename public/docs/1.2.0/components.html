@@ -43,7 +43,7 @@
       <h1 class="title">Usage</h1>
     </header>
     <div class="content">
-      <p>There are principally 2 pieces that need to be setup prior to a component being usable:</p>
+      <p>There are principally 2 things Footwork uses to instantiate and compose a <span class="inline-code">component</span>:</p>
 
       <ul>
         <li>The template/HTML/DOM to bind against.</li>
@@ -66,11 +66,22 @@
     &lt;sprocket&gt;&lt;/sprocket&gt;
     &lt;!-- NOTE: only lowercase alpha-numeric and dash (-) characters are allowed for custom elements --&gt;
 
-    &lt;!-- this loads the same 'sprocket' component using the standard knockout component binding --&gt;
+    &lt;!-- this loads the 'sprocket' component using the standard knockout component binding --&gt;
     &lt;div data-bind="component: 'sprocket'"&gt;&lt;/div&gt;
 
-    &lt;!-- this loads the same 'sprocket' component using KnockoutJS containerless virtual elements --&gt;
+    &lt;!-- this loads the 'sprocket' component using KnockoutJS containerless virtual elements --&gt;
     &lt;!-- ko component: 'sprocket'" --&gt;&lt;!-- /ko --&gt;
+
+    &lt;!-- this will load the 'sprocket' component while passing some parameters from the current
+         context into the viewModel of the component --&gt;
+    &lt;sprocket params="someValueFromParent: someValue"&gt;&lt;/sprocket&gt;
+
+    &lt;!-- if the component has no viewModel defined you can pass $viewModel into the params and
+         footwork will create a viewModel with the data supplied (which you can then bind against) --&gt;
+    &lt;div data-bind="foreach: arrayOfObjects"&gt;
+      &lt;!-- here we pass in the current context ($data) as the $viewModel --&gt;
+      &lt;sprocket params="$viewModel: $data"&gt;&lt;/sprocket&gt;
+    &lt;/div&gt;
 
     &lt;script src="/application.js"&gt;&lt;/script&gt;
   &lt;/body&gt;
@@ -89,6 +100,12 @@
         <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> which houses the logic/behavior the HTML is bound against.
         Those are provided either explicitly via direct registration or by telling Footwork where it can find (download/resolve) them. For that,
         see <a data-bind="$route" href="#load-register">component registration</a>.</p>
+
+      <p>If no <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+          <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> is supplied during the registration of a
+          <span class="inline-code">component</span> then Footwork will supply a 'default' <span class="inline-code">viewModel</span>. This allows
+          you to create template-only <span class="inline-code">components</span>.</p>
     </div>
   </section>
 
@@ -278,7 +295,13 @@ fw.components.defaultLocation('/components/');
       <div class="file-location">sprocket-viewModel.js</div>
 <pre><code class="javascript">define(["footwork"],
   function(fw) {
-    return fw.viewModel.create({ /* ... */ });
+
+    return fw.viewModel.create({
+      initialize: function(params) {
+        // ...
+      }
+    });
+
   }
 );</code></pre>
 
@@ -313,10 +336,12 @@ fw.components.defaultLocation('/components/');
       </div>
 <pre><code class="javascript">define(["footwork"],
   function(fw) {
+
     return fw.component({
       viewModel: fw.viewModel.create({ /* ... */ }),
       template: '&lt;div class="sprocket"&gt;&lt;!-- template HTML --&gt;&lt;/div&gt;'
     });
+
   }
 );</code></pre>
 

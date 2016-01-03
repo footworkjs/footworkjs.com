@@ -179,6 +179,7 @@
    * Valid values are the same as jQuery.ajax(), http://api.jquery.com/jquery.ajax/
    */
   ajaxOptions: {},
+  ajaxOptions: function() { return optionsObject; },
 
   /**
    * Flag telling Footwork if it should call .dispose() when a dataModel is removed from
