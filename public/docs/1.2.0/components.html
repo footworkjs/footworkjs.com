@@ -399,7 +399,14 @@ fw.components.defaultLocation('/components/');
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-      <p>After you have the <span class="inline-code">animation.css</span> asset being loaded you will need to add one of the available animation
+      <div class="note">
+        <p><span class="label">NOTE:</span> If you would rather build the animations into your own CSS assets, or want to customize the way they work
+          then you will want to use one of the either <span class="inline-code">.less</span> or <span class="inline-code">.scss</span> versions
+          and extend from those. All of the animation assets are located in <span class="inline-code">dist/animation</span>.</p>
+        <p><em>TODO: Examples of customizations and how to add new animations.</em></p>
+      </div>
+
+      <p>After you have the animation css/styles being loaded you will need to add one of the available animation
         classes to the top-level container elements inside of your <span class="inline-code">components</span>.</p>
 
       <p>Lets say that we have the <span class="inline-code">template</span> for <span class="inline-code">&lt;my-component&gt;</span> defined as follows:</p>
@@ -423,6 +430,16 @@ fw.components.defaultLocation('/components/');
         <li><em>fade-in-from-left</em></li>
         <li><em>fade-in-from-right</em></li>
       </ul>
+
+      <p><em>Default View/ViewModel Animations</em></p>
+      <p>Note that if you are specifying an animation class inside of a component which has no <span class="inline-code">viewModel</span> supplied
+        then it will use the default <span class="inline-code">viewModel</span> which has a predefined <span class="inline-code">sequenceAnimations</span>
+        value of <span class="inline-code">20</span>. This means that by default Footwork will ensure they are animated in with atleast a 20ms
+        interval between.</p>
+
+
+        <p class="note"><span class="label">NOTE:</span> You can change the default animation iteration value by setting
+          <span class="inline-code">fw.settings.sequenceAnimations</span> to another value.</p>
     </div>
   </section>
 

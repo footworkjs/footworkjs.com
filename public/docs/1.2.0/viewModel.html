@@ -175,6 +175,11 @@ fw.start();
     // this === the viewModel instance
   },
 
+  // When used in a component, ensure that (if being animated) they are sequenced in with a
+  // minimum time between animations.
+  sequenceAnimations: 100, // 100ms minimum
+  sequenceAnimations: function() { return 100; } // 100ms minimum
+
   // Function called just before the html this viewModel is bound to is removed from the DOM
   onDispose: function(containingElement) {
     // this === the viewModel instance
