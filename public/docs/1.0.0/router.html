@@ -70,20 +70,25 @@
             <a data-bind="$route" href="#bind-manually">manual binding</a>).</p>
 <div class="file-location">markup.html</div>
 <pre><code class="html">&lt;div id="main-router"&gt;
-  Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
-  &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
+  &lt;header&gt;
+    &lt;div class="user" data-bind="text: username"&gt;&lt;/div&gt;
+    &lt;nav&gt;
+      &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
+    &lt;nav&gt;
+  &lt;/header&gt;
+  
   &lt;outlet name="mainArea"&gt;&lt;/outlet&gt;
 &lt;/div&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
-<pre><code class="javascript">var router = fw.router.create({
+<pre><code class="javascript">var Router = fw.router.create({
   initialize: function() {
     this.hello = 'world';
   },
   routes: [ /* ... */ ]
-})(); // &lt;--- note we are creating an instance of it (using the extra parens), not just the constructor
+});
 
-fw.applyBindings(router, document.getElementById('main-router'));
+fw.applyBindings(new Router(), document.getElementById('main-router'));
 </code></pre>
         </li>
 
@@ -92,17 +97,22 @@ fw.applyBindings(router, document.getElementById('main-router'));
            (See: <a data-bind="$route" href="#router-element">&lt;router&gt; usage</a>).</p>
 <div class="file-location">markup.html</div>
 <pre><code class="html">&lt;router module="MainRouter"&gt;
-  Hello &lt;span data-bind="text: hello"&gt;&lt;/span&gt;
-  &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
+  &lt;header&gt;
+    &lt;div class="user" data-bind="text: username"&gt;&lt;/div&gt;
+    &lt;nav&gt;
+      &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
+    &lt;nav&gt;
+  &lt;/header&gt;
+  
   &lt;outlet name="mainArea"&gt;&lt;/outlet&gt;
-&lt;/viewModel&gt;</code></pre>
+&lt;/router&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
 <pre><code class="javascript">fw.router.create({
   namespace: 'MainRouter',
   autoRegister: true,
   initialize: function() {
-    this.hello = 'world';
+    this.user = 'Frank';
   },
   routes: [ /* ... */ ]
 });
