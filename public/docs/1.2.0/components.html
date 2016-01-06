@@ -438,8 +438,25 @@ fw.components.defaultLocation('/components/');
         interval between.</p>
 
 
-        <p class="note"><span class="label">NOTE:</span> You can change the default animation iteration value by setting
-          <span class="inline-code">fw.settings.sequenceAnimations</span> to another value.</p>
+      <p class="note"><span class="label">NOTE:</span> You can change the default animation iteration value by setting
+        <span class="inline-code">fw.settings.sequenceAnimations</span> to another value.</p>
+
+      <a id="fw-settings-sequenceAnimations" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-circle"></span></div>
+          <div class="func-def"><span>fw.settings</span>.sequenceAnimations</div>
+        </div>
+        <div class="description">Variable which stores the default sequence iteration length for animated components which use the default
+          <span class="inline-code">viewModel</span> (if they do not have a <span class="inline-code">viewModel</span> specified then it uses the default).</div>
+      </div>
+<pre><code class="javascript">fw.settings.sequenceAnimations = 100; // Set time between iterations to 100ms for default viewModels</code></pre>
+      
+      <p>If you are using your own <span class="inline-code"><a data-bind="$route: docLink('viewModel#fw-viewModel-create')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel#fw-dataModel-create')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router#fw-router-create')">router</a></span> then you can specify a different
+        <span class="inline-code">sequenceAnimations</span> value that is specific to it. See their respective <span class="inline-code">sequenceAnimations</span>
+        configuration option.</p>
     </div>
   </section>
 
@@ -629,6 +646,13 @@ fw.components.tagIsComponent('some-element', false);</code></pre>
             { "anchor": "fw-component",
               "title": "fw.component()",
               "description": "Create a combined component definition based on the provided viewModel / dataModel / router + template definition." }
+          ]
+        }, {
+          "label": "Misc",
+          "references": [
+            { "anchor": "fw-settings-sequenceAnimations",
+              "title": "fw.settings.sequenceAnimations",
+              "description": "Variable which stores the default sequence iteration length for animated components which use the default viewModel." }
           ]
         }
       ]

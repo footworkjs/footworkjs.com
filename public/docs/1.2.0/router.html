@@ -76,14 +76,14 @@
 &lt;/div&gt;</code></pre>
 
 <div class="file-location">markup.js</div>
-<pre><code class="javascript">var router = fw.router.create({
+<pre><code class="javascript">var Router = fw.router.create({
   initialize: function() {
     this.hello = 'world';
   },
   routes: [ /* ... */ ]
-})(); // &lt;--- note we are creating an instance of it (using the extra parens), not just the constructor
+});
 
-fw.applyBindings(router, document.getElementById('main-router'));
+fw.applyBindings(new Router(), document.getElementById('main-router'));
 </code></pre>
         </li>
 

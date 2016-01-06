@@ -16,7 +16,7 @@ var REQUIRECONFIG = {
     "jquery":             "../bower_components/jquery/dist/jquery",
     "postal":             "../bower_components/postal.js/lib/postal",
     "knockout":           "../bower_components/knockoutjs/dist/knockout",
-    "footwork":           "../bower_components/footwork/dist/footwork-bare-jquery",
+    "footwork":           "../bower_components/footwork/build/footwork-bare-jquery",
     "storage":            "../bower_components/store-js/store",
     "lodash":             "../bower_components/lodash/lodash",
     "history":            "../bower_components/history.js/scripts/bundled/html5/native.history",
