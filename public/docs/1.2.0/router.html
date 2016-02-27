@@ -76,7 +76,7 @@
       &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
     &lt;nav&gt;
   &lt;/header&gt;
-  
+
   &lt;outlet name="mainArea"&gt;&lt;/outlet&gt;
 &lt;/div&gt;</code></pre>
 
@@ -103,7 +103,7 @@ fw.applyBindings(new Router(), document.getElementById('main-router'));
       &lt;a data-bind="$route" href="/some-place"&gt;&lt;/a&gt;
     &lt;nav&gt;
   &lt;/header&gt;
-  
+
   &lt;outlet name="mainArea"&gt;&lt;/outlet&gt;
 &lt;/router&gt;</code></pre>
 
@@ -223,6 +223,25 @@ fw.start();
   // Function called just after rendering against the DOM
   afterRender: function(containingElement) {
     // this === the router instance
+  },
+
+  // Function called after all nested components/viewModels/etc have been rendered
+  resolved: function(resolve) {
+    // If this method is defined you will have to call the passed in resolve() callback once
+    // your router is 'resolved'.
+
+    // You can pass it a truthy value to indicate resolution is complete immediately:
+    resolve(true);
+
+    // You can also pass it a promise, footwork will wait for it to finish:
+    resolve(promiseToWaitFor);
+
+    // You can also pass it an array of promises for footwork to wait to finish:
+    resolve([ promiseToWaitFor, anotherPromiseToWaitFor ]);
+
+    // Note that if you call resolve(false) nothing will occur, footwork will not tell
+    // higher-level viewModel/dataModel/etc that your module is resolved until you call
+    // resolve(true) or hand it a promise that resolves.
   },
 
   // When used in a component, ensure that (if being animated) they are sequenced in with a

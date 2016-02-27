@@ -224,6 +224,25 @@ fw.start();
     // this === the dataModel instance
   },
 
+  // Function called after all nested components/viewModels/etc have been rendered
+  resolved: function(resolve) {
+    // If this method is defined you will have to call the passed in resolve() callback once
+    // your dataModel is 'resolved'.
+
+    // You can pass it a truthy value to indicate resolution is complete immediately:
+    resolve(true);
+
+    // You can also pass it a promise, footwork will wait for it to finish:
+    resolve(promiseToWaitFor);
+
+    // You can also pass it an array of promises for footwork to wait to finish:
+    resolve([ promiseToWaitFor, anotherPromiseToWaitFor ]);
+
+    // Note that if you call resolve(false) nothing will occur, footwork will not tell
+    // higher-level viewModel/dataModel/etc that your module is resolved until you call
+    // resolve(true) or hand it a promise that resolves.
+  },
+
   // When used in a component, ensure that (if being animated) they are sequenced in with a
   // minimum time between animations.
   sequenceAnimations: 100, // 100ms minimum
