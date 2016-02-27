@@ -431,11 +431,13 @@ fw.components.defaultLocation('/components/');
         <li><em>fade-in-from-right</em></li>
       </ul>
 
-      <p><em>Default View/ViewModel Animations</em></p>
-      <p>Note that if you are specifying an animation class inside of a component which has no <span class="inline-code">viewModel</span> supplied
-        then it will use the default <span class="inline-code">viewModel</span> which has a predefined <span class="inline-code">sequenceAnimations</span>
-        value of <span class="inline-code">20</span>. This means that by default Footwork will ensure they are animated in with atleast a 20ms
-        interval between.</p>
+      <p><em>Default Animations</em></p>
+      <p>Note that if you are specifying an animation class inside of a component which has no
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> supplied then it will use the default
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> which has a predefined
+        <span class="inline-code">sequenceAnimations</span> value of <span class="inline-code">0</span>. This means that by default Footwork
+        will not ensure there is an interval period before animating a default
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span>.</p>
 
 
       <p class="note"><span class="label">NOTE:</span> You can change the default animation iteration value by setting
@@ -450,8 +452,14 @@ fw.components.defaultLocation('/components/');
         <div class="description">Variable which stores the default sequence iteration length for animated components which use the default
           <span class="inline-code">viewModel</span> (if they do not have a <span class="inline-code">viewModel</span> specified then it uses the default).</div>
       </div>
-<pre><code class="javascript">fw.settings.sequenceAnimations = 100; // Set time between iterations to 100ms for default viewModels</code></pre>
-      
+<pre><code class="javascript">fw.settings.sequenceAnimations = 100; // Set time between iterations to 100ms for default viewModels
+
+// Note that you can also dynamically change the sequence timing by providing a callback
+// Each time a new item is created the callback is triggered to determine the sequenceAnimations value
+fw.settings.sequenceAnimations = function() {
+  return 100; // Set time between iterations to 100ms via callback
+}</code></pre>
+
       <p>If you are using your own <span class="inline-code"><a data-bind="$route: docLink('viewModel#fw-viewModel-create')">viewModel</a></span> /
         <span class="inline-code"><a data-bind="$route: docLink('dataModel#fw-dataModel-create')">dataModel</a></span> /
         <span class="inline-code"><a data-bind="$route: docLink('router#fw-router-create')">router</a></span> then you can specify a different
