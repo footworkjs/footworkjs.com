@@ -169,6 +169,16 @@ fw.start();
   ajaxOptions: function() { return optionsObject; },
 
   /**
+   * A configurable lull-time for the isSaving/isFetching/isDestroying observables on the dataModel
+   * This is so that (for example) when a user .save()'s a dataModel it will not flip-flop the
+   * isSaving observable too quickly.
+   */
+  requestLull: 200, // make AJAX requests lull for atleast 200msec
+  requestLull: function(requestType) {
+    return 200; // lull-time returned via callback
+  },
+
+  /**
    * If true, Footwork will register the dataModel under its namespace name. This means
    * that when this fw.dataModel.create() call is made it will automatically call
    * fw.dataModel.register('Person', ThisdataModelConstructor)

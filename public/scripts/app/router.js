@@ -67,7 +67,7 @@ define([ "jquery", "footwork", "lodash", "highlight", "jquery.collapsible", "his
     }
 
     function resolvePage(pageLoadPromise, element) {
-      pageLoadPromise.resolve( $('#metaData').text(), element.children[0] );
+      pageLoadPromise.resolve( $('#metaData').text(), element.children[1] );
     }
 
     function showNotFoundPage() {

@@ -182,6 +182,16 @@
   ajaxOptions: function() { return optionsObject; },
 
   /**
+   * A configurable lull-time for the isSaving/isFetching/isCreating/isDestroying observables on the collection
+   * This is so that (for example) when a user .create()'s a collection item it will not flip-flop the
+   * isCreating observable too quickly.
+   */
+  requestLull: 200, // make AJAX requests lull for atleast 200msec
+  requestLull: function(requestType) {
+    return 200; // lull-time returned via callback
+  },
+
+  /**
    * Flag telling Footwork if it should call .dispose() when a dataModel is removed from
    * the list. Default: true.
    */
