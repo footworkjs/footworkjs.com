@@ -184,9 +184,24 @@ fw.start();
     // this === the router instance
     var router = this;
 
-    // Note that you can create observables to bind against just like a viewModel/etc
+    // You can create observables to bind against just like a viewModel/dataModel
     router.param1 = fw.observable(param1);
   },
+
+  /**
+   * Attributes/properties that are extended onto each newly instantiated router
+   * NOTE: Only suitable for primitive values (strings, numbers, etc) or functions, do not
+   *       put observables or namespaces/etc here as they are shared across instances.
+   */
+  extend: {
+    prop1: 'value',
+    prop2: 123
+  },
+
+  // Behavioral mixins to include with each new router created
+  mixins: [
+    // See: 'Mixins' section on this page
+  ],
 
   /**
    * Sometimes you want to show something while an outlet loads. This is the property
@@ -205,27 +220,15 @@ fw.start();
   minTransitionPeriod: 300, // 300msec
   minTransitionPeriod: function(outletName, componentToShow) { return 300; } // 300msec
 
-  /**
-   * Attributes/properties that are extended onto each newly instantiated router
-   * NOTE: Only suitable for primitive values (strings, numbers, etc), do not put observables
-   *       or namespaces/etc here as they are shared across instances.
-   */
-  extend: {
-    prop1: 'value',
-    prop2: 123
-  },
-
-  // Behavioral mixins to include with each new router created
-  mixins: [
-    // See: 'Mixins' section on this page
-  ],
-
-  // Function called just after rendering against the DOM
+  // Called after initialize, this method is called just after rendering against the DOM
   afterRender: function(containingElement) {
     // this === the router instance
   },
 
-  // Function called after all nested components/viewModels/etc have been rendered
+  /**
+   * Called after afterRender(), this method is called after all nested
+   * components/viewModels/etc have been rendered.
+   */
   resolved: function(resolve) {
     // If this method is defined you will have to call the passed in resolve() callback once
     // your router is 'resolved'.

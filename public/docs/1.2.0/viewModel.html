@@ -157,8 +157,8 @@ fw.start();
 
   /**
    * Attributes/properties that are extended onto each newly instantiated viewModel
-   * NOTE: Only suitable for primitive values (strings, numbers, etc), do not put observables
-   *       or namespaces/etc here as they are shared across instances.
+   * NOTE: Only suitable for primitive values (strings, numbers, etc) or functions, do not
+   *       put observables or namespaces/etc here as they are shared across instances.
    */
   extend: {
     prop1: 'value',
@@ -170,12 +170,15 @@ fw.start();
     // See: 'Mixins' section on this page
   ],
 
-  // Function called just after rendering against the DOM
+  // Called after initialize, this method is called just after rendering against the DOM
   afterRender: function(containingElement) {
     // this === the viewModel instance
   },
 
-  // Function called after all nested components/viewModels/etc have been rendered
+  /**
+   * Called after afterRender(), this method is called after all nested
+   * components/viewModels/etc have been rendered.
+   */
   resolved: function(resolve) {
     // If this method is defined you will have to call the passed in resolve() callback once
     // your viewModel is 'resolved'.

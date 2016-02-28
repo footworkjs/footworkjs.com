@@ -206,8 +206,8 @@ fw.start();
 
   /**
    * Attributes/properties that are extended onto each newly instantiated dataModel
-   * NOTE: Only suitable for primitive values (strings, numbers, etc), do not put observables
-   *       or namespaces/etc here as they are shared across instances.
+   * NOTE: Only suitable for primitive values (strings, numbers, etc) or functions, do not
+   *       put observables or namespaces/etc here as they are shared across instances.
    */
   extend: {
     prop1: 'value',
@@ -219,12 +219,15 @@ fw.start();
     // See: 'Mixins' section on this page
   ],
 
-  // Function called just after rendering against the DOM
+  // Called after initialize, this method is called just after rendering against the DOM
   afterRender: function(containingElement) {
     // this === the dataModel instance
   },
 
-  // Function called after all nested components/viewModels/etc have been rendered
+  /**
+   * Called after afterRender(), this method is called after all nested
+   * components/viewModels/etc have been rendered.
+   */
   resolved: function(resolve) {
     // If this method is defined you will have to call the passed in resolve() callback once
     // your dataModel is 'resolved'.
@@ -1573,6 +1576,92 @@ fw.dataModel.fileExtensions(function(moduleName) {
     // this.myId === this.$id
   }
 });</code></pre>
+
+      <a id="dataModel-isSaving" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.isSaving()</div>
+        </div>
+        <div class="description">Observable which stores a boolean value indicating whether or not the
+          <span class="inline-code">dataModel</span> is currently saving its data to the server.
+
+          <div class="note">
+            <p><span class="label">NOTE:</span> This observable has a configurable <span class="inline-code">requestLull</span>
+              (see the: <a data-bind="$route" href="#factory-method">factory configuration</a>) which
+              will cause this observable to 'lull' in the <span class="inline-code">true</span> state for a minimum period of time. This
+              allows you to bind to a reliable indicator which will tell the user the state of the dataModel without thrashing the UI.</p>
+          </div>
+        </div>
+      </div>
+<pre><code class="html">&lt;dataModel module="Person"&gt;
+  &lt;form data-bind="submit: save"&gt;
+    Name: &lt;input type="text" data-bind="value: name"&gt;
+    &lt;!-- ko ifnot: isSaving --&gt;
+      &lt;button&gt;Save Now&lt;/button&gt;
+    &lt;!-- /ko --&gt;
+    &lt;!-- ko if: isSaving --&gt;
+      &lt;span&gt;Saving data, please wait...&lt;/span&gt;
+    &lt;!-- /ko --&gt;
+  &lt;/form&gt;
+&lt;/dataModel&gt;</code></pre>
+
+      <a id="dataModel-isFetching" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.isFetching()</div>
+        </div>
+        <div class="description">Observable which stores a boolean value indicating whether or not the
+          <span class="inline-code">dataModel</span> is currently fetching its data from the server.
+
+          <div class="note">
+            <p><span class="label">NOTE:</span> This observable has a configurable <span class="inline-code">requestLull</span>
+              (see the: <a data-bind="$route" href="#factory-method">factory configuration</a>) which
+              will cause this observable to 'lull' in the <span class="inline-code">true</span> state for a minimum period of time. This
+              allows you to bind to a reliable indicator which will tell the user the state of the dataModel without thrashing the UI.</p>
+          </div>
+        </div>
+      </div>
+<pre><code class="html">&lt;dataModel module="Person"&gt;
+  &lt;form data-bind="submit: save"&gt;
+    &lt;!-- ko if: isFetching --&gt;
+      &lt;span&gt;Fetching data, please wait...&lt;/span&gt;
+    &lt;!-- /ko --&gt;
+    &lt;!-- ko ifnot: isFetching --&gt;
+      Name: &lt;input type="text" data-bind="value: name"&gt;
+    &lt;!-- /ko --&gt;
+  &lt;/form&gt;
+&lt;/dataModel&gt;</code></pre>
+
+      <a id="dataModel-isDestroying" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.isDestroying()</div>
+        </div>
+        <div class="description">Observable which stores a boolean value indicating whether or not the
+          <span class="inline-code">dataModel</span> is currently destroying (deleting) its data on the server.
+
+          <div class="note">
+            <p><span class="label">NOTE:</span> This observable has a configurable <span class="inline-code">requestLull</span>
+              (see the: <a data-bind="$route" href="#factory-method">factory configuration</a>) which
+              will cause this observable to 'lull' in the <span class="inline-code">true</span> state for a minimum period of time. This
+              allows you to bind to a reliable indicator which will tell the user the state of the dataModel without thrashing the UI.</p>
+          </div>
+        </div>
+      </div>
+<pre><code class="html">&lt;dataModel module="Person"&gt;
+  &lt;form data-bind="submit: save"&gt;
+    &lt;!-- ko if: isDestroying --&gt;
+      &lt;span&gt;Removing person, please wait...&lt;/span&gt;
+    &lt;!-- /ko --&gt;
+    &lt;!-- ko ifnot: isDestroying() &amp;&amp; id() --&gt;
+      &lt;!-- Display the delete button if the person is not being destroyed and they have an id --&gt;
+      &lt;button&gt;Delete Person&lt;/button&gt;
+    &lt;!-- /ko --&gt;
+  &lt;/form&gt;
+&lt;/dataModel&gt;</code></pre>
     </div>
   </section>
 </article>
@@ -1845,7 +1934,16 @@ fw.dataModel.fileExtensions(function(moduleName) {
               "description": "A unique identifier automatically assigned to every dataModel when first created." },
             { "anchor": "dataModel-id",
               "title": "dataModel.$id",
-              "description": "Observable which always maps to the idAttribute value of the dataModel." }
+              "description": "Observable which always maps to the idAttribute value of the dataModel." },
+            { "anchor": "dataModel-isSaving",
+              "title": "dataModel.isSaving",
+              "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently saving its data to the server." },
+            { "anchor": "dataModel-isFetching",
+              "title": "dataModel.isFetching",
+              "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently fetching its data from the server." },
+            { "anchor": "dataModel-isDestroying",
+              "title": "dataModel.isDestroying",
+              "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently destroying (deleting) its data on the server." }
           ]
         }
       ]
