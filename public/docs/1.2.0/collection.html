@@ -182,7 +182,7 @@
   ajaxOptions: function() { return optionsObject; },
 
   /**
-   * A configurable lull-time for the isSaving/isFetching/isCreating/isDestroying observables on the collection
+   * A configurable lull-time for the isFetching/isCreating/isDestroying observables on the collection
    * This is so that (for example) when a user .create()'s a collection item it will not flip-flop the
    * isCreating observable too quickly.
    */
@@ -1062,6 +1062,76 @@ people.unshift({ name: 'The Ladies Man' });
 </code></pre>
     </div>
   </section>
+
+  <a id="instance-properties" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="instance-properties">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Instance Properties</h1>
+    </header>
+    <div class="content">
+      <p>In addition to the normal properties/functions available on an
+      <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>, a
+      <span class="inline-code">collection</span> also has a few other useful features.</p>
+
+      <a id="collection-isFetching" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.isFetching()</div>
+        </div>
+        <div class="description">Observable which stores a boolean value indicating whether or not the
+          <span class="inline-code">collection</span> is currently fetching its data from the server.
+
+          <div class="note">
+            <p><span class="label">NOTE:</span> This observable has a configurable <span class="inline-code">requestLull</span>
+              (see the: <a data-bind="$route" href="#factory-method">factory configuration</a>) which
+              will cause this observable to 'lull' in the <span class="inline-code">true</span> state for a minimum period of time. This
+              allows you to bind to a reliable indicator which will tell the user the state of the collection without thrashing the UI.</p>
+          </div>
+        </div>
+      </div>
+<pre><code class="javascript">var MyCollection = fw.collection.create({
+  url: '/myCollection/endpoint'
+});
+var collection = MyCollection(); // create empty MyCollection
+
+collection.isFetching.subscribe(function(isFetching) {
+  // Log to the console whenever isFetching changes
+  console.info('the collection is', (isFetching ? 'fetching data' : 'done fetching data'));
+});
+
+// fetch the collection data from /myCollection/endpoint
+collection.fetch();</code></pre>
+
+      <a id="collection-isCreating" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.isCreating()</div>
+        </div>
+        <div class="description">Observable which stores a boolean value indicating whether or not the
+          <span class="inline-code">collection</span> is currently creating a new record on the server.
+
+          <div class="note">
+            <p><span class="label">NOTE:</span> This observable has a configurable <span class="inline-code">requestLull</span>
+              (see the: <a data-bind="$route" href="#factory-method">factory configuration</a>) which
+              will cause this observable to 'lull' in the <span class="inline-code">true</span> state for a minimum period of time. This
+              allows you to bind to a reliable indicator which will tell the user the state of the collection without thrashing the UI.</p>
+          </div>
+        </div>
+      </div>
+<pre><code class="javascript">var MyCollection = fw.collection.create({ /* ... */ });
+var collection = MyCollection(); // create empty MyCollection
+
+collection.isCreating.subscribe(function(isCreating) {
+  // Log to the console whenever isCreating changes
+  console.info('the collection is', (isCreating ? 'creating' : 'done creating'));
+});
+
+collection.create({ name: 'John Hancock' });</code></pre>
+    </div>
+  </section>
 </article>
 
 <div id="metaData">
@@ -1110,6 +1180,10 @@ people.unshift({ name: 'The Ladies Man' });
     { "subSections": [
         { "anchor": "utility-methods",
           "title": "Utility Methods" }
+      ] },
+    { "subSections": [
+        { "anchor": "instance-properties",
+          "title": "Instance Properties" }
       ] }
   ],
   "apiReferences": [
@@ -1187,6 +1261,21 @@ people.unshift({ name: 'The Ladies Man' });
             { "anchor": "collection-sync",
               "title": "collection.sync()",
               "description": "Uses fw.sync to read (fetch()) the collection from the server." }
+          ]
+        }
+      ]
+    }, {
+      "label": "Instance",
+      "subCategories": [
+        {
+          "label": "Properties",
+          "references": [
+            { "anchor": "collection-isFetching",
+              "title": "collection.isFetching",
+              "description": "Observable which stores a boolean value indicating whether or not the collection is currently fetching its data from the server." },
+            { "anchor": "collection-isCreating",
+              "title": "collection.isCreating",
+              "description": "Observable which stores a boolean value indicating whether or not the collection is currently creating a new record on the server." }
           ]
         }
       ]
