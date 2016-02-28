@@ -92,6 +92,33 @@ fw.sync('read', people).done(function(response) {
   console.info('People returned', response);
 });
 </code></pre>
+
+      <a id="fw-deferred" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.deferred<span>()</span></div>
+        </div>
+        <div class="description">
+          <p>Create a deferred object (can be used to create a promise).</p>
+
+          <p>Depending on the context of your usage, this will either be jQuery's Deferred() or D.js D() method.</p>
+
+          <p>Please refer to the relevant documentation for your Deferred() implementation for more information on
+            how to use the returned deferred object.</p>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">Deferred</span> Deferred object returned from the Deferred() method.</span>
+        </div>
+      </div>
+<pre><code class="javascript">var defer = fw.deferred();
+defer.resolve({ success: true });
+
+defer.then(function(resolutionValue) {
+  console.info('Resolved with:', resolutionValue);
+});
+</code></pre>
     </div>
   </section>
 </article>
@@ -119,7 +146,10 @@ fw.sync('read', people).done(function(response) {
               "description": "Generate a random GUID." },
             { "anchor": "fw-sync",
               "title": "fw.sync()",
-              "description": "The function that Footwork calls every time it attempts to perform some sort of ajax request." }
+              "description": "The function that Footwork calls every time it attempts to perform some sort of ajax request." },
+            { "anchor": "fw-deferred",
+              "title": "fw.deferred()",
+              "description": "Create a deferred object (can be used to create a promise)." }
           ]
         }
       ]

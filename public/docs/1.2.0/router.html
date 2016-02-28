@@ -1136,16 +1136,24 @@ console.info(currentRoute.url); // === '/book/1234'
         <li><em>fade-in-from-right</em></li>
       </ul>
 
-      <p>The previous will cause the inner rendered components to animate into place once they are loaded, you probably also want to display something to
-        the user while the <span class="inline-code">outlet</span> is loading as well. To do this you specify the
+      <p><em>Displaying something temporarily while the outlet is loading...</em></p>
+
+      <p>Using the previous animation classes we can make the inner rendered components animate into place once they are loaded/resolved. You
+        probably also want to display something to the user while the <span class="inline-code">outlet</span> is loading as well. To do this you specify the
         <span class="inline-code">showDuringLoad</span> option in the <a data-bind="$route" href="#factory-method">router configuration</a>.</p>
+
+      <p>The <span class="inline-code">showDuringLoad</span> option is used to tell Footwork what
+        <span class="inline-code"><a data-bind="$route: docLink('components')">component</a></span> to display while the <span class="inline-code">outlet</span>
+        is being resolved.</p>
 
       <p>A typical use of this feature is to show a loading spinner to the user while the <span class="inline-code">outlet</span> is loading its
         contents.</p>
 
       <div class="note"><span class="label">NOTE:</span> If you specify a <span class="inline-code">showDuringLoad</span>
         <span class="inline-code">component</span> to display then it is suggested you register that component directly with footwork. If you do not register it
-        directly then footwork will also have to download the component before showing it to the user - defeating the purpose of the feature.</div>
+        directly (ie: you call
+        <span class="inline-code"><a data-bind="$route: docLink('components#components-registerLocation')">fw.components.registerLocation</a></span> instead)
+        then footwork will also have to download the component before showing it to the user - defeating the purpose of the feature.</div>
     </div>
   </section>
 
