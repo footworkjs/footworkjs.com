@@ -15,7 +15,7 @@
 
       <ul>
         <li>Unlimited nesting of routers (relative and non-relative).</li>
-        <li>Unlimited number of view outlets per router.</li>
+        <li>Unlimited number of named-based view outlets per router.</li>
         <li>Context based sub-routing.</li>
         <li>Context based outlets.</li>
         <li>Parameterized routes (with optional or required parameters).</li>
@@ -179,29 +179,14 @@ fw.start();
    */
   autoIncrement: false, // default === false
 
-  // function which will run just after the router is initialized and bound onto the DOM
-  initialize: function(param1, param2, param3, ...) {
-    // this === the router instance
-    var router = this;
-
-    // You can create observables to bind against just like a viewModel/dataModel
-    router.param1 = fw.observable(param1);
-  },
-
-  /**
-   * Attributes/properties that are extended onto each newly instantiated router
-   * NOTE: Only suitable for primitive values (strings, numbers, etc) or functions, do not
-   *       put observables or namespaces/etc here as they are shared across instances.
-   */
-  extend: {
-    prop1: 'value',
-    prop2: 123
-  },
-
-  // Behavioral mixins to include with each new router created
-  mixins: [
-    // See: 'Mixins' section on this page
+  // routes list definition (See: Routes List)
+  routes: [
+    { route: '/', controller: function() {} },
+    // ...
   ],
+
+  // unknown route (triggered if none of the routes[] match from above)
+  unknownRoute: {},
 
   /**
    * Sometimes you want to show something while an outlet loads. This is the property
@@ -210,15 +195,35 @@ fw.start();
    *       this otherwise it will need to be downloaded first as well.
    */
   showDuringLoad: 'component-name',
-  showDuringLoad: function(outletName, componentToShow) { return 'component-name'; },
+  showDuringLoad: function(outletName, componentToShow) {
+    // callback which can be used to determine what to temporarily show based on the
+    // outletName and componentToShow. This is called each time an outlet is changed.
+    return 'component-name';
+  },
 
   /**
    * Specify the minimum transition time between outlet changes (ie: show the
    * showDuringLoad component for a minimum specified amount of time). Using this helps
    * reduce UI thrashing and provides a more friendly user experience.
    */
-  minTransitionPeriod: 300, // 300msec
-  minTransitionPeriod: function(outletName, componentToShow) { return 300; } // 300msec
+  minTransitionPeriod: 300, // 300msec (default is 0msec)
+  minTransitionPeriod: function(outletName, componentToShow) {
+    // callback which can be used to determine the minimum time based on the outletName
+    // and componentToShow. This is called each time an outlet is changed.
+    return 300; // 300msec
+  },
+
+  /**
+   * Initialization function called at creation of a new router.
+   * Note: it is passed in the parameters supplied at creation.
+   */
+  initialize: function(param1, param2, param3, ...) {
+    // this === the router instance
+    var router = this;
+
+    // You can create observables to bind against just like a viewModel/dataModel
+    router.param1 = fw.observable(param1);
+  },
 
   // Called after initialize() and after binding to the DOM
   afterRender: function(containingElement) {
@@ -226,8 +231,7 @@ fw.start();
   },
 
   /**
-   * Called after afterRender(), resolved() is called after all nested
-   * components/viewModels/etc have been resolved.
+   * Called after afterRender() and after all nested components/viewModels/etc have been resolved.
    *
    * This enables you to control when the module is 'resolved', such as when you need to
    * load some data before displaying to the user.
@@ -250,21 +254,15 @@ fw.start();
     // resolve(true) or hand it a promise that resolves/fails.
   },
 
-  // When used in a component, ensure that (if being animated) they are sequenced in with a
-  // minimum time between animations.
-  sequenceAnimations: 100, // 100ms minimum
-  sequenceAnimations: function() { return 100; } // 100ms minimum
-
   // Function called just before the html this router is bound to is removed from the DOM
   onDispose: function(containingElement) {
     // this === the router instance
   },
 
-  // routes list definition
-  routes: [],
-
-  // unknown route (triggered if none of the routes[] match from above)
-  unknownRoute: {},
+  // When used in a component, ensure that (if being animated) they are sequenced in with a
+  // minimum time between animations.
+  sequenceAnimations: 100, // 100ms minimum
+  sequenceAnimations: function() { return 100; }, // 100ms minimum
 
   // if true all routes defined for the router will be relative to its parent router (if any)
   isRelative: true, // default is true
@@ -273,7 +271,22 @@ fw.start();
   activate: true, // default is true
 
   // tell the router to exclude the beginning portion of a route
-  baseRoute: '' // default is null
+  baseRoute: '', // default is null
+
+  /**
+   * Attributes/properties that are extended onto each newly instantiated router
+   * NOTE: Only suitable for primitive values (strings, numbers, etc) or functions, do not
+   *       put observables or namespaces/etc here as they are shared across instances.
+   */
+  extend: {
+    prop1: 'value',
+    prop2: 123
+  },
+
+  // Behavioral mixins to include with each new router created
+  mixins: [
+    // See: 'Mixins' section on this page
+  ]
 });</code></pre>
     </div>
   </section>

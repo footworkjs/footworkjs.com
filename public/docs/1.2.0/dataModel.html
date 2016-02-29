@@ -204,29 +204,13 @@ fw.start();
     dataModel.param1 = fw.observable(param1);
   },
 
-  /**
-   * Attributes/properties that are extended onto each newly instantiated dataModel
-   * NOTE: Only suitable for primitive values (strings, numbers, etc) or functions, do not
-   *       put observables or namespaces/etc here as they are shared across instances.
-   */
-  extend: {
-    prop1: 'value',
-    prop2: 123
-  },
-
-  // Behavioral mixins to include with each new dataModel created
-  mixins: [
-    // See: 'Mixins' section on this page
-  ],
-
   // Called after initialize() and after binding to the DOM
   afterRender: function(containingElement) {
     // this === the dataModel instance
   },
 
   /**
-   * Called after afterRender(), resolved() is called after all nested
-   * components/viewModels/etc have been resolved.
+   * Called after afterRender() and after all nested components/viewModels/etc have been resolved.
    *
    * This enables you to control when the module is 'resolved', such as when you need to
    * load some data before displaying to the user.
@@ -249,15 +233,30 @@ fw.start();
     // resolve(true) or hand it a promise that resolves/fails.
   },
 
-  // When used in a component, ensure that (if being animated) they are sequenced in with a
-  // minimum time between animations.
-  sequenceAnimations: 100, // 100ms minimum
-  sequenceAnimations: function() { return 100; } // 100ms minimum
-
   // Function called just before the html this dataModel is bound to is removed from the DOM
   onDispose: function(containingElement) {
     // this === the dataModel instance
-  }
+  },
+
+  // When used in a component, ensure that (if being animated) they are sequenced in with a
+  // minimum time between animations.
+  sequenceAnimations: 100, // 100ms minimum
+  sequenceAnimations: function() { return 100; }, // 100ms minimum
+
+  /**
+   * Attributes/properties that are extended onto each newly instantiated dataModel
+   * NOTE: Only suitable for primitive values (strings, numbers, etc) or functions, do not
+   *       put observables or namespaces/etc here as they are shared across instances.
+   */
+  extend: {
+    prop1: 'value',
+    prop2: 123
+  },
+
+  // Behavioral mixins to include with each new dataModel created
+  mixins: [
+    // See: 'Mixins' section on this page
+  ]
 });</code></pre>
     </div>
   </section>
