@@ -220,31 +220,34 @@ fw.start();
   minTransitionPeriod: 300, // 300msec
   minTransitionPeriod: function(outletName, componentToShow) { return 300; } // 300msec
 
-  // Called after initialize, this method is called just after rendering against the DOM
+  // Called after initialize() and after binding to the DOM
   afterRender: function(containingElement) {
     // this === the router instance
   },
 
   /**
-   * Called after afterRender(), this method is called after all nested
-   * components/viewModels/etc have been rendered.
+   * Called after afterRender(), resolved() is called after all nested
+   * components/viewModels/etc have been resolved.
+   *
+   * This enables you to control when the module is 'resolved', such as when you need to
+   * load some data before displaying to the user.
    */
   resolved: function(resolve) {
     // If this method is defined you will have to call the passed in resolve() callback once
     // your router is 'resolved'.
 
-    // You can pass it a truthy value to indicate resolution is complete immediately:
+    // You can pass it a truthy value to indicate resolution is complete:
     resolve(true);
 
-    // You can also pass it a promise, footwork will wait for it to finish:
+    // You can pass it a promise, footwork will wait for it to be resolved or fail:
     resolve(promiseToWaitFor);
 
-    // You can also pass it an array of promises for footwork to wait to finish:
+    // You can pass it an array of promises for footwork to wait to be resolved or fail:
     resolve([ promiseToWaitFor, anotherPromiseToWaitFor ]);
 
     // Note that if you call resolve(false) nothing will occur, footwork will not tell
     // higher-level viewModel/dataModel/etc that your module is resolved until you call
-    // resolve(true) or hand it a promise that resolves.
+    // resolve(true) or hand it a promise that resolves/fails.
   },
 
   // When used in a component, ensure that (if being animated) they are sequenced in with a
