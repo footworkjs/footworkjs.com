@@ -182,7 +182,7 @@
   ajaxOptions: function() { return optionsObject; },
 
   /**
-   * A configurable lull-time for the isFetching/isCreating/isDestroying observables on the collection
+   * A configurable lull-time for the isFetching/isCreating observables on the collection
    * This is so that (for example) when a user .create()'s a collection item it will not flip-flop the
    * isCreating observable too quickly.
    */
@@ -1072,7 +1072,9 @@ people.unshift({ name: 'The Ladies Man' });
     <div class="content">
       <p>In addition to the normal properties/functions available on an
       <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>, a
-      <span class="inline-code">collection</span> also has a few other useful features.</p>
+      Footwork <span class="inline-code">collection</span> (which is based on the KnockoutJS
+      <span class="inline-code"><a href="http://knockoutjs.com/documentation/observableArrays.html" target="_blank">observableArray</a></span>)
+      has a few additionally available properties.</p>
 
       <a id="collection-isFetching" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
