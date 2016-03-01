@@ -171,9 +171,9 @@ fw.start();
   /**
    * A configurable lull-time for the isSaving/isFetching/isDestroying observables on the dataModel
    * This is so that (for example) when a user .save()'s a dataModel it will not flip-flop the
-   * isSaving observable too quickly.
+   * isSaving observable too quickly. This value defaults to 0 (no delay/lull time).
    */
-  requestLull: 200, // make AJAX requests lull for atleast 200msec
+  requestLull: 200, // make requests lull for atleast 200msec
   requestLull: function(requestType) {
     return 200; // lull-time returned via callback
   },
