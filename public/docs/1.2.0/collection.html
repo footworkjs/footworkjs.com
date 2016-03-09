@@ -816,7 +816,7 @@ var PeopleCollection = fw.collection.create({
   url: '/people'
 });
 
-people.sync('read', people).done(function(response) {
+people.sync('read', people).then(function(response) {
   console.info('People returned', response);
 });
 </code></pre>
@@ -862,7 +862,7 @@ people.sync('read', people).done(function(response) {
 
 var people = PeopleList();
 
-people.fetch().done(function(peopleList) {
+people.fetch().then(function(peopleList) {
   console.info('People listed:', peopleList);
 });
 </code></pre>
@@ -916,7 +916,7 @@ var people = new PeopleCollection();
 people.create({
   "firstName": "Thomas",
   "lastName": "Anderson"
-}, { wait: true }).done(function(response) {
+}, { wait: true }).then(function(response) {
   console.info('Person created!');
 });
 </code></pre>
@@ -1136,6 +1136,35 @@ collection.isCreating.subscribe(function(isCreating) {
 });
 
 collection.create({ name: 'John Hancock' });</code></pre>
+
+      <a id="collection-requestInProgress" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>collection</span>.requestInProgress()</div>
+        </div>
+        <div class="description">Observable which stores a boolean value indicating whether or not the
+          <span class="inline-code">collection</span> is currently performing a request (of any type) to the server.
+
+          <div class="note">
+            <p><span class="label">NOTE:</span> This observable has a configurable <span class="inline-code">requestLull</span>
+              (see the: <a data-bind="$route" href="#factory-method">factory configuration</a>) which
+              will cause this observable to 'lull' in the <span class="inline-code">true</span> state for a minimum period of time. This
+              allows you to bind to a reliable indicator which will tell the user the state of the collection without thrashing the UI.</p>
+          </div>
+        </div>
+      </div>
+<pre><code class="javascript">var MyCollection = fw.collection.create({ /* ... */ });
+var collection = MyCollection(); // create empty MyCollection
+
+collection.requestInProgress.subscribe(function(requestInProgress) {
+  // Log to the console whenever there is a requestInProgress
+  if(requestInProgress) {
+    console.info('the collection is performing a request');
+  }
+});
+
+collection.fetch();</code></pre>
     </div>
   </section>
 </article>
@@ -1281,7 +1310,10 @@ collection.create({ name: 'John Hancock' });</code></pre>
               "description": "Observable which stores a boolean value indicating whether or not the collection is currently fetching its data from the server." },
             { "anchor": "collection-isCreating",
               "title": "collection.isCreating",
-              "description": "Observable which stores a boolean value indicating whether or not the collection is currently creating a new record on the server." }
+              "description": "Observable which stores a boolean value indicating whether or not the collection is currently creating a new record on the server." },
+            { "anchor": "collection-requestInProgress",
+              "title": "collection.requestInProgress",
+              "description": "Observable which stores a boolean value indicating whether or not the collection is currently performing a request (of any type) to the server." }
           ]
         }
       ]

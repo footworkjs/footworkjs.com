@@ -213,9 +213,11 @@ fw.start();
    * Called after afterRender() and after all nested components/viewModels/etc have been resolved.
    *
    * This enables you to control when the module is 'resolved', such as when you need to
-   * load some data before displaying to the user.
+   * load some data before displaying to the user. Parent components/etc will not resolve until
+   * their children do. If you are using animations they will not trigger on a component until it
+   * is resolved.
    */
-  resolved: function(resolve) {
+  afterResolving: function(resolve) {
     // If this method is defined you will have to call the passed in resolve() callback once
     // your dataModel is 'resolved'.
 
@@ -657,7 +659,7 @@ var Person = fw.dataModel.create({
 
 var person = new Person();
 
-person.sync('read', person).done(function(personData) {
+person.sync('read', person).then(function(personData) {
   console.info('Person returned', personData);
 });
 </code></pre>
@@ -704,7 +706,7 @@ var person = new Person({
 // person.isDead() === false
 
 // ... some time later
-person.fetch().done(function() {
+person.fetch().then(function() {
   // person.firstName() === 'Gary'
   // person.isDead() === true
 });
@@ -758,7 +760,7 @@ var person = new Person({
   lastName: 'Hitchcock'
 });
 
-person.save().done(function() {
+person.save().then(function() {
   console.info('dataModel saved successfully.');
 });
 </code></pre>
@@ -806,7 +808,7 @@ var person = new Person({
   id: 1
 });
 
-person.destroy().done(function() {
+person.destroy().then(function() {
   console.info('dataModel destroyed successfully.');
 });
 </code></pre>
@@ -1664,7 +1666,37 @@ fw.dataModel.fileExtensions(function(moduleName) {
     &lt;!-- /ko --&gt;
     &lt;!-- ko ifnot: isDestroying() &amp;&amp; id() --&gt;
       &lt;!-- Display the delete button if the person is not being destroyed and they have an id --&gt;
-      &lt;button&gt;Delete Person&lt;/button&gt;
+      &lt;button data-bind="click: destroy"&gt;Delete Person&lt;/button&gt;
+    &lt;!-- /ko --&gt;
+  &lt;/form&gt;
+&lt;/dataModel&gt;</code></pre>
+
+      <a id="dataModel-requestInProgress" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.requestInProgress()</div>
+        </div>
+        <div class="description">Observable which stores a boolean value indicating whether or not the
+          <span class="inline-code">dataModel</span> is currently performing a request (of any type) to the server.
+
+          <div class="note">
+            <p><span class="label">NOTE:</span> This observable has a configurable <span class="inline-code">requestLull</span>
+              (see the: <a data-bind="$route" href="#factory-method">factory configuration</a>) which
+              will cause this observable to 'lull' in the <span class="inline-code">true</span> state for a minimum period of time. This
+              allows you to bind to a reliable indicator which will tell the user the state of the dataModel without thrashing the UI.</p>
+          </div>
+        </div>
+      </div>
+<pre><code class="html">&lt;dataModel module="Person"&gt;
+  &lt;form data-bind="submit: save"&gt;
+    &lt;!-- ko if: requestInProgress --&gt;
+      &lt;span&gt;Doing something to the person, please wait...&lt;/span&gt;
+    &lt;!-- /ko --&gt;
+    &lt;!-- ko ifnot: requestInProgress() &amp;&amp; id() --&gt;
+      &lt;!-- Display the delete and save buttons if the person is not being destroyed and they have an id --&gt;
+      &lt;button data-bind="click: destroy"&gt;Delete Person&lt;/button&gt;
+      &lt;button data-bind="click: save"&gt;Save Person&lt;/button&gt;
     &lt;!-- /ko --&gt;
   &lt;/form&gt;
 &lt;/dataModel&gt;</code></pre>
@@ -1949,7 +1981,10 @@ fw.dataModel.fileExtensions(function(moduleName) {
               "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently fetching its data from the server." },
             { "anchor": "dataModel-isDestroying",
               "title": "dataModel.isDestroying",
-              "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently destroying (deleting) its data on the server." }
+              "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently destroying (deleting) its data on the server." },
+            { "anchor": "dataModel-requestInProgress",
+              "title": "dataModel.requestInProgress",
+              "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently performing a request (of any type) to the server." }
           ]
         }
       ]

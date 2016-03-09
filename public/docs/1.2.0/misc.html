@@ -88,7 +88,7 @@ var guid = fw.utils.guid();
   url: '/people'
 });
 
-fw.sync('read', people).done(function(response) {
+fw.sync('read', people).then(function(response) {
   console.info('People returned', response);
 });
 </code></pre>

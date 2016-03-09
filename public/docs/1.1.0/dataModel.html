@@ -603,7 +603,7 @@ var Person = fw.dataModel.create({
 
 var person = new Person();
 
-person.sync('read', person).done(function(personData) {
+person.sync('read', person).then(function(personData) {
   console.info('Person returned', personData);
 });
 </code></pre>
@@ -650,7 +650,7 @@ var person = new Person({
 // person.isDead() === false
 
 // ... some time later
-person.fetch().done(function() {
+person.fetch().then(function() {
   // person.firstName() === 'Gary'
   // person.isDead() === true
 });
@@ -704,7 +704,7 @@ var person = new Person({
   lastName: 'Hitchcock'
 });
 
-person.save().done(function() {
+person.save().then(function() {
   console.info('dataModel saved successfully.');
 });
 </code></pre>
@@ -752,7 +752,7 @@ var person = new Person({
   id: 1
 });
 
-person.destroy().done(function() {
+person.destroy().then(function() {
   console.info('dataModel destroyed successfully.');
 });
 </code></pre>

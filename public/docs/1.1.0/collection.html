@@ -795,7 +795,7 @@ var PeopleCollection = fw.collection.create({
   url: '/people'
 });
 
-people.sync('read', people).done(function(response) {
+people.sync('read', people).then(function(response) {
   console.info('People returned', response);
 });
 </code></pre>
@@ -841,7 +841,7 @@ people.sync('read', people).done(function(response) {
 
 var people = PeopleList();
 
-people.fetch().done(function(peopleList) {
+people.fetch().then(function(peopleList) {
   console.info('People listed:', peopleList);
 });
 </code></pre>
@@ -895,7 +895,7 @@ var people = new PeopleCollection();
 people.create({
   "firstName": "Thomas",
   "lastName": "Anderson"
-}, { wait: true }).done(function(response) {
+}, { wait: true }).then(function(response) {
   console.info('Person created!');
 });
 </code></pre>

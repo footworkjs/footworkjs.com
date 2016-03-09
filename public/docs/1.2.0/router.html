@@ -234,9 +234,11 @@ fw.start();
    * Called after afterRender() and after all nested components/viewModels/etc have been resolved.
    *
    * This enables you to control when the module is 'resolved', such as when you need to
-   * load some data before displaying to the user.
+   * load some data before displaying to the user. Parent components/etc will not resolve until
+   * their children do. If you are using animations they will not trigger on a component until it
+   * is resolved.
    */
-  resolved: function(resolve) {
+  afterResolving: function(resolve) {
     // If this method is defined you will have to call the passed in resolve() callback once
     // your router is 'resolved'.
 
