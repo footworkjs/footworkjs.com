@@ -1,0 +1,398 @@
+<article>
+  <div class="version-display" data-bind="text: versionDisplay"></div>
+  <a id="introduction" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="introduction">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="title">Introduction</h1>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">broadcastable</span> and <span class="inline-code">receivable</span> allow you to (in a
+        <a href="https://en.wikipedia.org/wiki/Loose_coupling" target="_blank">loosely coupled</a> manner) share data and state between two different
+        areas of your application, keeping them in sync as they are altered.</p>
+
+      <p>A <span class="inline-code">broadcastable</span> sends its value out to any waiting listeners both upon instantiation and whenever its value
+        updates. A <span class="inline-code">receivable</span> is the other side of that equation, upon instantiation it requests the current value from
+        its companion <span class="inline-code">broadcastable</span> and then listens for any updates. Whenever a
+        <span class="inline-code">broadcastable</span> value changes, all listening <span class="inline-code">receivables</span> are automatically
+        updated as well.</p>
+
+      <p>Since they are both based off of <a href="http://knockoutjs.com/documentation/observables.html" target="_blank">KnockoutJS observables</a>
+        they also have all the same features as they do (by proxy). This essentially means you can create
+        <span class="inline-code"><a href="http://knockoutjs.com/documentation/computedObservables.html" target="_blank">computed</a></span> values
+        based on them, subscribe to them, bind your UI to them, and more.</p>
+
+      <div class="note"><span class="label">NOTE:</span> <span class="inline-code">broadcastables</span> and <span class="inline-code">receivables</span>
+        are integrated (and make most sense when used) with
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModels</a></span>,
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModels</a></span>, and
+        <span class="inline-code"><a data-bind="$route: docLink('router')">routers</a></span> but they can also be used independently of them.</div>
+    </div>
+  </section>
+
+  <a id="usage" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="usage">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Usage</h1>
+    </header>
+    <div class="content">
+      <p>Broadcastables are created by taking an observable and calling
+        <span class="inline-code"><a data-bind="$route" href="#observable-broadcastAs">observable.broadcastAs()</a></span> on it, receivables are
+        created by taking an observable and calling
+        <span class="inline-code"><a data-bind="$route" href="#observable-receiveFrom">observable.receiveFrom()</a></span> on it. Broadcastables and
+        receivables can be based off of any KnockoutJS <span class="inline-code">observable</span> type (essentially any:
+        <span class="inline-code">observable</span>, <span class="inline-code">computed</span>, or <span class="inline-code">observableArray</span>).</p>
+
+      <div class="note"><span class="label">NOTE:</span> It does not matter if the <span class="inline-code">broadcastable</span> or
+        <span class="inline-code">receivable</span> is instantiated first:
+        <ul>
+          <li>As soon as the broadcastable is instantiated any receivables listening will be updated with the current value.</li>
+          <li>As soon as a receivable is instantiated it will request the current value from the broadcastable. If no broadcastable is present for the receivable, no change to the
+            receivables default will be made.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <a id="receivable" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="receivable">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Receivable</h2>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">receivable</span> receives any updates its listening for that are sent out by its companion
+        <span class="inline-code">broadcastable</span>.</p>
+
+      <p>If the <span class="inline-code">broadcastable</span> is configured to allow it, you can also write to the
+        <span class="inline-code">receivable</span> and have the new value propogate back to the <span class="inline-code">broadcastable</span> (as
+        well as any other listening <span class="inline-code">receivables</span>).</p>
+
+      <a id="observable-receiveFrom" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>observable</span>.receiveFrom<span>( <span class="param">'namespaceName'</span>, <span class="param">'variableName'</span> )</span></div>
+        </div>
+        <div class="description">Create and return a <span class="inline-code">receivable</span> based on an existing
+          <span class="inline-code">observable</span>, <span class="inline-code">observableArray</span>, or
+          <span class="inline-code">computed</span> variable.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">receivable()</span> The <span class="inline-code">receivable</span></span>
+        </div>
+      </div>
+<pre><code class="javascript">var Navigation = fw.viewModel.create({
+  namespace: 'Navigation',
+  initialize: function() {
+    // initial value provided to the observable is the default, before any data is received from a broadcastable
+    this.userIsLoggedIn = fw.observable(null).receiveFrom('User', 'isLoggedIn'); // value is null
+    this.loggedInUsername = fw.observable().receiveFrom('User', 'username'); // value is undefined
+
+    // This computed is based off of the two previous receivables
+    this.navGreeting = fw.computed(function() {
+      if(this.userIsLoggedIn()) {
+        return 'Welcome ' + this.loggedInUsername();
+      } else {
+        return 'Please login';
+      }
+    }, this);
+  }
+});
+</code></pre>
+
+      <div class="note"><span class="label">NOTE:</span> A <span class="inline-code">receivable</span> must be 'writable' (when receiving data from a
+        <span class="inline-code">broadcastable</span>, the observable it is based off of must be able to be written to). This means that if you are
+        creating a <span class="inline-code">computed</span>-based <span class="inline-code">receivable</span>, it must have a
+        <span class="inline-code">write:</span> method specified.</div>
+
+      <a id="receivable-when" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>receivable</span>.when<span>( <span class="param">function predicate(observableValue) { ... }</span> )</span></div>
+          <div class="func-def"><span>receivable</span>.when<span>( <span class="param">observableValue</span> )</span></div>
+        </div>
+        <div class="description">Modify and return an existing <span class="inline-code">receivable</span> with its
+          <span class="inline-code">write:</span> operation filtered by the callback or <span class="inline-code">observableValue</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">receivable()</span> The filtered/modified <span class="inline-code">receivable</span></span>
+        </div>
+      </div>
+<pre><code class="javascript">/**
+ * You can chain a .when() statement off of a receivable and supply a callback
+ * which will be used to determine when the receivable will be updated.
+ */
+var loggedInUserSam = fw.observable()
+                         .receiveFrom('User', 'username')
+                         .when(function(username) { return username === 'Sam'; });
+
+/**
+ * You can also supply it a non-function value and it will do an explicit check
+ * and only assign the value when it matches.
+ */
+var loggedInUserAlsoSam = fw.observable()
+                             .receiveFrom('User', 'username')
+                             .when('Sam');
+</code></pre>
+    </div>
+  </section>
+
+  <a id="broadcastable" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="broadcastable">
+    <div class="highlight"></div>
+    <header>
+      <h2 class="sub title">Broadcastable</h2>
+    </header>
+    <div class="content">
+      <p>A <span class="inline-code">broadcastable</span> broadcasts its value to any listening companion
+        <span class="inline-code">receivables</span>.</p>
+
+      <p>If the <span class="inline-code">broadcastable</span> is configured to be writable it will also accept updates from any listening
+        <span class="inline-code">receivables</span>, propogating the value upstream to any other <span class="inline-code">receivables</span> as
+        well.</p>
+
+      <a id="observable-broadcastAs" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>observable</span>.broadcastAs<span>( <span class="param">'variableName'</span> )</span></div>
+          <div class="func-def"><span>observable</span>.broadcastAs<span>( <span class="param">'variableName'</span>, <span class="param">'NamespaceName'</span> )</span></div>
+          <div class="func-def"><span>observable</span>.broadcastAs<span>( <span class="param">'variableName'</span>, <span class="param">isWritable</span> )</span></div>
+          <div class="func-def"><span>observable</span>.broadcastAs<span>( <span class="param">{ name: 'variableName', namespace: 'NamespaceName', writable: false }</span> )</span></div>
+        </div>
+        <div class="description">
+          <p>Create and return a <span class="inline-code">broadcastable</span> based on an existing
+            <span class="inline-code">observable</span>, <span class="inline-code">observableArray</span>, or <span class="inline-code">computed</span>
+            variable.</p>
+
+          <div class="note"><p><span class="label">NOTE:</span> Although a <span class="inline-code">broadcastable</span> can be made writable by its
+            listening <span class="inline-code">receivables</span>, try to avoid writing to them from external modules. The
+            <span class="inline-code">broadcastable</span> should ideally have its associated logic contained within the module it is
+            attached to. 'Reaching in' from an external location breaks the concept of separation of concerns and can lead to spaghettification of
+            your application.</p>
+          </div>
+        </div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">broadcastable()</span> The <span class="inline-code">broadcastable</span></span>
+        </div>
+      </div>
+<pre><code class="javascript">var User = fw.viewModel.create({
+  namespace: 'User',
+  initialize: function() {
+    /**
+     * This short-hand version of broadcastAs() uses the current namespace of
+     * this viewModel since none is provided.
+     */
+    this.loggedIn = fw.observable(false).broadcastAs('isLoggedIn');
+    this.username = fw.observable().broadcastAs('username');
+
+    this.login = function(user, pass) {
+      if(user === 'DarkHelmet' &amp;&amp; pass === '12345') {
+        this.username(user);
+        this.loggedIn(true);
+      }
+    };
+  }
+});
+</code></pre>
+
+      <h3>The following shows an example usage of the two previous <span class="inline-code">viewModels</span> created to demonstrate
+        <span class="inline-code">broadcastables</span> and <span class="inline-code">receivables</span>:</h3>
+<pre><code class="javascript">var navigation = new Navigation();
+// navigation.userIsLoggedIn() === null
+// navigation.navGreeting() === 'Please login'
+
+var user = new User();
+// user.loggedIn() === false
+// navigation.userIsLoggedIn() === false
+
+user.login('DarkHelmet', '12345');
+// user.username() === 'DarkHelmet'
+// navigation.userIsLoggedIn() === true
+// navigation.navGreeting() === 'Welcome DarkHelmet'
+</code></pre>
+    </div>
+  </section>
+
+  <a id="lifecycle" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="lifecycle">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Lifecycle</h1>
+    </header>
+    <div class="content">
+      <p>If you are using a <span class="inline-code">broadcastable</span> or <span class="inline-code">receivable</span> directly on a
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> instance then the lifecycle will be automatically handled
+        for you (the <span class="inline-code">broadcastable</span> / <span class="inline-code">receivable</span> will be disposed of when its parent object is disposed). However if you are using them independently of a
+        <span class="inline-code"><a data-bind="$route: docLink('viewModel')">viewModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('dataModel')">dataModel</a></span> /
+        <span class="inline-code"><a data-bind="$route: docLink('router')">router</a></span> (or in a way that FootworkJS does not manage) then you
+        will need to handle the disposal yourself.</p>
+
+      <p>This is essentially because the underlying mechanism behind <span class="inline-code">broadcastable</span> and <span class="inline-code">receivable</span> is based on
+        subscriptions to messages. These subscriptions must be detatched/removed before the garbage handler in your browser can clean their references up.</p>
+
+      <a id="dispose" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>receivable</span>.dispose<span>()</span></div>
+          <div class="func-def"><span>broadcastable</span>.dispose<span>()</span></div>
+        </div>
+        <div class="description">Dispose of a <span class="inline-code">broadcastable</span> (no longer sends out updates) or
+          <span class="inline-code">receivable</span> (no longer receives updates).</div>
+      </div>
+<pre><code class="javascript">// setup a broadcastable
+var broadcastable = fw.observable('Hello').broadcastAs({ name: 'broadcastable', namespace: 'someNamespace' });
+
+// setup a couple receivables to retrive its value
+var receivable = fw.observable().receiveFrom('someNamespace', 'broadcastable');
+var receivable2 = fw.observable().receiveFrom('someNamespace', 'broadcastable');
+// receivable() === 'Hello'
+// receivable2() === 'Hello'
+
+broadcastable('Goodbye'); // write new value to broadcastable
+// receivable() === 'Goodbye'
+// receivable2() === 'Goodbye'
+
+receivable.dispose(); // receivable will no longer get updates
+broadcastable('Hello');
+// receivable() === 'GoodBye'
+// receivable2() === 'Hello'
+</code></pre>
+    </div>
+  </section>
+
+  <a id="utility" class="section-anchor" data-bind="sectionAnchor"></a>
+  <section data-name="utility">
+    <div class="highlight"></div>
+    <header>
+      <h1 class="sub title">Utility</h1>
+    </header>
+    <div class="content">
+      <p>Various helpful utility functions concerning <span class="inline-code">receivables</span> and <span class="inline-code">broadcastables</span></p>
+
+      <a id="fw-isReceivable" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.isReceivable<span>( <span class="param">thing</span> )</span></div>
+        </div>
+        <div class="description">Method which will determine whether the passed in reference is a <span class="inline-code">receivable</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> true / false depending on whether or not <span class="inline-code">thing</span> is a
+            <span class="inline-code">receivable</span></span>
+        </div>
+      </div>
+<pre><code class="javascript">var myNamespace = fw.namespace('myNamespace');
+myNamespace.subscribe('sayHello', function(toWhom) {
+  console.info('Greetings ' + toWhom);
+});
+
+myNamespace.publish('sayHello', 'Jonathan'); // console prints: 'Greetings Jonathan'
+</code></pre>
+
+      <a id="fw-isBroadcastable" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>fw</span>.isBroadcastable<span>( <span class="param">thing</span> )</span></div>
+        </div>
+        <div class="description">Method which will determine whether the passed in reference is a <span class="inline-code">broadcastable</span>.</div>
+        <div class="return-value">
+          <span class="label">Returns:</span>
+          <span class="value"><span class="type">boolean</span> true / false depending on whether or not <span class="inline-code">thing</span> is a
+            <span class="inline-code">broadcastable</span></span>
+        </div>
+      </div>
+<pre><code class="javascript">var broadcastable = fw.observable().receiveFrom( /* ... */ );
+// fw.isBroadcastable(broadcastable) === true
+</code></pre>
+    </div>
+  </section>
+</article>
+
+<div id="metaData">
+{
+  "title": "Broadcastable / Receivable",
+  "description": "Share/propogate information and state automatically between different areas of your application.",
+  "sections": [
+    { "anchor": "introduction",
+      "title": "Introduction",
+      "subSections": [
+        { "anchor": "usage",
+          "title": "Usage",
+          "subSections": [
+            { "anchor": "receivable",
+              "title": "Receivable" },
+            { "anchor": "broadcastable",
+              "title": "Broacastable" },
+            { "anchor": "lifecycle",
+              "title": "Lifecycle" }
+          ] }
+      ] },
+    { "anchor": "utility",
+      "title": "Utility" }
+  ],
+  "apiReferences": [
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "General",
+          "references": [
+            { "anchor": "observable-receiveFrom",
+              "title": "observable.receiveFrom()",
+              "description": "Create and return a receivable based on an existing observable, observableArray, or computed variable." },
+            { "anchor": "observable-broadcastAs",
+              "title": "observable.broadcastAs()",
+              "description": "Create and return a broadcastable based on an existing observable, observableArray, or computed variable." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "Lifecycle",
+          "references": [
+            { "anchor": "dispose",
+              "title": "receivable.dispose()",
+              "description": "Dispose of a receivable (no longer receives updates)." },
+            { "anchor": "dispose",
+              "title": "broadcastable.dispose()",
+              "description": "Dispose of a broadcastable (no longer sends out updates)." }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "",
+      "subCategories": [
+        {
+          "label": "Misc",
+          "references": [
+            { "anchor": "receivable-when",
+              "title": "receivable.when()",
+              "description": "Modify and return an existing receivable with its write: operation filtered by the callback or observableValue." },
+            { "anchor": "fw-isReceivable",
+              "title": "fw.isReceivable()",
+              "description": "Method which will determine whether the passed in reference is a receivable." },
+            { "anchor": "fw-isBroadcastable",
+              "title": "fw.isBroadcastable()",
+              "description": "Method which will determine whether the passed in reference is a broadcastable." }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</div>
