@@ -61,7 +61,9 @@ define([ "footwork", "lodash", "jquery" ],
           });
 
           if(_.isUndefined(oldPosition) && position && this.anchor ===  window.location.hash.substring(1)) {
-            window.scrollTo(0, position);
+            setTimeout(function() {
+              window.scrollTo(0, position);
+            }, 100);
           }
 
           updatePopupPosition();
