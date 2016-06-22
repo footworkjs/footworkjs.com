@@ -1585,6 +1585,24 @@ fw.dataModel.fileExtensions(function(moduleName) {
   }
 });</code></pre>
 
+      <a id="dataModel-isNew" class="section-anchor" data-bind="sectionAnchor"></a>
+      <div class="ref-block">
+        <div class="title">
+          <div class="type"><span class="icon icon-code"></span></div>
+          <div class="func-def"><span>dataModel</span>.isNew()</div>
+        </div>
+        <div class="description">Computed observable which returns a boolean value indicating whether or not the
+          <span class="inline-code">dataModel</span> is new (has no value for its id) and has yet to be saved to the server.
+        </div>
+      </div>
+<pre><code class="javascript">var Person = fw.dataModel.create({ /* ... */ });
+
+var person = new Person();
+// person.isNew() === true
+person.id(1);
+// person.isNew() === false
+</code></pre>
+
       <a id="dataModel-isSaving" class="section-anchor" data-bind="sectionAnchor"></a>
       <div class="ref-block">
         <div class="title">
@@ -2003,6 +2021,9 @@ person.dispose(); // the subscriptions tracked using disposeWithInstance are now
             { "anchor": "dataModel-isSaving",
               "title": "dataModel.isSaving",
               "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently saving its data to the server." },
+            { "anchor": "dataModel-isNew",
+              "title": "dataModel.isNew",
+              "description": "Computed observable which returns a boolean value indicating whether or not the dataModel is new (has no value for its id) and has yet to be saved to the server." },
             { "anchor": "dataModel-isFetching",
               "title": "dataModel.isFetching",
               "description": "Observable which stores a boolean value indicating whether or not the dataModel is currently fetching its data from the server." },
