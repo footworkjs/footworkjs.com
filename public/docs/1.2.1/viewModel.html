@@ -378,7 +378,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
     });
   },
   initialize: function(params) {
-    this.firstName = fw.observable().mapTo('firstName');
+    this.firstName = fw.observable();
   }
 });
 </code></pre>
@@ -414,7 +414,7 @@ var awesomeSprocket = new Sprocket({ type: 'awesome', price: 3.50 });
   },
   initialize: function(params) {
     var person = this;
-    this.firstName = fw.observable(params.firstName).mapTo('firstName');
+    this.firstName = fw.observable(params.firstName);
     this.clickPerson = function() {
       console.info('You clicked', person.firstName());
     };
