@@ -1,13 +1,12 @@
 {
   "name": "footwork.js-website",
-  "version": "0.2.0",
+  "version": "1.3.0",
   "description": "footwork.js website",
   "homepage": "http://footworkjs.com",
   "author": "Jonathan Newman <jonathan@staticty.pe>",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "knockoutjs": "3.4.0",
-    "footwork": "#dcef949e5e502d3a9122f6cb96ba0920a1c9b550",
+    "footwork": "#c75e6283298745ff4d124d7c24e80c6d99706d31",
     "lodash": "^4.12",
     "ace": "https://github.com/ajaxorg/ace-builds.git#1.2.0",
     "postal.js": "2.0.4",
@@ -18,6 +17,6 @@
     "history.js": "*",
     "requirejs": "*",
     "highlight": "*",
-    "jquery": "1.11.1"
+    "jquery": "^2.0"
   }
 }
