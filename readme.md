@@ -27,7 +27,7 @@ The main footwork website is a Laravel 5 PHP application, so you will need a sys
 
 ```bash
 git clone https://github.com/footworkjs/footworkjs.com.git
-cd footwork-site
+cd footworkjs.com
 ```
 
 2) **Acquire PHP dependencies:**
